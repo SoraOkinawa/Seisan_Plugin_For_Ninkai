@@ -3,6 +3,7 @@ package me.Seisan.plugin.Features.listener;
 import me.Seisan.plugin.Features.Feature;
 import me.Seisan.plugin.Features.Inventory.SkillInventory;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.objectnum.RPRank;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Features.skill.SkillMastery;
 import me.Seisan.plugin.Features.utils.DiscordWebhook;
@@ -335,7 +336,27 @@ public class SkillInventoryListener extends Feature {
     private void SendLog(Player p, Skill skill, Player target)  {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/698658379928829952/4vhpxv6vPqfDkQVf2Q4uYbo2485iz-qP8lsiNIOOlwJM2WUGQQ6T8fbTLxe_WfodItOt");
+        PlayerInfo targetInfo = PlayerInfo.getPlayerInfo(target);
+        DiscordWebhook webhook;
+        switch(targetInfo.getRank().id) {
+            case 2:
+                // La cible est un Chuunin
+                webhook = new DiscordWebhook("https://discord.com/api/webhooks/969326292635902002/8KJhFrXl3YrkYtThWU9HOfxvZNp-TMc9z12C60NJrbIXgQ5tZhbR5i9VI-NZnUXzkEPJ");
+                break;
+            case 3:
+            case 4:
+            case 5:
+                // La cible est un Juunin ou
+                // La cible est un Sannin ou
+                // La cible est un(e) chef(fe) de village
+                webhook = new DiscordWebhook("https://discord.com/api/webhooks/969326562279317535/bjUbAIp3YgvO6MF7vNIkOFwFAnd2Tb7iv2EDhTT2N_YgJ3i3Dt_uIpjZ3XDtBNkD-UE5");
+                break;
+            default:
+                // La cible est un(e) étudiant(e) ou
+                // La cible est un Genin
+                webhook = new DiscordWebhook("https://discord.com/api/webhooks/968955265019961364/c6YAnhHgEvq-ilqQUk5D71dr5MQsGxnoxTneKKikbazCnZHg3WsDHiJ9kBOycg1CzADu");
+                break;
+        }
         webhook.setContent(ChatColor.stripColor(target.getDisplayName())+" (`"+target.getName()+"`) : "+skill.getLevel().getName()+" - "+ChatColor.stripColor(skill.getName())+" - "+ dtf.format(now));
         webhook.setUsername(ChatColor.stripColor(p.getDisplayName()) + " ["+p.getName()+"]");
         try {

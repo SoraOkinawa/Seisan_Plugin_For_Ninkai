@@ -6,11 +6,12 @@ import lombok.Getter;
 public enum RPRank {
 
     NULL("null", "Erreur", -1, 0, -5),
-    STUDENT("etudiant", "Étudiant", 0,100, -5),
+    STUDENT("etudiant", "Étudiant(e)", 0,100, -5),
     GENIN("genin", "Genin", 1, 200, 0),
     CHUUNIN("chuunin", "Chuunin", 2,200, 10),
     JUUNIN("juunin", "Juunin", 3,200, 20),
-    SANNIN("sannin", "Sannin", 4,200, 20);
+    SANNIN("sannin", "Sannin", 4,200, 20),
+    CHEF("chef", "Chef(fe) de village", 5,200, 20);
 
 
 

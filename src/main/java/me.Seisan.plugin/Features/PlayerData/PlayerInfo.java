@@ -419,7 +419,7 @@ public class PlayerInfo {
     public void SendLog(Player p, Ability ability, Player target)  {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/854299000219238440/qCTqmRvTgddE8Ds84GAAZ32gp1YBTnqXhA-UlXWTL02wv2SBVF-8HatDncaB-gJp9YNi");
+        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/968956011962568846/-MQu0rWAZDS3Znevdve66nmyEJk5Wl1b45IUKHnxESgkLy43uKDG-rgOX5dkIjtyJdgU");
         webhook.setContent(ChatColor.stripColor(target.getDisplayName())+" (`"+target.getName()+"`) a reçu la compétence "+ChatColor.stripColor(ability.getName())+" - "+ dtf.format(now));
         webhook.setUsername(ChatColor.stripColor(p.getDisplayName()) + " ["+p.getName()+"]");
         try {
