@@ -94,21 +94,17 @@ public class ItemUtil {
 
         NBTItem nbti = new NBTItem(item);
         nbti.setString(keytag, valuetag);
-        return item;
+        return nbti.getItem();
     }
 
     public static ItemStack addTag(ItemStack item, String keytag, String valuetag) {
-
-        net.minecraft.world.item.ItemStack stack = CraftItemStack.asNMSCopy(item);
         NBTItem nbti = new NBTItem(item);
         nbti.setString(keytag, valuetag);
-        item = CraftItemStack.asBukkitCopy(stack);
-        return item;
+        return nbti.getItem();
     }
 
     public static boolean hasTag(ItemStack item, String keytag, String valuetag) {
         boolean test = false;
-        net.minecraft.world.item.ItemStack stack = CraftItemStack.asNMSCopy(item);
         NBTItem nbti = new NBTItem(item);
         if (nbti.hasNBTData() && nbti.hasKey(keytag) && nbti.getString(keytag).equals(valuetag)){
             test = true;
