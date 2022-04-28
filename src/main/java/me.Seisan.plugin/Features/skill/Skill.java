@@ -129,7 +129,7 @@ public class Skill{
             return;
         }
 
-        else if(playerInfo.getFuin_paper() == 0 && playerInfo.getInk() < playerInfo.getCurrentSkill().getInk(playerInfo)) {
+        else if(playerInfo.getFuin_paper() < playerInfo.getCurrentSkill().getInk(playerInfo) && playerInfo.getInk() < playerInfo.getCurrentSkill().getInk(playerInfo)) {
             playerInfo.getPlayer().sendMessage("§cHRP : §7Votre personnage n'a pas assez d'encre pour sceller le symbole.");
             playerInfo.setCurrentSkill(null);
             return;
@@ -148,17 +148,19 @@ public class Skill{
 
         //Suppression de l'encre ou du papier
         if(ChatColor.stripColor(playerInfo.getCurrentSkill().getName()).startsWith("Fuinjutsu")) {
-            if(playerInfo.getFuin_paper() != 0) {
-                PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
-                if(pConfig.isSwapfuin()) {
-                    playerInfo.usePaper();
+            if(playerInfo.getCurrentSkill().getInk(playerInfo) > 0) {
+                if(playerInfo.getFuin_paper() != 0) {
+                    PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
+                    if(pConfig.isSwapfuin()) {
+                        playerInfo.usePaper();
+                    }
+                    else {
+                        playerInfo.setInk(playerInfo.getInk() - playerInfo.getCurrentSkill().getInk(playerInfo));
+                    }
                 }
                 else {
                     playerInfo.setInk(playerInfo.getInk() - playerInfo.getCurrentSkill().getInk(playerInfo));
                 }
-            }
-            else {
-                playerInfo.setInk(playerInfo.getInk() - playerInfo.getCurrentSkill().getInk(playerInfo));
             }
         }
         //Envoi du message d'encadrement
@@ -422,7 +424,11 @@ public class Skill{
     }
 
     public int getInk(PlayerInfo pInfo) {
-        if(ChatColor.stripColor(this.getName()).startsWith("Fuinjutsu")) {
+        String name = ChatColor.stripColor(this.getName());
+        String[] nameFragments = name.split(" - ");
+        if(nameFragments[0].equals("Fuinjutsu")) {
+            if(nameFragments[1].startsWith("Invocation")) return 0;
+            if(nameFragments[1].equals("Ninpo")) return 0;
             if (pInfo.getVoieNinja().getId() == 1) {
                 return 1;
             } else {
