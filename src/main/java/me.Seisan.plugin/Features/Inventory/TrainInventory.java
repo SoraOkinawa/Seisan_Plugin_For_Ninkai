@@ -89,24 +89,24 @@ public class TrainInventory {
         List<String> clanlore;
         if(pInfo.getClan().getName().equals("Inuzuka")) {
             String name = pInfo.getAttributClan() == null ? "§7Sans nom de Ninken" : "§7Nom du Ninken : §6"+pInfo.getAttributClan();
-            clanlore = Arrays.asList(name_clan,"§7Niveau : §f"+pInfo.getLvL(clan), name);
+            clanlore = Arrays.asList(name_clan,"§7Niveau : §f"+pInfo.getLvlHint(clan), name);
         }
         else if(clan.equals("Sabaku")) {
             String name = pInfo.getAttributClan() == null ? "§7Type de sable : §cNon défini." : "§7Type de sable : "+pInfo.getAttributClan();
-            clanlore = Arrays.asList(name_clan, "§7Niveau : §f"+pInfo.getLvL(clan), name);
+            clanlore = Arrays.asList(name_clan, "§7Niveau : §f"+pInfo.getLvlHint(clan), name);
         }
         else {
-            clanlore = Arrays.asList(name_clan,"§7Niveau : §f"+pInfo.getLvL(clan));
+            clanlore = Arrays.asList(name_clan,"§7Niveau : §f"+pInfo.getLvlHint(clan));
         }
         inv.setItem(12, skull);
         inv.setItem(14, ItemUtil.createItemStack(Material.BLUE_DYE, 1, "§6Informations sur le chakra", chakralore, "seisan", "chakra_icon"));
-        inv.setItem(20, ItemUtil.createItemStack(Material.PAPER, 1, "§6Style de combat", Arrays.asList(name_style,"§7Niveau : §f"+pInfo.getLvL(style)), "seisan", "style_icon"));
+        inv.setItem(20, ItemUtil.createItemStack(Material.PAPER, 1, "§6Style de combat", Arrays.asList(name_style,"§7Niveau : §f"+pInfo.getLvlHint(style)), "seisan", "style_icon"));
         inv.setItem(22, ItemUtil.createItemStack(Material.PAPER, 1, "§6Clan", clanlore, "seisan", pInfo.getClan().getTag()));
         if(pInfo.getVoieNinja().getId() == -1 || pInfo.getVoieNinja().getId() == 0) {
-            inv.setItem(24, ItemUtil.createItemStack(Material.END_CRYSTAL, 1, "§6Voie ninja", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvL(voie))));
+            inv.setItem(24, ItemUtil.createItemStack(Material.END_CRYSTAL, 1, "§6Voie ninja", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie))));
         }
         else if(pInfo.getVoieNinja().getId() < 5){
-            List<String> lore = Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvL(voie));
+            List<String> lore = Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie));
             if(pInfo.getVoieNinja().getId() == 1) {
                 int lvl = pInfo.getLvL(pInfo.getVoieNinja().getName());
                 if(lvl >= 4) {
@@ -114,7 +114,7 @@ public class TrainInventory {
                     PlayerConfig pConfig = PlayerConfig.getPlayerConfig(pInfo.getPlayer());
                     String mode = pConfig.isSwapfuin() ? "Feuilles Seji" : "Encre Fuinjutsu";
                     lore = Arrays.asList("§7"+voie,
-                            "§7Niveau : §f"+pInfo.getLvL(voie),
+                            "§7Niveau : §f"+pInfo.getLvlHint(voie),
                             "§7Feuilles de Seji : §f"+pInfo.getFuin_paper(),
                             "§7Capacité de l'assembleur Uzumaki : §f"+pInfo.getFuin_uzumaki()+" §7/ §f"+lvl*lvl,
                             "§7Mode de consommation : §6"+mode);
@@ -123,7 +123,7 @@ public class TrainInventory {
             inv.setItem(24, ItemUtil.createItemStack(Material.PAPER, 1, "§6Voie ninja", lore, "seisan", voie.toLowerCase()+"_scroll"));
         }
         else {
-            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER,1, "§6Second style de combat", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvL(voie)), "seisan", "style_icon_2"));
+            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER,1, "§6Second style de combat", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)), "seisan", "style_icon_2"));
         }
         inv.setItem(31, ItemUtil.createItemStack(Material.NETHER_STAR, 1, "§8Autres compétences", Arrays.asList("§7Cliquez pour davantage d'informations","§7(Ceci n'affichagera que les compétences autres)")));
 

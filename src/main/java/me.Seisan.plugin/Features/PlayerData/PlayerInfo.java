@@ -1005,4 +1005,10 @@ public class PlayerInfo {
     public PlayerInfo clone(Player p) {
         return new PlayerInfo(p, this.mana, this.nbmission, this.manamaze, this.manaBonus, this.rank, (HashMap<Skill, SkillMastery>) this.skills.clone(), (HashMap<Skill, Integer>) this.rollBonus.clone(), (ArrayList<Skill>) this.favoriteList.clone(), this.clan, (HashMap<ChakraType, Integer>) this.chakraType.clone(), this.age, this.appearance, this.voieNinja, this.styleCombat, (ArrayList<Ability>) this.abilities.clone(), this.apparenceprofil, this.attributClan, this.points, this.pointsAbilities, this.delayPoints, (HashMap<String, Integer>) resistancebonus.clone(), this.ink, this.couleurChakra, this.teinte, this.oldpos, this.gender, this.fuin_paper, this.fuin_uzumaki, this.fuin_lastday, this.maskprofil, this.ticketmedit, this.minmedit, this.delayTicketMedit, this.reduc_ninjutsu);
     }
+
+    public String getLvlHint(String type) {
+        if(this.getLvL(type) <= 6) return String.valueOf(this.getLvL(type));
+        if(this.getLvL(type) <= 9) return "HL";
+        else return "Ultime";
+    }
 }
