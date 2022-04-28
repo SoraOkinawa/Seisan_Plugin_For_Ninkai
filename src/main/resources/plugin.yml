@@ -1,0 +1,139 @@
+name: Plugin_Seisan
+author: Seisan
+version: 3.0.1
+main: me.Seisan.plugin.Main
+api-version: 1.18
+depend: [Citizens, NBTAPI]
+commands:
+  chatmaster:
+    description: Permet de gerer les admins du chat
+  roll:
+    description: permet de roll en local ou global
+  rollresistance:
+    description: permet de roll de résistance chakraique
+  boots:
+    description: permet de marcher sur l'eau
+  hat:
+    description: permet de mettre un chapeau
+  walk:
+    description: permet de marcher
+  test:
+    description: test
+  build:
+    description: permet de mettre un joueur en build, provisoirement ou définitivementt
+  changechatdeseisan:
+    description: permet de ne plus voir l'italique
+  lay:
+    description: permet de s'allonger
+  sit:
+    description: permet de s'asseoir
+  gm:
+    description: Ancien gamemode pour les flemmards
+  pnj:
+    description: Créer des PNJ (banque ou jouet)
+  renameitem:
+    description: Commande qui permet le renameitem
+  lore:
+    description: Commande qui permet de LoRE
+  valideritem:
+    description: Commande qui permet de valider l'item
+  antonin:
+    description: SURPRISE
+  tpworld:
+    description: TPWORLD
+  canish:
+    description: Le vanish du pauvre
+    aliases: c
+  reloadyml:
+    description: Permet de reload les jutsus ou les compétences
+  apparence:
+    description: Permet de gerer son apparence.
+    aliases: a
+  age:
+    description: Permet de gerer l'age d'un joueur.
+  invsee:
+    description: Permet d'ouvrir l'inventaire d'un joueur
+  train:
+    description: /train help pour plus d'infos
+  profiledit:
+    description: Permet de gerer les clans | voie de ninja |style de combat.
+  clone:
+    description: Permet de créer un clone
+  stop:
+    description: Permet de stopper proprement le serveur.
+  target:
+    description: Permet de selectionner une cible.
+  chakra:
+    description: Permet d'ajouter ou de retirer du chakra a un joueur.
+  rank:
+    description: Permet de modifier le rang RP d'un joueur
+  jutsu:
+    description: /justsu help pour plus d'infos
+  lost:
+    description: Permet à un joueur de perdre du chakra.
+  transfer:
+    description: Permet à un joueur de tranférer du chakra.
+  profil:
+    description: Permet d'avoir son profil
+  abilities:
+    description: Permet de mettre des compétences
+  parchemin:
+    description: permet de give un parchemin avec l'abilité en question
+  aprofil:
+    description: permet d'avoir une description de profil de 5 pages
+  ninken:
+    description: permet d'invoquer le ninken si vous êtes inuzuka
+  competence:
+    description: permet d'ouvrir l'inventaire de compétence
+  entrainement:
+    description: permet d'add 1 points aux joueurs
+  resistance:
+    description: add point for chakra resistance
+  whois:
+    description: Donne la liste des joueurs connectés
+  stealchakra:
+    description: Vole du chakra via jutsu
+  givechakra:
+    description: Donne du chakra via jutsu
+  colorchakra:
+    description: Change la couleur de chakra du joueur
+  giveitem:
+    description: Permet de give des items personnalisé
+  tpback:
+    description: Commande utilisé dans les jutsus pour permettre des tp puis back
+  genre:
+    description: Choisis le genre du personnage
+  feuille:
+    description: Commande qui permet de retirer les fuilles de Seji pour les fuin lvl4+
+  profilmj:
+    description: save et load des fiches personnage
+  maskprofil:
+    description: Permets de masquer le profil (op-only)
+  bb:
+    description: Permets aux juunins de give des parchemins
+    aliases: bibliothequedesjuuninsseulementpourledondetechnique
+  meditation:
+    description: Permet de rentrer en méditation avec soi-même
+  givecompetence:
+    description: Permet de donner une compétence
+  hrp:
+    description: Permet de give des petits items
+  ryoji:
+    description: Permet d'avoir des ryojis
+  lostfuin:
+    description: lost la consommation actuel de Fuinjutsu
+  swapfuin:
+    description: permet de changer de consommation Fuinjutsu
+  jumpupdown:
+    description: permet de jump
+  fullwhitelist:
+    description: permet d'ajouter des gens à la whitelist rapidement
+  reducninjutsu:
+    description: permet d'initialiser la reduction ninjutsu
+  reloadskin:
+    description: permet de changer de skin sans déco reco
+  enca:
+    description: Ajout des gens aux encadrants
+  nick:
+    aliases: name
+    description: Permet de rename
