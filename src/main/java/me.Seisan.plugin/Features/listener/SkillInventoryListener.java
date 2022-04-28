@@ -51,7 +51,7 @@ public class SkillInventoryListener extends Feature {
                 if (slot == 30 && inv.getItem(slot) != null) {
                     int actualPage = Integer.parseInt(inv.getItem(31).getItemMeta().getDisplayName().substring(7));
                     if (!e.getView().getTitle().equals("§6Jutsu : §7Tous")) {
-                        p.openInventory(SkillInventory.getMainInventory(pInfo, actualPage - 1, e.getView().getTitle().substring(10)));
+                        p.openInventory(SkillInventory.getSceaux(pInfo, e.getView().getTitle().substring(11), actualPage - 1));
                     } else {
                         p.openInventory(SkillInventory.getMainInventory(pInfo, actualPage - 1));
 
@@ -62,7 +62,7 @@ public class SkillInventoryListener extends Feature {
                 if (slot == 32 && inv.getItem(slot) != null) {
                     int actualPage = Integer.parseInt(inv.getItem(31).getItemMeta().getDisplayName().substring(7));
                     if (!e.getView().getTitle().equals("§6Jutsu : §7Tous")) {
-                        p.openInventory(SkillInventory.getMainInventory(pInfo, actualPage + 1, e.getView().getTitle().substring(10)));
+                        p.openInventory(SkillInventory.getSceaux(pInfo, e.getView().getTitle().substring(11), actualPage + 1));
                     } else {
                         p.openInventory(SkillInventory.getMainInventory(pInfo, actualPage + 1));
                     }
@@ -216,7 +216,7 @@ public class SkillInventoryListener extends Feature {
                     String type = ChatColor.stripColor(item.getItemMeta().getDisplayName());
                     ArrayList<Skill> listsceaux = SkillInventory.getTypeSceaux(pInfo.getSkills().keySet(), type);
                     if(listsceaux.size() == 0) {
-                        p.sendMessage("§cHRP : §7Votre personne n'a pas de symboles dans cette catégorie.");
+                        p.sendMessage("§cHRP : §7Votre personnage n'a pas de symboles dans cette catégorie.");
                         return;
                     }
                     p.openInventory(SkillInventory.getSceaux(pInfo, type, 0));

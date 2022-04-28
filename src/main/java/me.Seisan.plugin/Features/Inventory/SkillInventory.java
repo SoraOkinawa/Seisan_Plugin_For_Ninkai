@@ -244,7 +244,8 @@ public class SkillInventory {
     private static void getListeSceauxJutsu(PlayerInfo p, int page, Inventory inv, ArrayList<Skill> listsceaux) {
         listsceaux.sort(Comparator.comparing(Skill::getName));
 
-        for (int i = page * 27; (i < listsceaux.size() && i < page * 27 + 27); i++) {
+        int slot = page * 27;
+        for (int i = slot; i < slot + 27 && i < listsceaux.size(); i++) {
             ItemStack newitem = new ItemStack(listsceaux.get(i).getItem());
             ItemMeta meta = newitem.getItemMeta();
             assert meta != null;
