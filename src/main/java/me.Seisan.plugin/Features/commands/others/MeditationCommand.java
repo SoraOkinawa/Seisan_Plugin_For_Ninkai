@@ -389,14 +389,14 @@ public class MeditationCommand extends Command {
     {
         double[] dim = new double[2];
 
-        dim[0] = -4902;
-        dim[1] = -4930;
+        dim[0] = -220;
+        dim[1] = -255;
         Arrays.sort(dim);
         if(player.getLocation().getX() > dim[1] || player.getLocation().getX() < dim[0])
             return false;
 
-        dim[0] = -3791;
-        dim[1] = -3769;
+        dim[0] = -160;
+        dim[1] = -185;
         Arrays.sort(dim);
         if(player.getLocation().getZ() > dim[1] || player.getLocation().getZ() < dim[0])
             return false;

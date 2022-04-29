@@ -51,7 +51,12 @@ public class MeditListener extends Feature {
         if(!event.getPlayer().getWorld().getName().equals("meditation")) {
             return;
         }
+
         Player breaker = event.getPlayer();
+
+        if(breaker.isOp()) {
+            return;
+        }
 
         if(!Main.getInBulleMedit().containsKey(breaker.getName())) {
             event.setCancelled(true);
@@ -90,7 +95,12 @@ public class MeditListener extends Feature {
         if(!breakEvent.getPlayer().getWorld().getName().equals("meditation")) {
             return;
         }
+
         Player breaker = breakEvent.getPlayer();
+
+        if(breaker.isOp()) {
+            return;
+        }
 
         if(!Main.getInBulleMedit().containsKey(breaker.getName())) {
             breakEvent.setCancelled(true);
@@ -155,6 +165,10 @@ public class MeditListener extends Feature {
         }
 
         Player breaker = placeEvent.getPlayer();
+
+        if(breaker.isOp()) {
+            return;
+        }
 
         if(!Main.getInBulleMedit().containsKey(breaker.getName())) {
             placeEvent.setCancelled(true);
