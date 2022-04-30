@@ -4,6 +4,7 @@ import me.Seisan.plugin.Features.Feature;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Chest;
@@ -72,6 +73,17 @@ public class LockListener extends Feature {
                         }
                     }
                 }
+                else if (e.getClickedBlock().getType().name().contains("BARREL")) {
+                    Barrel barrel = (Barrel) e.getClickedBlock().getState();
+                    if(isLockedBarrel(p, barrel)){
+                        if(p.isOp()) {
+                            p.sendMessage(ChatColor.GRAY + "Vous avez forcé l'ouverture d'un tonneau fermé");
+                        }else {
+                            e.setCancelled(true);
+                            p.sendMessage(ChatColor.RED + "** Ce coffret est verrouillé **");
+                        }
+                    }
+                }
             }
         }
     }
@@ -103,6 +115,22 @@ public class LockListener extends Feature {
                     }
                 }
             }
+        return locked;
+    }
+
+    private boolean isLockedBarrel(Player p, Barrel b){
+        boolean locked = false;
+
+        for(int i = 0; i < 10; i++) {
+            ItemStack itemStack = b.getInventory().getItem(i);
+            if(itemStack != null) {
+                if(itemStack.getType() == Material.TRIPWIRE_HOOK) {
+                    if(!itemStack.getItemMeta().getDisplayName().contains(p.getName())) {
+                        locked = true;
+                    }
+                }
+            }
+        }
         return locked;
     }
 
