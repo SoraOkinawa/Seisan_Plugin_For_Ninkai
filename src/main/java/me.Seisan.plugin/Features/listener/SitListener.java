@@ -262,7 +262,7 @@ public class SitListener extends Feature {
     private static void tp(Player p, Location l) {
         Bukkit.getScheduler().runTaskLater(Main.plugin(), () -> {
             if(!Main.getInMedit().containsKey(p.getName())) {
-                //p.teleport(l.add(0, 1.2, 0));
+                p.teleport(l.add(0, 1.2, 0));
             }
         }, 2);
     }
