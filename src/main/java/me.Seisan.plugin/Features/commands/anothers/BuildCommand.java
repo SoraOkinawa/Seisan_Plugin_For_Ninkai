@@ -97,6 +97,7 @@ public class BuildCommand extends Command {
         pConfig.getPlayer().updateCommands();
         if(!pConfig.getPlayer().isOp()) {
             if (pConfig.isBuildmode()) {
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("fawe.admin", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("worldedit.*", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.command.gamemode", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.gamemode", true);
@@ -110,9 +111,12 @@ public class BuildCommand extends Command {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.ignorelimitations", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.goto", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.brush.*", true);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.*", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.debugstick", true);
 
             } else {
+
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("fawe.admin", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("worldedit.*", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.command.gamemode", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.gamemode", false);
@@ -126,6 +130,7 @@ public class BuildCommand extends Command {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.ignorelimitations", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.goto", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.brush.*", false);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.*", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.debugstick", false);
 
             }
