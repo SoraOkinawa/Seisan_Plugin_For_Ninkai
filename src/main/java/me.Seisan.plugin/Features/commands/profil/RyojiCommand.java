@@ -63,8 +63,7 @@ public class RyojiCommand extends Command {
             }
             line = line.substring(0, line.length()-1);
             World w = p.getWorld();
-            Location l = p.getLocation();
-            for(Entity e : w.getNearbyEntities(l, 500, 150, 500)) {
+            for(Entity e : w.getPlayers()) {
                 if(e instanceof Player) {
                     e.sendMessage("§b[Haut Parleurs avec la voix de "+p.getDisplayName()+"§b] Tuduuum... "+line);
                 }
