@@ -33,6 +33,6 @@ public enum Teinte {
                 return teinte;
             }
         }
-        return null;
+        return NEUTRE;
     }
 }
