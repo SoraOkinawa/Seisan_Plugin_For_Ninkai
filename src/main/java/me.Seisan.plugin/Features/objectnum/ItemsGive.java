@@ -23,6 +23,7 @@ public enum ItemsGive {
     ITEM_FRAME("§6Cadre","§cHRP : §7Utile pour placer des items n'importe où.", 16, Material.ITEM_FRAME, "seisan", "seisan"),
     ITEM_FRAME_INVISIBLE("§6Cadre","§cHRP : §7Discret pour placer des items n'importe où.", 16, Material.ITEM_FRAME, "EntityTag", "{Invisible:1}"),
     PANNEAU("§6Panneau","§cHRP : §7Sympatique pour écrire avec ces panneaux.", 16, Material.OAK_SIGN, "seisan", "seisan"),
+    PANNEAU_HRP("§6Panneau HRP","§cHRP : §7Sympatique pour décrire un lieu.", 16, Material.WARPED_SIGN, "seisan", "seisan"),
     PAPIER("%name%","§cHRP : §7Formidable pour lock des conteneurs à votre nom.", 16, Material.TRIPWIRE_HOOK, "seisan", "seisan"),
     BONE_MEAL("§6Poudre d'os","§cHRP : §7Agréable pour le clan Senju.", 64, Material.BONE_MEAL, "seisan", "seisan"),
     SABLE("§6Sable","§cHRP : §7Nécessaire pour le clan §6Sabaku§7.", 64, Material.SAND, "seisan", "seisan"),
