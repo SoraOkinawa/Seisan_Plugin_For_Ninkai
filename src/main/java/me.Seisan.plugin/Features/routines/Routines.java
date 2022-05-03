@@ -26,15 +26,15 @@ public class Routines extends Feature {
         /* Loadings taches répétitives..."); */
         inittimeMC();
         initphrases();
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.plugin(), JourNuit, 0L, 3 * 20L + 12L); // 3 secondes + 0,6 secondes
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.plugin(), WeatherChange, 0L, 3600 * 1 * 20L); // 2 heures (3600 * 1 * 20L)
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.plugin(), JourNuit, 0L,  60 * 20L); // 1 minute
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.plugin(), WeatherChange, 0L, 3600 * 20L); // 1 heure (3600 * 20L)
     }
 
     private void inittimeMC() {
-        LocalTime now = java.time.LocalTime.now(ZoneId.systemDefault()); // LocalTime = 14:42:43.062
-        long second = now.toSecondOfDay(); // Int = 52963
-        timeMC = Math.round(second/3.6); /* On convertit une seconde en "tick time" */
-        timeMC -= 9000; /* On décale le "levé du jour" de 00h00 à 6h) */
+        LocalTime irlNow = java.time.LocalTime.now(ZoneId.systemDefault()); // LocalTime = 14:42:43.062
+        LocalTime igNow = irlNow.minusHours(3); // On décale le "couché du soleil" de 18h à 21h
+        float dayPart = ((float) igNow.toSecondOfDay()) / 86400;
+        timeMC = Math.round(dayPart*24000); /* On convertit une seconde en "tick time" */
     }
     private void initphrases() {
         PhrasesSUN = new ArrayList<>();

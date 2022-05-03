@@ -14,14 +14,14 @@ import static me.Seisan.plugin.Features.routines.Routines.*;
 
 public class DayNight {
 
-    public static World Seisan = Bukkit.getWorld("Seisan") == null ? Bukkit.getWorld("world") : Bukkit.getWorld("Seisan");
+    public static World PaysMontagnes = Bukkit.getWorld("pays_montagnes") == null ? Bukkit.getWorld("world") : Bukkit.getWorld("pays_montagnes");
     protected static void SetTime() {
-        if(Seisan != null) {
-            timeMC++;
+        if(PaysMontagnes != null) {
+            timeMC+=16; // On ajoute 1 minute
             if(timeMC > 24000) {
                 timeMC = 0;
             }
-            Seisan.setTime(timeMC);
+            PaysMontagnes.setTime(timeMC);
         }
     }
 
@@ -34,23 +34,23 @@ public class DayNight {
             int code = weather.get("weather").getAsJsonObject().get("code").getAsInt();
             int time = -1;
             if(code < 400) {
-                if(!Seisan.isThundering()) {
-                    Seisan.setStorm(true); /* Pluie */
-                    Seisan.setThundering(true); /* Orage */
+                if(!PaysMontagnes.isThundering()) {
+                    PaysMontagnes.setStorm(true); /* Pluie */
+                    PaysMontagnes.setThundering(true); /* Orage */
                     time = 0;
                 }
             }
             else if(code < 700) {
-                if(!Seisan.hasStorm() || Seisan.isThundering()) {
-                    Seisan.setThundering(false); /* Orage */
-                    Seisan.setStorm(true); /* Pluie */
+                if(!PaysMontagnes.hasStorm() || PaysMontagnes.isThundering()) {
+                    PaysMontagnes.setThundering(false); /* Orage */
+                    PaysMontagnes.setStorm(true); /* Pluie */
                     time = 1;
                 }
             }
             else {
-                if (Seisan.hasStorm() || Seisan.isThundering()) {
-                    Seisan.setThundering(false);
-                    Seisan.setStorm(false);
+                if (PaysMontagnes.hasStorm() || PaysMontagnes.isThundering()) {
+                    PaysMontagnes.setThundering(false);
+                    PaysMontagnes.setStorm(false);
                     time = 2;
                 }
             }
@@ -87,23 +87,23 @@ public class DayNight {
         int time = -1;
 
         if(temps == 13) {
-            if(!Seisan.isThundering()) {
-                Seisan.setStorm(true); /* Pluie */
-                Seisan.setThundering(true); /* Orage */
+            if(!PaysMontagnes.isThundering()) {
+                PaysMontagnes.setStorm(true); /* Pluie */
+                PaysMontagnes.setThundering(true); /* Orage */
                 time = 0;
             }
         }
         else if(temps > 10) {
-            if(!Seisan.hasStorm() || Seisan.isThundering()) {
-                Seisan.setThundering(false); /* Orage */
-                Seisan.setStorm(true); /* Pluie */
+            if(!PaysMontagnes.hasStorm() || PaysMontagnes.isThundering()) {
+                PaysMontagnes.setThundering(false); /* Orage */
+                PaysMontagnes.setStorm(true); /* Pluie */
                 time = 1;
             }
         }
         else {
-            if(Seisan.hasStorm() || Seisan.isThundering()) {
-                Seisan.setThundering(false);
-                Seisan.setStorm(false);
+            if(PaysMontagnes.hasStorm() || PaysMontagnes.isThundering()) {
+                PaysMontagnes.setThundering(false);
+                PaysMontagnes.setStorm(false);
                 time = 2;
             }
         }
