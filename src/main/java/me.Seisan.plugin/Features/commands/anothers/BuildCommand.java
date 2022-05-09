@@ -111,7 +111,8 @@ public class BuildCommand extends Command {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.ignorelimitations", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.goto", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.brush.*", true);
-                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.*", true);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.open", true);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.phead", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.debugstick", true);
 
             } else {
@@ -130,7 +131,8 @@ public class BuildCommand extends Command {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.ignorelimitations", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.goto", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.brush.*", false);
-                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.*", false);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.open", false);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.phead", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.debugstick", false);
 
             }

@@ -54,6 +54,7 @@ public class EncaCommand extends Command {
         pConfig.getPlayer().updateCommands();
         if (!pConfig.getPlayer().isOp()) {
             if (pConfig.isEncamode()) {
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("fawe.admin", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("worldedit.*", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.command.gamemode", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.gamemode", true);
@@ -67,9 +68,12 @@ public class EncaCommand extends Command {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.ignorelimitations", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.goto", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.brush.*", true);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.open", true);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.phead", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.debugstick", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("nicknames.*", true);
             } else {
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("fawe.admin", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("worldedit.*", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.command.gamemode", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.gamemode", false);
@@ -83,6 +87,8 @@ public class EncaCommand extends Command {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.ignorelimitations", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.goto", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.brush.*", false);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.open", false);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("headdb.phead", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.debugstick", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("nicknames.*", false);
             }
