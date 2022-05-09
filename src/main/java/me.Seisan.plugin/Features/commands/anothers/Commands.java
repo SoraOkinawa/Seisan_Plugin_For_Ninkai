@@ -47,6 +47,7 @@ public class Commands extends Feature {
         new CanishCommand().register();
         new HRPCommand().register();
         new JumpUpDownCommand().register();
+        new WarpCommand().register();
 
         param.add("add");
         param.add("remove");

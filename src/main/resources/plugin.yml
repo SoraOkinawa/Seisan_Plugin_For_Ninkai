@@ -137,3 +137,5 @@ commands:
   nick:
     aliases: name
     description: Permet de rename
+  warp:
+    description: Permet de gérer les warp
