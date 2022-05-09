@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by Helliot on 03/08/2017.
@@ -138,6 +139,8 @@ public class Config {
     }
 
     public void reloadFile(){ yamlFile = YamlConfiguration.loadConfiguration(configFile);}
+
+    public Set<String> getRootKeys(){ return yamlFile.getConfigurationSection("").getKeys(false);}
 
     /**
      * Sets a given value to a given key and then physically save the file
