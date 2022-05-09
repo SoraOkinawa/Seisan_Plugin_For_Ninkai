@@ -63,6 +63,7 @@ commands:
     description: Permet de stopper proprement le serveur.
   target:
     description: Permet de selectionner une cible.
+    aliases: focus
   chakra:
     description: Permet d'ajouter ou de retirer du chakra a un joueur.
   rank:
