@@ -28,8 +28,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -368,6 +369,7 @@ public class PlayerInfo {
     public void updateAbility(Ability ability, CommandSender sender) {
         char nb =  ability.getName().toCharArray()[ability.getName().length()-1];
         ArrayList<Ability> abilityArrayList = new ArrayList<>();
+        ArrayList<Skill> givenSkillsArrayList = new ArrayList();
         abilityArrayList.add(ability);
         if(Character.isDigit(nb)) {
             int nombre = (nb - '0');
@@ -385,6 +387,16 @@ public class PlayerInfo {
                 Ability abilityadd = Ability.getByPluginName(new String(name));
                 if(abilityadd != null) {
                     abilityArrayList.add(abilityadd);
+                    String givenSkills = abilityadd.getGivenJutsu();
+                    if(givenSkills != null) {
+                        String[] givenSkillsList = givenSkills.split(";");
+                        for(String skillName : givenSkillsList) {
+                            Skill skilladd = Skill.getByPluginName(skillName);
+                            if(skilladd != null) {
+                                givenSkillsArrayList.add(skilladd);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -400,16 +412,13 @@ public class PlayerInfo {
                 this.delayTicketMedit = getNextThreeDays(LocalDateTime.now());
             }
         }
-        if(ability.getGivenJutsu() != null) {
-            for(String jutsu_name : ability.getGivenJutsu().split(";")) {
-                Skill skill = Skill.getByPluginName(jutsu_name);
-                if(skill != null) {
-                    this.updateSkill(skill, SkillMastery.LEARNED);
-                }
-                else {
-                    player.sendMessage("§cHRP : §7Erreur sur le jutsu §6" + jutsu_name);
-                    player.sendMessage("§cHRP : §7Merci de remonter à Shikure pour qu'il puisse corriger !");
-                }
+        for(Skill skill : givenSkillsArrayList) {
+            if(skill != null) {
+                this.updateSkill(skill, SkillMastery.LEARNED);
+            }
+            else {
+                player.sendMessage("§cHRP : §7Erreur sur le jutsu §6" + skill.getNameInPlugin());
+                player.sendMessage("§cHRP : §7Merci de remonter à Shikure pour qu'il puisse corriger !");
             }
         }
         ajoutInstinct();
