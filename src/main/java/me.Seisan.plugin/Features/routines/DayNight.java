@@ -17,11 +17,11 @@ public class DayNight {
     public static World PaysMontagnes = Bukkit.getWorld("pays_montagnes") == null ? Bukkit.getWorld("world") : Bukkit.getWorld("pays_montagnes");
     protected static void SetTime() {
         if(PaysMontagnes != null) {
-            timeMC+=16; // On ajoute 1 minute
+            timeMC+=16.667; // On ajoute 1 minute
             if(timeMC > 24000) {
                 timeMC = 0;
             }
-            PaysMontagnes.setTime(timeMC);
+            PaysMontagnes.setTime(Math.round(timeMC));
         }
     }
 

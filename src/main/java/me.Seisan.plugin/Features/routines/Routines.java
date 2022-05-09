@@ -35,7 +35,7 @@ public class Routines extends Feature {
         LocalTime igNow = irlNow.minusHours(3); // On décale le "couché du soleil" de 18h à 21h
         float dayPart = ((float) igNow.toSecondOfDay()) / 86400;
         int timeInTick = Math.round(dayPart*24000);
-        timeMC = Math.round((timeInTick - 6000) % 24000); /* On décale minuit à 0 tick */
+        timeMC = (timeInTick - 6000) % 24000; /* On décale minuit à 0 tick */
     }
     private void initphrases() {
         PhrasesSUN = new ArrayList<>();
