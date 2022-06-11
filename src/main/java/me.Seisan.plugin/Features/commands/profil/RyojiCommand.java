@@ -65,7 +65,9 @@ public class RyojiCommand extends Command {
             World w = p.getWorld();
             for(Entity e : w.getPlayers()) {
                 if(e instanceof Player) {
-                    e.sendMessage("§b[Haut Parleurs avec la voix de "+p.getDisplayName()+"§b] Tuduuum... "+line);
+                    if(e.getLocation().distance(p.getLocation()) <= 600) {
+                        e.sendMessage("§b[Haut Parleurs avec la voix de "+p.getDisplayName()+"§b] Tuduuum... "+line);
+                    }
                 }
             }
         }
