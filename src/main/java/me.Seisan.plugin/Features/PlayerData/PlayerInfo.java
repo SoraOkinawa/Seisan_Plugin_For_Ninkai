@@ -413,7 +413,7 @@ public class PlayerInfo {
             }
         }
         for(Skill skill : givenSkillsArrayList) {
-            if(skill != null) {
+            if(skill != null && !skills.containsKey(skill)) {
                 this.updateSkill(skill, SkillMastery.LEARNED);
             }
             else {
