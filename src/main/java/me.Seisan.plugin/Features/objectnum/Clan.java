@@ -48,6 +48,7 @@ public enum Clan {
     SAMOURAI("Samourai", 40, "samourai_icon", "Samourai",""),
     GUGEN("Gugen", 41, "gugen_icon", "Gugen","CBD2D8"),
     HATAKE("Hatake", 42, "hatake_icon", "Hatake","919191"),
+    KATABAMI("Katabami", 42, "katabami_icon", "Katabami","2F4934"),
     INDEFINI("Non défini", -1, "null", "null_null_null","");
 
     @Getter
