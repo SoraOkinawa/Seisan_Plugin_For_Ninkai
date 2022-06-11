@@ -41,6 +41,8 @@ public class WarpCommand extends Command {
                             config.set(split[1]+".x", p.getLocation().getX());
                             config.set(split[1]+".y", p.getLocation().getY());
                             config.set(split[1]+".z", p.getLocation().getZ());
+                            config.set(split[1]+".rp", p.getLocation().getPitch());
+                            config.set(split[1]+".ry", p.getLocation().getYaw());
                             p.sendMessage("§cHRP : §7Warp §b" + split[1] + " §7ajouté.");
                             break;
                         case "remove":
@@ -68,7 +70,9 @@ public class WarpCommand extends Command {
                                 double x = config.getDouble(split[0]+".x");
                                 double y = config.getDouble(split[0]+".y");
                                 double z = config.getDouble(split[0]+".z");
-                                p.teleport(new Location(w, x, y, z));
+                                float rp = (float) config.getDouble(split[0]+".rp");
+                                float ry = (float) config.getDouble(split[0]+".ry");
+                                p.teleport(new Location(w, x, y, z, rp, ry));
                                 p.sendMessage(ChatColor.GREEN + "§cHRP : §7Vous avez été téléporté au warp §b" + split[0] + "§7.");
                             }
                             else
