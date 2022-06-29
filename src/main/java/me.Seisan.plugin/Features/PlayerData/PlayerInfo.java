@@ -413,12 +413,14 @@ public class PlayerInfo {
             }
         }
         for(Skill skill : givenSkillsArrayList) {
-            if(skill != null && !skills.containsKey(skill)) {
-                this.updateSkill(skill, SkillMastery.LEARNED);
-            }
-            else {
-                player.sendMessage("§cHRP : §7Erreur sur le jutsu §6" + skill.getNameInPlugin());
-                player.sendMessage("§cHRP : §7Merci de remonter à Shikure pour qu'il puisse corriger !");
+            if(!skills.containsKey(skill)) {
+                if(skill != null) {
+                    this.updateSkill(skill, SkillMastery.LEARNED);
+                }
+                else {
+                    player.sendMessage("§cHRP : §7Erreur sur le jutsu §6" + skill.getNameInPlugin());
+                    player.sendMessage("§cHRP : §7Merci de remonter à Shikure pour qu'il puisse corriger !");
+                }
             }
         }
         ajoutInstinct();
