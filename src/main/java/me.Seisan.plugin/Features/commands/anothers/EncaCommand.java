@@ -65,6 +65,7 @@ public class EncaCommand extends Command {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.command.teleport", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.*", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.sniper", true);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.undouser", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.ignorelimitations", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.goto", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.brush.*", true);
@@ -84,6 +85,7 @@ public class EncaCommand extends Command {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.command.teleport", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.*", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.sniper", false);
+                perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.undouser", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.ignorelimitations", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.goto", false);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("voxelsniper.brush.*", false);
