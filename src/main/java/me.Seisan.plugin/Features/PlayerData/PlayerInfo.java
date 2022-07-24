@@ -389,7 +389,7 @@ public class PlayerInfo {
                     abilityArrayList.add(abilityadd);
                     String givenSkills = abilityadd.getGivenJutsu();
                     if(givenSkills != null) {
-                        String[] givenSkillsList = givenSkills.split(";");
+                        String[] givenSkillsList = givenSkills.split(";|\\,");
                         for(String skillName : givenSkillsList) {
                             Skill skilladd = Skill.getByPluginName(skillName);
                             if(skilladd != null) {
