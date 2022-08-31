@@ -20,9 +20,9 @@ public class EntrainementCommand extends Command {
             return;
         }
 
-        if(!(split.length == 3 && (split[0].equals("add") || split[0].equals("remove"))) && !(split.length == 2 && split[0].equals("reset"))) {
-            sender.sendMessage("§cHRP : §6/entrainement add <joueur> <ability>");
-            sender.sendMessage("§cHRP : §6/entrainement remove <joueur> <ability>");
+        if(!(split.length == 4 && (split[0].equals("add") || split[0].equals("remove"))) && !(split.length == 2 && split[0].equals("reset"))) {
+            sender.sendMessage("§cHRP : §6/entrainement add <joueur> <ability> <amount>");
+            sender.sendMessage("§cHRP : §6/entrainement remove <joueur> <ability> <amount>");
             sender.sendMessage("§cHRP : §6/entrainement reset <joueur>");
             return;
         }
@@ -39,9 +39,9 @@ public class EntrainementCommand extends Command {
             sender.sendMessage("§cHRP : §7Le joueur a perdu tous ses points et ses points entraînements.");
         }
         else {
-            int val = 1;
+            int val = Integer.parseInt(split[3]);
             if (split[0].equals("remove")) {
-                val = -1;
+                val *= -1;
             }
             if (split[2].equals("general")) {
                 tInfo.setPoints(tInfo.getPoints() + val);

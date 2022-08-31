@@ -305,15 +305,6 @@ public class ChakraCommand extends Command {
 
                 switch (split[1]) {
                     case "add":
-                        if(!p.isOp()) {
-                            if(pInfo.getTicketmedit() == 0) {
-                                p.sendMessage("§cHRP : §7Vous n'avez pas de ticket donc pas de gain ellipsé.");
-                                sender.sendMessage("§cHRP : §7Pas de ticket, pas de méditation ellipsé, non mais le PL là.");
-                                return;
-                            }
-                            pInfo.setTicketmedit(pInfo.getTicketmedit()-1);
-                        }
-
                         if ((pInfo.getManamaze() - 10) % 40 == 0)
                             nb++;
                         pInfo.setMinmedit(pInfo.getMinmedit() + amount);
@@ -339,7 +330,7 @@ public class ChakraCommand extends Command {
                         if (!p.getName().equals(sender.getName())) {
                             sender.sendMessage("§cHRP : §7" + p.getDisplayName() + " a perdu "+amount+" points de palier de méditation");
                         }
-                        p.sendMessage("§cHRP : §7Vous avez perdu "+amount+" points de palier de méditation. (cheh)");
+                        p.sendMessage("§cHRP : §7Vous avez perdu "+amount+" points de palier de méditation.");
                         break;
                     default:
                         sendHelpList(sender);
