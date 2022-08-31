@@ -32,7 +32,7 @@ public class Nickname extends Feature {
         p.setPlayerListName(nick);
         if(sender != p)
             sender.sendMessage("§cHRP : §7"+p.getName()+" a été renommé en "+p.getDisplayName() +"§7.");
-        p.sendMessage("§cHRP : §7Vous avez été renommé en " + p.getDisplayName() + "§7. Si il y a un abus, merci de contacter §cKyrbouille§7.");
+        p.sendMessage("§cHRP : §7Vous avez été renommé en " + p.getDisplayName() + "§7.");
     }
 
 
