@@ -115,7 +115,7 @@ public class TrainInventory {
                     String mode = pConfig.isSwapfuin() ? "Feuilles Seji" : "Encre Fuinjutsu";
                     lore = Arrays.asList("§7"+voie,
                             "§7Niveau : §f"+pInfo.getLvlHint(voie),
-                            "§7Feuilles de Seji : §f"+pInfo.getFuin_paper(),
+                            /* "§7Feuilles de Seji : §f"+pInfo.getFuin_paper(), */
                             "§7Capacité de l'assembleur Uzumaki : §f"+pInfo.getFuin_uzumaki()+" §7/ §f"+lvl*lvl,
                             "§7Mode de consommation : §6"+mode);
                 }

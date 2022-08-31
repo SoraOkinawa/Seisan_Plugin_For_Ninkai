@@ -149,7 +149,7 @@ public class Skill{
         //Suppression de l'encre ou du papier
         if(ChatColor.stripColor(playerInfo.getCurrentSkill().getName()).startsWith("Fuinjutsu")) {
             if(playerInfo.getCurrentSkill().getInk(playerInfo) > 0) {
-                if(playerInfo.getFuin_paper() != 0) {
+                if(playerInfo.getFuin_uzumaki() != 0) {
                     PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
                     if(pConfig.isSwapfuin()) {
                         playerInfo.usePaper();

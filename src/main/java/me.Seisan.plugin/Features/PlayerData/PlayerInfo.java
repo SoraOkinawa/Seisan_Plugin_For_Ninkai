@@ -986,14 +986,14 @@ public class PlayerInfo {
     }
 
     public void usePaper() {
-        this.fuin_paper--;
-        player.sendMessage("§b** Vous avez désormais "+this.fuin_paper+" feuille(s) de Seju.");
+        this.fuin_uzumaki--;
+        player.sendMessage("§b** Vous avez désormais "+this.fuin_uzumaki+" feuille(s) de Seju.");
     }
 
     public void usePaper(int nb) {
-        this.fuin_paper-=nb;
-        if(fuin_paper < 0) this.fuin_paper = 0;
-        player.sendMessage("§b** Vous avez désormais "+this.fuin_paper+" feuille(s) de Seju.");
+        this.fuin_uzumaki-=nb;
+        if(fuin_uzumaki < 0) this.fuin_uzumaki = 0;
+        player.sendMessage("§b** Vous avez désormais "+this.fuin_uzumaki+" feuille(s) de Seju.");
     }
 
     public void useInk(int nb) {
