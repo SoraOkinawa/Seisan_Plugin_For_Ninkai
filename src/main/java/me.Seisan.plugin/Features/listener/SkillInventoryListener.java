@@ -153,7 +153,7 @@ public class SkillInventoryListener extends Feature {
                                 pInfo.setCurrentSkill(skill);
                                 break;
                             case 5:
-                                if (pInfo.getVoieNinja().getName().contains("Ninjutsu") && pInfo.getLvL("Ninjutsu") >= 2) {
+                                if ((pInfo.getVoieNinja().getName().contains("Ninjutsu") && pInfo.getLvL("Ninjutsu") >= 2) || ((pInfo.getClan().getName().contains("Gugen") && pInfo.getLvL("Gugen") >= 6 && skill.getLevel().getRequiredRoll() <= 40))) {
                                     if (pInfo.getMastery(skill) == SkillMastery.LEARNED && !skill.getMudras().equals("none")) {
                                         if (pInfo.getMana() >= skill.manaToTake(pInfo)) {
                                             if (skill.TryJutsuOneHand(skill, pInfo)) {
