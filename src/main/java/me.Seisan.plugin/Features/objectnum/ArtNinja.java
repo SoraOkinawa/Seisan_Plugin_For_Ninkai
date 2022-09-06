@@ -31,6 +31,7 @@ public enum ArtNinja {
     HANGU("Hangu To Hugo", 22, "Hangu_To_Hugo", "D3D3D3"),
     IJITSU("Ijitsu", 23, "Ijitsu", "D3D3D3"),
     YASEIKEN("Yaseiken", 24, "Yaseiken", "D3D3D3"),
+    OMOIHIDAN("Omoi Hidan", 25, "Omoi_Hidan", "D3D3D3"),
     INDEFINI("Non défini", -1, "NO_DEFINE", "D3D3D3");
 
     @Getter
