@@ -49,6 +49,10 @@ public enum Clan {
     GUGEN("Gugen", 41, "gugen_icon", "Gugen","CBD2D8"),
     HATAKE("Hatake", 42, "hatake_icon", "Hatake","919191"),
     KATABAMI("Katabami", 43, "katabami_icon", "Katabami","2F4934"),
+    SHIMO("Shimo", 44, "shimo_icon", "Shimo","87DFF5"),
+    JADI("Jadi", 45, "jadi_icon", "Jadi","A24900"),
+    ERMITEDRAGON("Ermite Dragon", 46, "ermite_icon", "Ermite_Dragon","660000"),
+    ERMITEPAON("Ermite Paon", 46, "ermite_icon", "Ermite_Paon","A20080"),
     INDEFINI("Non défini", -1, "null", "null_null_null","");
 
     @Getter
