@@ -1,10 +1,10 @@
-# Seisan plugin
+# Ninkai plugin
 
-Welcome to the github of the Seisan plugin. This one contains all the features.
+Welcome to the github of the Ninkai plugin. This one contains all the features. It is a fork from the original Seisan Plugin.
 
 ## Features
 
-Seisan is a french minecraft RP server with an RPG aspect. Within this one, you have the possibility of creating a list of fate, of mana, as well as a chat of proximity which can be easily adapted.
+Ninkai is a french minecraft RP server with an RPG aspect. Within this one, you have the possibility of creating a list of fate, of mana, as well as a chat of proximity which can be easily adapted.
 
 There is also a build mode without giving OP permission to anyone. There are other important features.
 
