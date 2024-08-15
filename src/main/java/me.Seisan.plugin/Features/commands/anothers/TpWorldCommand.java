@@ -1,7 +1,7 @@
 package me.Seisan.plugin.Features.commands.anothers;
 
 import me.Seisan.plugin.Main;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;

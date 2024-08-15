@@ -22,7 +22,7 @@ public class SkillLoader {
     private static Config skillConfig = new Config("skills.yml");
 
     public static void loadSkillsFromConfig(){
-        ArrayList<String> enabledSkills = skillConfig.getStringList("enabledSkills");
+            ArrayList<String> enabledSkills = skillConfig.getStringList("enabledSkills");
 
         if(enabledSkills != null && !enabledSkills.isEmpty()){
             readFile(skillConfig, enabledSkills);

@@ -12,7 +12,7 @@ import me.Seisan.plugin.Features.objectnum.Gender;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Features.skill.SkillMastery;
 import me.Seisan.plugin.Main;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -403,7 +403,7 @@ public class PlayerDB {
                 double manaRegenNumber = round(minutesDisconnected / 2.0, 0);
 
                 int manaAdd = pInfo.getMaxMana() / 100;
-                int totalMana = new Double(manaRegenNumber * manaAdd).intValue();
+                int totalMana = (int) (manaRegenNumber * manaAdd);
                 pInfo.addMana(totalMana);
 
 

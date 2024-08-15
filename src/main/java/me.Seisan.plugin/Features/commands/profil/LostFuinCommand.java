@@ -3,7 +3,7 @@ package me.Seisan.plugin.Features.commands.profil;
 import me.Seisan.plugin.Features.PlayerData.PlayerConfig;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Main.Command;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.netty.util.CharsetUtil.UTF_8;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Class used to execute Discord Webhooks with low effort

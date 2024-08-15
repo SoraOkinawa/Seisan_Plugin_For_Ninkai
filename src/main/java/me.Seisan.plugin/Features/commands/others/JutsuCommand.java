@@ -8,7 +8,7 @@ import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Features.skill.SkillManager;
 import me.Seisan.plugin.Features.skill.SkillMastery;
 import me.Seisan.plugin.Main;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import me.Seisan.plugin.Main.Command;

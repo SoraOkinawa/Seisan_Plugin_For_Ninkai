@@ -1,7 +1,7 @@
 package me.Seisan.plugin.Features.objectnum;
 
 import lombok.Getter;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 
 

@@ -1,8 +1,8 @@
-name: Plugin_Seisan
+name: Seisan_Plugin_For_Ninkai
 author: Seisan
-version: 3.0.1
+version: '${project.version}'
 main: me.Seisan.plugin.Main
-api-version: 1.18
+api-version: 1.20
 depend: [Citizens, NBTAPI]
 commands:
   chatmaster:

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>Seisan</groupId>
-    <artifactId>Seisan_Plugin</artifactId>
+    <artifactId>Seisan_Plugin_For_Ninkai</artifactId>
     <version>3.0.2</version>
 
     <repositories>
@@ -36,21 +36,21 @@
         <dependency>
             <groupId>net.citizensnpcs</groupId>
             <artifactId>citizens-main</artifactId>
-            <version>2.0.28-SNAPSHOT</version>
+            <version>2.0.32-SNAPSHOT</version>
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.18.2-R0.1-SNAPSHOT</version>
+            <version>1.20.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Spigot API-->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.18.2-R0.1-SNAPSHOT</version>
+            <version>1.20.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--CraftBukkit API-->
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.18.2-R0.1-SNAPSHOT</version>
+            <version>1.20.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
             <!--Spigot API-->

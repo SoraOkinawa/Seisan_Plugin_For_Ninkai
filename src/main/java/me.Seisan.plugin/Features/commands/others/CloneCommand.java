@@ -5,7 +5,7 @@ import me.Seisan.plugin.Features.PlayerData.PlayerClone;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Main.Command;
 import net.citizensnpcs.api.npc.NPC;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

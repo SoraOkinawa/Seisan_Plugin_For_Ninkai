@@ -4,7 +4,7 @@ package me.Seisan.plugin.Features.commands.profil;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.objectnum.ChakraType;
 import me.Seisan.plugin.Features.utils.ItemUtil;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

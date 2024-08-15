@@ -115,10 +115,9 @@ public class PlayerClone {
                 EntityType.PLAYER,
                 ChatColor.GRAY + "(" +
                 cloneList.size() + ")");
-
-        npc.data().setPersistent(NPC.PLAYER_SKIN_UUID_METADATA, pInfo.getPlayer().getName());
-        npc.data().setPersistent(NPC.PLAYER_SKIN_USE_LATEST, true);
-
+        
+        npc.getOrAddTrait(SkinTrait.class).setSkinName(pInfo.getPlayer().getName());
+        
         ItemStack item = inventory.getHelmet();
         if (item != null) {
             npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.HELMET, item);

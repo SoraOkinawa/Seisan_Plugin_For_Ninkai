@@ -13,7 +13,6 @@ import me.Seisan.plugin.Features.commands.others.OthersCommandRegister;
 import me.Seisan.plugin.Features.commands.profil.ProfilRegister;
 import me.Seisan.plugin.Features.data.DBManager;
 import me.Seisan.plugin.Features.listener.Listener;
-import me.Seisan.plugin.Features.routines.Routines;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Features.skill.SkillLoader;
 import me.Seisan.plugin.Features.utils.Channel;
@@ -105,7 +104,7 @@ public class Main extends JavaPlugin {
     public static Main plugin() {
         return Main.getPlugin(Main.class);
     }
-    private static Logger LOG;
+    public static Logger LOG;
     public static FileConfiguration CONFIG;
 
     private static List<String> CURR_CONFIG_PATH;
@@ -157,7 +156,7 @@ public class Main extends JavaPlugin {
         new Commands().register();
         new ProfilRegister().register();
         new OthersCommandRegister().register();
-        new Routines().register();
+//        new Routines().register();
         System.out.println("---> Enabling SeisanPlugin <---");
         serverOpen = true;
         spigotLogger = Bukkit.getLogger();

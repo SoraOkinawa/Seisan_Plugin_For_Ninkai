@@ -1,7 +1,7 @@
 package me.Seisan.plugin.Features.commands.others;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import me.Seisan.plugin.Main.Command;
 

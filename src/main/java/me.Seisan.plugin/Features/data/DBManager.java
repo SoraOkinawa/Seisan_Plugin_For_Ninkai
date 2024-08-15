@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 
 public class DBManager {
@@ -47,10 +48,11 @@ public class DBManager {
             String password = cfg.getString("password");
             String database = cfg.getString("database");
             String sqlhost = "jdbc:mysql://" + host + ":" + port + "/" + database + "?verifyServerCertificate=false&useSSL=true";
-
+            
+            Bukkit.getLogger().log(Level.FINE, "Connexion à la base de données réussie.");
             this.connection = DriverManager.getConnection(sqlhost, user, password);
         } catch (SQLException e) {
-            System.out.println("[SeisanPlugin] Une erreur de connection à la base de données est survenue.");
+            Bukkit.getLogger().log(Level.SEVERE, "Une erreur de connection à la base de données est survenue.");
             Bukkit.getServer().shutdown();
             e.printStackTrace();
         }

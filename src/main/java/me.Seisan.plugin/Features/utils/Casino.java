@@ -3,8 +3,6 @@ package me.Seisan.plugin.Features.utils;
 
 import lombok.Getter;
 
-import static me.Seisan.plugin.Features.routines.DayNight.random;
-
 
 public enum Casino {
 
@@ -45,5 +43,9 @@ public enum Casino {
             }
         }
         return NINE;
+    }
+    
+    public static int random(int min, int max) {
+        return min + (int)(Math.random() * ((max - min) + 1));
     }
 }

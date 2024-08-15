@@ -4,7 +4,7 @@ import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.objectnum.Clan;
 import me.Seisan.plugin.Features.objectnum.ClanAttribut;
 import me.Seisan.plugin.Features.objectnum.ArtNinja;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import me.Seisan.plugin.Main.Command;

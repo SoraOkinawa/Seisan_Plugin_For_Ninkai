@@ -2,7 +2,7 @@ package me.Seisan.plugin.Features.commands.anothers;
 
 import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Main.Command;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
