@@ -106,7 +106,7 @@ public class ChatFormat extends Feature {
             public void execute(Listener listener, Event event) throws EventException {
                 AsyncPlayerChatEvent chatEvent = (AsyncPlayerChatEvent) event;
                 Player player = chatEvent.getPlayer();
-                chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage();
+                chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage());
                 if (innerChatFormater.isGoodPrefix(chatEvent)) {
                     chatEvent.setCancelled(true);
                     FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
