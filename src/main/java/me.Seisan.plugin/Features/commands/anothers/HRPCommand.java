@@ -31,8 +31,7 @@ import static net.citizensnpcs.api.CitizensAPI.getDataFolder;
 
 public class HRPCommand extends Command {
 
-    private File hrpConfigFile;
-    private FileConfiguration hrpConfig;
+    private static Config hrpConfig = new Config("hrpChest.yml");
 
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
@@ -41,47 +40,38 @@ public class HRPCommand extends Command {
             Player p = (Player) sender;
 
             // /hrp : Ouvre le coffre HRP de base (Code Seisan de base)
-            if (args.length == 1) {
+            if (args.length == 0) {
                 p.openInventory(getHRPInventory(p, 1));
             }
             // /hrp clan : Ouvre le coffre HRP du clan de player
-            else if (args.length == 2 && args[0].equalsIgnoreCase("clan")) {
-
+            else if (args.length == 1 && args[0].equalsIgnoreCase("clan")) {
+                p.openInventory(openClanInventory(args[1], 1));
             }
             // /hrp poubelle : Ouvre la poubelle HRP (Code Seisan de base)
-            else if (args.length == 2 && args[0].equalsIgnoreCase("poubelle")) {
+            else if (args.length == 1 && args[0].equalsIgnoreCase("poubelle")) {
                 p.openInventory(getPoubelleInventory(p));
 
             }
             // /hrp add : Ajoute un coffre aux coffres de HRP
-            else if (args.length == 2 && args[0].equalsIgnoreCase("add")) {
+            else if (args.length == 1 && args[0].equalsIgnoreCase("add")) {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
+                    hrpConfig.set("hrpMainChest." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), true);
 
-                    hrpConfig.set("hrpMainChest."
-                            + loc.getWorld().getName() + "."
-                            + loc.getBlockX() + "."
-                            + loc.getBlockY() + "."
-                            + loc.getBlockZ(), true);
 
-                    saveHrpChestConfig();
                     p.sendMessage(ChatColor.GREEN + "Coffre ajouté !");
                 } else {
                     p.sendMessage(ChatColor.RED + "Vous devez regarder un coffre !");
                 }
             }
             // /hrp add : Supprime un coffre des coffres de HRP
-            else if (args.length == 2 && args[0].equalsIgnoreCase("remove")) {
+            else if (args.length == 1 && args[0].equalsIgnoreCase("remove")) {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
-                    hrpConfig.set("hrpMainChest."
-                            + loc.getWorld().getName() + "."
-                            + loc.getBlockX() + "."
-                            + loc.getBlockY() + "."
-                            + loc.getBlockZ(), null);
-                    saveHrpChestConfig();
+                    hrpConfig.set("hrpMainChest." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), null);
+
                     p.sendMessage(ChatColor.GREEN + "Coffre supprimé !");
                 } else {
                     p.sendMessage(ChatColor.RED + "Vous devez regarder un coffre !");
@@ -89,26 +79,52 @@ public class HRPCommand extends Command {
 
             }
             // /hrp add : Liste les coordonnées des coffres de HRP
-            else if (args.length == 2 && args[0].equalsIgnoreCase("list")) {
+            else if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
                 p.sendMessage(ChatColor.GRAY + "Liste des coffres HRP :");
-                for (String key : hrpConfig.getConfigurationSection("hrpMainChest").getKeys(false)) {
+                hrpConfig.getKeys("hrpMainChest", true).forEach(key -> {
                     p.sendMessage(ChatColor.GRAY + " - " + key);
-                }
+                });
             }
 
             // /hrp clan add <clan> : Ajoute un coffre aux coffres de HRP du clan
             else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("add")) {
+                Block b = p.getTargetBlock(null, 5);
+                if (b.getType() == Material.CHEST) {
+                    Location loc = b.getLocation();
 
+                    hrpConfig.set("hrpClanChest." + args[2] + "." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), true);
+
+                    p.sendMessage(ChatColor.GREEN + "Coffre ajouté au clan " + args[2] + " !");
+                } else {
+                    p.sendMessage(ChatColor.RED + "Vous devez regarder un coffre !");
+                }
             }
             // /hrp clan remove <clan> : Supprime un coffre des coffres de HRP du clan
             else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("remove")) {
+                Block b = p.getTargetBlock(null, 5);
+                if (b.getType() == Material.CHEST) {
+                    Location loc = b.getLocation();
+                    hrpConfig.set("hrpClanChest." + args[2] + "." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), null);
 
+                    p.sendMessage(ChatColor.GREEN + "Coffre supprimé du clan " + args[2] + " !");
+                } else {
+                    p.sendMessage(ChatColor.RED + "Vous devez regarder un coffre !");
+                }
             }
             // /hrp clan list <clan> : Liste les coordonnées des coffres de HRP du clan
             else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("list")) {
-
+                p.sendMessage(ChatColor.GRAY + "Liste des coffres HRP du clan " + args[2] + " :");
+                hrpConfig.getKeys("hrpClanChest." + args[2], true).forEach(key -> {
+                    p.sendMessage(ChatColor.GRAY + " - " + key);
+                });
             }
-
+            // /hrp clan list : Liste les clans ayant des coffres HRP
+            else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("list")) {
+                p.sendMessage(ChatColor.GRAY + "Liste des clans ayant des coffres HRP :");
+                hrpConfig.getKeys("hrpClanChest", true).forEach(key -> {
+                    p.sendMessage(ChatColor.GRAY + " - " + key);
+                });
+            }
         }
     }
 
@@ -139,6 +155,11 @@ public class HRPCommand extends Command {
         return inv;
     }
 
+    private static Inventory openClanInventory(String clan, int page) {
+        // TODO
+        return null;
+    }
+
     public static Inventory getPoubelleInventory(Player p) {
         return Bukkit.createInventory(p, 9, "§8HRP : §7Poubelle §4(VOUS PERDEZ VOS ITEMS DEDANS)");
     }
@@ -149,26 +170,5 @@ public class HRPCommand extends Command {
         return false;
     }
 
-    // CONFIG FILE : hrpChest.yml
-    // Create file if not exist and load it
 
-    private void createHrpChestConfig() {
-        hrpConfigFile = new File(getDataFolder(), "hrpChest.yml");
-        if (!hrpConfigFile.exists()) {
-            hrpConfigFile.getParentFile().mkdirs();
-            Main.plugin().saveResource("hrpChest.yml", false);
-        }
-        hrpConfig = new YamlConfiguration();
-        YamlConfiguration.loadConfiguration(hrpConfigFile);
-    }
-
-    // Save the config file
-    private void saveHrpChestConfig() {
-        try {
-            hrpConfig.save(hrpConfigFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
 }
