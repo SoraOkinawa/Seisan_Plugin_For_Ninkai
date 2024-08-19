@@ -21,14 +21,15 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.EventExecutor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class ChatFormat extends Feature {
     private static List<String> PREFIX;
+
+    // Map of player to list their message ending with > to send everything at once
+    private static Map<Player, String> halfWrittenMessage = new HashMap<>();
 
     private static void addPrefix(String prefix) {
         PREFIX.add(prefix);
@@ -106,11 +107,34 @@ public class ChatFormat extends Feature {
             public void execute(Listener listener, Event event) throws EventException {
                 AsyncPlayerChatEvent chatEvent = (AsyncPlayerChatEvent) event;
                 Player player = chatEvent.getPlayer();
-                String message = PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage();
-                if (innerChatFormater.isGoodPrefix(message)) {
+                // If message ends with ">", we store it in a map to send it all at once
+                String message = chatEvent.getMessage();
+                if (message.endsWith(">")) {
+                    if (halfWrittenMessage.containsKey(chatEvent.getPlayer())) {
+                        // Remove the ">" at the end of the message
+                        halfWrittenMessage.put(chatEvent.getPlayer(), halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
+                    } else {
+                      // First message of the serie here
+                        String messageWithSetupPrefix = PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1);
+                        halfWrittenMessage.put(chatEvent.getPlayer(), message);
+                    }
                     chatEvent.setCancelled(true);
-                    chatEvent.setMessage(message);
-                    FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
+                } else {
+                    if (halfWrittenMessage.containsKey(chatEvent.getPlayer())) {
+                        message = halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage();
+                        halfWrittenMessage.remove(chatEvent.getPlayer());
+                        chatEvent.setMessage(message);
+                    }
+                  else {
+                    // If its the first message, add prefix command
+                      String messageWithSetupPrefix = PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage();
+                      chatEvent.setMessage(messageWithSetupPrefix);
+                  }
+                  if (innerChatFormater.isGoodPrefix(chatEvent.getMessage())) {
+                      chatEvent.setCancelled(true);
+
+                        FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
+                    }
                 }
             }
         };
@@ -606,6 +630,7 @@ public class ChatFormat extends Feature {
             this.chatElements.add(chatElement);
         }
 
+
         private boolean isGoodPrefix(String message) {
             if (message.toLowerCase().startsWith(meta.getPrefix())) {
                 return PREFIX.stream().noneMatch((s) -> (message.toLowerCase().startsWith(s) && s.length() > meta.getPrefix().length()));
@@ -619,6 +644,7 @@ public class ChatFormat extends Feature {
             if (message.startsWith(" ")) {
                 message = message.substring(1);
             }
+
             event.setMessage(message);
             MutableMeta mutableMeta = new MutableMeta();
             if (meta.isTargetAdded()) {
@@ -892,17 +918,3 @@ public class ChatFormat extends Feature {
         return name;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
