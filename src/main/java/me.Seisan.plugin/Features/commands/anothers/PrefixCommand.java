@@ -38,7 +38,6 @@ public class PrefixCommand extends Command {
     }
 
     public static String getPlayerDefaultPrefix(Player p) {
-        System.out.println(prefix.getOrDefault(p.getUniqueId(), ""));
         return prefix.getOrDefault(p.getUniqueId(), "");
     }
 
