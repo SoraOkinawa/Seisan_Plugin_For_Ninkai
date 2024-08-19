@@ -48,6 +48,7 @@ public class Commands extends Feature {
         new HRPCommand().register();
         new JumpUpDownCommand().register();
         new WarpCommand().register();
+        new PrefixCommand().register();
 
         param.add("add");
         param.add("remove");
@@ -58,7 +59,6 @@ public class Commands extends Feature {
         phraseantonin.add("T'es trop un roleplayer d'élite");
         phraseantonin.add("Merci pour tout ce que tu fais pour le serveur");
         phraseantonin.add("T'es trop beau et c'est pas un avis porter sur la rage ?");
-        phraseantonin.add("Kyrb est giga dep mais je te jure qu'il est cool en vrai");
     }
 
 

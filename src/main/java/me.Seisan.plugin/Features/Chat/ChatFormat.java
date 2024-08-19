@@ -2,6 +2,7 @@ package me.Seisan.plugin.Features.Chat;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerConfig;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.commands.anothers.PrefixCommand;
 import me.Seisan.plugin.Features.utils.Channel;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
@@ -34,6 +35,10 @@ public class ChatFormat extends Feature {
         PREFIX.add(prefix);
     }
 
+    public static List<String> getPrefix() {
+        return PREFIX;
+    }
+
     public void addExecutor(String prefix, EventExecutor eventExecutor) {
         Main.plugin().getServer().getPluginManager().registerEvent(AsyncPlayerChatEvent.class, this, EventPriority.LOW, eventExecutor, Main.plugin(), true);
         Main.log(Level.INFO, "Added chat format rule " + prefix);
@@ -43,6 +48,7 @@ public class ChatFormat extends Feature {
     private void addExecutor(String prefix, EventExecutor eventExecutor, String rule) {
         Main.plugin().getServer().getPluginManager().registerEvent(AsyncPlayerChatEvent.class, this, EventPriority.LOW, eventExecutor, Main.plugin(), true);
         Main.log(Level.INFO, "Added chat format rule for prefix " + prefix + " : \"" + rule + "\".");
+
     }
 
     public void removeExecutor(String prefix) {
@@ -101,7 +107,6 @@ public class ChatFormat extends Feature {
             public void execute(Listener listener, Event event) throws EventException {
                 AsyncPlayerChatEvent chatEvent = (AsyncPlayerChatEvent) event;
                 Player player = chatEvent.getPlayer();
-
                 // If message ends with ">", we store it in a map to send it all at once
                 String message = chatEvent.getMessage();
                 if (message.endsWith(">")) {
@@ -109,7 +114,9 @@ public class ChatFormat extends Feature {
                         // Remove the ">" at the end of the message
                         halfWrittenMessage.put(chatEvent.getPlayer(), halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
                     } else {
-                        halfWrittenMessage.put(chatEvent.getPlayer(), chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
+                      // First message of the serie here
+                        String messageWithSetupPrefix = PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1);
+                        halfWrittenMessage.put(chatEvent.getPlayer(), message);
                     }
                     chatEvent.setCancelled(true);
                 } else {
@@ -118,9 +125,14 @@ public class ChatFormat extends Feature {
                         halfWrittenMessage.remove(chatEvent.getPlayer());
                         chatEvent.setMessage(message);
                     }
+                  else {
+                    // If its the first message, add prefix command
+                      String messageWithSetupPrefix = PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage();
+                      chatEvent.setMessage(messageWithSetupPrefix);
+                  }
+                  if (innerChatFormater.isGoodPrefix(chatEvent.getMessage())) {
+                      chatEvent.setCancelled(true);
 
-                    if (innerChatFormater.isGoodPrefix(chatEvent)) {
-                        chatEvent.setCancelled(true);
                         FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
                     }
                 }
@@ -194,6 +206,8 @@ public class ChatFormat extends Feature {
         addRule("!?", "{range:100}{restricted:enca, color:AQUA}** %m");
         addRule("?:", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
         addRule(":?", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
+
+        addRule(":", "{range:-1, color:AQUA, foreveryworld:true}%m");
 
         /* Canal interstaff ou requête */
         addRule("$", "{range:-1, onlyfor:enca, foreveryworld:true}{color:#8A4000,commandonclick:@%a }<%a> %m");
@@ -551,7 +565,7 @@ public class ChatFormat extends Feature {
             this.prefix = prefix;
         }
 
-        private String getPrefix() {
+        public String getPrefix() {
             return prefix;
         }
 
@@ -616,8 +630,8 @@ public class ChatFormat extends Feature {
             this.chatElements.add(chatElement);
         }
 
-        private boolean isGoodPrefix(AsyncPlayerChatEvent event) {
-            String message = event.getMessage();
+
+        private boolean isGoodPrefix(String message) {
             if (message.toLowerCase().startsWith(meta.getPrefix())) {
                 return PREFIX.stream().noneMatch((s) -> (message.toLowerCase().startsWith(s) && s.length() > meta.getPrefix().length()));
             }
