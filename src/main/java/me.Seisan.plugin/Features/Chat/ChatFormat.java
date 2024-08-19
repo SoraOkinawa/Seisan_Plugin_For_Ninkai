@@ -106,7 +106,7 @@ public class ChatFormat extends Feature {
             @Override
             public void execute(Listener listener, Event event) throws EventException {
                 AsyncPlayerChatEvent chatEvent = (AsyncPlayerChatEvent) event;
-                Player player = chatEvent.getPlayer();
+
                 // If message ends with ">", we store it in a map to send it all at once
                 String message = chatEvent.getMessage();
                 if (message.endsWith(">")) {
@@ -114,9 +114,7 @@ public class ChatFormat extends Feature {
                         // Remove the ">" at the end of the message
                         halfWrittenMessage.put(chatEvent.getPlayer(), halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
                     } else {
-                        // First message of the serie here
-                        String messageWithSetupPrefix = PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1);
-                        halfWrittenMessage.put(chatEvent.getPlayer(), messageWithSetupPrefix);
+                        halfWrittenMessage.put(chatEvent.getPlayer(), chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
                     }
                     chatEvent.setCancelled(true);
                 } else {
@@ -124,14 +122,11 @@ public class ChatFormat extends Feature {
                         message = halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage();
                         halfWrittenMessage.remove(chatEvent.getPlayer());
                         chatEvent.setMessage(message);
-                    } else {
-                        // If its the first message, add prefix command
-                        String messageWithSetupPrefix = PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage();
-                        chatEvent.setMessage(messageWithSetupPrefix);
                     }
-                    if (innerChatFormater.isGoodPrefix(chatEvent.getMessage())) {
-                        chatEvent.setCancelled(true);
 
+                    if (innerChatFormater.isGoodPrefix(PrefixCommand.getPlayerDefaultPrefix(chatEvent.getPlayer()) + chatEvent.getMessage())) {
+                        chatEvent.setCancelled(true);
+                        chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(chatEvent.getPlayer()) + chatEvent.getMessage());
                         FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
                     }
                 }
