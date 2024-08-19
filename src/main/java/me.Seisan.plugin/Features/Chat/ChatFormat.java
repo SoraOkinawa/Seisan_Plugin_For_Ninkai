@@ -106,9 +106,10 @@ public class ChatFormat extends Feature {
             public void execute(Listener listener, Event event) throws EventException {
                 AsyncPlayerChatEvent chatEvent = (AsyncPlayerChatEvent) event;
                 Player player = chatEvent.getPlayer();
-                chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage());
-                if (innerChatFormater.isGoodPrefix(chatEvent)) {
+                String message = PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage();
+                if (innerChatFormater.isGoodPrefix(message)) {
                     chatEvent.setCancelled(true);
+                    chatEvent.setMessage(message);
                     FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
                 }
             }
@@ -603,8 +604,7 @@ public class ChatFormat extends Feature {
             this.chatElements.add(chatElement);
         }
 
-        private boolean isGoodPrefix(AsyncPlayerChatEvent event) {
-            String message = event.getMessage();
+        private boolean isGoodPrefix(String message) {
             if (message.toLowerCase().startsWith(meta.getPrefix())) {
                 return PREFIX.stream().noneMatch((s) -> (message.toLowerCase().startsWith(s) && s.length() > meta.getPrefix().length()));
             }
