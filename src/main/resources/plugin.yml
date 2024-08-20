@@ -118,7 +118,7 @@ commands:
   givecompetence:
     description: Permet de donner une compétence
   hrp:
-    description: Permet de give des petits items
+    description: Permet de give des items. Utilisation /hrp <clan>
   ryoji:
     description: Permet d'avoir des ryojis
   lostfuin:
