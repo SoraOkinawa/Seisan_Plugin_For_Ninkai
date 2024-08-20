@@ -86,26 +86,6 @@ public class SkillInventoryListener extends Feature {
                     }
                 }
             }
-        }else if(e.getClickedInventory() != null && e.getView().getTitle().startsWith("§8HRP : §7Don")) {
-            if (!(e.getWhoClicked() instanceof Player)) {
-                return;
-            }
-            e.setCancelled(true);
-            Player p = (Player) e.getWhoClicked();
-            int slot = e.getSlot();
-            if(slot >= 0 && slot < 27) {
-                Inventory inv = e.getClickedInventory();
-                if(e.getClickedInventory().getType() != InventoryType.CHEST) {
-                    return;
-                }
-                ItemStack item = inv.getItem(slot);
-                if(item == null || item.getType() == Material.AIR) {
-                    return;
-                }
-                p.getInventory().addItem(item);
-                p.sendMessage("§cHRP : §7Vous vous êtes give un item du /hrp. Attention aux abus !");
-                p.closeInventory();
-            }
         }else if(e.getClickedInventory() != null && e.getView().getTitle().startsWith("§8HRP : §7Poubelle")) {
             if (!(e.getWhoClicked() instanceof Player)) {
                 return;
