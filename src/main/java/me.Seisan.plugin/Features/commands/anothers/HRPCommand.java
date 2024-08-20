@@ -230,11 +230,6 @@ public class HRPCommand extends Command {
 
     }
 
-    private static Inventory openClanInventory(String clan, int page) {
-        // TODO
-        return null;
-    }
-
     public static Inventory getPoubelleInventory(Player p) {
         return Bukkit.createInventory(p, 9, "§8HRP : §7Poubelle §4(VOUS PERDEZ VOS ITEMS DEDANS)");
     }
@@ -244,7 +239,6 @@ public class HRPCommand extends Command {
     protected boolean isOpOnly() {
         return false;
     }
-
 
     public static void openItemMenu(Main plugin, String invName, Player p, List<ItemStack> items) {
 
