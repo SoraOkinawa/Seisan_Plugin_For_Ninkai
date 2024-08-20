@@ -30,7 +30,7 @@ public class MeditListener extends Feature {
             event.getPlayer().sendMessage("§cHRP : Interdiction de vous téléporter en méditation.");
         }
     }
-
+/*
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if(e.getEntity() instanceof Player) {
@@ -45,7 +45,7 @@ public class MeditListener extends Feature {
             }
         }
     }
-
+*/
     @EventHandler
     public void onInteractEvent(PlayerInteractEvent event) {
         if(!event.getPlayer().getWorld().getName().equals("meditation")) {

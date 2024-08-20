@@ -140,3 +140,5 @@ commands:
     description: Permet de rename
   warp:
     description: Permet de gérer les warp
+  prefix:
+    description: Permet d'utiliser un préfixe par défaut. Utilisation /prefix <prefixe>
