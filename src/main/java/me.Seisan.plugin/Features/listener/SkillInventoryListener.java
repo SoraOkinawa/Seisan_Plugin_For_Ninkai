@@ -75,7 +75,6 @@ public class SkillInventoryListener extends Feature {
                     return;
                 }
 
-
                 if (inv.getItem(slot) != null) {
                     if (e.getClickedInventory().getType() == InventoryType.CHEST) {
                         String skillName = inv.getItem(slot).getItemMeta().getDisplayName();
