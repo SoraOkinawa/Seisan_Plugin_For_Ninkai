@@ -37,14 +37,14 @@ public class HRPCommand extends Command {
 
             // /hrp : Ouvre le coffre HRP de base (Code Seisan de base)
             if (args.length == 0) {
-                openInventoryFromChest(p, "hrpMainChest", "§8HRP : §7Coffre HRP");
+                openInventoryFromChest(p, "hrpMainChest", "HRP", -1);
             }
             // /hrp clan : Ouvre le coffre HRP du clan de player
             else if (args.length == 1 && args[0].equalsIgnoreCase("clan")) {
                 //Get player's clan
                 String clan = PlayerInfo.getPlayerInfo(p).getClan().getName();
                 //Open the inventory
-                openInventoryFromChest(p, "hrpClanChest." + clan, "§8HRP : §7Coffre HRP du clan " + clan);
+                openInventoryFromChest(p, "hrpClanChest." + clan.toLowerCase(), clan, PlayerInfo.getPlayerInfo(p).getLvL(clan));
 
             }
             // /hrp poubelle : Ouvre la poubelle HRP (Code Seisan de base)
@@ -56,7 +56,7 @@ public class HRPCommand extends Command {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
-                    hrpConfig.set("hrpMainChest." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), true);
+                    hrpConfig.set("hrpMainChest." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), -1);
                     p.sendMessage(ChatColor.GREEN + "Coffre ajouté !");
                 } else {
                     p.sendMessage(ChatColor.RED + "Vous devez regarder un coffre !");
@@ -83,13 +83,13 @@ public class HRPCommand extends Command {
                 });
             }
 
-            // /hrp clan add <clan> : Ajoute un coffre aux coffres de HRP du clan
-            else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("add") && p.isOp()) {
+            // /hrp clan add <clan> <level> : Ajoute un coffre aux coffres de HRP du clan pour un niveau donné (MJ seulement)
+            else if (args.length == 4 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("add") && args[3].matches("[0-9]+") && p.isOp()) {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
 
-                    hrpConfig.set("hrpClanChest." + args[2] + "." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), true);
+                    hrpConfig.set("hrpClanChest." + args[2].toLowerCase() + "." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), Integer.parseInt(args[3]));
 
                     p.sendMessage(ChatColor.GREEN + "Coffre ajouté au clan " + args[2] + " !");
                 } else {
@@ -101,7 +101,7 @@ public class HRPCommand extends Command {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
-                    hrpConfig.set("hrpClanChest." + args[2] + "." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), null);
+                    hrpConfig.set("hrpClanChest." + args[2].toLowerCase() + "." + loc.getWorld().getName() + "/" + loc.getBlockX() + "/" + loc.getBlockY() + "/" + loc.getBlockZ(), null);
 
                     p.sendMessage(ChatColor.GREEN + "Coffre supprimé du clan " + args[2] + " !");
                 } else {
@@ -111,20 +111,20 @@ public class HRPCommand extends Command {
             // /hrp clan list <clan> : Liste les coordonnées des coffres de HRP du clan
             else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("list") && p.isOp()) {
                 p.sendMessage(ChatColor.GRAY + "Liste des coffres HRP du clan " + args[2] + " :");
-                hrpConfig.getKeys("hrpClanChest." + args[2], true).forEach(key -> {
-                    p.sendMessage(ChatColor.GRAY + " - " + key);
+                hrpConfig.getKeys("hrpClanChest." + args[2].toLowerCase(), true).forEach(key -> {
+                    p.sendMessage(ChatColor.GRAY + " - " + key + " : " + hrpConfig.getInt("hrpClanChest." + args[2] + "." + key) + " (niveau)");
                 });
             }
             // /hrp clan list : Liste les clans ayant des coffres HRP
             else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("list") && p.isOp()) {
                 p.sendMessage(ChatColor.GRAY + "Liste des clans ayant des coffres HRP :");
-                hrpConfig.getKeys("hrpClanChest", true).forEach(key -> {
+                hrpConfig.getKeys("hrpClanChest", false).forEach(key -> {
                     p.sendMessage(ChatColor.GRAY + " - " + key);
                 });
             }
-            // /hrp clan <clan>
+            // /hrp clan <clan> : Ouvre le coffre HRP du clan au level max
             else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && p.isOp()) {
-                openInventoryFromChest(p, "hrpClanChest." + args[1], "§8HRP : §7Coffre HRP du clan " + args[1]);
+                openInventoryFromChest(p, "hrpClanChest." + args[1].toLowerCase(), args[1], -1);
             } else {
                 p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan] [add|remove|list] [clan]");
             }
@@ -142,13 +142,12 @@ public class HRPCommand extends Command {
             completions.add("add");
             completions.add("remove");
             return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
-        } else if (args.length == 2 && args[0].equalsIgnoreCase("clan")) {
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && sender.isOp()) {
             List<String> completions = new ArrayList<>();
             completions.add("add");
             completions.add("remove");
             completions.add("list");
 
-            // MJ seulement
             for (Clan clan : Clan.values()) {
                 completions.add(clan.getName().toLowerCase());
             }
@@ -161,43 +160,52 @@ public class HRPCommand extends Command {
                 completions.add(clan.getName().toLowerCase());
             }
             return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());
+        } else if (args.length == 4) {
+            // Return 1 to 8
+            List<String> completions = new ArrayList<>();
+            for (int i = 1; i <= 8; i++) {
+                completions.add(String.valueOf(i));
+            }
+            return StringUtil.copyPartialMatches(args[3], completions, new ArrayList<>());
         }
         return Collections.emptyList();
     }
 
 
-    public static void openInventoryFromChest(Player p, String chestPath, String invName) {
-        chestPath = chestPath.toLowerCase();
+    public static void openInventoryFromChest(Player p, final String chestPath, String invName, final int level) {
         // Get every items on the chests
         List<ItemStack> items = new ArrayList<>();
         // Check if key exists
         if (!hrpConfig.isInConfig(chestPath)) {
-            p.sendMessage(ChatColor.RED + "Aucun coffre" + invName + "trouvé !");
+            p.sendMessage(ChatColor.RED + "Aucun coffre " + invName + " trouvé !");
             return;
         }
 
         hrpConfig.getKeys(chestPath, true).forEach(key -> {
-            Location loc = ItemUtil.stringToLocation(key);
-            Block b = loc.getBlock();
-            System.out.println("debug : " + b.getType() + " " + b.getLocation());
+            // Check if the value of the key is an int and if it's greater than the level
+            if (level == -1 || hrpConfig.getInt(chestPath + "." + key) <= level) {
+                ;
+                Location loc = ItemUtil.stringToLocation(key);
+                Block b = loc.getBlock();
 
-            if (loc.getBlock().getType() == Material.CHEST) {
+                if (loc.getBlock().getType() == Material.CHEST) {
 
-                Chest c = (Chest) b.getState();
+                    Chest c = (Chest) b.getState();
 
-                Inventory i = c.getBlockInventory();
+                    Inventory i = c.getBlockInventory();
 
-                Inventory iNeighbour = getNeighbourChest(c);
+                    Inventory iNeighbour = getNeighbourChest(c);
 
-                items.addAll(Arrays.asList(i.getContents()));
-                if (iNeighbour != null) {
-                    items.addAll(Arrays.asList(iNeighbour.getContents()));
+                    items.addAll(Arrays.asList(i.getContents()));
+                    if (iNeighbour != null) {
+                        items.addAll(Arrays.asList(iNeighbour.getContents()));
+                    }
                 }
             }
         });
 
         // Open the inventory
-        openItemMenu(Main.plugin(), invName, p, items);
+        openItemMenu(Main.plugin(), "§8HRP : §7Coffre HRP du " + invName, p, items);
 
     }
 
@@ -258,7 +266,7 @@ public class HRPCommand extends Command {
         for (ItemStack itemStack : items) {
             if (itemStack != null) {
                 group.addElement(
-                        (new StaticGuiElement('g', itemStack, 1,
+                        (new StaticGuiElement('g', itemStack, itemStack.getAmount(),
                                 click -> {
                                     p.getInventory().addItem(itemStack);
                                     return true;
