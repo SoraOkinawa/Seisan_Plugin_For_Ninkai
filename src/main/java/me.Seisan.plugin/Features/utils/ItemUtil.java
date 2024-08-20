@@ -7,6 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 
 import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
@@ -274,5 +275,11 @@ public class ItemUtil {
         } catch (ClassNotFoundException e) {
             throw new IOException("Unable to decode class type.", e);
         }
+    }
+
+    public static Location stringToLocation(String key) {
+        String[] split = key.split("/");
+        return new Location(Bukkit.getWorld(split[0]), Double.parseDouble(split[1]), Double.parseDouble(split[2]), Double.parseDouble(split[3]));
+
     }
 }
