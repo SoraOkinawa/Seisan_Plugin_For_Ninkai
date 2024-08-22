@@ -851,6 +851,7 @@ public class ChatFormat extends Feature {
                         if (pconfig.isChangechat()) { // Mira anchor
                             // Replace "{DIRECTION}" with the relative quadrant direction of the player compared to p
                             String direction = "";
+
                             if (sendDirection) {
                                 if (player.getLocation().getZ() < p.getLocation().getZ()) {
                                     if (player.getLocation().getX() < p.getLocation().getX()) {
@@ -875,7 +876,7 @@ public class ChatFormat extends Feature {
                                                 TextComponent textComponent = (TextComponent) baseComponent;
                                                 textComponent.setText(textComponent.getText().replace("{DIRECTION}", finalDirection));
                                                 textComponent.setColor(ChatColor.YELLOW);
-                                                //TODO : Pas de direction pour les gens en gm3
+                                                //TODO : Pas de direction pour les gens en vanish
 
                                             }
                                         });
