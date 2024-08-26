@@ -705,7 +705,7 @@ public class ChatFormat extends Feature {
                                             player.getDisplayName()
                                                     + " (" + player.getName() + ") - Âge : "
                                                     + PlayerInfo.getPlayerInfo(player).getAge()
-                                                    + "\nDirection : {DIRECTION}").color(ChatColor.YELLOW)
+                                                    + "{DIRECTION}").color(ChatColor.YELLOW)
 
                                             .create()));
                     break;
@@ -825,7 +825,6 @@ public class ChatFormat extends Feature {
             for (Player p : Main.plugin().getServer().getOnlinePlayers()) {
                 if (p.getWorld() == player.getWorld() || meta.isForEveryWorld()) {
                     boolean suitable = true;
-                    boolean sendDirection = p != player;
                     if (meta.getOnlyFor() != null) {
                         if (p != event.getPlayer()) {
                             // if(("mj".equals(meta.getOnlyFor()) && !Channel.isMJ(p)))
@@ -849,43 +848,11 @@ public class ChatFormat extends Feature {
                     if (suitable && (meta.isForEveryWorld() || p.getLocation().distanceSquared(location) < rangeSquared)) {
                         PlayerConfig pconfig = PlayerConfig.getPlayerConfig(p);
                         if (pconfig.isChangechat()) { // Mira anchor
-                            // Replace "{DIRECTION}" with the relative quadrant direction of the player compared to p
-                            String direction = "";
 
-                            if (sendDirection) {
-                                if (player.getLocation().getZ() < p.getLocation().getZ()) {
-                                    if (player.getLocation().getX() < p.getLocation().getX()) {
-                                        direction = "Nord-Ouest";
-                                    } else {
-                                        direction = "Nord-Est";
-                                    }
-                                } else {
-                                    if (player.getLocation().getX() > p.getLocation().getX()) {
-                                        direction = "Sud-Est";
-                                    } else {
-                                        direction = "Sud-Ouest";
-                                    }
-                                }
-                                for (int i = 0; i < arrayMessageNoItalic.length; i++) {
-                                    // on hover, we replace all "{DIRECTION}" by the relative quadrant direction of the player compared to p
-                                    if (arrayMessageNoItalic[i].getHoverEvent() != null && arrayMessageNoItalic[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
+                            //sendFinalMessage(arrayMessageNoItalic);
 
-                                        String finalDirection = direction;
-                                        Arrays.stream(arrayMessageNoItalic[i].getHoverEvent().getValue()).forEach(baseComponent -> {
-                                            if (baseComponent instanceof TextComponent) {
-                                                TextComponent textComponent = (TextComponent) baseComponent;
-                                                textComponent.setText(textComponent.getText().replace("{DIRECTION}", finalDirection));
-                                                textComponent.setColor(ChatColor.YELLOW);
-                                                //TODO : Pas de direction pour les gens en vanish
-
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                            p.spigot().sendMessage(arrayMessageNoItalic);
                         } else {
-                            if (sendDirection) {
+                            if (player.getUniqueId() != p.getUniqueId()) {
                                 // Replace "{DIRECTION}" with the relative quadrant direction of the player compared to p
                                 String direction = "";
                                 if (player.getLocation().getZ() < p.getLocation().getZ()) {
@@ -925,6 +892,48 @@ public class ChatFormat extends Feature {
             Main.log(Level.INFO, s);
         }
     }
+
+
+    private static void sendFinalMessage(Player sender, Player receiver, TextComponent[] message) {
+
+        if (sender.getUniqueId() != receiver.getUniqueId()) {
+            // Replace "{DIRECTION}" with the relative quadrant direction of the player compared to p
+            String direction = "";
+
+            if (sender.getLocation().getZ() < receiver.getLocation().getZ()) {
+                if (sender.getLocation().getX() < receiver.getLocation().getX()) {
+                    direction = "Nord-Ouest";
+                } else {
+                    direction = "Nord-Est";
+                }
+            } else {
+                if (sender.getLocation().getX() > receiver.getLocation().getX()) {
+                    direction = "Sud-Est";
+                } else {
+                    direction = "Sud-Ouest";
+                }
+            }
+            for (int i = 0; i < message.length; i++) {
+                // on hover, we replace all "{DIRECTION}" by the relative quadrant direction of the player compared to p
+                if (message[i].getHoverEvent() != null && message[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
+
+                    String finalDirection = "\nDirection :" + direction;
+                    Arrays.stream(message[i].getHoverEvent().getValue()).forEach(baseComponent -> {
+                        if (baseComponent instanceof TextComponent) {
+                            TextComponent textComponent = (TextComponent) baseComponent;
+                            textComponent.setText(textComponent.getText().replace("{DIRECTION}", finalDirection));
+                            textComponent.setColor(ChatColor.YELLOW);
+                            //TODO : Pas de direction pour les gens en vanish
+
+                        }
+                    });
+                }
+
+            }
+        }
+        receiver.spigot().sendMessage(message);
+    }
+
 
     public static boolean HasReallyAnAnimal(Player p) {
         boolean hasAnAnimal = false;
