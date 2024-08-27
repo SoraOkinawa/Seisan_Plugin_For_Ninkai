@@ -29,14 +29,12 @@ public class ChatFormat extends Feature {
     // Map of player to list their message ending with > to send everything at once
     private static Map<Player, String> halfWrittenMessage = new HashMap<>();
 
-
     private static void addPrefix(String prefix) {
         PREFIX.add(prefix);
     }
     public static List<String> getPrefix() {
         return PREFIX;
     }
-
 
     public void addExecutor(String prefix, EventExecutor eventExecutor) {
         Main.plugin().getServer().getPluginManager().registerEvent(AsyncPlayerChatEvent.class, this, EventPriority.LOW, eventExecutor, Main.plugin(), true);
@@ -105,7 +103,6 @@ public class ChatFormat extends Feature {
             @Override
             public void execute(Listener listener, Event event) throws EventException {
                 AsyncPlayerChatEvent chatEvent = (AsyncPlayerChatEvent) event;
-
 
                 // If message ends with ">", we store it in a map to send it all at once
                 String message = chatEvent.getMessage();
@@ -559,7 +556,6 @@ public class ChatFormat extends Feature {
             this.prefix = prefix;
         }
 
-
         public String getPrefix() {
             return prefix;
         }
@@ -624,7 +620,6 @@ public class ChatFormat extends Feature {
         private void _addChatElement(ChatElement chatElement) {
             this.chatElements.add(chatElement);
         }
-
 
 
         private boolean isGoodPrefix(String message) {
