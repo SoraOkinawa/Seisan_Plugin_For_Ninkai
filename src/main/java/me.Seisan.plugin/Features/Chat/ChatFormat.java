@@ -2,6 +2,7 @@ package me.Seisan.plugin.Features.Chat;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerConfig;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.commands.anothers.PrefixCommand;
 import me.Seisan.plugin.Features.utils.Channel;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
@@ -18,18 +19,24 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.EventExecutor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class ChatFormat extends Feature {
     private static List<String> PREFIX;
 
+    // Map of player to list their message ending with > to send everything at once
+    private static Map<Player, String> halfWrittenMessage = new HashMap<>();
+
+
     private static void addPrefix(String prefix) {
         PREFIX.add(prefix);
     }
+    public static List<String> getPrefix() {
+        return PREFIX;
+    }
+
 
     public void addExecutor(String prefix, EventExecutor eventExecutor) {
         Main.plugin().getServer().getPluginManager().registerEvent(AsyncPlayerChatEvent.class, this, EventPriority.LOW, eventExecutor, Main.plugin(), true);
@@ -40,6 +47,7 @@ public class ChatFormat extends Feature {
     private void addExecutor(String prefix, EventExecutor eventExecutor, String rule) {
         Main.plugin().getServer().getPluginManager().registerEvent(AsyncPlayerChatEvent.class, this, EventPriority.LOW, eventExecutor, Main.plugin(), true);
         Main.log(Level.INFO, "Added chat format rule for prefix " + prefix + " : \"" + rule + "\".");
+
     }
 
     public void removeExecutor(String prefix) {
@@ -97,10 +105,30 @@ public class ChatFormat extends Feature {
             @Override
             public void execute(Listener listener, Event event) throws EventException {
                 AsyncPlayerChatEvent chatEvent = (AsyncPlayerChatEvent) event;
-                Player player = chatEvent.getPlayer();
-                if (innerChatFormater.isGoodPrefix(chatEvent)) {
+
+
+                // If message ends with ">", we store it in a map to send it all at once
+                String message = chatEvent.getMessage();
+                if (message.endsWith(">")) {
+                    if (halfWrittenMessage.containsKey(chatEvent.getPlayer())) {
+                        // Remove the ">" at the end of the message
+                        halfWrittenMessage.put(chatEvent.getPlayer(), halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
+                    } else {
+                        halfWrittenMessage.put(chatEvent.getPlayer(), chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
+                    }
                     chatEvent.setCancelled(true);
-                    FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
+                } else {
+                    if (halfWrittenMessage.containsKey(chatEvent.getPlayer())) {
+                        message = halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage();
+                        halfWrittenMessage.remove(chatEvent.getPlayer());
+                        chatEvent.setMessage(message);
+                    }
+
+                    if (innerChatFormater.isGoodPrefix(PrefixCommand.getPlayerDefaultPrefix(chatEvent.getPlayer()) + chatEvent.getMessage())) {
+                        chatEvent.setCancelled(true);
+                        chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(chatEvent.getPlayer()) + chatEvent.getMessage());
+                        FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
+                    }
                 }
             }
         };
@@ -172,6 +200,8 @@ public class ChatFormat extends Feature {
         addRule("!?", "{range:100}{restricted:enca, color:AQUA}** %m");
         addRule("?:", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
         addRule(":?", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
+
+        addRule(":", "{range:-1, color:AQUA, foreveryworld:true}%m");
 
         /* Canal interstaff ou requête */
         addRule("$", "{range:-1, onlyfor:enca, foreveryworld:true}{color:#8A4000,commandonclick:@%a }<%a> %m");
@@ -529,7 +559,8 @@ public class ChatFormat extends Feature {
             this.prefix = prefix;
         }
 
-        private String getPrefix() {
+
+        public String getPrefix() {
             return prefix;
         }
 
@@ -594,8 +625,9 @@ public class ChatFormat extends Feature {
             this.chatElements.add(chatElement);
         }
 
-        private boolean isGoodPrefix(AsyncPlayerChatEvent event) {
-            String message = event.getMessage();
+
+
+        private boolean isGoodPrefix(String message) {
             if (message.toLowerCase().startsWith(meta.getPrefix())) {
                 return PREFIX.stream().noneMatch((s) -> (message.toLowerCase().startsWith(s) && s.length() > meta.getPrefix().length()));
             }
@@ -608,6 +640,7 @@ public class ChatFormat extends Feature {
             if (message.startsWith(" ")) {
                 message = message.substring(1);
             }
+
             event.setMessage(message);
             MutableMeta mutableMeta = new MutableMeta();
             if (meta.isTargetAdded()) {
@@ -701,6 +734,7 @@ public class ChatFormat extends Feature {
                                     new ComponentBuilder("{PLAYER-DATA}")
                                             .color(ChatColor.YELLOW)
                                             .create()));
+
                     break;
                 case TARGET:
                     Player target = Main.plugin().getServer().getPlayer(mutableMeta.getTarget());
@@ -844,6 +878,7 @@ public class ChatFormat extends Feature {
                             sendFinalMessage(player, p, arrayMessageNoItalic, playerConfig);
                         } else {
                             sendFinalMessage(player, p, arrayMessage, playerConfig);
+
                         }
                     }
                 }
@@ -949,17 +984,3 @@ public class ChatFormat extends Feature {
         return name;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

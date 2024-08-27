@@ -142,6 +142,11 @@ public class Config {
 
     public Set<String> getRootKeys(){ return yamlFile.getConfigurationSection("").getKeys(false);}
 
+    // Get keys
+    public Set<String> getKeys(String path, boolean deep) {
+        return yamlFile.getConfigurationSection(path).getKeys(deep);
+    }
+
     /**
      * Sets a given value to a given key and then physically save the file
      * @param key
