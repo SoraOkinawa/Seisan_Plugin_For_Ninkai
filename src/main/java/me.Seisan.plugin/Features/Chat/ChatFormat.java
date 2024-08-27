@@ -7,10 +7,7 @@ import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Features.Feature;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Content;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -701,12 +698,8 @@ public class ChatFormat extends Feature {
                     textComponent.setHoverEvent(
                             new HoverEvent(
                                     HoverEvent.Action.SHOW_TEXT,
-                                    new ComponentBuilder(
-                                            player.getDisplayName()
-                                                    + " (" + player.getName() + ") - Âge : "
-                                                    + PlayerInfo.getPlayerInfo(player).getAge()
-                                                    + "{DIRECTION}").color(ChatColor.YELLOW)
-
+                                    new ComponentBuilder("{PLAYER-DATA}")
+                                            .color(ChatColor.YELLOW)
                                             .create()));
                     break;
                 case TARGET:
@@ -847,43 +840,10 @@ public class ChatFormat extends Feature {
                     }
                     if (suitable && (meta.isForEveryWorld() || p.getLocation().distanceSquared(location) < rangeSquared)) {
                         PlayerConfig pconfig = PlayerConfig.getPlayerConfig(p);
-                        if (pconfig.isChangechat()) { // Mira anchor
-
-                            //sendFinalMessage(arrayMessageNoItalic);
-
+                        if (pconfig.isChangechat()) {
+                            sendFinalMessage(player, p, arrayMessageNoItalic, playerConfig);
                         } else {
-                            if (player.getUniqueId() != p.getUniqueId()) {
-                                // Replace "{DIRECTION}" with the relative quadrant direction of the player compared to p
-                                String direction = "";
-                                if (player.getLocation().getZ() < p.getLocation().getZ()) {
-                                    if (player.getLocation().getX() < p.getLocation().getX()) {
-                                        direction = "Nord-Ouest";
-                                    } else {
-                                        direction = "Nord-Est";
-                                    }
-                                } else {
-                                    if (player.getLocation().getX() > p.getLocation().getX()) {
-                                        direction = "Sud-Est";
-                                    } else {
-                                        direction = "Sud-Ouest";
-                                    }
-                                }
-                                for (int i = 0; i < arrayMessage.length; i++) {
-                                    // on hover, we replace all "{DIRECTION}" by the relative quadrant direction of the player compared to p
-                                    if (arrayMessageNoItalic[i].getHoverEvent() != null && arrayMessage[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
-
-                                        String finalDirection = direction;
-                                        Arrays.stream(arrayMessage[i].getHoverEvent().getValue()).forEach(baseComponent -> {
-                                            if (baseComponent instanceof TextComponent) {
-                                                TextComponent textComponent = (TextComponent) baseComponent;
-                                                textComponent.setText(textComponent.getText().replace("{DIRECTION}", finalDirection));
-                                                textComponent.setColor(ChatColor.YELLOW);
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                            p.spigot().sendMessage(arrayMessage);
+                            sendFinalMessage(player, p, arrayMessage, playerConfig);
                         }
                     }
                 }
@@ -894,44 +854,65 @@ public class ChatFormat extends Feature {
     }
 
 
-    private static void sendFinalMessage(Player sender, Player receiver, TextComponent[] message) {
+    private static void sendFinalMessage(Player sender, Player receiver, TextComponent[] message, PlayerConfig senderConfig) {
+        TextComponent[] messageCopied = message.clone();
+        // Replace "{DIRECTION}" with the relative quadrant direction of the player compared to p
+        String direction = "";
 
-        if (sender.getUniqueId() != receiver.getUniqueId()) {
-            // Replace "{DIRECTION}" with the relative quadrant direction of the player compared to p
-            String direction = "";
-
-            if (sender.getLocation().getZ() < receiver.getLocation().getZ()) {
-                if (sender.getLocation().getX() < receiver.getLocation().getX()) {
-                    direction = "Nord-Ouest";
-                } else {
-                    direction = "Nord-Est";
-                }
+        if (sender.getLocation().getZ() < receiver.getLocation().getZ()) {
+            if (sender.getLocation().getX() < receiver.getLocation().getX()) {
+                direction = "Nord-Ouest";
             } else {
-                if (sender.getLocation().getX() > receiver.getLocation().getX()) {
-                    direction = "Sud-Est";
-                } else {
-                    direction = "Sud-Ouest";
-                }
+                direction = "Nord-Est";
             }
-            for (int i = 0; i < message.length; i++) {
-                // on hover, we replace all "{DIRECTION}" by the relative quadrant direction of the player compared to p
-                if (message[i].getHoverEvent() != null && message[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
-
-                    String finalDirection = "\nDirection :" + direction;
-                    Arrays.stream(message[i].getHoverEvent().getValue()).forEach(baseComponent -> {
-                        if (baseComponent instanceof TextComponent) {
-                            TextComponent textComponent = (TextComponent) baseComponent;
-                            textComponent.setText(textComponent.getText().replace("{DIRECTION}", finalDirection));
-                            textComponent.setColor(ChatColor.YELLOW);
-                            //TODO : Pas de direction pour les gens en vanish
-
-                        }
-                    });
-                }
-
+        } else {
+            if (sender.getLocation().getX() > receiver.getLocation().getX()) {
+                direction = "Sud-Est";
+            } else {
+                direction = "Sud-Ouest";
             }
         }
-        receiver.spigot().sendMessage(message);
+
+        String printedDirection = ChatColor.WHITE + "\nDirection : " + direction;
+        if (sender.getUniqueId() == receiver.getUniqueId() || senderConfig.isVanish()) {
+            printedDirection = "";
+        }
+        for (int i = 0; i < messageCopied.length; i++) {
+            // on hover, we replace the hover action containing {PLAYER-DATA} by the relative quadrant direction of the player compared to p
+            if (messageCopied[i].getHoverEvent() != null && messageCopied[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
+                for (BaseComponent baseComponent : messageCopied[i].getHoverEvent().getValue()) {
+                    if (baseComponent instanceof TextComponent) {
+                        TextComponent textComponent = (TextComponent) baseComponent;
+
+                        if (textComponent.getText().contains("{PLAYER-DATA}")) {
+                            //Rebuild from scratch this part without the informations of the class
+                            //zuper
+
+                            TextComponent nameWithHover = new TextComponent();
+                            nameWithHover.setText(sender.getDisplayName());
+                            nameWithHover.setHoverEvent(
+                                    new HoverEvent(
+                                            HoverEvent.Action.SHOW_TEXT,
+                                            new ComponentBuilder(
+                                                    sender.getDisplayName()
+                                                            + " (" + sender.getName() + ") - Âge : "
+                                                            + PlayerInfo.getPlayerInfo(sender).getAge()
+                                                            + printedDirection)
+                                                    .color(ChatColor.YELLOW)
+                                                    .create()
+                                    )
+                            );
+
+
+                            messageCopied[i] = nameWithHover;
+                        }
+                    }
+                }
+            }
+        }
+
+        receiver.spigot().sendMessage(messageCopied);
+
     }
 
 
