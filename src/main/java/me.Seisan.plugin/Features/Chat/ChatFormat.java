@@ -903,7 +903,7 @@ public class ChatFormat extends Feature {
         }
 
         String printedDirection = ChatColor.WHITE + "\nDirection : " + direction;
-        if (sender.getUniqueId() == receiver.getUniqueId() || senderConfig.isVanish()) {
+        if (sender.getUniqueId() == receiver.getUniqueId() || senderConfig.isVanish() || sender.getWorld() != receiver.getWorld()) {
             printedDirection = "";
         }
         for (int i = 0; i < messageCopied.length; i++) {
