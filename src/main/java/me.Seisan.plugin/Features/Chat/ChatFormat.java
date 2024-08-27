@@ -873,7 +873,6 @@ public class ChatFormat extends Feature {
                             sendFinalMessage(player, p, arrayMessageNoItalic, playerConfig);
                         } else {
                             sendFinalMessage(player, p, arrayMessage, playerConfig);
-
                         }
                     }
                 }
