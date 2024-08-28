@@ -32,6 +32,7 @@ public class ChatFormat extends Feature {
     private static void addPrefix(String prefix) {
         PREFIX.add(prefix);
     }
+
     public static List<String> getPrefix() {
         return PREFIX;
     }
@@ -885,20 +886,26 @@ public class ChatFormat extends Feature {
 
     private static void sendFinalMessage(Player sender, Player receiver, TextComponent[] message, PlayerConfig senderConfig) {
         TextComponent[] messageCopied = message.clone();
-        // Replace "{DIRECTION}" with the relative quadrant direction of the player compared to p
         String direction = "";
 
-        if (sender.getLocation().getZ() < receiver.getLocation().getZ()) {
-            if (sender.getLocation().getX() < receiver.getLocation().getX()) {
-                direction = "Nord-Ouest";
-            } else {
-                direction = "Nord-Est";
-            }
-        } else {
-            if (sender.getLocation().getX() > receiver.getLocation().getX()) {
-                direction = "Sud-Est";
-            } else {
-                direction = "Sud-Ouest";
+        double x = receiver.getLocation().getX() - sender.getLocation().getX();
+        double z = receiver.getLocation().getZ() - sender.getLocation().getZ();
+        double norm = Math.sqrt(x * x + z * z);
+        if (norm != 0) {
+            x /= norm;
+            z /= norm;
+        }
+
+        String[] names = new String[]{"Ouest", "Nord-Ouest", "Nord", "Nord-Est", "Est", "Sud-Est", "Sud", "Sud-Ouest"};
+        double scalarProduct = 0;
+        for (int i = 0; i < 8; i++) {
+            double angle = i * Math.PI / 4;
+            double xDir = Math.cos(angle);
+            double zDir = Math.sin(angle);
+            double scalarProductTemp = x * xDir + z * zDir;
+            if (scalarProductTemp > scalarProduct) {
+                scalarProduct = scalarProductTemp;
+                direction = names[i];
             }
         }
 
