@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import me.Seisan.plugin.Features.commands.anothers.TechniqueMJCommand;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,6 +50,7 @@ public class Commands extends Feature {
         new JumpUpDownCommand().register();
         new WarpCommand().register();
         new PrefixCommand().register();
+        new TechniqueMJCommand().register();
 
         param.add("add");
         param.add("remove");
@@ -68,18 +71,16 @@ public class Commands extends Feature {
 
     public static void playerVanish(PlayerConfig pConfig) {
         String s;
-        if(pConfig.isVanish()) {
+        if (pConfig.isVanish()) {
             Main.plugin().getServer().getOnlinePlayers().forEach((p) -> {
-                if (!p.isOp())
-                {
+                if (!p.isOp()) {
                     p.hidePlayer(Main.plugin(), pConfig.getPlayer());
                 }
             });
             pConfig.getPlayer().sendMessage("§cHRP : §7Flouf, vous disparaissez.");
             pConfig.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 200000, 2, false, false));
             s = "[V] " + pConfig.getPlayer().getDisplayName();
-        }
-        else {
+        } else {
             pConfig.getPlayer().sendMessage("§cHRP : §7Pouf, vous apparaissez.");
             pConfig.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
             Main.plugin().getServer().getOnlinePlayers().forEach((p) -> p.showPlayer(Main.plugin(), pConfig.getPlayer()));
