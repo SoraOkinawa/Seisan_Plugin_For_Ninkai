@@ -12,11 +12,13 @@ import org.bukkit.inventory.ItemStack;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TechniquesDB {
-    public static void insertTechnique(String name, String nameInPlugin, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String publicDescription, String privateDescription, String mudras) {
+    public static void insertTechnique(String name, String nameInPlugin, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, ArrayList<String> commandList) {
         try {
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Techniques(name, nameInPlugin, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, public, itemType, level, publicDescription, privateDescription, mudras, \n) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Techniques(name, nameInPlugin, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, public, itemType, level, message, infoSup, lore, mudras, \n) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, name);
             pst.setString(2, nameInPlugin);
@@ -29,9 +31,15 @@ public class TechniquesDB {
             pst.setBoolean(9, _public);
             pst.setString(10, itemType);
             pst.setString(11, level);
-            pst.setString(12, publicDescription);
-            pst.setString(13, privateDescription);
-            pst.setString(14, mudras);
+            pst.setString(12, message);
+            pst.setString(13, infoSup);
+            pst.setString(14, lore);
+            pst.setString(15, mudras);
+            
+            String commandListString = "";
+            for (int i = 0; i < commandList.size(); i++)
+                commandListString += commandList.get(i) + (i < commandList.size() - 1 ? ";" : "");
+            pst.setString(16, commandListString);
 
             pst.executeUpdate();
             pst.close();
@@ -40,25 +48,32 @@ public class TechniquesDB {
         }
     }
 
-    public static void UpdateTechnique(String name, String nameInPlugin, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String publicDescription, String privateDescription, String mudras) {
+    public static void UpdateTechnique(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, ArrayList<String> commandList) {
         try {
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("UPDATE Techniques SET name = ?, enabled = ?, manaCost = ?, needMaster = ?, needTarget = ?, skillVisibility = ?, canBeFullMaster = ?, public = ?, itemType = ?, level = ?, publicDescription = ?, privateDescription = ?, mudras = ? WHERE nameInPlugin = ?");
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("UPDATE Techniques SET name = ?, category = ?, enabled = ?, manaCost = ?, needMaster = ?, needTarget = ?, skillVisibility = ?, canBeFullMaster = ?, public = ?, itemType = ?, level = ?, message = ?, infoSup = ?, lore = ?, mudras = ?, commandList = ? WHERE nameInPlugin = ?");
 
             pst.setString(1, name);
-            pst.setBoolean(2, enabled);
-            pst.setInt(3, manaCost);
-            pst.setBoolean(4, needMastery);
-            pst.setBoolean(5, needTarget);
-            pst.setBoolean(6, skillVisibility);
-            pst.setBoolean(7, canBeFullMaster);
-            pst.setBoolean(8, _public);
-            pst.setString(9, itemType);
-            pst.setString(10, level);
-            pst.setString(11, publicDescription);
-            pst.setString(12, privateDescription);
-            pst.setString(13, mudras);
-
-            pst.setString(14, nameInPlugin);
+            pst.setString(2, category);
+            pst.setBoolean(3, enabled);
+            pst.setInt(4, manaCost);
+            pst.setBoolean(5, needMastery);
+            pst.setBoolean(6, needTarget);
+            pst.setBoolean(7, skillVisibility);
+            pst.setBoolean(8, canBeFullMaster);
+            pst.setBoolean(9, _public);
+            pst.setString(10, itemType);
+            pst.setString(11, level);
+            pst.setString(12, message);
+            pst.setString(13, infoSup);
+            pst.setString(14, lore);
+            pst.setString(15, mudras);
+            String commandListString = "";
+            for (int i = 0; i < commandList.size(); i++)
+                commandListString += commandList.get(i) + (i < commandList.size() - 1 ? ";" : "");
+            pst.setString(16, commandListString);
+    
+    
+            pst.setString(17, nameInPlugin);
 
             pst.executeUpdate();
             pst.close();
@@ -99,18 +114,21 @@ public class TechniquesDB {
                 int manaCost = result.getInt("manaCost");
                 boolean needMastery = result.getBoolean("needMastery");
                 SkillLevel level = SkillLevel.getByCharName(result.getString("level"));
-                String publicDescription = result.getString("publicDescription");
-                String privateDescription = result.getString("privateDescription");
+                String message = result.getString("message");
+                String lore = result.getString("lore");
                 String mudras = result.getString("mudras");
-
+                
+                String commandArray[] = result.getString("commandList").split(";");
+                ArrayList<String> commandList = new ArrayList<>(Arrays.asList(commandArray));
+    
                 Material itemType = Material.getMaterial(result.getString("itemType")) != null ? Material.getMaterial(result.getString("itemType")) : Material.BOOK;
                 boolean needTarget = result.getBoolean("needTarget");
                 boolean canBeFullMaster = result.getBoolean("canBeFullMaster");
-                String infoSup = "";
+                String infoSup = result.getString("infoSup");
                 boolean skillVisibility = result.getBoolean("skillVisibility");
                 boolean _public = result.getBoolean("public");
-
-                return new Skill(name, nameInPlugin, manaCost, needMastery, level, publicDescription, privateDescription, mudras, null, itemType, needTarget, canBeFullMaster, infoSup, skillVisibility, _public);
+                
+                return new Skill(name, nameInPlugin, manaCost, needMastery, level, message, lore, mudras, commandList, itemType, needTarget, canBeFullMaster, infoSup, skillVisibility, _public);
             }
         } catch (SQLException e) {
             e.printStackTrace();
