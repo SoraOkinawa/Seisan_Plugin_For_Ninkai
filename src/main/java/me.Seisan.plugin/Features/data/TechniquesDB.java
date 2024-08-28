@@ -3,6 +3,7 @@ package me.Seisan.plugin.Features.data;
 import lombok.Getter;
 import me.Seisan.plugin.Features.PlayerData.Meditation;
 import me.Seisan.plugin.Features.skill.Skill;
+import me.Seisan.plugin.Features.skill.SkillLevel;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
 import org.bukkit.Material;
@@ -82,38 +83,38 @@ public class TechniquesDB {
         return insert;
     }
 
-//    public static Skill getTechnique(String nameInPlugin) {
-//        if (!isTechniqueInDb(nameInPlugin)) {
-//            return null;
-//        }
-//        try {
-//            PreparedStatement pst = Main.dbManager.getConnection()
-//                    .prepareStatement("SELECT * FROM Techniques WHERE nameInPlugin = ?");
-//            pst.setString(1, nameInPlugin);
-//
-//            pst.executeQuery();
-//            ResultSet result = pst.getResultSet();
-//
-//            if (result.next()) {
-//                String name = result.getString("name");
-//                boolean enabled = result.getBoolean("enabled");
-//                int manaCost = result.getInt("manaCost");
-//                boolean needMastery = result.getBoolean("needMastery");
-//                boolean needTarget = result.getBoolean("needTarget");
-//                boolean skillVisibility = result.getBoolean("skillVisibility");
-//                boolean canBeFullMaster = result.getBoolean("canBeFullMaster");
-//                boolean _public = result.getBoolean("public");
-//                String itemType = result.getString("itemType");
-//                String level = result.getString("level");
-//                String publicDescription = result.getString("publicDescription");
-//                String privateDescription = result.getString("privateDescription");
-//                String mudras = result.getString("mudras");
-//
-////                return new Skill(name, nameInPlugin, manaCost, needMastery, level, publicDescription, privateDescription);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    public static Skill GetAllTechniques() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection()
+                    .prepareStatement("SELECT * FROM Techniques WHERE enabled = ?");
+
+            pst.setBoolean(1, true);
+
+            pst.executeQuery();
+            ResultSet result = pst.getResultSet();
+
+            while (result.next()) {
+                String name = result.getString("name");
+                String nameInPlugin = result.getString("nameInPlugin");
+                int manaCost = result.getInt("manaCost");
+                boolean needMastery = result.getBoolean("needMastery");
+                SkillLevel level = SkillLevel.getByCharName(result.getString("level"));
+                String publicDescription = result.getString("publicDescription");
+                String privateDescription = result.getString("privateDescription");
+                String mudras = result.getString("mudras");
+
+                Material itemType = Material.getMaterial(result.getString("itemType")) != null ? Material.getMaterial(result.getString("itemType")) : Material.BOOK;
+                boolean needTarget = result.getBoolean("needTarget");
+                boolean canBeFullMaster = result.getBoolean("canBeFullMaster");
+                String infoSup = "";
+                boolean skillVisibility = result.getBoolean("skillVisibility");
+                boolean _public = result.getBoolean("public");
+
+                return new Skill(name, nameInPlugin, manaCost, needMastery, level, publicDescription, privateDescription, mudras, null, itemType, needTarget, canBeFullMaster, infoSup, skillVisibility, _public);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
