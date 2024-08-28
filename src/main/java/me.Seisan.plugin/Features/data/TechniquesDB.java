@@ -14,32 +14,44 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
 
 public class TechniquesDB {
-    public static void insertTechnique(String name, String nameInPlugin, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, ArrayList<String> commandList) {
+    public static void LoadTechniquesFromDB() {
+        Main.getSpigotLogger().info("Chargement des jutsu en base de données...");
+        
+        if (GetAllTechniques()) {
+            Main.getSpigotLogger().log(Level.SEVERE, "Chargement des techniques échoué. Veuillez vérifier la console pour plus d'informations.");
+        }
+        else {
+            Main.getSpigotLogger().log(Level.FINE, "Chargement des techniques réussi.");
+        }
+    }
+    
+    public static void insertTechnique(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, ArrayList<String> commandList) {
         try {
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Techniques(name, nameInPlugin, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, public, itemType, level, message, infoSup, lore, mudras, \n) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Techniques(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, public, itemType, level, message, infoSup, lore, mudras, commandList \n) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, name);
             pst.setString(2, nameInPlugin);
-            pst.setBoolean(3, enabled);
-            pst.setInt(4, manaCost);
-            pst.setBoolean(5, needMastery);
-            pst.setBoolean(6, needTarget);
-            pst.setBoolean(7, skillVisibility);
-            pst.setBoolean(8, canBeFullMaster);
-            pst.setBoolean(9, _public);
-            pst.setString(10, itemType);
-            pst.setString(11, level);
-            pst.setString(12, message);
-            pst.setString(13, infoSup);
-            pst.setString(14, lore);
-            pst.setString(15, mudras);
-            
+            pst.setString(3, category);
+            pst.setBoolean(4, enabled);
+            pst.setInt(5, manaCost);
+            pst.setBoolean(6, needMastery);
+            pst.setBoolean(7, needTarget);
+            pst.setBoolean(8, skillVisibility);
+            pst.setBoolean(9, canBeFullMaster);
+            pst.setBoolean(10, _public);
+            pst.setString(11, itemType);
+            pst.setString(12, level);
+            pst.setString(13, message);
+            pst.setString(14, infoSup);
+            pst.setString(15, lore);
+            pst.setString(16, mudras);
             String commandListString = "";
             for (int i = 0; i < commandList.size(); i++)
                 commandListString += commandList.get(i) + (i < commandList.size() - 1 ? ";" : "");
-            pst.setString(16, commandListString);
+            pst.setString(17, commandListString);
 
             pst.executeUpdate();
             pst.close();
@@ -98,7 +110,7 @@ public class TechniquesDB {
         return insert;
     }
 
-    public static Skill GetAllTechniques() {
+    public static boolean GetAllTechniques() {
         try {
             PreparedStatement pst = Main.dbManager.getConnection()
                     .prepareStatement("SELECT * FROM Techniques WHERE enabled = ?");
@@ -111,6 +123,7 @@ public class TechniquesDB {
             while (result.next()) {
                 String name = result.getString("name");
                 String nameInPlugin = result.getString("nameInPlugin");
+                String category = result.getString("category");
                 int manaCost = result.getInt("manaCost");
                 boolean needMastery = result.getBoolean("needMastery");
                 SkillLevel level = SkillLevel.getByCharName(result.getString("level"));
@@ -128,11 +141,12 @@ public class TechniquesDB {
                 boolean skillVisibility = result.getBoolean("skillVisibility");
                 boolean _public = result.getBoolean("public");
                 
-                return new Skill(name, nameInPlugin, manaCost, needMastery, level, message, lore, mudras, commandList, itemType, needTarget, canBeFullMaster, infoSup, skillVisibility, _public);
+                new Skill(name, nameInPlugin, category, manaCost, needMastery, level, message, lore, mudras, commandList, itemType, needTarget, canBeFullMaster, infoSup, skillVisibility, _public);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return null;
+        return true;
     }
 }

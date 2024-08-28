@@ -66,7 +66,7 @@ public class SkillLoader {
                 String infoSup = skillConfig.getString(skillName+ ".infoSup");
                 boolean targetVisibility = skillConfig.getBoolean(skillName+ ".skillVisibility");
                 boolean publique = skillConfig.getBoolean(skillName+".publique");
-                new Skill(name, nameInPlugin, manaCost, needMastery, level, message, lore, mudras, commandList, itemType, needTarget, canBeFullMaster, infoSup, targetVisibility, publique);
+                new Skill(name, nameInPlugin, "", manaCost, needMastery, level, message, lore, mudras, commandList, itemType, needTarget, canBeFullMaster, infoSup, targetVisibility, publique);
             }catch (Exception e){
                 System.out.println("[SeisanPlugin] La technique " + skillName + " est mal configurée ! Explication de l'erreur:");
                 e.printStackTrace();

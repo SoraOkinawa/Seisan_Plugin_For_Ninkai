@@ -63,7 +63,7 @@ public class Skill{
     @Getter
     private static ArrayList<Skill> instanceList = new ArrayList<>();
 
-    public Skill(String name, String nameInPlugin, int manaCost, boolean needMastery, SkillLevel level, String message, String lore, String mudras, ArrayList<String> commandList, Material itemType, boolean needTarget, boolean canBeFullMaster, String infosup, boolean skillVisibility, boolean publique){
+    public Skill(String name, String nameInPlugin, String category, int manaCost, boolean needMastery, SkillLevel level, String message, String lore, String mudras, ArrayList<String> commandList, Material itemType, boolean needTarget, boolean canBeFullMaster, String infosup, boolean skillVisibility, boolean publique){
         this.name = name;
         this.nameInPlugin = nameInPlugin;
         this.manaCost = manaCost;
@@ -71,8 +71,14 @@ public class Skill{
         this.level = level;
         this.message = message;
         this.mudras = mudras;
-        this.element = ChatColor.stripColor(name.split("-")[0]);
-        this.element = this.element.substring(0, this.element.length()-1);
+        
+        if (category == "") {
+            this.element = ChatColor.stripColor(name.split("-")[0]);
+            this.element = this.element.substring(0, this.element.length()-1);
+        }
+        else
+            this.element = category;
+        
         ChakraType chakraType = ChakraType.fromName(this.element);
         if(chakraType != ChakraType.NULL) {
             name = ChatColor.stripColor(name);
