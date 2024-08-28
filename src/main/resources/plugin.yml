@@ -3,7 +3,7 @@ author: Seisan
 version: '${project.version}'
 main: me.Seisan.plugin.Main
 api-version: 1.20
-depend: [Citizens, NBTAPI]
+depend: [ Citizens, NBTAPI ]
 commands:
   chatmaster:
     description: Permet de gerer les admins du chat
@@ -142,3 +142,5 @@ commands:
     description: Permet de gérer les warp
   prefix:
     description: Permet d'utiliser un préfixe par défaut. Utilisation /prefix <prefixe>
+  TechniqueMJ:
+    description: Permet d'utiliser une technique MJ
