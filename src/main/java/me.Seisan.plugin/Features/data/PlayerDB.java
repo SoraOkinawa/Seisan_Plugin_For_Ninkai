@@ -409,7 +409,7 @@ public class PlayerDB {
 
                 Main.loadingList.remove(p.getName());
                 p.sendMessage(ChatColor.DARK_GRAY + "Vos données ont été chargées correctement ! \n"
-                        + ChatColor.GRAY + "Bienvenue sur " + ChatColor.RED + "Seisan " + p.getDisplayName() + ChatColor.GRAY + ",\n" +
+                        + ChatColor.GRAY + "Bienvenue sur " + ChatColor.GREEN + "Ninkai " + p.getDisplayName() + ChatColor.GRAY + ",\n" +
                         ChatColor.GRAY + "Votre rang est: " + ChatColor.GOLD + rank.getDisplayName() + "\n" +
                         ChatColor.GRAY + "Votre clan est: " + ChatColor.GOLD + clan.getName() + "\n" +
                         ChatColor.GRAY + "Votre style de combat est: " + ChatColor.GOLD + styleCombat.getName());
