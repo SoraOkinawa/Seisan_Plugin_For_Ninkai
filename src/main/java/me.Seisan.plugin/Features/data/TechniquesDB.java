@@ -1,26 +1,31 @@
 package me.Seisan.plugin.Features.data;
 
-import lombok.Getter;
-import me.Seisan.plugin.Features.PlayerData.Meditation;
+import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Features.skill.SkillLevel;
-import me.Seisan.plugin.Features.utils.ItemUtil;
+import me.Seisan.plugin.Features.skill.SkillManager;
+import me.Seisan.plugin.Features.skill.SkillMastery;
 import me.Seisan.plugin.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 
 public class TechniquesDB {
     public static void LoadTechniquesFromDB() {
         Main.LOG.info("Chargement des jutsu en base de données...");
         
-        if (GetAllTechniques())
+        if (loadAllTechniques())
             Main.LOG.info("Chargement des techniques réussi.");
     }
     
@@ -105,7 +110,7 @@ public class TechniquesDB {
         return insert;
     }
 
-    public static boolean GetAllTechniques() {
+    public static boolean loadAllTechniques() {
         try {
             PreparedStatement pst = Main.dbManager.getConnection()
                     .prepareStatement("SELECT * FROM Techniques WHERE enabled = ?");
@@ -144,5 +149,103 @@ public class TechniquesDB {
             return false;
         }
         return true;
+    }
+
+    public static void reloadAllSkills(CommandSender p) {
+        HashMap<String, PlayerInfo> playerInfoList = (HashMap<String,PlayerInfo>) PlayerInfo.getInstanceList().clone();
+
+        SkillManager.setSkillEnabled(false);
+        if(p != null)
+            p.sendMessage(ChatColor.GRAY + "Sauvegarde des jutsus des joueurs connectés...");
+
+        HashMap<String, String> savedSkills = new HashMap<>();
+        for(PlayerInfo pInfo : playerInfoList.values()){
+            String s = "";
+            HashMap<Skill, SkillMastery> skillList = pInfo.getSkills();
+            if (pInfo.getPlayer().getOpenInventory().getTitle().startsWith("§")) {
+                pInfo.getPlayer().closeInventory();
+            }
+
+            if(skillList.size() > 0) {
+                for (Skill skill : skillList.keySet()) {
+                    SkillMastery mastery = skillList.get(skill);
+
+                    s = s.concat(skill.getNameInPlugin() + "," + mastery.getId() + ";");
+                }
+
+                if (s.length() > 0)
+                    s = s.substring(0, s.length() - 1);
+
+                s = s + "&";
+
+                for (Skill skill : pInfo.getFavoriteList()) {
+                    s = s.concat(skill.getNameInPlugin() + ",");
+                }
+
+                if (s.length() > 0) {
+                    s = s.substring(0, s.length() - 1);
+                    savedSkills.put(pInfo.getPlayer().getName(), s);
+                }
+            }
+        }
+
+        if(p != null)
+            p.sendMessage(ChatColor.GREEN + "Jutsus des joueurs connectés sauvegardés !\n" + ChatColor.GRAY + "Rechargement des jutsus...");
+
+        loadAllTechniques();
+
+        if(p != null)
+            p.sendMessage(ChatColor.GREEN + "Jutsus rechargés ! \n" + ChatColor.GRAY + "Restitution des jutsus aux joueurs...");
+
+        for(Map.Entry<String, String> entry : savedSkills.entrySet()){
+            String playerName = entry.getKey();
+            String playerSkills = entry.getValue();
+
+            Player player = Main.plugin().getServer().getPlayer(playerName);
+
+            HashMap<Skill, SkillMastery> skillList = new HashMap<>();
+            ArrayList<Skill> favoriteList = new ArrayList<>();
+
+            if(player != null){
+                PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
+
+                String skillListString = playerSkills;
+                String favoriteListString = "";
+
+                if(playerSkills.contains("&")) {
+                    skillListString = playerSkills.split("&")[0];
+                    favoriteListString = playerSkills.split("&")[1];
+                }
+
+                for(String skillString : skillListString.split(";")){
+                    String skillName = skillString.split(",")[0];
+                    String skillMastery = skillString.split(",")[1];
+
+                    Skill skill = Skill.getByPluginName(skillName);
+                    SkillMastery mastery = SkillMastery.getById(Integer.parseInt(skillMastery));
+                    if(skill != null){
+                        skillList.put(skill, mastery);
+                    }
+                }
+
+                for(String skillName : favoriteListString.split(",")){
+                    Skill skill = Skill.getByPluginName(skillName);
+                    if(skill != null){
+                        favoriteList.add(skill);
+                    }
+                }
+
+                pInfo.setSkills(skillList);
+                pInfo.setFavoriteList(favoriteList);
+                if(Main.getCurrentSelectSkill().containsKey(player.getName())) {
+                    Bukkit.getScheduler().cancelTask(Main.getCurrentSelectSkill().get(player.getName()));
+                    Main.getCurrentSelectSkill().remove(player.getName());
+                    pInfo.setCurrentSkill(null);
+                }
+            }
+        }
+
+        p.sendMessage(ChatColor.GREEN + "Fin du rechargement des jutsus !");
+        SkillManager.setSkillEnabled(true);
     }
 }
