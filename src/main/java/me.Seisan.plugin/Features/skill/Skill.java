@@ -355,8 +355,9 @@ public class Skill{
                 pInfo.increaseBonus(skill);
                 success = false;
                 break;
-
         }
+        Main.dbManager.getPlayerDB().updatePlayerMastery(pInfo);
+
         return success;
     }
 
