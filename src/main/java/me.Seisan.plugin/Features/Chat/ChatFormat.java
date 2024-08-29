@@ -8,10 +8,8 @@ import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Features.Feature;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.hover.content.Content;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -726,7 +724,13 @@ public class ChatFormat extends Feature {
                 case NAME:
                     Player player = event.getPlayer();
                     textComponent.setText(player.getDisplayName());
-                    textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(player.getDisplayName() + " (" + player.getName() + ") - Âge : " + PlayerInfo.getPlayerInfo(player).getAge()).color(ChatColor.YELLOW).create()));
+                    textComponent.setHoverEvent(
+                            new HoverEvent(
+                                    HoverEvent.Action.SHOW_TEXT,
+                                    new ComponentBuilder("{PLAYER-DATA}")
+                                            .color(ChatColor.YELLOW)
+                                            .create()));
+
                     break;
                 case TARGET:
                     Player target = Main.plugin().getServer().getPlayer(mutableMeta.getTarget());
@@ -867,9 +871,9 @@ public class ChatFormat extends Feature {
                     if (suitable && (meta.isForEveryWorld() || p.getLocation().distanceSquared(location) < rangeSquared)) {
                         PlayerConfig pconfig = PlayerConfig.getPlayerConfig(p);
                         if (pconfig.isChangechat()) {
-                            p.spigot().sendMessage(arrayMessageNoItalic);
+                            sendFinalMessage(player, p, arrayMessageNoItalic, playerConfig);
                         } else {
-                            p.spigot().sendMessage(arrayMessage);
+                            sendFinalMessage(player, p, arrayMessage, playerConfig);
                         }
                     }
                 }
@@ -878,6 +882,75 @@ public class ChatFormat extends Feature {
             Main.log(Level.INFO, s);
         }
     }
+
+
+    private static void sendFinalMessage(Player sender, Player receiver, TextComponent[] message, PlayerConfig senderConfig) {
+        TextComponent[] messageCopied = message.clone();
+        String direction = "";
+
+        double x = receiver.getLocation().getX() - sender.getLocation().getX();
+        double z = receiver.getLocation().getZ() - sender.getLocation().getZ();
+        double norm = Math.sqrt(x * x + z * z);
+        if (norm != 0) {
+            x /= norm;
+            z /= norm;
+        }
+
+        String[] names = new String[]{"Ouest", "Nord-Ouest", "Nord", "Nord-Est", "Est", "Sud-Est", "Sud", "Sud-Ouest"};
+        double scalarProduct = 0;
+        for (int i = 0; i < 8; i++) {
+            double angle = i * Math.PI / 4;
+            double xDir = Math.cos(angle);
+            double zDir = Math.sin(angle);
+            double scalarProductTemp = x * xDir + z * zDir;
+            if (scalarProductTemp > scalarProduct) {
+                scalarProduct = scalarProductTemp;
+                direction = names[i];
+            }
+        }
+
+        String printedDirection = ChatColor.WHITE + "\nDirection : " + direction;
+        if (sender.getUniqueId() == receiver.getUniqueId() || senderConfig.isVanish() || sender.getWorld() != receiver.getWorld()) {
+            printedDirection = "";
+        }
+        for (int i = 0; i < messageCopied.length; i++) {
+            // on hover, we replace the hover action containing {PLAYER-DATA} by the relative quadrant direction of the player compared to p
+            if (messageCopied[i].getHoverEvent() != null && messageCopied[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
+                for (BaseComponent baseComponent : messageCopied[i].getHoverEvent().getValue()) {
+                    if (baseComponent instanceof TextComponent) {
+                        TextComponent textComponent = (TextComponent) baseComponent;
+
+                        if (textComponent.getText().contains("{PLAYER-DATA}")) {
+                            //Rebuild from scratch this part without the informations of the class
+                            //zuper
+
+                            TextComponent nameWithHover = new TextComponent();
+                            nameWithHover.setText(sender.getDisplayName());
+                            nameWithHover.setHoverEvent(
+                                    new HoverEvent(
+                                            HoverEvent.Action.SHOW_TEXT,
+                                            new ComponentBuilder(
+                                                    sender.getDisplayName()
+                                                            + " (" + sender.getName() + ") - Âge : "
+                                                            + PlayerInfo.getPlayerInfo(sender).getAge()
+                                                            + printedDirection)
+                                                    .color(ChatColor.YELLOW)
+                                                    .create()
+                                    )
+                            );
+
+
+                            messageCopied[i] = nameWithHover;
+                        }
+                    }
+                }
+            }
+        }
+
+        receiver.spigot().sendMessage(messageCopied);
+
+    }
+
 
     public static boolean HasReallyAnAnimal(Player p) {
         boolean hasAnAnimal = false;
