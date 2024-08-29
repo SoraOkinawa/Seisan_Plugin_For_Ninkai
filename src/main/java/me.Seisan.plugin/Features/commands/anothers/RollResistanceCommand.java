@@ -3,6 +3,7 @@ package me.Seisan.plugin.Features.commands.anothers;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.objectnum.RPRank;
 import me.Seisan.plugin.Features.skill.SkillLevel;
+import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Main.Command    ;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -59,7 +60,7 @@ public class RollResistanceCommand extends Command {
                 target.sendMessage(ChatColor.GRAY + "[ROLL RESISTANCE CHAKRAIQUE - "+type+" - §6["+skillLevel.getCharName()+"]§7] " + ChatColor.RESET + p.getDisplayName() + ChatColor.GRAY + " a tiré un " + resultat + ".*");
             }
         }
-        System.out.println(ChatColor.GRAY + "[ROLL RESISTANCE CHAKRAIQUE - "+type+"- §6["+skillLevel.getCharName()+"]§7] " + ChatColor.RESET + p.getDisplayName() + ChatColor.GRAY + " a tiré un " + resultat + ".*");
+        Main.LOG.info(ChatColor.GRAY + "[ROLL RESISTANCE CHAKRAIQUE - "+type+"- §6["+skillLevel.getCharName()+"]§7] " + ChatColor.RESET + p.getDisplayName() + ChatColor.GRAY + " a tiré un " + resultat + ".*");
         p.sendMessage(ChatColor.GRAY + "[ROLL RESISTANCE CHAKRAIQUE - "+type+"- §6["+skillLevel.getCharName()+"]§7] " + ChatColor.RESET + p.getDisplayName() + ChatColor.GRAY + " a tiré un " + resultat + ".*");
     }
 

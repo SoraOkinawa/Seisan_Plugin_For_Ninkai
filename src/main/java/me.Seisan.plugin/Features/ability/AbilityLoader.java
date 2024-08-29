@@ -29,7 +29,7 @@ public class AbilityLoader {
         if(!enabledAbility.isEmpty()){
             readFile(abilityConfig, enabledAbility);
         }else{
-            System.out.println("[SeisanPlugin] Aucune compétence n'a été activée car la liste est vide !");
+            Main.LOG.info("Aucune compétence n'a été activée car la liste est vide !");
             Bukkit.shutdown();
         }
     }
@@ -73,7 +73,7 @@ public class AbilityLoader {
               //  saveBDD(name, nameInPlugin, itemType.getKey().getKey(), description, tagkey, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore);
                 new Ability(name, nameInPlugin, itemType, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, resistance, givenJutsu);
             }catch (Exception e){
-                System.out.println("[SeisanPlugin] La compétence " + abilityName + " est mal configurée ! Explication de l'erreur:");
+                Main.LOG.info("La compétence " + abilityName + " est mal configurée ! Explication de l'erreur:");
                 e.printStackTrace();
                 return false;
             }
@@ -120,7 +120,6 @@ public class AbilityLoader {
             pst.setString(12, givenAbilities); //Age
             pst.setString(13, giveAbilities); //Apparence
             pst.setString(14, lore); // Voie Ninja
-            System.out.println("oui");
             pst.executeUpdate();
             pst.close();
         }catch (SQLException e){

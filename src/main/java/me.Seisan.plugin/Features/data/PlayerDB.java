@@ -184,7 +184,7 @@ public class PlayerDB {
                 String name = result.getString("name");
                 Main.getFicheMJ().put(name, loadPlayerInfo(name, result));
             }
-            System.out.println(Main.getFicheMJ().size()+" fiches personnages ont été chargées.");
+            Main.LOG.info(Main.getFicheMJ().size()+" fiches personnages ont été chargées.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

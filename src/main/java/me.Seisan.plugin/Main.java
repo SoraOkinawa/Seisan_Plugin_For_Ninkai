@@ -158,7 +158,7 @@ public class Main extends JavaPlugin {
         new ProfilRegister().register();
         new OthersCommandRegister().register();
 //        new Routines().register();
-        System.out.println("---> Enabling SeisanPlugin <---");
+        LOG.info("---> Enabling SeisanPluginForNinkai <---");
         serverOpen = true;
         spigotLogger = Bukkit.getLogger();
 

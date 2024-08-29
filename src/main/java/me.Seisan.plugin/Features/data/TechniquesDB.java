@@ -18,14 +18,10 @@ import java.util.logging.Level;
 
 public class TechniquesDB {
     public static void LoadTechniquesFromDB() {
-        Main.getSpigotLogger().info("Chargement des jutsu en base de données...");
+        Main.LOG.info("Chargement des jutsu en base de données...");
         
-        if (GetAllTechniques()) {
-            Main.getSpigotLogger().log(Level.SEVERE, "Chargement des techniques échoué. Veuillez vérifier la console pour plus d'informations.");
-        }
-        else {
-            Main.getSpigotLogger().log(Level.FINE, "Chargement des techniques réussi.");
-        }
+        if (GetAllTechniques())
+            Main.LOG.info("Chargement des techniques réussi.");
     }
     
     public static void insertTechnique(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, ArrayList<String> commandList) {
@@ -83,8 +79,7 @@ public class TechniquesDB {
             for (int i = 0; i < commandList.size(); i++)
                 commandListString += commandList.get(i) + (i < commandList.size() - 1 ? ";" : "");
             pst.setString(16, commandListString);
-    
-    
+
             pst.setString(17, nameInPlugin);
 
             pst.executeUpdate();
@@ -145,6 +140,7 @@ public class TechniquesDB {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            Main.LOG.log(Level.SEVERE, "Chargement des techniques échoué. Veuillez vérifier la console pour plus d'informations.");
             return false;
         }
         return true;

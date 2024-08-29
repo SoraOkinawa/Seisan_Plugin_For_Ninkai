@@ -108,7 +108,7 @@ public class MeditationArea extends Feature {
     public static void addInventory(Player p, ItemStack[] inventory){
         Meditation m = Meditation.getMeditationFromUUID(p.getUniqueId().toString());
         if(m == null)  {
-            System.out.println("AAAA");
+            Main.LOG.info("AAAA");
             return;
         }
         m.setInventory(ItemUtil.itemStackArrayToBase64(inventory));
