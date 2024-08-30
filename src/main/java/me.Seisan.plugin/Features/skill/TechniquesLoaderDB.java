@@ -1,4 +1,4 @@
-package me.Seisan.plugin.Features.data;
+package me.Seisan.plugin.Features.skill;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.skill.Skill;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class TechniquesDB {
+public class TechniquesLoaderDB {
     public static void LoadTechniquesFromDB() {
         Main.LOG.info("Chargement des jutsu en base de données...");
         
@@ -192,6 +192,7 @@ public class TechniquesDB {
         if(p != null)
             p.sendMessage(ChatColor.GREEN + "Jutsus des joueurs connectés sauvegardés !\n" + ChatColor.GRAY + "Rechargement des jutsus...");
 
+        Skill.getInstanceList().clear();
         loadAllTechniques();
 
         if(p != null)
