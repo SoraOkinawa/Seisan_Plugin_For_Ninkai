@@ -25,7 +25,7 @@ public class MeditListener extends Feature {
     @EventHandler
     public void onTP(PlayerTeleportEvent event) {
         String name = event.getPlayer().getName();
-        if(Main.getInMedit().containsKey(name) && !event.getPlayer().isOp()) {
+        if(Main.getInMedit().contains(name) && !event.getPlayer().isOp()) {
             event.setCancelled(true);
             event.getPlayer().sendMessage("§cHRP : Interdiction de vous téléporter en méditation.");
         }

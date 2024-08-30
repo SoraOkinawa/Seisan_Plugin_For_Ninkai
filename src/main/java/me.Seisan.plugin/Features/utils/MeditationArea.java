@@ -70,27 +70,27 @@ public class MeditationArea extends Feature {
 
         p.sendMessage("§cHRP : §7Création de la bulle à 0%...");
         for(int x = xborder; x < xborder+65; x++) {
-            for(int y = 1; y < 255; y++) {
+            for(int y = -64; y < 320; y++) {
                 w.getBlockAt(x, y, zborder).setType(Material.BARRIER);
             }
         }
         p.sendMessage("§cHRP : §7Création de la bulle à 20%...");
         for(int x = xborder; x < xborder+65; x++) {
-            for(int y = 1; y < 255; y++) {
+            for(int y = -64; y < 320; y++) {
                 w.getBlockAt(x, y, zborder+65).setType(Material.BARRIER);
             }
         }
 
         p.sendMessage("§cHRP : §7Création de la bulle à 40%...");
         for(int z = zborder; z < zborder+65; z++) {
-            for(int y = 1; y < 255; y++) {
+            for(int y = -64; y < 320; y++) {
                 w.getBlockAt(xborder, y, z).setType(Material.BARRIER);
             }
         }
 
         p.sendMessage("§cHRP : §7Création de la bulle à 60%...");
         for(int z = zborder; z < zborder+65; z++) {
-            for(int y = 1; y < 255; y++) {
+            for(int y = -64; y < 320; y++) {
                 w.getBlockAt(xborder+65, y, z).setType(Material.BARRIER);
             }
         }
@@ -98,7 +98,13 @@ public class MeditationArea extends Feature {
         p.sendMessage("§cHRP : §7Création de la bulle à 80%...");
         for(int x = xborder; x < xborder+65;x++) {
             for(int z = zborder; z < zborder+65; z++) {
-                w.getBlockAt(x, 254, z).setType(Material.BARRIER);
+                w.getBlockAt(x, 320, z).setType(Material.BARRIER);
+            }
+        }
+        p.sendMessage("§cHRP : §7Création de la bulle à 90%...");
+        for(int x = xborder; x < xborder+65;x++) {
+            for(int z = zborder; z < zborder+65; z++) {
+                w.getBlockAt(x, -64, z).setType(Material.BARRIER);
             }
         }
 

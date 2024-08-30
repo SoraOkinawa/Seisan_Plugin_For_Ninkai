@@ -59,7 +59,7 @@ public class Main extends JavaPlugin {
     public static HashMap<String, PlayerInfo> ficheMJ = new HashMap<>();
 
     @Getter
-    public static HashMap<String, Integer> inMedit = new HashMap<>();
+    public static List<String> inMedit = new ArrayList<>();
 
     @Getter
     public static HashMap<String, String> inBulleMedit = new HashMap<>();
