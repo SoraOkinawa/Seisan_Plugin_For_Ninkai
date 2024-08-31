@@ -136,7 +136,7 @@ public class PlayerDB {
                 pst.setString(26, pInfo.getOldpos());
                 pst.setInt(27, pInfo.getGender().getId());
                 pst.setInt(28, pInfo.getFuin_paper());
-                pst.setInt(28, pInfo.getFuin_uzumaki());
+                pst.setInt(29, pInfo.getFuin_uzumaki());
                 pst.setInt(30, pInfo.getFuin_lastday());
                 pst.setInt(31, pInfo.getMaskprofil());
                 pst.setInt(32, pInfo.getReduc_ninjutsu());

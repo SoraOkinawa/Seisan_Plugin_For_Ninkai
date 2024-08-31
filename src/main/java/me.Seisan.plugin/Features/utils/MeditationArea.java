@@ -26,7 +26,7 @@ public class MeditationArea extends Feature {
 
     private static int getXinit() {
         int xinit = -641;
-        if(config.isInConfig("xinit")) {
+        if (config.isInConfig("xinit")) {
             xinit = config.getInt("xinit");
         }
         return xinit;
@@ -35,27 +35,27 @@ public class MeditationArea extends Feature {
 
     private static int getZinit() {
         int zinit = 127;
-        if(config.isInConfig("zinit")) {
+        if (config.isInConfig("zinit")) {
             zinit = config.getInt("zinit");
         }
         return zinit;
     }
 
 
-    public static void initMeditation(Meditation m){
+    public static void initMeditation(Meditation m) {
         Player p = Bukkit.getPlayer(UUID.fromString(m.getNameplayer()));
-        if(p == null) return;
+        if (p == null) return;
         int xborder = xinit;
         int zborder = zinit;
         m.setXborder(xborder);
         m.setZborder(zborder);
-        m.setXspawn(xinit+5);
+        m.setXspawn(xinit + 5);
         m.setYspawn(2.5);
-        m.setZspawn(zinit+5);
+        m.setZspawn(zinit + 5);
         m.setHasmedit(true);
 
         xinit += 80;
-        if(xinit == 719) {
+        if (xinit == 719) {
             xinit = -641;
             zinit += 80;
         }
@@ -69,51 +69,57 @@ public class MeditationArea extends Feature {
         assert w != null;
 
         p.sendMessage("§cHRP : §7Création de la bulle à 0%...");
-        for(int x = xborder; x < xborder+65; x++) {
-            for(int y = -64; y < 320; y++) {
+        for (int x = xborder; x < xborder + 65; x++) {
+            for (int y = -64; y < 320; y++) {
                 w.getBlockAt(x, y, zborder).setType(Material.BARRIER);
             }
         }
         p.sendMessage("§cHRP : §7Création de la bulle à 20%...");
-        for(int x = xborder; x < xborder+65; x++) {
-            for(int y = -64; y < 320; y++) {
-                w.getBlockAt(x, y, zborder+65).setType(Material.BARRIER);
+        for (int x = xborder; x < xborder + 65; x++) {
+            for (int y = -64; y < 320; y++) {
+                w.getBlockAt(x, y, zborder + 65).setType(Material.BARRIER);
             }
         }
 
         p.sendMessage("§cHRP : §7Création de la bulle à 40%...");
-        for(int z = zborder; z < zborder+65; z++) {
-            for(int y = -64; y < 320; y++) {
+        for (int z = zborder; z < zborder + 65; z++) {
+            for (int y = -64; y < 320; y++) {
                 w.getBlockAt(xborder, y, z).setType(Material.BARRIER);
             }
         }
 
         p.sendMessage("§cHRP : §7Création de la bulle à 60%...");
-        for(int z = zborder; z < zborder+65; z++) {
-            for(int y = -64; y < 320; y++) {
-                w.getBlockAt(xborder+65, y, z).setType(Material.BARRIER);
+        for (int z = zborder; z < zborder + 65; z++) {
+            for (int y = -64; y < 320; y++) {
+                w.getBlockAt(xborder + 65, y, z).setType(Material.BARRIER);
             }
         }
 
         p.sendMessage("§cHRP : §7Création de la bulle à 80%...");
-        for(int x = xborder; x < xborder+65;x++) {
-            for(int z = zborder; z < zborder+65; z++) {
+        for (int x = xborder; x < xborder + 65; x++) {
+            for (int z = zborder; z < zborder + 65; z++) {
                 w.getBlockAt(x, 320, z).setType(Material.BARRIER);
             }
         }
         p.sendMessage("§cHRP : §7Création de la bulle à 90%...");
-        for(int x = xborder; x < xborder+65;x++) {
-            for(int z = zborder; z < zborder+65; z++) {
+        for (int x = xborder; x < xborder + 65; x++) {
+            for (int z = zborder; z < zborder + 65; z++) {
                 w.getBlockAt(x, -64, z).setType(Material.BARRIER);
+            }
+        }
+        p.sendMessage("§cHRP : §7Création de la bulle à 95%...");
+        for (int x = xborder+1; x < xborder + 10; x++) {
+            for (int z = zborder+1; z < zborder + 10; z++) {
+                w.getBlockAt(x, 2, z).setType(Material.GRASS_BLOCK);
             }
         }
 
         p.sendMessage("§cHRP : §7Création de la bulle à 100%...");
     }
 
-    public static void addInventory(Player p, ItemStack[] inventory){
+    public static void addInventory(Player p, ItemStack[] inventory) {
         Meditation m = Meditation.getMeditationFromUUID(p.getUniqueId().toString());
-        if(m == null)  {
+        if (m == null) {
             System.out.println("AAAA");
             return;
         }
@@ -123,7 +129,7 @@ public class MeditationArea extends Feature {
 
     public static ItemStack[] getInventory(Player p) throws IOException {
         Meditation m = Meditation.getMeditationFromUUID(p.getUniqueId().toString());
-        if(m == null)
+        if (m == null)
             return null;
         return ItemUtil.itemStackArrayFromBase64(m.getInventory());
     }
@@ -133,16 +139,14 @@ public class MeditationArea extends Feature {
         ItemStack[] new_inv = null;
         try {
             new_inv = getInventory(p);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         addInventory(p, old_inv);
-        if(new_inv == null) {
+        if (new_inv == null) {
             p.getInventory().clear();
-        }
-        else {
+        } else {
             p.getInventory().setContents(new_inv);
         }
     }
@@ -155,7 +159,7 @@ public class MeditationArea extends Feature {
         int y = l.getBlockY();
         int z = l.getBlockZ();
         Meditation meditation = Meditation.getMeditationFromUUID(uuid);
-        if(meditation == null) {
+        if (meditation == null) {
             p.sendMessage("§cHRP : §7Erreur lors du /setspawn");
             return;
         }
@@ -169,7 +173,7 @@ public class MeditationArea extends Feature {
     public static Location getSpawn(Meditation m) {
 
         World w = Bukkit.getWorld("meditation");
-        if(w == null || m == null) {
+        if (w == null || m == null) {
             return null;
         }
 
@@ -183,7 +187,7 @@ public class MeditationArea extends Feature {
 
         Meditation meditation = Meditation.getMeditationFromUUID(uuid);
         World w = Bukkit.getWorld("meditation");
-        if(w == null || meditation == null) {
+        if (w == null || meditation == null) {
             return null;
         }
 
