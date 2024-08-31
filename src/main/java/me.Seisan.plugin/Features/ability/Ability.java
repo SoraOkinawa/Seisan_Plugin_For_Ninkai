@@ -36,8 +36,6 @@ public class Ability {
     @Getter
     private boolean giveAllowed;
     @Getter
-    private int resistance;
-    @Getter
     private String givenJutsu;
     @Getter
     private String lore;
@@ -45,7 +43,7 @@ public class Ability {
     @Getter
     public static ArrayList<Ability> instanceList = new ArrayList<>();
 
-    public Ability(String name, String nameInPlugin, Material itemType, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore, boolean giveAllowed, int resistance, String givenJutsu){
+    public Ability(String name, String nameInPlugin, Material itemType, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore, boolean giveAllowed, String givenJutsu){
         this.name = name;
         this.nameInPlugin = nameInPlugin;
         this.lore = lore == null || lore.equals("") || lore.equals(" ") ? "§8[§cHRP §7: Comming soon... (Pokez Shikure hihi)§8]" : lore;
@@ -59,7 +57,6 @@ public class Ability {
         this.givenAbilities = givenAbilities;
         this.giveAbilities = giveAbilities;
         this.giveAllowed = giveAllowed;
-        this.resistance = Math.max(resistance, 0);
         this.givenJutsu = givenJutsu;
         instanceList.add(this);
     }

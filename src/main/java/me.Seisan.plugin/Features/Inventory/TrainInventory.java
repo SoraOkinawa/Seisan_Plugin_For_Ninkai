@@ -58,7 +58,6 @@ public class TrainInventory {
         String name_voie = ItemUtil.translateHexCodes(("&#"+pInfo.getVoieNinja().getColorHexa())
                 .concat(ChatColor.stripColor(pInfo.getVoieNinja().getName())));
         String chakra, chakramission, chakramaze, chakrabonus, ticketmedit, paliermedit, chakramax, chakrarank, chakracolor, chakralevel, mission;
-        String chakraresistance = "§7Résistance chakraïque : §f"+pInfo.getResistance();
         List<String> chakralore;
         if(pInfo.getPlayer().getName().equals(holder.getName()) || holder.isOp()) {
             chakra = "§7Nature de chakra : ";
@@ -75,7 +74,7 @@ public class TrainInventory {
             chakrarank = "§7Chakra obtenu grâce à votre rang : §f"+pInfo.getRank().getChakraRank();
             chakracolor = "§7Couleur de chakra : "+pInfo.getCouleurChakra().getName() + " "+pInfo.getTeinte().getName();
             chakralevel = "§7Niveau de transparence du chakra : §f"+pInfo.getTransparence();
-            chakralore = new ArrayList<>(Arrays.asList(chakramax, chakramission, mission, chakramaze, chakrabonus, ticketmedit, paliermedit, chakrarank, chakraresistance, chakracolor, chakralevel, chakra));
+            chakralore = new ArrayList<>(Arrays.asList(chakramax, chakramission, mission, chakramaze, chakrabonus, ticketmedit, paliermedit, chakrarank, chakracolor, chakralevel, chakra));
 
             for(ChakraType chakraType : pInfo.getChakraType().keySet()) {
                 chakralore.add("§7- "+chakraType.name+ " §7(-§6"+pInfo.getChakraType().get(chakraType)+"§7%)");
@@ -84,7 +83,7 @@ public class TrainInventory {
         else {
             chakra = "§7Nature non perceptible.";
             chakramax = "§7Quantité de chakra non perceptible";
-            chakralore = Arrays.asList(chakra, chakramax, chakraresistance);
+            chakralore = Arrays.asList(chakra, chakramax);
         }
         List<String> clanlore;
         if(pInfo.getClan().getName().equals("Inuzuka")) {

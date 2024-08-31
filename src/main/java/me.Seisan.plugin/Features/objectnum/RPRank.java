@@ -5,22 +5,21 @@ import lombok.Getter;
 
 public enum RPRank {
 
-    NULL("null", "Erreur", -1, 0, -5),
-    STUDENT("etudiant", "Étudiant(e)", 0,100, -5),
-    GENIN("genin", "Genin", 1, 200, 0),
-    CHUUNIN("chuunin", "Chuunin", 2,200, 10),
-    JUUNIN("juunin", "Juunin", 3,200, 20),
-    SANNIN("sannin", "Sannin", 4,200, 20),
-    CHEF("chef", "Chef(fe) de village", 5,200, 20);
+    NULL("null", "Erreur", -1, 0),
+    STUDENT("etudiant", "Étudiant(e)", 0,100),
+    GENIN("genin", "Genin", 1, 200),
+    CHUUNIN("chuunin", "Chuunin", 2,200),
+    JUUNIN("juunin", "Juunin", 3,200),
+    SANNIN("sannin", "Sannin", 4,200),
+    CHEF("chef", "Chef(fe) de village", 5,200);
 
 
 
-    RPRank(String name, String displayName, int id, int chakraRank, int resistance){
+    RPRank(String name, String displayName, int id, int chakraRank){
         this.name = name;
         this.displayName = displayName;
         this.id = id;
         this.chakraRank = chakraRank;
-        this.resistance = resistance;
 
     }
 
@@ -32,8 +31,7 @@ public enum RPRank {
     public int id;
     @Getter
     public int chakraRank;
-    @Getter
-    public int resistance;
+
 
     public static RPRank getById(int id){
         for(RPRank rank : values()){
