@@ -40,44 +40,40 @@ public class PlayerDB {
 
     public void insertPlayer(String uuid) {
         try {
-            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerInfo(uuid, mana, manamission, manamaze, manabonus, currentSkill, knownSkills, rang, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, ticketmedit, minmedit, delayticketmedit, reduc_ninjutsu) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerInfo(uuid, mana, manamission, manabonus, currentSkill, knownSkills, rang, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, uuid); //UUID
             pst.setInt(2, 100); //Mana
             pst.setInt(3, 0); // Manamission
-            pst.setInt(4, 0); // Manamaze
-            pst.setInt(5, 0); // Manabonus
-            pst.setString(6, null); //CurrentSkill
-            pst.setString(7, null); //SkilList
-            pst.setInt(8, 0); //Rank
-            pst.setInt(9, 0); //DisconnectTime
-            pst.setString(10, null); //RollBonus
-            pst.setInt(11, -1); //Clan
-            pst.setString(12, ""); //Chakra Type
-            pst.setInt(13, 0); //Age
-            pst.setString(14, ""); //Apparence
-            pst.setInt(15, -1); // Voie Ninja
-            pst.setInt(16, -1); // Style de combat
-            pst.setString(17, "force_1;vitesse_1;perception_vitesse_3;"); // Abilities
-            pst.setString(18, ""); // A profil
-            pst.setString(19, ""); // Attribut de clan
-            pst.setInt(20, 0); // Points
-            pst.setString(21, ""); // Point abilities
-            pst.setLong(22, PlayerInfo.getNextDimanche(LocalDateTime.now())); // Dernier diamanche
-            pst.setString(23, ""); // Prouesse
-            pst.setInt(24, 0); // Ink
-            pst.setInt(25, 0); // Couleur
-            pst.setInt(26, 0); // Teinte
-            pst.setString(27, ""); // Oldpos
-            pst.setInt(28, -1); // Genre
-            pst.setInt(29, 0); // Fuin_paper actuels
-            pst.setInt(30, 0); // Fuin_uzumaki
-            pst.setInt(31, PlayerInfo.getLastDay(LocalDateTime.now())); // Fuin_lastday
-            pst.setInt(32, 0); // Maskprofil
-            pst.setInt(33, 0); // ticket medit
-            pst.setInt(34, 0); // minute passé dans le /medit
-            pst.setInt(35, PlayerInfo.getNextThreeDays(LocalDateTime.now())); // delay ticket medit
-            pst.setInt(36, 0); // delay ticket medit
+            pst.setInt(4, 0); // Manabonus
+            pst.setString(5, null); //CurrentSkill
+            pst.setString(6, null); //SkilList
+            pst.setInt(7, 0); //Rank
+            pst.setInt(8, 0); //DisconnectTime
+            pst.setString(9, null); //RollBonus
+            pst.setInt(10, -1); //Clan
+            pst.setString(11, ""); //Chakra Type
+            pst.setInt(12, 0); //Age
+            pst.setString(13, ""); //Apparence
+            pst.setInt(14, -1); // Voie Ninja
+            pst.setInt(15, -1); // Style de combat
+            pst.setString(16, "force_1;vitesse_1;perception_vitesse_3;"); // Abilities
+            pst.setString(17, ""); // A profil
+            pst.setString(18, ""); // Attribut de clan
+            pst.setInt(19, 0); // Points
+            pst.setString(20, ""); // Point abilities
+            pst.setLong(21, PlayerInfo.getNextDimanche(LocalDateTime.now())); // Dernier diamanche
+            pst.setString(22, ""); // Prouesse
+            pst.setInt(23, 0); // Ink
+            pst.setInt(24, 0); // Couleur
+            pst.setInt(25, 0); // Teinte
+            pst.setString(26, ""); // Oldpos
+            pst.setInt(27, -1); // Genre
+            pst.setInt(28, 0); // Fuin_paper actuels
+            pst.setInt(29, 0); // Fuin_uzumaki
+            pst.setInt(30, PlayerInfo.getLastDay(LocalDateTime.now())); // Fuin_lastday
+            pst.setInt(31, 0); // Maskprofil
+            pst.setInt(32, 0); // reduc_ninjutsu
             pst.executeUpdate();
             pst.close();
         } catch (SQLException e) {
@@ -106,49 +102,45 @@ public class PlayerDB {
         Main.getIsSaving().add(pInfo.getPlayer().getName());
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin(), () -> {
             try {
-                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerInfo SET mana = ?, manamission = ?, manamaze = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, ticketmedit = ?, minmedit = ?, delayticketmedit = ?, reduc_ninjutsu = ? WHERE uuid = ?");
+                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerInfo SET mana = ?, manamission = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ? WHERE uuid = ?");
 
                 pst.setInt(1, pInfo.getMana());
                 pst.setInt(2, pInfo.getNbmission());
-                pst.setInt(3, pInfo.getManamaze());
-                pst.setInt(4, pInfo.getManaBonus());
+                pst.setInt(3, pInfo.getManaBonus());
                 if (pInfo.getCurrentSkill() != null)
-                    pst.setString(5, pInfo.getCurrentSkill().getNameInPlugin());
+                    pst.setString(4, pInfo.getCurrentSkill().getNameInPlugin());
                 else
-                    pst.setString(5, null);
+                    pst.setString(4, null);
 
-                pst.setString(6, skillMapToString(pInfo));
-                pst.setInt(7, pInfo.getRank().getId());
-                pst.setLong(8, System.currentTimeMillis());
-                pst.setString(9, rollBonusMapToString(pInfo));
-                pst.setString(10, favoriteListToString(pInfo));
-                pst.setInt(11, pInfo.getClan().getId());
-                pst.setString(12, chakraMapToString(pInfo)); //Removing color code
-                pst.setInt(13, pInfo.getAge());
-                pst.setString(14, pInfo.getAppearance());
-                pst.setInt(15, pInfo.getVoieNinja().getId());
-                pst.setInt(16, pInfo.getStyleCombat().getId());
-                pst.setString(17, abilitiesListToString(pInfo));
-                pst.setString(18, pInfo.getApparenceprofil());
-                pst.setString(19, pInfo.getAttributClan());
-                pst.setInt(20, pInfo.getPoints());
-                pst.setString(21, pInfo.getPointsAbilities());
-                pst.setLong(22, pInfo.getDelayPoints()); //Delay A
-                pst.setString(23, prouesseMapToString(pInfo));
-                pst.setInt(24, pInfo.getInk());
-                pst.setInt(25, pInfo.getCouleurChakra().getId());
-                pst.setInt(26, pInfo.getTeinte().getId());
-                pst.setString(27, pInfo.getOldpos());
-                pst.setInt(28, pInfo.getGender().getId());
-                pst.setInt(29, pInfo.getFuin_paper());
-                pst.setInt(30, pInfo.getFuin_uzumaki());
-                pst.setInt(31, pInfo.getFuin_lastday());
-                pst.setInt(32, pInfo.getMaskprofil());
-                pst.setInt(33, pInfo.getTicketmedit());
-                pst.setInt(34, pInfo.getMinmedit());
-                pst.setInt(35, pInfo.getDelayTicketMedit());
-                pst.setInt(36, pInfo.getReduc_ninjutsu());
-                pst.setString(37, uuid);
+                pst.setString(5, skillMapToString(pInfo));
+                pst.setInt(6, pInfo.getRank().getId());
+                pst.setLong(7, System.currentTimeMillis());
+                pst.setString(8, rollBonusMapToString(pInfo));
+                pst.setString(9, favoriteListToString(pInfo));
+                pst.setInt(10, pInfo.getClan().getId());
+                pst.setString(11, chakraMapToString(pInfo)); //Removing color code
+                pst.setInt(12, pInfo.getAge());
+                pst.setString(13, pInfo.getAppearance());
+                pst.setInt(14, pInfo.getVoieNinja().getId());
+                pst.setInt(15, pInfo.getStyleCombat().getId());
+                pst.setString(16, abilitiesListToString(pInfo));
+                pst.setString(17, pInfo.getApparenceprofil());
+                pst.setString(18, pInfo.getAttributClan());
+                pst.setInt(19, pInfo.getPoints());
+                pst.setString(20, pInfo.getPointsAbilities());
+                pst.setLong(21, pInfo.getDelayPoints()); //Delay A
+                pst.setString(22, prouesseMapToString(pInfo));
+                pst.setInt(23, pInfo.getInk());
+                pst.setInt(24, pInfo.getCouleurChakra().getId());
+                pst.setInt(25, pInfo.getTeinte().getId());
+                pst.setString(26, pInfo.getOldpos());
+                pst.setInt(27, pInfo.getGender().getId());
+                pst.setInt(28, pInfo.getFuin_paper());
+                pst.setInt(28, pInfo.getFuin_uzumaki());
+                pst.setInt(30, pInfo.getFuin_lastday());
+                pst.setInt(31, pInfo.getMaskprofil());
+                pst.setInt(32, pInfo.getReduc_ninjutsu());
+                pst.setString(33, uuid);
 
                 pst.executeUpdate();
                 pst.close();
@@ -213,49 +205,45 @@ public class PlayerDB {
             }
 
             try {
-                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerFiche SET mana = ?, manamission = ?, manamaze = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, ticketmedit = ?, minmedit = ?, delayticketmedit = ?, reduc_ninjutsu = ? WHERE name = ?");
+                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerFiche SET mana = ?, manamission = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ? WHERE name = ?");
 
                 pst.setInt(1, pInfo.getMana());
                 pst.setInt(2, pInfo.getNbmission());
-                pst.setInt(3, pInfo.getManamaze());
-                pst.setInt(4, pInfo.getManaBonus());
+                pst.setInt(3, pInfo.getManaBonus());
                 if (pInfo.getCurrentSkill() != null)
-                    pst.setString(5, pInfo.getCurrentSkill().getNameInPlugin());
+                    pst.setString(4, pInfo.getCurrentSkill().getNameInPlugin());
                 else
-                    pst.setString(5, null);
+                    pst.setString(4, null);
 
-                pst.setString(6, skillMapToString(pInfo));
-                pst.setInt(7, pInfo.getRank().getId());
-                pst.setLong(8, System.currentTimeMillis());
-                pst.setString(9, rollBonusMapToString(pInfo));
-                pst.setString(10, favoriteListToString(pInfo));
-                pst.setInt(11, pInfo.getClan().getId());
-                pst.setString(12, chakraMapToString(pInfo)); //Removing color code
-                pst.setInt(13, pInfo.getAge());
-                pst.setString(14, pInfo.getAppearance());
-                pst.setInt(15, pInfo.getVoieNinja().getId());
-                pst.setInt(16, pInfo.getStyleCombat().getId());
-                pst.setString(17, abilitiesListToString(pInfo));
-                pst.setString(18, pInfo.getApparenceprofil());
-                pst.setString(19, pInfo.getAttributClan());
-                pst.setInt(20, pInfo.getPoints());
-                pst.setString(21, pInfo.getPointsAbilities());
-                pst.setLong(22, pInfo.getDelayPoints()); //Delay A
-                pst.setString(23, prouesseMapToString(pInfo));
-                pst.setInt(24, pInfo.getInk());
-                pst.setInt(25, pInfo.getCouleurChakra().getId());
-                pst.setInt(26, pInfo.getTeinte().getId());
-                pst.setString(27, pInfo.getOldpos());
-                pst.setInt(28, pInfo.getGender().getId());
-                pst.setInt(29, pInfo.getFuin_paper());
-                pst.setInt(30, pInfo.getFuin_uzumaki());
-                pst.setInt(31, pInfo.getFuin_lastday());
-                pst.setInt(32, pInfo.getMaskprofil());
-                pst.setInt(33, pInfo.getTicketmedit());
-                pst.setInt(34, pInfo.getMinmedit());
-                pst.setInt(35, pInfo.getTicketmedit());
-                pst.setInt(36, pInfo.getReduc_ninjutsu());
-                pst.setString(37, pInfo.getId());
+                pst.setString(5, skillMapToString(pInfo));
+                pst.setInt(6, pInfo.getRank().getId());
+                pst.setLong(7, System.currentTimeMillis());
+                pst.setString(8, rollBonusMapToString(pInfo));
+                pst.setString(9, favoriteListToString(pInfo));
+                pst.setInt(10, pInfo.getClan().getId());
+                pst.setString(11, chakraMapToString(pInfo)); //Removing color code
+                pst.setInt(12, pInfo.getAge());
+                pst.setString(13, pInfo.getAppearance());
+                pst.setInt(14, pInfo.getVoieNinja().getId());
+                pst.setInt(15, pInfo.getStyleCombat().getId());
+                pst.setString(16, abilitiesListToString(pInfo));
+                pst.setString(17, pInfo.getApparenceprofil());
+                pst.setString(18, pInfo.getAttributClan());
+                pst.setInt(19, pInfo.getPoints());
+                pst.setString(20, pInfo.getPointsAbilities());
+                pst.setLong(21, pInfo.getDelayPoints()); //Delay A
+                pst.setString(22, prouesseMapToString(pInfo));
+                pst.setInt(23, pInfo.getInk());
+                pst.setInt(24, pInfo.getCouleurChakra().getId());
+                pst.setInt(25, pInfo.getTeinte().getId());
+                pst.setString(26, pInfo.getOldpos());
+                pst.setInt(27, pInfo.getGender().getId());
+                pst.setInt(28, pInfo.getFuin_paper());
+                pst.setInt(28, pInfo.getFuin_uzumaki());
+                pst.setInt(30, pInfo.getFuin_lastday());
+                pst.setInt(31, pInfo.getMaskprofil());
+                pst.setInt(32, pInfo.getReduc_ninjutsu());
+                pst.setString(33, pInfo.getId());
 
                 pst.executeUpdate();
                 pst.close();
@@ -267,44 +255,40 @@ public class PlayerDB {
 
     private void insertFichePerso(String id) {
         try {
-            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerFiche(name, mana, manamission, manamaze, manabonus, currentSkill, knownSkills, `rang`, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, ticketmedit, minmedit, delayticketmedit, reduc_ninjutsu) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerFiche(name, mana, manamission, manabonus, currentSkill, knownSkills, `rang`, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, id); //UUID
             pst.setInt(2, 100); //Mana
             pst.setInt(3, 0); // Manamission
-            pst.setInt(4, 0); // Manamaze
-            pst.setInt(5, 0); // Manamaze
-            pst.setString(6, null); //CurrentSkill
-            pst.setString(7, null); //SkilList
-            pst.setInt(8, 0); //Rank
-            pst.setInt(9, 0); //DisconnectTime
-            pst.setString(10, null); //RollBonus
-            pst.setInt(11, -1); //Clan
-            pst.setString(12, ""); //Chakra Type
-            pst.setInt(13, 0); //Age
-            pst.setString(14, ""); //Apparence
-            pst.setInt(15, -1); // Voie Ninja
-            pst.setInt(16, -1); // Style de combat
-            pst.setString(17, "force_1;vitesse_1;perception_vitesse_3;"); // Abilities
-            pst.setString(18, ""); // A profil
-            pst.setString(19, ""); // Attribut de clan
-            pst.setInt(20, 0); // Points
-            pst.setString(21, ""); // Point abilities
-            pst.setLong(22, PlayerInfo.getNextDimanche(LocalDateTime.now())); // Dernier diamanche
-            pst.setString(23, ""); // Prouesse
-            pst.setInt(24, 0); // Ink
-            pst.setInt(25, 0); // Couleur
-            pst.setInt(26, 0); // Teinte
-            pst.setString(27, ""); // Oldpos
-            pst.setInt(28, -1); // Genre
-            pst.setInt(29, 0); // Fuin_paper actuels
-            pst.setInt(30, 0); // Fuin_uzumaki
-            pst.setInt(31, PlayerInfo.getLastDay(LocalDateTime.now())); // Fuin_lastday
-            pst.setInt(32, 0); // Maskprofil
-            pst.setInt(33, 0); // ticket medit
-            pst.setInt(34, 0); // minmedit
-            pst.setInt(35, 0); // delayticketmedit
-            pst.setInt(36, 0); // reduc_ninjutsu
+            pst.setInt(4, 0); // Manabonus
+            pst.setString(5, null); //CurrentSkill
+            pst.setString(6, null); //SkilList
+            pst.setInt(7, 0); //Rank
+            pst.setInt(8, 0); //DisconnectTime
+            pst.setString(9, null); //RollBonus
+            pst.setInt(10, -1); //Clan
+            pst.setString(11, ""); //Chakra Type
+            pst.setInt(12, 0); //Age
+            pst.setString(13, ""); //Apparence
+            pst.setInt(14, -1); // Voie Ninja
+            pst.setInt(15, -1); // Style de combat
+            pst.setString(16, "force_1;vitesse_1;perception_vitesse_3;"); // Abilities
+            pst.setString(17, ""); // A profil
+            pst.setString(18, ""); // Attribut de clan
+            pst.setInt(19, 0); // Points
+            pst.setString(20, ""); // Point abilities
+            pst.setLong(21, PlayerInfo.getNextDimanche(LocalDateTime.now())); // Dernier diamanche
+            pst.setString(22, ""); // Prouesse
+            pst.setInt(23, 0); // Ink
+            pst.setInt(24, 0); // Couleur
+            pst.setInt(25, 0); // Teinte
+            pst.setString(26, ""); // Oldpos
+            pst.setInt(27, -1); // Genre
+            pst.setInt(28, 0); // Fuin_paper actuels
+            pst.setInt(29, 0); // Fuin_uzumaki
+            pst.setInt(30, PlayerInfo.getLastDay(LocalDateTime.now())); // Fuin_lastday
+            pst.setInt(31, 0); // Maskprofil
+            pst.setInt(32, 0); // reduc_ninjutsu
             pst.executeUpdate();
             pst.close();
         } catch (SQLException e) {
@@ -315,7 +299,6 @@ public class PlayerDB {
     private PlayerInfo loadPlayerInfo(String name, ResultSet set) throws SQLException {
         int mana = set.getInt("mana");
         int manamission = set.getInt("manamission");
-        int manamaze = set.getInt("manamaze");
         int manabonus = set.getInt("manabonus");
         RPRank rank = RPRank.getById(set.getInt("rang"));
         HashMap<Skill, SkillMastery> skills = stringToSkillMap(set.getString("knownSkills"));
@@ -343,11 +326,8 @@ public class PlayerDB {
         int fuin_uzumaki = set.getInt("fuin_uzumaki");
         int fuin_lastday = set.getInt("fuin_lastday");
         int maskprofil = set.getInt("maskprofil");
-        int ticketmedit = set.getInt("ticketmedit");
-        int minmedit = set.getInt("minmedit");
-        int delayticketmedit = set.getInt("delayticketmedit");
         int reduc_ninjutsu = set.getInt("reduc_ninjutsu");
-        return new PlayerInfo(name, mana, manamission, manamaze, manabonus, rank, skills, rollBonus, favoriteList, clan, chakraType, age, apparence, voieNinja, styleCombat, abilities, apparenceprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleurChakra, teinte, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, ticketmedit, minmedit, delayticketmedit, reduc_ninjutsu);
+        return new PlayerInfo(name, mana, manamission, manabonus, rank, skills, rollBonus, favoriteList, clan, chakraType, age, apparence, voieNinja, styleCombat, abilities, apparenceprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleurChakra, teinte, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu);
     }
 
     public void loadData(Player p) {
@@ -363,7 +343,6 @@ public class PlayerDB {
             try {
                 int mana = set.getInt("mana");
                 int manamission = set.getInt("manamission");
-                int manamaze = set.getInt("manamaze");
                 int manabonus = set.getInt("manabonus");
                 RPRank rank = RPRank.getById(set.getInt("rang"));
                 HashMap<Skill, SkillMastery> skills = stringToSkillMap(set.getString("knownSkills"));
@@ -391,11 +370,8 @@ public class PlayerDB {
                 int fuin_uzumaki = set.getInt("fuin_uzumaki");
                 int fuin_lastday = set.getInt("fuin_lastday");
                 int maskprofil = set.getInt("maskprofil");
-                int ticketMedit = set.getInt("ticketmedit");
-                int minMedit = set.getInt("minmedit");
-                int delayTicketMedit = set.getInt("delayticketmedit");
                 int reduc_ninjutsu = set.getInt("reduc_ninjutsu");
-                PlayerInfo pInfo = new PlayerInfo(p, mana, manamission, manamaze, manabonus, rank, skills, rollBonus, favoriteList, clan, chakraType, age, apparence, voieNinja, styleCombat, abilities, apparenceprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleurChakra, teinte, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, ticketMedit, minMedit, delayTicketMedit, reduc_ninjutsu);
+                PlayerInfo pInfo = new PlayerInfo(p, mana, manamission, manabonus, rank, skills, rollBonus, favoriteList, clan, chakraType, age, apparence, voieNinja, styleCombat, abilities, apparenceprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleurChakra, teinte, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu);
 
                 long disconnectTime = set.getLong("disconnectTime");
                 long timeDisconnected = System.currentTimeMillis() - disconnectTime;

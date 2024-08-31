@@ -66,10 +66,6 @@ public class PlayerInfo {
 
     @Getter
     @Setter
-    private int manamaze;
-
-    @Getter
-    @Setter
     private HashMap<Skill, SkillMastery> skills;
 
     @Getter
@@ -174,23 +170,13 @@ public class PlayerInfo {
     int maskprofil;
 
     @Getter
-    int ticketmedit;
-
-    @Getter
-    @Setter
-    int minmedit;
-
-    @Getter
-    int delayTicketMedit;
-
-    @Getter
     @Setter
     int reduc_ninjutsu;
 
     @Getter
     public static HashMap<String, PlayerInfo> instanceList = new HashMap<>();
 
-    public PlayerInfo(Player p, int mana, int nbmission, int manamaze, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int ticketmedit, int minmedit, int delayTicketMedit, int reduc_ninjutsu) {
+    public PlayerInfo(Player p, int mana, int nbmission, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu) {
         this.player = p;
         this.uuid = p.getUniqueId().toString();
         this.mana = mana;
@@ -207,7 +193,6 @@ public class PlayerInfo {
         this.styleCombat = styleCombat;
         this.abilities = abilities;
         this.nbmission = nbmission;
-        this.manamaze = manamaze;
         this.playerClone = new PlayerClone(this);
         this.apparenceprofil = appearanceprofil;
         this.attributClan = attributClan;
@@ -226,26 +211,14 @@ public class PlayerInfo {
         }
         this.couleurChakra = couleurChakra;
         this.teinte = teinte;
-        this.maxMana = getManaMission() + manamaze + rank.getChakraRank() + bonusChakra() + getManaBonus();
+        this.maxMana = getManaMission() + rank.getChakraRank() + bonusChakra() + getManaBonus();
         this.oldpos = oldpos;
         this.gender = gender;
         this.fuin_paper = fuin_paper;
         this.fuin_uzumaki = fuin_uzumaki;
         this.fuin_lastday = fuin_lastday;
         this.maskprofil = maskprofil;
-        this.minmedit = minmedit;
-        this.ticketmedit = ticketmedit;
-        this.delayTicketMedit = delayTicketMedit;
 
-        if (hasAbility("meditation_ouverte")) {
-            if (getNextThreeDays(LocalDateTime.now()) > delayTicketMedit) {
-                this.delayTicketMedit = getNextThreeDays(LocalDateTime.now());
-                if (this.ticketmedit == 0 || this.ticketmedit == 1) {
-                    this.ticketmedit++;
-                    player.sendMessage("§cHRP : §7Un ticket de méditation vous a été attribué.");
-                }
-            }
-        }
 
         p.setExp(0.0f);
         p.setLevel(mana);
@@ -258,11 +231,10 @@ public class PlayerInfo {
         FuinjutsuUzumaki();
     }
 
-    public PlayerInfo(String id, int mana, int nbmission, int manamaze, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int ticketmedit, int minmedit, int delayTicketMedit, int reduc_ninjutsu) {
+    public PlayerInfo(String id, int mana, int nbmission, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu) {
         this.id = id;
         this.mana = mana;
         this.nbmission = nbmission;
-        this.manamaze = manamaze;
         this.manaBonus = manabonus;
         this.rank = rank;
         this.skills = skills;
@@ -285,16 +257,13 @@ public class PlayerInfo {
         this.couleurChakra = couleurChakra;
         this.teinte = teinte;
         this.transparence = calculTransparence();
-        this.maxMana = getManaMission() + manamaze + rank.getChakraRank() + bonusChakra() + getManaBonus();
+        this.maxMana = getManaMission() + rank.getChakraRank() + bonusChakra() + getManaBonus();
         this.oldpos = oldpos;
         this.gender = gender;
         this.fuin_paper = fuin_paper;
         this.fuin_uzumaki = fuin_uzumaki;
         this.fuin_lastday = fuin_lastday;
         this.maskprofil = maskprofil;
-        this.minmedit = minmedit;
-        this.ticketmedit = ticketmedit;
-        this.delayTicketMedit = delayTicketMedit;
         this.reduc_ninjutsu = reduc_ninjutsu;
     }
 
@@ -401,10 +370,6 @@ public class PlayerInfo {
                 this.SendLog((Player) sender, ability1, this.player);
                 abilities.add(ability1);
                 sender.sendMessage(player.getDisplayName() + " §7a acquis la compétence : " + ChatColor.GOLD + ability1.getName());
-            }
-            if (ability.getNameInPlugin().equals("meditation_ouverte")) {
-                this.ticketmedit = 1;
-                this.delayTicketMedit = getNextThreeDays(LocalDateTime.now());
             }
         }
         for (Skill skill : givenSkillsArrayList) {
@@ -550,7 +515,6 @@ public class PlayerInfo {
     public void reset() {
         mana = 100;
         nbmission = 0;
-        manamaze = 0;
         currentSkill = null;
         skills.clear();
         rank = RPRank.STUDENT;
@@ -572,9 +536,6 @@ public class PlayerInfo {
         ink = 0;
         prouesse.clear();
         gender = Gender.INDEFINI;
-        ticketmedit = 0;
-        manamaze = 0;
-        delayTicketMedit = getNextThreeDays(LocalDateTime.now());
 
         player.kickPlayer("§6Réinitialisation de votre fiche personnage.");
     }
@@ -604,7 +565,7 @@ public class PlayerInfo {
     }
 
     public void updateChakra() {
-        this.maxMana = getManaMission() + manamaze + rank.getChakraRank() + bonusChakra() + getManaBonus();
+        this.maxMana = getManaMission() + rank.getChakraRank() + bonusChakra() + getManaBonus();
     }
 
     public int getPointsToAbility(String name) {
@@ -660,12 +621,6 @@ public class PlayerInfo {
             }
         }
         return true;
-    }
-
-    public void setTicketmedit(int ticket) {
-        ticketmedit = ticket;
-        if (this.ticketmedit < 0) ticketmedit = 0;
-        if (this.ticketmedit > 2) ticketmedit = 2;
     }
 
     public void addgiveAbilities(String giveAbilities) {
@@ -987,7 +942,6 @@ public class PlayerInfo {
                 id,
                 this.mana,
                 this.nbmission,
-                this.manamaze,
                 this.manaBonus,
                 this.rank,
                 (HashMap<Skill, SkillMastery>) this.skills.clone(),
@@ -1015,9 +969,6 @@ public class PlayerInfo {
                 this.fuin_uzumaki,
                 this.fuin_lastday,
                 this.maskprofil,
-                this.ticketmedit,
-                this.minmedit,
-                this.delayTicketMedit,
                 this.reduc_ninjutsu
         );
     }
@@ -1027,7 +978,6 @@ public class PlayerInfo {
                 p,
                 this.mana,
                 this.nbmission,
-                this.manamaze,
                 this.manaBonus,
                 this.rank,
                 (HashMap<Skill, SkillMastery>) this.skills.clone(),
@@ -1054,9 +1004,6 @@ public class PlayerInfo {
                 this.fuin_uzumaki,
                 this.fuin_lastday,
                 this.maskprofil,
-                this.ticketmedit,
-                this.minmedit,
-                this.delayTicketMedit,
                 this.reduc_ninjutsu
         );
     }

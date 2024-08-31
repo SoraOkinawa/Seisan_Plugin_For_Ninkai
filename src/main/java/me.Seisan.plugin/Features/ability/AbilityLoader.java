@@ -107,7 +107,7 @@ public class AbilityLoader {
             pst.setString(1, name); //UUID
             pst.setString(2, nameInPlugin); //Mana
             pst.setString(3, key); // Manamission
-            pst.setString(4, description); // Manamaze
+            pst.setString(4, description); // Description
             pst.setString(5, type); //CurrentSkill
             pst.setInt(6, lvl); //SkilList
             pst.setString(7, tagkey); //Rank

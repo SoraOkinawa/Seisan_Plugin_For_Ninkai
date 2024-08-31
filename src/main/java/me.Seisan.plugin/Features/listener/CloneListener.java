@@ -46,10 +46,6 @@ public class CloneListener extends Feature {
                 return;
             }
 
-            if (pInfo.getTicketmedit() == 0) {
-                return;
-            }
-
             String target_namemc = Main.getInBulleMedit().keySet().stream()
                     .filter(s -> Main.getInBulleMedit().get(s).equals(s))
                     .filter(s -> PlayerInfo.getPlayerInfo(Objects.requireNonNull(Bukkit.getPlayer(s)))

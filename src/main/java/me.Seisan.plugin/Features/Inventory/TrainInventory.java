@@ -63,18 +63,12 @@ public class TrainInventory {
             chakra = "§7Nature de chakra : ";
             chakramax = "§7Chakra : §f"+pInfo.getMana()+"§7/§f"+pInfo.getMaxMana();
             chakramission = "§7Chakra obtenu en mission : §f"+pInfo.getManaMission()+"§7/§f200";
-            mission = "§7Nombre de mission effectuées : §f"+pInfo.getNbmission();
+            mission = "§7Nombre de point de MJ : §f"+pInfo.getNbmission();
             chakrabonus = "§7Chakra complèmentaire : §f"+pInfo.getManaBonus();
-            chakramaze = "§7Chakra obtenu en méditation : §f"+pInfo.getManamaze()+"§7/§f300";
-            ticketmedit = "§7Ticket(s) de méditation : §f"+pInfo.getTicketmedit()+"/2";
-            int nb = pInfo.getManamaze()/4 + 15;
-            if((pInfo.getManamaze()-10)%40 == 0)
-                nb++;
-            paliermedit = "§7Palier d'évolution pour la méditation : §f"+pInfo.getMinmedit()+"/"+nb;
             chakrarank = "§7Chakra obtenu grâce à votre rang : §f"+pInfo.getRank().getChakraRank();
             chakracolor = "§7Couleur de chakra : "+pInfo.getCouleurChakra().getName() + " "+pInfo.getTeinte().getName();
             chakralevel = "§7Niveau de transparence du chakra : §f"+pInfo.getTransparence();
-            chakralore = new ArrayList<>(Arrays.asList(chakramax, chakramission, mission, chakramaze, chakrabonus, ticketmedit, paliermedit, chakrarank, chakracolor, chakralevel, chakra));
+            chakralore = new ArrayList<>(Arrays.asList(chakramax, chakramission, mission, chakrabonus, chakrarank, chakracolor, chakralevel, chakra));
 
             for(ChakraType chakraType : pInfo.getChakraType().keySet()) {
                 chakralore.add("§7- "+chakraType.name+ " §7(-§6"+pInfo.getChakraType().get(chakraType)+"§7%)");
