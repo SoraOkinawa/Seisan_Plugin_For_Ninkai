@@ -24,7 +24,7 @@ public class ProfilRegister extends Feature {
         new ProfilMJCommand().register();
         new RankCommand().register();
         new ReducNinjutsuCommand().register();
-        new ResistanceCommand().register();
+        new ProuesseCommand().register();
         new RyojiCommand().register();
         new SwapFuinCommand().register();
     }

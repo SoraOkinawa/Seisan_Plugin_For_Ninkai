@@ -287,55 +287,6 @@ public class ChakraCommand extends Command {
                     pInfo.updateChakra();
                 }
             }
-            else if(split[0].equals("meditation")) {
-                Player p = Bukkit.getServer().getPlayer(split[2]);
-                if(p == null) {
-                    sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
-                    return;
-                }
-                PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
-                int amount;
-                if (!StringUtils.isNumeric(split[3])) {
-                    amount = 15;
-                }
-                else {
-                    amount = Integer.parseInt(split[3]);
-                }
-                int nb = pInfo.getManamaze() / 4 + 15;
-
-                switch (split[1]) {
-                    case "add":
-                        if ((pInfo.getManamaze() - 10) % 40 == 0)
-                            nb++;
-                        pInfo.setMinmedit(pInfo.getMinmedit() + amount);
-                        // Si il dépasse le quota
-                        if (nb <= pInfo.getMinmedit()) {
-                            pInfo.setMinmedit(pInfo.getMinmedit() - nb);
-                            pInfo.setManamaze(pInfo.getManamaze() + 10);
-                        }
-                        if (!p.getName().equals(sender.getName())) {
-                            sender.sendMessage("§cHRP : §7" + p.getDisplayName() + " a gagné "+amount+" points de palier de méditation");
-                        }
-                        p.sendMessage("§cHRP : §7Vous avez gagné "+amount +" points de palier de méditation.");
-                        break;
-                    case "remove":
-                        if ((pInfo.getManamaze() - 10) % 40 == 0)
-                            nb++;
-                        pInfo.setMinmedit(pInfo.getMinmedit() - amount);
-                        // Si il dépasse le quota
-                        if (pInfo.getMinmedit() < 0) {
-                            pInfo.setMinmedit(pInfo.getMinmedit() + nb);
-                            pInfo.setManamaze(pInfo.getManamaze() - 10);
-                        }
-                        if (!p.getName().equals(sender.getName())) {
-                            sender.sendMessage("§cHRP : §7" + p.getDisplayName() + " a perdu "+amount+" points de palier de méditation");
-                        }
-                        p.sendMessage("§cHRP : §7Vous avez perdu "+amount+" points de palier de méditation.");
-                        break;
-                    default:
-                        sendHelpList(sender);
-                }
-            }
             else {
                 sendHelpList(sender);
             }
@@ -360,7 +311,6 @@ public class ChakraCommand extends Command {
                     complete(completion, "addtype", split[0]);
                     complete(completion, "removetype", split[0]);
                     complete(completion, "mission", split[0]);
-                    complete(completion, "meditation", split[0]);
                     complete(completion, "complement", split[0]);
                 }
                 break;

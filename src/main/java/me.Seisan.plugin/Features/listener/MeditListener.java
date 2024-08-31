@@ -25,7 +25,7 @@ public class MeditListener extends Feature {
     @EventHandler
     public void onTP(PlayerTeleportEvent event) {
         String name = event.getPlayer().getName();
-        if(Main.getInMedit().containsKey(name) && !event.getPlayer().isOp()) {
+        if(Main.getInMedit().contains(name) && !event.getPlayer().isOp()) {
             event.setCancelled(true);
             event.getPlayer().sendMessage("§cHRP : Interdiction de vous téléporter en méditation.");
         }
@@ -78,14 +78,6 @@ public class MeditListener extends Feature {
             return;
         }
 
-        PlayerInfo pInfo = PlayerInfo.getPlayerInfo(proprio);
-        if(!namemc_propro.equals(breaker.getName())) {
-            if(pInfo.getManamaze() < 150) {
-                breaker.sendMessage("§b** Le propriétaire de la bulle ne semble pas avoir obtenu le niveau adéquat pour vous lier davantage.");
-                event.setCancelled(true);
-                return;
-            }
-        }
 
 
     }
@@ -126,24 +118,7 @@ public class MeditListener extends Feature {
             return;
         }
 
-        PlayerInfo pInfo = PlayerInfo.getPlayerInfo(proprio);
-        if(!namemc_propro.equals(breaker.getName())) {
-            if(pInfo.getManamaze() < 150) {
-                breaker.sendMessage("§b** Le propriétaire de la bulle ne semble pas avoir obtenu le niveau adéquat pour vous lier davantage.");
-                breakEvent.setCancelled(true);
-                return;
-            }
-        }
-        int chunks;
-        if(pInfo.getManamaze() >= 250) {
-            chunks = 4;
-        }
-        else if(pInfo.getManamaze() >= 200) {
-            chunks = 2;
-        }
-        else {
-            chunks = 1;
-        }
+        int chunks = 4;
         Location location_start = MeditationArea.getInit(proprio.getUniqueId().toString());
         if(location_start == null) {
             breaker.sendMessage("§cJe... Je deviens fou. Par pitié, arrêtez...");
@@ -194,25 +169,7 @@ public class MeditListener extends Feature {
             return;
         }
 
-        PlayerInfo pInfo = PlayerInfo.getPlayerInfo(proprio);
-
-        if(!namemc_proprio.equals(breaker.getName())) {
-            if(pInfo.getManamaze() < 150) {
-                breaker.sendMessage("§b** Le propriétaire de la bulle ne semble pas avoir obtenu le niveau adéquat pour vous lier davantage.");
-                placeEvent.setCancelled(true);
-                return;
-            }
-        }
-        int chunks;
-        if(pInfo.getManamaze() >= 250) {
-            chunks = 4;
-        }
-        else if(pInfo.getManamaze() >= 200) {
-            chunks = 2;
-        }
-        else {
-            chunks = 1;
-        }
+        int chunks = 4;
         Location location_start = MeditationArea.getInit(proprio.getUniqueId().toString());
         if(location_start == null) {
             breaker.sendMessage("§cJe... Je deviens fou. Par pitié, arrêtez...");

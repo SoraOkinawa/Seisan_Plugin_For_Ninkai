@@ -23,7 +23,6 @@ public class StopCommand extends Command {
         System.out.println("Closing the server");
         Main.serverOpen = false;
         System.out.println("Kicking all players");
-        saveMedit();
         for (Player p : sender.getServer().getOnlinePlayers()) {
             p.kickPlayer(ChatColor.GOLD + "Seisan redémarre !");
         }
@@ -42,23 +41,4 @@ public class StopCommand extends Command {
         return new ArrayList<>();
     }
 
-    private void saveMedit() {
-        for(String name : Main.inMedit.keySet()) {
-            if(Main.inMedit.get(name) >= 3) {
-                Player p = Bukkit.getPlayer(name);
-                if(p != null) {
-                    PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
-                    int nb = pInfo.getManamaze() / 4 + 15;
-                    if ((pInfo.getManamaze() - 10) % 40 == 0)
-                        nb++;
-                    pInfo.setMinmedit(pInfo.getMinmedit() + 15);
-                    // Si il dépasse le quota
-                    if (nb <= pInfo.getMinmedit()) {
-                        pInfo.setMinmedit(pInfo.getMinmedit() - nb);
-                        pInfo.setManamaze(pInfo.getManamaze() + 10);
-                    }
-                }
-            }
-        }
-    }
 }

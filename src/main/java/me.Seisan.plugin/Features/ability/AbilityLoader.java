@@ -67,11 +67,10 @@ public class AbilityLoader {
                 String giveAbilities = abilityConfig.getString(abilityName+".giveAbilities");
                 String lore = abilityConfig.getString(abilityName+".lore");
                 boolean giveAllowed = abilityConfig.getBoolean(abilityName+".giveAllowed");
-                int resistance = abilityConfig.getInt(abilityName+".resistance");
                 String givenJutsu = abilityConfig.getString(abilityName+".givenJutsu");
                 // TODO : Faire la même chose pour les jutsus et """proprement"""
               //  saveBDD(name, nameInPlugin, itemType.getKey().getKey(), description, tagkey, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore);
-                new Ability(name, nameInPlugin, itemType, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, resistance, givenJutsu);
+                new Ability(name, nameInPlugin, itemType, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, givenJutsu);
             }catch (Exception e){
                 System.out.println("[SeisanPlugin] La compétence " + abilityName + " est mal configurée ! Explication de l'erreur:");
                 e.printStackTrace();
@@ -108,7 +107,7 @@ public class AbilityLoader {
             pst.setString(1, name); //UUID
             pst.setString(2, nameInPlugin); //Mana
             pst.setString(3, key); // Manamission
-            pst.setString(4, description); // Manamaze
+            pst.setString(4, description); // Description
             pst.setString(5, type); //CurrentSkill
             pst.setInt(6, lvl); //SkilList
             pst.setString(7, tagkey); //Rank

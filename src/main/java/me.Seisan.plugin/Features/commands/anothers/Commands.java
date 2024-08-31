@@ -24,7 +24,6 @@ public class Commands extends Feature {
     protected void doRegister() {
         new ChatMasterCommand().register();
         new RollCommand().register();
-        new RollResistanceCommand().register();
         new EncaCommand().register();
         new NickCommand().register();
         random = new Random(System.nanoTime());
