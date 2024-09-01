@@ -139,11 +139,13 @@ public class SkillInventoryListener extends Feature {
                                                 skill.takeMana(pInfo);
 
 
-                                                String message = "§7[Une main] §c** " + p.getDisplayName() + " §r§créalise la technique "+skillName;
+                                                String message = "§7[Une main] §c** " + p.getDisplayName() + " §r§créalise la technique ";
+
                                                 int range = 50;
 
                                                 TextComponent messagecomponent = new TextComponent(message);
-                                                Skill.affichejutsu(p, pInfo, range, messagecomponent, ItemUtil.createItemStack(Material.BOOK, 1, skillName, skill.getLore(p)), skill.isSkillVisibility(), skill.isNeedTarget(), pInfo.getTarget());
+                                                TextComponent techniquecomponent = new TextComponent(skillName);
+                                                Skill.affichejutsu(p, pInfo, range, messagecomponent, techniquecomponent, ItemUtil.createItemStack(Material.BOOK, 1, skillName, skill.getLore(p)), skill.isSkillVisibility(), skill.isNeedTarget(), pInfo.getTarget());
 
                                                 //Lancement de la technique
                                                 ArrayList<String> commandToRun = skill.getCommandList();
