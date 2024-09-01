@@ -81,7 +81,7 @@ public class ProfilEditCommand extends Command {
                             }
                             break;
                         case "clan":
-                            for (Clan clan : Clan.values()) {
+                            for (Clan clan : Clan.allClans) {
                                 complete(completion, clan.getIdentifiant(), split[3]);
                             }
                             break;
@@ -205,7 +205,7 @@ public class ProfilEditCommand extends Command {
 
     private void sendClanList(CommandSender sender){
         sender.sendMessage(ChatColor.GRAY + "Liste des clans: ");
-        for(Clan clan : Clan.values()){
+        for(Clan clan : Clan.allClans){
             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.GOLD + clan.getName() + ChatColor.GRAY+ " (" + clan.getId() + ")");
         }
     }

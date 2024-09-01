@@ -92,7 +92,7 @@ public class Skill {
             this.name = ItemUtil.translateHexCodes(name);
         }
         Clan clan = Clan.getFromName(this.element);
-        if (clan != Clan.INDEFINI) {
+        if (clan != Clan.getFromID(1)) {
             name = ChatColor.stripColor(name);
             name = ("&#" + clan.getColorHexa()).concat(name);
             this.name = ItemUtil.translateHexCodes(name);
@@ -101,7 +101,7 @@ public class Skill {
         this.skillVisibility = skillVisibility;
         if (ArtNinja.getIDFromName(element) < 5 && ArtNinja.getIDFromName(element) > 0) {
             this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "seisan", element.toLowerCase().replace("ô", "o") + "_scroll");
-        } else if (clan != Clan.INDEFINI) {
+        } else if (clan != Clan.getFromID(1)) {
             this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "seisan", clan.getTag());
         } else {
             this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "seisan", "rouleau_" + this.element.replace("ô", "o").toLowerCase());
