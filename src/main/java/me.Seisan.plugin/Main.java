@@ -12,10 +12,9 @@ import me.Seisan.plugin.Features.commands.anothers.Commands;
 import me.Seisan.plugin.Features.commands.others.OthersCommandRegister;
 import me.Seisan.plugin.Features.commands.profil.ProfilRegister;
 import me.Seisan.plugin.Features.data.DBManager;
-import me.Seisan.plugin.Features.data.TechniquesDB;
+import me.Seisan.plugin.Features.skill.TechniquesLoaderDB;
 import me.Seisan.plugin.Features.listener.Listener;
 import me.Seisan.plugin.Features.skill.Skill;
-import me.Seisan.plugin.Features.skill.SkillLoader;
 import me.Seisan.plugin.Features.utils.Channel;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
@@ -168,7 +167,7 @@ public class Main extends JavaPlugin {
         PlayerClone.init();
 
         spigotLogger.info("Loading jutsu & compétences...");
-        TechniquesDB.LoadTechniquesFromDB();
+        TechniquesLoaderDB.LoadTechniquesFromDB();
         AbilityLoader.loadAbilitiesFromConfig();
         spigotLogger.info(Ability.instanceList.size() + " abilities have been loaded !");
         spigotLogger.info(Skill.getInstanceList().size() + " jutsu have been loaded !");

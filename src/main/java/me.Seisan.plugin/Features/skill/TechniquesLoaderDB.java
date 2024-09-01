@@ -1,10 +1,6 @@
 package me.Seisan.plugin.Features.skill;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
-import me.Seisan.plugin.Features.skill.Skill;
-import me.Seisan.plugin.Features.skill.SkillLevel;
-import me.Seisan.plugin.Features.skill.SkillManager;
-import me.Seisan.plugin.Features.skill.SkillMastery;
 import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -131,7 +127,7 @@ public class TechniquesLoaderDB {
                 String lore = result.getString("lore");
                 String mudras = result.getString("mudras");
                 
-                String commandArray[] = result.getString("commandList").split(";");
+                String[] commandArray = result.getString("commandList").split(";");
                 ArrayList<String> commandList = new ArrayList<>(Arrays.asList(commandArray));
     
                 Material itemType = Material.getMaterial(result.getString("itemType")) != null ? Material.getMaterial(result.getString("itemType")) : Material.BOOK;

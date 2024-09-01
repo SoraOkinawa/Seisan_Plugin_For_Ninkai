@@ -2,8 +2,6 @@ package me.Seisan.plugin.Features.ability;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.data.Config;
-import me.Seisan.plugin.Features.data.DBManager;
-import me.Seisan.plugin.Features.data.PlayerDB;
 import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +12,6 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,69 +76,6 @@ public class AbilityLoader {
             }
         }
         return true;
-    }
-
-    private static void saveBDD(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
-        if(name == null) name = "";
-        if(nameInPlugin == null) nameInPlugin = "";
-        if(key == null) key = "";
-        if(description == null) description = "";
-        if(type == null) type = "BOOK";
-        if(tagkey == null) tagkey = "";
-        if(tagvalue == null) tagvalue = "";
-        // String reqAbilities, String givenAbilities, String giveAbilities, String lore
-        if(reqAbilities == null) reqAbilities = "";
-        if(givenAbilities == null) givenAbilities = "";
-        if(giveAbilities == null) giveAbilities = "";
-        if(lore == null) lore = "";
-        if(isInsert(nameInPlugin)) {
-            insertSkill(name, nameInPlugin, key, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore);
-
-        }
-
-    }
-
-    private static void insertSkill(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
-        try{
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Skills(name, nameInPlugin, itemType, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
-            pst.setString(1, name); //UUID
-            pst.setString(2, nameInPlugin); //Mana
-            pst.setString(3, key); // Manamission
-            pst.setString(4, description); // Manamaze
-            pst.setString(5, type); //CurrentSkill
-            pst.setInt(6, lvl); //SkilList
-            pst.setString(7, tagkey); //Rank
-            pst.setString(8, tagvalue); //DisconnectTime
-            //pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore
-            pst.setInt(9, pts); //RollBonus
-            pst.setInt(10, ptsnec); //Clan
-            pst.setString(11, reqAbilities); //Chakra Type
-            pst.setString(12, givenAbilities); //Age
-            pst.setString(13, giveAbilities); //Apparence
-            pst.setString(14, lore); // Voie Ninja
-            pst.executeUpdate();
-            pst.close();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-
-    public static boolean isInsert(String nameInPlugin){
-        boolean insert = false;
-        try {
-            PreparedStatement pst = Main.dbManager.getConnection()
-                    .prepareStatement("SELECT id FROM Skills WHERE nameInPlugin = ?");
-            pst.setString(1, nameInPlugin);
-            pst.executeQuery();
-            ResultSet result = pst.getResultSet();
-            insert = result.next();
-            pst.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return !insert;
     }
 
     @SuppressWarnings("unchecked")

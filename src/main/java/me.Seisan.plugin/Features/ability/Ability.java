@@ -24,9 +24,9 @@ public class Ability {
     @Getter
     private String description;
     @Getter
-    private int pts;
+    private int pts; // Points nécessaires pour acheter la compétence
     @Getter
-    private int ptsnec;
+    private int ptsnec; // points à dépenser avant de pouvoir acheter la compétence
     @Getter
     private String reqAbilities;
     @Getter
@@ -48,7 +48,7 @@ public class Ability {
     public Ability(String name, String nameInPlugin, Material itemType, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore, boolean giveAllowed, int resistance, String givenJutsu){
         this.name = name;
         this.nameInPlugin = nameInPlugin;
-        this.lore = lore == null || lore.equals("") || lore.equals(" ") ? "§8[§cHRP §7: Comming soon... (Pokez Shikure hihi)§8]" : lore;
+        this.lore = lore == null || lore.equals("") || lore.equals(" ") ? "§8[§cHRP §7: Comming soon, veuillez contacter un MJ.§8]" : lore;
         this.item = ItemUtil.createItemStack(itemType, 1, name, Arrays.asList(this.lore, "§7Cliquez ici pour obtenir les ", "§7informations sur cette compétence."), tagkey, tagvalue);
         this.type = type;
         this.lvl = lvl;
