@@ -28,7 +28,7 @@ public class PrierCommand extends Command {
             action = Arrays.toString(split);
             if (action.length() >= 1 && !(split[0].equals("send"))) {
                 waitingForAction.put(player.getUniqueId(), split);
-                player.sendMessage("§4HRP : §b Votre Message est enregistré pour la suite !");
+                player.sendMessage("§aHRP : §b Votre Message est enregistré pour la suite !");
             }
 
             if (split[0].equals("send")) {
