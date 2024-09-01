@@ -108,8 +108,10 @@ public class TechniqueMJCommand extends Command {
 
     private void sendTechnique(Player player, String[] split) {
         String techniqueName = translateHexColorCodes("#", "", String.join(" ", split).replace("&", "§"));
-
-        player.sendMessage("§c** " + player.getDisplayName() + " §créalise la technique " + techniqueName);
+        for (Player p : player.getWorld().getPlayers()) {
+            if (p.getWorld() == player.getWorld() && p.getLocation().distance(player.getLocation()) < 50)
+                p.sendMessage("§c** " + player.getDisplayName() + " §créalise la technique " + techniqueName);
+        }
     }
 
     private void sendTechniqueWithDescription(Player player, String[] techniqueName, SkillLevel level, String description) {
