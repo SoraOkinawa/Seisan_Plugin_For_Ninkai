@@ -29,7 +29,7 @@ public class TPBackCommand extends Command {
             return;
         }
 
-        if(Main.inMedit.containsKey(p.getName())) {
+        if (Main.inMedit.contains(p.getName())) {
             p.sendMessage("§cHRP : §7Non, pas de téléportation en méditation.");
             return;
         }
@@ -70,8 +70,7 @@ public class TPBackCommand extends Command {
     }
 
     @Override
-    protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split)
-    {
+    protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         return new ArrayList<>();
     }
 

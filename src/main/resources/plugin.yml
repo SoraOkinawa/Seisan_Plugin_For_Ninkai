@@ -3,14 +3,12 @@ author: Seisan
 version: '${project.version}'
 main: me.Seisan.plugin.Main
 api-version: 1.20
-depend: [Citizens, NBTAPI]
+depend: [ Citizens, NBTAPI ]
 commands:
   chatmaster:
     description: Permet de gerer les admins du chat
   roll:
     description: permet de roll en local ou global
-  rollresistance:
-    description: permet de roll de résistance chakraique
   boots:
     description: permet de marcher sur l'eau
   hat:
@@ -88,8 +86,8 @@ commands:
     description: permet d'ouvrir l'inventaire de compétence
   entrainement:
     description: permet d'add 1 points aux joueurs
-  resistance:
-    description: add point for chakra resistance
+  prouesse:
+    description: Ajoute des prouesses
   whois:
     description: Donne la liste des joueurs connectés
   stealchakra:
@@ -142,3 +140,5 @@ commands:
     description: Permet de gérer les warp
   prefix:
     description: Permet d'utiliser un préfixe par défaut. Utilisation /prefix <prefixe>
+  TechniqueMJ:
+    description: Permet d'utiliser une technique MJ
