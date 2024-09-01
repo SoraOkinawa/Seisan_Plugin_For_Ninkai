@@ -1,9 +1,6 @@
 package me.Seisan.plugin.Features.ability;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
-import me.Seisan.plugin.Features.data.Config;
-import me.Seisan.plugin.Features.skill.Skill;
-import me.Seisan.plugin.Features.skill.SkillLevel;
 import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,7 +16,7 @@ import java.util.logging.Level;
 
 public class AbilityLoaderDB {
 
-    public static void LoadAllAbilitiesFromDB() {
+    public static void loadAllAbilitiesFromDB() {
         Main.LOG.info("Chargement des compétences depuis la base de données...");
 
         if (loadAllAbilities())
@@ -40,7 +37,7 @@ public class AbilityLoaderDB {
         if(giveAbilities == null) giveAbilities = "";
         if(lore == null) lore = "";
 
-        if(isInsertBDD(nameInPlugin)) {
+        if(isInsertDB(nameInPlugin)) {
             insertSkill(name, nameInPlugin, key, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore);
         }
     }
@@ -56,7 +53,7 @@ public class AbilityLoaderDB {
             while (result.next()) {
                 String name = result.getString("name");
                 String nameInPlugin = result.getString("nameInPlugin");
-                Material itemType = (Material.getMaterial(result.getString("itemType")) != null) ? Material.getMaterial(result.getString("itemType")) : Material.BOOK;
+                Material item = (Material.getMaterial(result.getString("item")) != null) ? Material.getMaterial(result.getString("item")) : Material.BOOK;
                 String description = result.getString("description");
                 String type = result.getString("type");
                 int lvl = result.getInt("lvl");
@@ -69,10 +66,9 @@ public class AbilityLoaderDB {
                 String giveAbilities = result.getString("giveAbilities");
                 String lore = result.getString("lore");
                 boolean giveAllowed = result.getBoolean("giveAllowed");
-                int resistance = result.getInt("resistance");
                 String givenJutsu = result.getString("givenJutsu");
 
-                new Ability(name, nameInPlugin, itemType, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, resistance, givenJutsu);
+                new Ability(name, nameInPlugin, item, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, givenJutsu);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,7 +81,7 @@ public class AbilityLoaderDB {
 
     public static void insertSkill(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
         try{
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Skills(name, nameInPlugin, itemType, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Skills(name, nameInPlugin, item, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, name); //UUID
             pst.setString(2, nameInPlugin); //Mana
@@ -109,7 +105,7 @@ public class AbilityLoaderDB {
         }
     }
 
-    public static boolean isInsertBDD(String nameInPlugin){
+    public static boolean isInsertDB(String nameInPlugin){
         boolean insert = false;
         try {
             PreparedStatement pst = Main.dbManager.getConnection()

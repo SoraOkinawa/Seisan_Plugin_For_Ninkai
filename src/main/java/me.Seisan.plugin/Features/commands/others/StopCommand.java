@@ -23,7 +23,6 @@ public class StopCommand extends Command {
         Main.LOG.info("Closing the server");
         Main.serverOpen = false;
         Main.LOG.info("Kicking all players");
-        saveMedit();
         for (Player p : sender.getServer().getOnlinePlayers()) {
             p.kickPlayer(ChatColor.GOLD + "Seisan redémarre !");
         }

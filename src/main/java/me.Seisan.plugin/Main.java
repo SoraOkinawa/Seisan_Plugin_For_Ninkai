@@ -1,13 +1,12 @@
 package me.Seisan.plugin;
 
 
-import me.Seisan.plugin.Features.commands.anothers.TechniqueMJCommand;
+import me.Seisan.plugin.Features.ability.AbilityLoaderDB;
 import lombok.Getter;
 import me.Seisan.plugin.Features.Chat.ChatFormat;
 import me.Seisan.plugin.Features.PlayerData.PlayerClone;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.ability.Ability;
-import me.Seisan.plugin.Features.ability.AbilityLoader;
 import me.Seisan.plugin.Features.commands.anothers.Commands;
 import me.Seisan.plugin.Features.commands.others.OthersCommandRegister;
 import me.Seisan.plugin.Features.commands.profil.ProfilRegister;
@@ -165,7 +164,7 @@ public class Main extends JavaPlugin {
 
         spigotLogger.info("Loading jutsu & compétences...");
         TechniquesLoaderDB.LoadTechniquesFromDB();
-        AbilityLoader.loadAbilitiesFromConfig();
+        AbilityLoaderDB.loadAllAbilitiesFromDB();
         spigotLogger.info(Ability.instanceList.size() + " abilities have been loaded !");
         spigotLogger.info(Skill.getInstanceList().size() + " jutsu have been loaded !");
 
