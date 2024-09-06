@@ -117,12 +117,12 @@ public class MiscListener extends Feature {
    /*
    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void LogCopy(InventoryCreativeEvent event) {
-        System.out.println("aaaa");
+        Main.LOG.info("aaaa");
         if(event.getWhoClicked().getGameMode() == GameMode.CREATIVE) {
             if(event.getCurrentItem() == null) {
                 return;
             }
-                System.out.println("§cHRP : §7" + event.getWhoClicked().getName() + " a copié " + event.getCursor().getType().name());
+                Main.LOG.info("§cHRP : §7" + event.getWhoClicked().getName() + " a copié " + event.getCursor().getType().name());
 
             if(event.getCursor().getType() == Material.GOLD_NUGGET) {
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {

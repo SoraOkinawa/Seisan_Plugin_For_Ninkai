@@ -1,5 +1,6 @@
 package me.Seisan.plugin.Features.commands.anothers;
 
+import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Main.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -53,7 +54,7 @@ public class RollCommand extends Command {
                 }
             }
             p.sendMessage(ChatColor.GRAY + "[LOCAL] " + ChatColor.RESET + p.getDisplayName() + ChatColor.GRAY + " a tiré un " + resultat + " sur son dé à " + upper + " faces.*");
-            System.out.println(ChatColor.GRAY + "[LOCAL] " + ChatColor.RESET + p.getDisplayName() + ChatColor.GRAY + " a tiré un " + resultat + " sur son dé à " + upper + " faces.*");
+            Main.LOG.info(ChatColor.GRAY + "[LOCAL] " + ChatColor.RESET + p.getDisplayName() + ChatColor.GRAY + " a tiré un " + resultat + " sur son dé à " + upper + " faces.*");
 
         }
     }

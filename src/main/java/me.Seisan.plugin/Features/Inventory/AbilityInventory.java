@@ -4,6 +4,7 @@ import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.ability.Ability;
 import me.Seisan.plugin.Features.objectnum.ArtNinja;
 import me.Seisan.plugin.Features.utils.ItemUtil;
+import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -70,7 +71,7 @@ public class AbilityInventory {
             openInBook(p, desc);
         }
         else {
-            System.out.println("Erreur lors de l'abilité");
+            Main.LOG.info("Erreur lors de l'abilité");
         }
     }
 
@@ -87,7 +88,7 @@ public class AbilityInventory {
             p.openBook(book);
         }
         else {
-            System.out.println("NULL");
+            Main.LOG.info("NULL");
         }
     }
 }

@@ -6,6 +6,7 @@ import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.objectnum.Figurine;
 import me.Seisan.plugin.Features.utils.Casino;
 import me.Seisan.plugin.Features.utils.ItemUtil;
+import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -68,7 +69,7 @@ public class PNJListener extends Feature {
                     if (itemactuel != null){
                         if (itemactuel.getItemMeta().getDisplayName().equals("§2Billet de 10 Ryôs")){
                             if (itemactuel.getType() == Material.GOLD_NUGGET){
-                                System.out.println(itemactuel.getItemMeta().getDisplayName());
+                                Main.LOG.info(itemactuel.getItemMeta().getDisplayName());
                                 if(ItemUtil.hasTag(itemactuel, "seisan", "ryos_billet")){
                                     if (itemactuel.getAmount() >= 1){
                                         amount = itemactuel.getAmount();

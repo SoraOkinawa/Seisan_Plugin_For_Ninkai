@@ -1,7 +1,6 @@
 package me.Seisan.plugin.Features.ability;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
-import me.Seisan.plugin.Features.data.Config;
 import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,72 +11,19 @@ import org.bukkit.entity.Player;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Level;
 
-public class AbilityLoader {
-    private static Config abilityConfig = new Config("abilities.yml");
+public class AbilityLoaderDB {
 
-    public static void loadAbilitiesFromConfig(){
-        ArrayList<String> enabledAbility = abilityConfig.getStringList("enabledAbilities");
+    public static void loadAllAbilitiesFromDB() {
+        Main.LOG.info("Chargement des compétences depuis la base de données...");
 
-        if(!enabledAbility.isEmpty()){
-            readFile(abilityConfig, enabledAbility);
-        }else{
-            Main.LOG.info("Aucune compétence n'a été activée car la liste est vide !");
-            Bukkit.shutdown();
-        }
+        if (loadAllAbilities())
+            Main.LOG.info("Chargement des compétences réussi.");
     }
 
-    public static boolean checkConfig(){
-        try {
-            Config newconfig = new Config("abilities.yml"); //Reloading config file
-            ArrayList<String> enabledAbility = newconfig.getStringList("enabledAbilities");
-            if(enabledAbility.isEmpty()) {
-                return false;
-            }
-            return readFile(newconfig, enabledAbility);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private static boolean readFile(Config abilityConfig, ArrayList<String> enabledAbility) {
-        for(String abilityName : enabledAbility){
-            try {
-                String name = abilityConfig.getString(abilityName + ".name");
-                String nameInPlugin = abilityConfig.getString(abilityName + ".nameInPlugin");
-                Material itemType = (Material.getMaterial(abilityConfig.getString(abilityName + ".itemType")) != null) ? Material.getMaterial(abilityConfig.getString(abilityName + ".itemType")) : Material.BOOK;
-                String description = abilityConfig.getString(abilityName+".description");
-                String type = abilityConfig.getString(abilityName+".type");
-                int lvl = abilityConfig.getInt(abilityName+".lvl");
-                String tagkey = abilityConfig.getString(abilityName+".tagkey");
-                String tagvalue = abilityConfig.getString(abilityName+".tagvalue");
-                int pts = abilityConfig.getInt(abilityName+".pts");
-                int ptsnec = abilityConfig.getInt(abilityName+".ptsnec");
-                String reqAbilities = abilityConfig.getString(abilityName+".reqAbilities");
-                String givenAbilities = abilityConfig.getString(abilityName+".givenAbilities");
-                String giveAbilities = abilityConfig.getString(abilityName+".giveAbilities");
-                String lore = abilityConfig.getString(abilityName+".lore");
-                boolean giveAllowed = abilityConfig.getBoolean(abilityName+".giveAllowed");
-                String givenJutsu = abilityConfig.getString(abilityName+".givenJutsu");
-                // TODO : Faire la même chose pour les jutsus et """proprement"""
-              //  saveBDD(name, nameInPlugin, itemType.getKey().getKey(), description, tagkey, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore);
-                new Ability(name, nameInPlugin, itemType, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, givenJutsu);
-            }catch (Exception e){
-                Main.LOG.info("La compétence " + abilityName + " est mal configurée ! Explication de l'erreur:");
-                e.printStackTrace();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static void saveBDD(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
+    public static void saveInDb(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
         if(name == null) name = "";
         if(nameInPlugin == null) nameInPlugin = "";
         if(key == null) key = "";
@@ -90,21 +36,57 @@ public class AbilityLoader {
         if(givenAbilities == null) givenAbilities = "";
         if(giveAbilities == null) giveAbilities = "";
         if(lore == null) lore = "";
-        if(isInsert(nameInPlugin)) {
+
+        if(isInsertDB(nameInPlugin)) {
             insertSkill(name, nameInPlugin, key, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore);
-
         }
-
     }
 
-    private static void insertSkill(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
+    private static boolean loadAllAbilities() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection()
+                    .prepareStatement("SELECT * FROM Abilities");
+
+            pst.executeQuery();
+            ResultSet result = pst.getResultSet();
+
+            while (result.next()) {
+                String name = result.getString("name");
+                String nameInPlugin = result.getString("nameInPlugin");
+                Material item = (Material.getMaterial(result.getString("item")) != null) ? Material.getMaterial(result.getString("item")) : Material.BOOK;
+                String description = result.getString("description");
+                String type = result.getString("type");
+                int lvl = result.getInt("lvl");
+                String tagkey = result.getString("tagkey");
+                String tagvalue = result.getString("tagvalue");
+                int pts = result.getInt("pts");
+                int ptsnec = result.getInt("ptsnec");
+                String reqAbilities = result.getString("reqAbilities");
+                String givenAbilities = result.getString("givenAbilities");
+                String giveAbilities = result.getString("giveAbilities");
+                String lore = result.getString("lore");
+                boolean giveAllowed = result.getBoolean("giveAllowed");
+                String givenJutsu = result.getString("givenJutsu");
+
+                new Ability(name, nameInPlugin, item, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, givenJutsu);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Main.LOG.log(Level.SEVERE, "Chargement des compétences échoué. Veuillez vérifier la console pour plus d'informations.");
+            return false;
+        }
+        return true;
+    }
+
+
+    public static void insertSkill(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
         try{
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Skills(name, nameInPlugin, itemType, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Skills(name, nameInPlugin, item, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, name); //UUID
             pst.setString(2, nameInPlugin); //Mana
             pst.setString(3, key); // Manamission
-            pst.setString(4, description); // Description
+            pst.setString(4, description); // Manamaze
             pst.setString(5, type); //CurrentSkill
             pst.setInt(6, lvl); //SkilList
             pst.setString(7, tagkey); //Rank
@@ -116,7 +98,6 @@ public class AbilityLoader {
             pst.setString(12, givenAbilities); //Age
             pst.setString(13, giveAbilities); //Apparence
             pst.setString(14, lore); // Voie Ninja
-            System.out.println("oui");
             pst.executeUpdate();
             pst.close();
         }catch (SQLException e){
@@ -124,8 +105,7 @@ public class AbilityLoader {
         }
     }
 
-
-    public static boolean isInsert(String nameInPlugin){
+    public static boolean isInsertDB(String nameInPlugin){
         boolean insert = false;
         try {
             PreparedStatement pst = Main.dbManager.getConnection()
@@ -141,7 +121,6 @@ public class AbilityLoader {
         return !insert;
     }
 
-    @SuppressWarnings("unchecked")
     public static void reloadAllAbility(CommandSender p){
         HashMap<String, PlayerInfo> playerInfoList = (HashMap<String, PlayerInfo>) PlayerInfo.getInstanceList().clone();
 
@@ -176,8 +155,7 @@ public class AbilityLoader {
             p.sendMessage(ChatColor.GREEN + "Compétences des joueurs connectés sauvegardés !\n" + ChatColor.GRAY + "Rechargement des compétences...");
 
         Ability.getInstanceList().clear();
-        abilityConfig = new Config("abilities.yml"); //Reloading config file
-        loadAbilitiesFromConfig();
+        loadAllAbilities();
 
         if(p != null)
             p.sendMessage(ChatColor.GREEN + "Compétences sauvegardés ! \n" + ChatColor.GRAY + "Restitution des compétences aux joueurs...");

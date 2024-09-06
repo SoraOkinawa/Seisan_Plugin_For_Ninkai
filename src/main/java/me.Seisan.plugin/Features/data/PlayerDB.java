@@ -151,6 +151,26 @@ public class PlayerDB {
         });
     }
 
+    public void updatePlayerMastery(PlayerInfo pInfo){
+        String uuid = pInfo.getUuid();
+        Main.getIsSaving().add(pInfo.getPlayer().getName());
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin(), () -> {
+            try {
+                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerInfo SET knownSkills = ?, rollBonus = ? WHERE uuid = ?");
+
+                pst.setString(1, skillMapToString(pInfo));
+                pst.setString(9, rollBonusMapToString(pInfo));
+                pst.setString(3, uuid);
+
+                pst.executeUpdate();
+                pst.close();
+                Main.getIsSaving().remove(pInfo.getPlayer().getName());
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        });
+    }
+
     public ResultSet getPlayerInfo(String uuid) {
         try {
             PreparedStatement pst = this.data.getConnection()
@@ -176,7 +196,7 @@ public class PlayerDB {
                 String name = result.getString("name");
                 Main.getFicheMJ().put(name, loadPlayerInfo(name, result));
             }
-            System.out.println(Main.getFicheMJ().size() + " fiches personnages ont été chargées.");
+            Main.LOG.info(Main.getFicheMJ().size()+" fiches personnages ont été chargées.");
         } catch (SQLException e) {
             e.printStackTrace();
         }

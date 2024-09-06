@@ -276,7 +276,7 @@ public class ChatFormat extends Feature {
                             try {
                                 context.setChatColor(ChatColor.of(parameter));
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                Main.LOG.info(e.getMessage());
                             }
                         } else if ("bold".equals(context.getCurrentAttribute())) {
                             if ("false".equals(parameter)) {
@@ -303,7 +303,7 @@ public class ChatFormat extends Feature {
                                 int range = Integer.valueOf(parameter);
                                 meta.setRange(range);
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                Main.LOG.info(e.getMessage());
                             }
                         } else if ("restricted".equals(context.getCurrentAttribute())) {
                             meta.setRestriction(parameter);

@@ -148,7 +148,7 @@ public class HRPCommand extends Command {
             completions.add("remove");
             completions.add("list");
 
-            for (Clan clan : Clan.values()) {
+            for (Clan clan : Clan.allClans) {
                 completions.add(clan.getName().toLowerCase());
             }
 
@@ -156,7 +156,7 @@ public class HRPCommand extends Command {
         } else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && (args[1].equalsIgnoreCase("add") || args[1].equalsIgnoreCase("remove") || args[1].equalsIgnoreCase("list"))) {
             List<String> completions = new ArrayList<>();
             // Get all clan.name from enum Clam
-            for (Clan clan : Clan.values()) {
+            for (Clan clan : Clan.allClans) {
                 completions.add(clan.getName().toLowerCase());
             }
             return StringUtil.copyPartialMatches(args[2], completions, new ArrayList<>());
