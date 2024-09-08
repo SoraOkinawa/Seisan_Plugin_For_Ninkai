@@ -328,7 +328,7 @@ public class SkillInventoryListener extends Feature {
         switch(targetInfo.getRank().id) {
             case 2:
                 // La cible est un Chuunin
-                webhook = new DiscordWebhook("https://discord.com/api/webhooks/969326292635902002/8KJhFrXl3YrkYtThWU9HOfxvZNp-TMc9z12C60NJrbIXgQ5tZhbR5i9VI-NZnUXzkEPJ");
+                webhook = new DiscordWebhook("");
                 break;
             case 3:
             case 4:
@@ -336,12 +336,12 @@ public class SkillInventoryListener extends Feature {
                 // La cible est un Juunin ou
                 // La cible est un Sannin ou
                 // La cible est un(e) chef(fe) de village
-                webhook = new DiscordWebhook("https://discord.com/api/webhooks/969326562279317535/bjUbAIp3YgvO6MF7vNIkOFwFAnd2Tb7iv2EDhTT2N_YgJ3i3Dt_uIpjZ3XDtBNkD-UE5");
+                webhook = new DiscordWebhook("");
                 break;
             default:
                 // La cible est un(e) étudiant(e) ou
                 // La cible est un Genin
-                webhook = new DiscordWebhook("https://discord.com/api/webhooks/968955265019961364/c6YAnhHgEvq-ilqQUk5D71dr5MQsGxnoxTneKKikbazCnZHg3WsDHiJ9kBOycg1CzADu");
+                webhook = new DiscordWebhook("");
                 break;
         }
         webhook.setContent(ChatColor.stripColor(target.getDisplayName())+" (`"+target.getName()+"`) : "+skill.getLevel().getName()+" - "+ChatColor.stripColor(skill.getName())+" - "+ dtf.format(now));
@@ -353,5 +353,4 @@ public class SkillInventoryListener extends Feature {
             e.printStackTrace();
         }
     }
-
 }

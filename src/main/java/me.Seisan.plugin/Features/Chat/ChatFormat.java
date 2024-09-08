@@ -199,8 +199,6 @@ public class ChatFormat extends Feature {
         addRule("?:", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
         addRule(":?", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
 
-        addRule(":", "{range:-1, color:AQUA, foreveryworld:true}%m");
-
         /* Canal interstaff ou requête */
         addRule("$", "{range:-1, onlyfor:enca, foreveryworld:true}{color:#8A4000,commandonclick:@%a }<%a> %m");
         addRule("=", "{range:-1, onlyfor:mj, foreveryworld:true}{color:GOLD,commandonclick:@%a }<%a> %m");
