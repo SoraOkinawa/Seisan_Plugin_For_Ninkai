@@ -921,9 +921,8 @@ public class ChatFormat extends Feature {
                         if (textComponent.getText().contains("{PLAYER-DATA}")) {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
-
-                            TextComponent nameWithHover = new TextComponent();
-                            nameWithHover.setText(sender.getDisplayName());
+                            
+                            BaseComponent nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName())[0];
                             nameWithHover.setHoverEvent(
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
@@ -938,7 +937,7 @@ public class ChatFormat extends Feature {
                             );
 
 
-                            messageCopied[i] = nameWithHover;
+                            messageCopied[i] = new TextComponent(nameWithHover);
                         }
                     }
                 }

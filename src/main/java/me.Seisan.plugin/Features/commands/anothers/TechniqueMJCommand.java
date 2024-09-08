@@ -1,5 +1,6 @@
 package me.Seisan.plugin.Features.commands.anothers;
 
+import me.Seisan.plugin.Features.Chat.ChatFormat;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.commands.anothers.Commands;
 import me.Seisan.plugin.Features.skill.Skill;
@@ -167,8 +168,8 @@ public class TechniqueMJCommand extends Command {
         }
         return lore;
     }
-
-    public String translateHexColorCodes(String startTag, String endTag, String message) {
+    
+    public static String translateHexColorCodes(String startTag, String endTag, String message) {
         final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
         Matcher matcher = hexPattern.matcher(message);
         StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
