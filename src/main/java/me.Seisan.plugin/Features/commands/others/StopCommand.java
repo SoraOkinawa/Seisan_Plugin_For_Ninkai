@@ -24,7 +24,7 @@ public class StopCommand extends Command {
         Main.serverOpen = false;
         System.out.println("Kicking all players");
         for (Player p : sender.getServer().getOnlinePlayers()) {
-            p.kickPlayer(ChatColor.GOLD + "§4Ninkai redémarre. Veuillez prévenir un Administrateur si le serveur s'est fermé inopinément.");
+            p.kickPlayer(ChatColor.RED + "Ninkai redémarre. Veuillez prévenir un Administrateur si le serveur s'est fermé inopinément.");
         }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.plugin(), (Runnable) new BukkitRunnable() {
