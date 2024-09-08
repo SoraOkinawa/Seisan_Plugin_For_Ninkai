@@ -176,8 +176,6 @@ public class DataListener extends Feature {
             }
 
             Main.getInMedit().remove(p.getName());
-            if(Main.getIdMedit().containsKey(p.getName()))
-                Bukkit.getScheduler().cancelTask(Main.getIdMedit().get(p.getName()));
             Main.getInBulleMedit().remove(p.getName());
             Main.getIdMedit().remove(p.getName());
 

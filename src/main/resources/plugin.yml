@@ -9,8 +9,6 @@ commands:
     description: Permet de gerer les admins du chat
   roll:
     description: permet de roll en local ou global
-  rollresistance:
-    description: permet de roll de résistance chakraique
   boots:
     description: permet de marcher sur l'eau
   hat:
@@ -88,8 +86,8 @@ commands:
     description: permet d'ouvrir l'inventaire de compétence
   entrainement:
     description: permet d'add 1 points aux joueurs
-  resistance:
-    description: add point for chakra resistance
+  prouesse:
+    description: Ajoute des prouesses
   whois:
     description: Donne la liste des joueurs connectés
   stealchakra:
