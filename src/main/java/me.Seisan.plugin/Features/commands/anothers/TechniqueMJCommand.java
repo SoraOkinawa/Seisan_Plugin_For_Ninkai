@@ -48,7 +48,6 @@ public class TechniqueMJCommand extends Command {
             else {
                 // /techniquemj description <description> : Envoie la technique avec la description si le joueur a déjà rentré le nom et le niveau
                 if (split[0].equals("description")) {
-
                     if (waitingForDescription.containsKey(player.getUniqueId())) {
                         String[] techniqueName = waitingForDescription.get(player.getUniqueId());
                         SkillLevel level = getLevelFromString(techniqueName[techniqueName.length - 1]);

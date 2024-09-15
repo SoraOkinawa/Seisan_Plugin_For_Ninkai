@@ -606,7 +606,7 @@ public class ChatFormat extends Feature {
         }
     }
 
-    protected class ChatFormater {
+    public class ChatFormater {
         Meta meta = null;
         List<ChatElement> chatElements;
 
