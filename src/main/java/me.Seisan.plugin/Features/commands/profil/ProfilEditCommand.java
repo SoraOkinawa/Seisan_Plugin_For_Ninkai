@@ -76,7 +76,7 @@ public class ProfilEditCommand extends Command {
                     switch (split[0]) {
                         case "style":
                         case "voie":
-                            for (ArtNinja styleCombat : ArtNinja.values()) {
+                            for (ArtNinja styleCombat : ArtNinja.allNinjaArts) {
                                 complete(completion, styleCombat.getIdentifiant(), split[3]);
                             }
                             break;
@@ -212,14 +212,14 @@ public class ProfilEditCommand extends Command {
 
     private void sendVoieList(CommandSender sender){
         sender.sendMessage(ChatColor.GRAY + "Liste des voies ninja : ");
-        for(ArtNinja voieNinja : ArtNinja.values()){
+        for(ArtNinja voieNinja : ArtNinja.allNinjaArts){
             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.GOLD + voieNinja.getName() + ChatColor.GRAY+ " (" + voieNinja.getId() + ")");
         }
     }
 
     private void sendStyleList(CommandSender sender){
         sender.sendMessage(ChatColor.GRAY + "Liste des styles de combat : ");
-        for(ArtNinja styleCombat : ArtNinja.values()){
+        for(ArtNinja styleCombat : ArtNinja.allNinjaArts){
             sender.sendMessage(ChatColor.GRAY + "- " + ChatColor.GOLD + styleCombat.getName() + ChatColor.GRAY+ " (" + styleCombat.getId() + ")");
         }
     }

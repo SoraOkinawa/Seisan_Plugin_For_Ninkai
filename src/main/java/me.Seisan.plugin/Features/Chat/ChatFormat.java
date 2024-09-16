@@ -940,9 +940,9 @@ public class ChatFormat extends Feature {
                             nameWithHover.setHoverEvent(
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
-                                            new ComponentBuilder(
-                                                    sender.getDisplayName()
-                                                            + " (" + sender.getName() + ") - Âge : "
+                                            new ComponentBuilder("")
+                                                    .append((BaseComponent) TextComponent.fromLegacyText(sender.getDisplayName())[0])
+                                                    .append(" (" + sender.getName() + ") - Âge : "
                                                             + PlayerInfo.getPlayerInfo(sender).getAge()
                                                             + printedDirection)
                                                     .color(ChatColor.YELLOW)
@@ -968,12 +968,12 @@ public class ChatFormat extends Feature {
         ItemStack item = p.getInventory().getItemInMainHand();
         ItemStack item2 = p.getInventory().getItemInOffHand();
         if (item.getType() != Material.AIR) {
-            if (ItemUtil.hasTag(item, "seisan", "animal")) {
+            if (ItemUtil.hasTag(item, "ninkai", "animal")) {
                 hasAnAnimal = true;
             }
         }
         if (!hasAnAnimal && item2.getType() != Material.AIR) {
-            if (ItemUtil.hasTag(item, "seisan", "animal")) {
+            if (ItemUtil.hasTag(item, "ninkai", "animal")) {
                 hasAnAnimal = true;
             }
         }

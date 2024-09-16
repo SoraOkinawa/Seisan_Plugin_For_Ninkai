@@ -12,6 +12,7 @@ import me.Seisan.plugin.Features.commands.others.OthersCommandRegister;
 import me.Seisan.plugin.Features.commands.profil.ProfilRegister;
 import me.Seisan.plugin.Features.data.ClansDB;
 import me.Seisan.plugin.Features.data.DBManager;
+import me.Seisan.plugin.Features.data.NinjaArtsDB;
 import me.Seisan.plugin.Features.objectnum.Clan;
 import me.Seisan.plugin.Features.skill.TechniquesLoaderDB;
 import me.Seisan.plugin.Features.listener.Listener;
@@ -166,7 +167,8 @@ public class Main extends JavaPlugin {
 
         spigotLogger.info("Loading clans, jutsus & abilities...");
         ClansDB.loadAllClansFromDB();
-        TechniquesLoaderDB.LoadTechniquesFromDB();
+        NinjaArtsDB.loadAllNinjaArtsFromDB();
+        TechniquesLoaderDB.LoadAllTechniquesFromDB();
         AbilityLoaderDB.loadAllAbilitiesFromDB();
         spigotLogger.info(Ability.instanceList.size() + " abilities have been loaded !");
         spigotLogger.info(Skill.getInstanceList().size() + " jutsu have been loaded !");

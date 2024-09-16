@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 public class TechniquesLoaderDB {
-    public static void LoadTechniquesFromDB() {
+    public static void LoadAllTechniquesFromDB() {
         Main.LOG.info("Chargement des jutsu en base de données...");
         
         if (loadAllTechniques())

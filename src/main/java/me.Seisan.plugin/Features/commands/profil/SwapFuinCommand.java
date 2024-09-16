@@ -17,25 +17,25 @@ public class SwapFuinCommand extends Command {
         if(!(sender instanceof Player)) {
             return;
         }
-        Player p = (Player)sender;
-        PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
-        PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
-        if(pInfo.getVoieNinja() != ArtNinja.FUINJUTSU) {
-            p.sendMessage("§cHRP : §7Vous n'êtes pas Fuinjutsu.");
-            return;
-        }
-        if(pInfo.getLvL(pInfo.getVoieNinja().getName()) < 4) {
-            p.sendMessage("§cHRP : §7Vous n'êtes pas level 4 en Fuinjutsu.");
-            return;
-        }
-
-        pConfig.setSwapfuin(!pConfig.isSwapfuin());
-        if(pConfig.isSwapfuin()) {
-            p.sendMessage("§cHRP : §7Vous utilisez désormais vos feuilles Seju");
-        }
-        else {
-            p.sendMessage("§cHRP : §7Vous utilisez désormais votre encre Fuinjutsu");
-        }
+//        Player p = (Player)sender;
+//        PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
+//        PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
+//        if(pInfo.getVoieNinja() != ArtNinja.FUINJUTSU) {
+//            p.sendMessage("§cHRP : §7Vous n'êtes pas Fuinjutsu.");
+//            return;
+//        }
+//        if(pInfo.getLvL(pInfo.getVoieNinja().getName()) < 4) {
+//            p.sendMessage("§cHRP : §7Vous n'êtes pas level 4 en Fuinjutsu.");
+//            return;
+//        }
+//
+//        pConfig.setSwapfuin(!pConfig.isSwapfuin());
+//        if(pConfig.isSwapfuin()) {
+//            p.sendMessage("§cHRP : §7Vous utilisez désormais vos feuilles Seju");
+//        }
+//        else {
+//            p.sendMessage("§cHRP : §7Vous utilisez désormais votre encre Fuinjutsu");
+//        }
     }
 
     @Override

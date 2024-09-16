@@ -26,10 +26,7 @@ public class AbilityInventory {
         Inventory inv = Bukkit.createInventory(holder, 36, "§8Compétence : "+type);
 
         ArrayList<Ability> abilities = pInfo.getAbilities();
-        boolean style = false;
-        if(ArtNinja.getIDFromName(type) > 4) {
-            style = true;
-        }
+        boolean style = !ArtNinja.getFromName(type).isVoieNinja();
 
         int nb = 0;
         abilities.sort(Comparator.comparing(Ability::getName));

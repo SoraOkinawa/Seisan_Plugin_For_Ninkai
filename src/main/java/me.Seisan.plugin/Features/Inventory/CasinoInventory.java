@@ -20,10 +20,10 @@ public class CasinoInventory {
             }
         }
 
-        inv.setItem(11, ItemUtil.createItemStack(Material.CLOCK,1, "§6Tentez votre chance pour 10 ryôs !", Arrays.asList("§7Il s'agit d'un §lseul §r§7tirage.", "§7La maison ne rembourse pas."), "seisan", "clef_or"));
-        inv.setItem(13, ItemUtil.createItemStack(Material.CLOCK,1, "§6Tentez votre chance pour 50 ryôs !", Arrays.asList("§7Il s'agit de §lsix §r§7tirages.", "§7La maison ne rembourse pas."), "seisan", "clef_or"));
-        inv.setItem(15, ItemUtil.createItemStack(Material.CLOCK,1, "§6Tentez votre chance pour 100 ryôs !", Arrays.asList("§7Il s'agit de §ldouze §r§7tirages.", "§7La maison ne rembourse pas."), "seisan", "clef_or"));
-        inv.setItem(22, ItemUtil.createItemStack(Material.GOLD_NUGGET, 1, "§6Solde de vos ryôs", Arrays.asList("§7Voici les ryôs en votre possession : ", "§7Solde : "+getRyos(p), "§cHRP : §7Si votre solde est erroné, contactez §9Isami §7ou un §4MJ§7."), "seisan", "ryos"));
+        inv.setItem(11, ItemUtil.createItemStack(Material.CLOCK,1, "§6Tentez votre chance pour 10 ryôs !", Arrays.asList("§7Il s'agit d'un §lseul §r§7tirage.", "§7La maison ne rembourse pas."), "ninkai", "clef_or"));
+        inv.setItem(13, ItemUtil.createItemStack(Material.CLOCK,1, "§6Tentez votre chance pour 50 ryôs !", Arrays.asList("§7Il s'agit de §lsix §r§7tirages.", "§7La maison ne rembourse pas."), "ninkai", "clef_or"));
+        inv.setItem(15, ItemUtil.createItemStack(Material.CLOCK,1, "§6Tentez votre chance pour 100 ryôs !", Arrays.asList("§7Il s'agit de §ldouze §r§7tirages.", "§7La maison ne rembourse pas."), "ninkai", "clef_or"));
+        inv.setItem(22, ItemUtil.createItemStack(Material.GOLD_NUGGET, 1, "§6Solde de vos ryôs", Arrays.asList("§7Voici les ryôs en votre possession : ", "§7Solde : "+getRyos(p), "§cHRP : §7Si votre solde est erroné, contactez §9Isami §7ou un §4MJ§7."), "ninkai", "ryos"));
         return inv;
     }
 }
