@@ -926,9 +926,9 @@ public class ChatFormat extends Feature {
                             nameWithHover.setHoverEvent(
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
-                                            new ComponentBuilder(
-                                                    sender.getDisplayName()
-                                                            + " (" + sender.getName() + ") - Âge : "
+                                            new ComponentBuilder("")
+                                                    .append((BaseComponent) TextComponent.fromLegacyText(sender.getDisplayName())[0])
+                                                    .append(" (" + sender.getName() + ") - Âge : "
                                                             + PlayerInfo.getPlayerInfo(sender).getAge()
                                                             + printedDirection)
                                                     .color(ChatColor.YELLOW)
