@@ -58,7 +58,7 @@ public class DBManager {
         }
     /*
         for (PlayerInfo pInfo : PlayerInfo.getInstanceList().values()) {
-            System.out.println("[SeisanPlugin] Sauvegarde des données de "+pInfo.getPlayer().getName());
+            Main.LOG.info("Sauvegarde des données de "+pInfo.getPlayer().getName());
             playerDB.updatePlayer(pInfo);
         }
     */
@@ -78,7 +78,7 @@ public class DBManager {
     }
 
     public void refreshConnection(){
-        System.out.println("[Seisan_Plugin] Refresh de la connexion à la base de données.");
+        Main.LOG.info("Refresh de la connexion à la base de données.");
         try {
             if (isConnected()) {
                 disconnect();

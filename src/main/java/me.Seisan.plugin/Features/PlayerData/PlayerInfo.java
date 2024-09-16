@@ -519,7 +519,7 @@ public class PlayerInfo {
         skills.clear();
         rank = RPRank.STUDENT;
         rollBonus.clear();
-        clan = Clan.INDEFINI;
+        clan = Clan.getFromID(1);
         chakraType.clear();
         age = 15;
         voieNinja = ArtNinja.INDEFINI;

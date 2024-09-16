@@ -6,6 +6,7 @@ import com.destroystokyo.paper.profile.ProfileProperty;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Main.Command;
 
 import org.bukkit.command.CommandSender;
@@ -55,7 +56,7 @@ public class ReloadSkinCommand extends Command {
                 p.setPlayerProfile(gp);
                 return true;
             } else {
-                System.out.println("Connection could not be opened (Response code " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ")");
+                Main.LOG.info("Connection could not be opened (Response code " + connection.getResponseCode() + ", " + connection.getResponseMessage() + ")");
                 return false;
             }
         } catch (IOException e) {

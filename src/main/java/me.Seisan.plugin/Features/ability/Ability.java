@@ -24,9 +24,9 @@ public class Ability {
     @Getter
     private String description;
     @Getter
-    private int pts;
+    private int pts; // Points nécessaires pour acheter la compétence
     @Getter
-    private int ptsnec;
+    private int ptsnec; // points à dépenser avant de pouvoir acheter la compétence
     @Getter
     private String reqAbilities;
     @Getter

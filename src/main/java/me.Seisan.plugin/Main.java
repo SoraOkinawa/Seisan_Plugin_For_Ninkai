@@ -1,20 +1,21 @@
 package me.Seisan.plugin;
 
 
-import me.Seisan.plugin.Features.commands.anothers.TechniqueMJCommand;
+import me.Seisan.plugin.Features.ability.AbilityLoaderDB;
 import lombok.Getter;
 import me.Seisan.plugin.Features.Chat.ChatFormat;
 import me.Seisan.plugin.Features.PlayerData.PlayerClone;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.ability.Ability;
-import me.Seisan.plugin.Features.ability.AbilityLoader;
 import me.Seisan.plugin.Features.commands.anothers.Commands;
 import me.Seisan.plugin.Features.commands.others.OthersCommandRegister;
 import me.Seisan.plugin.Features.commands.profil.ProfilRegister;
+import me.Seisan.plugin.Features.data.ClansDB;
 import me.Seisan.plugin.Features.data.DBManager;
+import me.Seisan.plugin.Features.objectnum.Clan;
+import me.Seisan.plugin.Features.skill.TechniquesLoaderDB;
 import me.Seisan.plugin.Features.listener.Listener;
 import me.Seisan.plugin.Features.skill.Skill;
-import me.Seisan.plugin.Features.skill.SkillLoader;
 import me.Seisan.plugin.Features.utils.Channel;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
@@ -154,7 +155,7 @@ public class Main extends JavaPlugin {
         new ProfilRegister().register();
         new OthersCommandRegister().register();
 //        new Routines().register();
-        System.out.println("---> Enabling SeisanPlugin <---");
+        LOG.info("---> Enabling SeisanPluginForNinkai <---");
         serverOpen = true;
         spigotLogger = Bukkit.getLogger();
 
@@ -163,11 +164,13 @@ public class Main extends JavaPlugin {
         dbManager.getConnection();
         PlayerClone.init();
 
-        spigotLogger.info("Loading jutsu & compétences...");
-        SkillLoader.loadSkillsFromConfig();
-        AbilityLoader.loadAbilitiesFromConfig();
+        spigotLogger.info("Loading clans, jutsus & abilities...");
+        ClansDB.loadAllClansFromDB();
+        TechniquesLoaderDB.LoadTechniquesFromDB();
+        AbilityLoaderDB.loadAllAbilitiesFromDB();
         spigotLogger.info(Ability.instanceList.size() + " abilities have been loaded !");
         spigotLogger.info(Skill.getInstanceList().size() + " jutsu have been loaded !");
+        spigotLogger.info(Clan.allClans.size() + " clans have been loaded !");
 
         setupManaLoop();
         dbManager.getPlayerDB().loadPlayerFiche();

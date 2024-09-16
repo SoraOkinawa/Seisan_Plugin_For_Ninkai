@@ -209,8 +209,6 @@ public class ChatFormat extends Feature {
         addRule("?:", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
         addRule(":?", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
 
-        addRule(":", "{range:-1, color:AQUA, foreveryworld:true}%m");
-
         /* Canal interstaff ou requête */
         addRule("$", "{range:-1, onlyfor:enca, foreveryworld:true}{color:#8A4000,commandonclick:@%a }<%a> %m");
         addRule("=", "{range:-1, onlyfor:mj, foreveryworld:true}{color:GOLD,commandonclick:@%a }<%a> %m");
@@ -290,7 +288,7 @@ public class ChatFormat extends Feature {
                             try {
                                 context.setChatColor(ChatColor.of(parameter));
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                Main.LOG.info(e.getMessage());
                             }
                         } else if ("bold".equals(context.getCurrentAttribute())) {
                             if ("false".equals(parameter)) {
@@ -317,7 +315,7 @@ public class ChatFormat extends Feature {
                                 int range = Integer.valueOf(parameter);
                                 meta.setRange(range);
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                Main.LOG.info(e.getMessage());
                             }
                         } else if ("restricted".equals(context.getCurrentAttribute())) {
                             meta.setRestriction(parameter);
@@ -937,9 +935,8 @@ public class ChatFormat extends Feature {
                         if (textComponent.getText().contains("{PLAYER-DATA}")) {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
-
-                            TextComponent nameWithHover = new TextComponent();
-                            nameWithHover.setText(sender.getDisplayName());
+                            
+                            BaseComponent nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName())[0];
                             nameWithHover.setHoverEvent(
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
@@ -954,7 +951,7 @@ public class ChatFormat extends Feature {
                             );
 
 
-                            messageCopied[i] = nameWithHover;
+                            messageCopied[i] = new TextComponent(nameWithHover);
                         }
                     }
                 }

@@ -20,9 +20,9 @@ public class StopCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         final Server server = sender.getServer();
-        System.out.println("Closing the server");
+        Main.LOG.info("Closing the server");
         Main.serverOpen = false;
-        System.out.println("Kicking all players");
+        Main.LOG.info("Kicking all players");
         for (Player p : sender.getServer().getOnlinePlayers()) {
             p.kickPlayer(ChatColor.RED + "Ninkai redémarre. Veuillez prévenir un Administrateur si le serveur s'est fermé inopinément.");
         }
