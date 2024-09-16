@@ -100,11 +100,11 @@ public class Skill {
         this.infosup = infosup;
         this.skillVisibility = skillVisibility;
         if (ArtNinja.getIDFromName(element) < 5 && ArtNinja.getIDFromName(element) > 0) {
-            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "seisan", element.toLowerCase().replace("ô", "o") + "_scroll");
+            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", element.toLowerCase().replace("ô", "o") + "_scroll");
         } else if (clan != Clan.getFromID(1)) {
-            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "seisan", clan.getTag());
+            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", clan.getTag());
         } else {
-            this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "seisan", "rouleau_" + this.element.replace("ô", "o").toLowerCase());
+            this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", "rouleau_" + this.element.replace("ô", "o").toLowerCase());
         }
         if (commandList != null)
             this.commandList = commandList;

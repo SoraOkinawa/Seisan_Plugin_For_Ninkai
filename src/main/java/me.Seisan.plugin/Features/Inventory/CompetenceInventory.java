@@ -50,10 +50,10 @@ public class CompetenceInventory {
         inv.setItem(13, skull);
 
         inv.setItem(31, ItemUtil.createItemStack(Material.NETHER_STAR, 1, "§8Autres compétences", Arrays.asList("§7Cliquez pour davantage d'informations", "§7(Ceci n'affichagera que les compétences autres)")));
-        inv.setItem(37, ItemUtil.createItemStack(Material.RED_DYE, 1, "§4Force", Arrays.asList("§7Cliquez pour davantage d'informations", "§7Niveau actuel : §f" + pInfo.getLvL("Force")), "seisan", "force_icon"));
-        inv.setItem(39, ItemUtil.createItemStack(Material.GREEN_DYE, 1, "§2Vitesse", Arrays.asList("§7Cliquez pour davantage d'informations", "§7Niveau actuel : §f" + pInfo.getLvL("Vitesse")), "seisan", "vitesse_icon"));
-        inv.setItem(41, ItemUtil.createItemStack(Material.YELLOW_DYE, 1, "§ePerception de la vitesse", Arrays.asList("§7Cliquez pour davantage d'informations", "§7Niveau actuel : §f" + pInfo.getLvL("Perception de la vitesse")), "seisan", "perception_icon"));
-        inv.setItem(43, ItemUtil.createItemStack(Material.BLUE_DYE, 1, "§9Instinct et expérience", Arrays.asList("§7Cliquez pour davantage d'informations", "§7Niveau actuel : §f" + pInfo.getLvL("Instinct et expérience")), "seisan", "instinct_icon"));
+        inv.setItem(37, ItemUtil.createItemStack(Material.RED_DYE, 1, "§4Force", Arrays.asList("§7Cliquez pour davantage d'informations", "§7Niveau actuel : §f" + pInfo.getLvL("Force")), "ninkai", "force_icon"));
+        inv.setItem(39, ItemUtil.createItemStack(Material.GREEN_DYE, 1, "§2Vitesse", Arrays.asList("§7Cliquez pour davantage d'informations", "§7Niveau actuel : §f" + pInfo.getLvL("Vitesse")), "ninkai", "vitesse_icon"));
+        inv.setItem(41, ItemUtil.createItemStack(Material.YELLOW_DYE, 1, "§ePerception de la vitesse", Arrays.asList("§7Cliquez pour davantage d'informations", "§7Niveau actuel : §f" + pInfo.getLvL("Perception de la vitesse")), "ninkai", "perception_icon"));
+        inv.setItem(43, ItemUtil.createItemStack(Material.BLUE_DYE, 1, "§9Instinct et expérience", Arrays.asList("§7Cliquez pour davantage d'informations", "§7Niveau actuel : §f" + pInfo.getLvL("Instinct et expérience")), "ninkai", "instinct_icon"));
 
 
         return inv;

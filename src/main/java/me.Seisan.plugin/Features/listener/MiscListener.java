@@ -106,7 +106,7 @@ public class MiscListener extends Feature {
             ItemFrame itemframe = getItemFrameAt(locclef);
             if(itemframe != null) {
                 ItemStack itemStack = itemframe.getItem();
-                if (itemStack.getType() == Material.CLOCK && ItemUtil.hasTag(itemStack, "seisan", "clef_or") && itemStack.hasItemMeta() && itemStack.getItemMeta() != null && itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName().equals("§6TENTEZ VOTRE CHANCE")) {
+                if (itemStack.getType() == Material.CLOCK && ItemUtil.hasTag(itemStack, "ninkai", "clef_or") && itemStack.hasItemMeta() && itemStack.getItemMeta() != null && itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName().equals("§6TENTEZ VOTRE CHANCE")) {
                     event.getPlayer().openInventory(CasinoInventory.getCasino(event.getPlayer()));
                     loccasino.put(event.getPlayer().getName(), locclef);
                 }
@@ -138,7 +138,7 @@ public class MiscListener extends Feature {
         boolean isVase = false;
             net.minecraft.server.v1_15_R1.ItemStack stack = CraftItemStack.asNMSCopy(vase);
             NBTTagCompound tag = stack.getTag() != null ? stack.getTag() : new NBTTagCompound();
-            if(tag.hasKey("seisan") && tag.getString("seisan").contains("vase")) {
+            if(tag.hasKey("ninkai") && tag.getString("ninkai").contains("vase")) {
                 // Blabla vérif du tag
                 isVase = true;
         }
@@ -148,9 +148,9 @@ public class MiscListener extends Feature {
     private ItemStack updateVase(ItemStack vase, String newvase) {
         net.minecraft.server.v1_15_R1.ItemStack stack = CraftItemStack.asNMSCopy(vase);
         NBTTagCompound tag = stack.getTag() != null ? stack.getTag() : new NBTTagCompound();
-        if(tag.hasKey("seisan") && tag.getString("seisan").contains("vase")) {
+        if(tag.hasKey("ninkai") && tag.getString("ninkai").contains("vase")) {
             // Blabla vérif du tag
-            tag.setString("seisan", newvase);
+            tag.setString("ninkai", newvase);
         }
         stack.setTag(tag);
         return CraftItemStack.asBukkitCopy(stack);
@@ -269,7 +269,7 @@ public class MiscListener extends Feature {
             if(e.getPlayer().isSneaking()) {
                 if(e.getItem() != null && e.getItem().getType() == Material.PAPER) {
                     ItemStack stack = e.getItem();
-                    if(ItemUtil.hasTag(stack, "seisan", "boite_sankamaisu")) {
+                    if(ItemUtil.hasTag(stack, "ninkai", "boite_sankamaisu")) {
                         e.setCancelled(true);
                         if(e.getPlayer().getInventory().firstEmpty() != -1) {
                             if (e.getItem().getAmount() > 1) {

@@ -92,9 +92,9 @@ public class TrainInventory {
             clanlore = Arrays.asList(name_clan,"§7Niveau : §f"+pInfo.getLvlHint(clan));
         }
         inv.setItem(12, skull);
-        inv.setItem(14, ItemUtil.createItemStack(Material.BLUE_DYE, 1, "§6Informations sur le chakra", chakralore, "seisan", "chakra_icon"));
-        inv.setItem(20, ItemUtil.createItemStack(Material.PAPER, 1, "§6Style de combat", Arrays.asList(name_style,"§7Niveau : §f"+pInfo.getLvlHint(style)), "seisan", "style_icon"));
-        inv.setItem(22, ItemUtil.createItemStack(Material.PAPER, 1, "§6Clan", clanlore, "seisan", pInfo.getClan().getTag()));
+        inv.setItem(14, ItemUtil.createItemStack(Material.BLUE_DYE, 1, "§6Informations sur le chakra", chakralore, "ninkai", "chakra_icon"));
+        inv.setItem(20, ItemUtil.createItemStack(Material.PAPER, 1, "§6Style de combat", Arrays.asList(name_style,"§7Niveau : §f"+pInfo.getLvlHint(style)), "ninkai", "style_icon"));
+        inv.setItem(22, ItemUtil.createItemStack(Material.PAPER, 1, "§6Clan", clanlore, "ninkai", pInfo.getClan().getTag()));
         if(pInfo.getVoieNinja().getId() == -1 || pInfo.getVoieNinja().getId() == 0) {
             inv.setItem(24, ItemUtil.createItemStack(Material.END_CRYSTAL, 1, "§6Voie ninja", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie))));
         }
@@ -113,17 +113,17 @@ public class TrainInventory {
                             "§7Mode de consommation : §6"+mode);
                 }
             }
-            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER, 1, "§6Voie ninja", lore, "seisan", voie.toLowerCase()+"_scroll"));
+            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER, 1, "§6Voie ninja", lore, "ninkai", voie.toLowerCase()+"_scroll"));
         }
         else {
-            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER,1, "§6Second style de combat", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)), "seisan", "style_icon_2"));
+            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER,1, "§6Second style de combat", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)), "ninkai", "style_icon_2"));
         }
         inv.setItem(31, ItemUtil.createItemStack(Material.NETHER_STAR, 1, "§8Autres compétences", Arrays.asList("§7Cliquez pour davantage d'informations","§7(Ceci n'affichagera que les compétences autres)")));
 
-        inv.setItem(37, ItemUtil.createItemStack(Material.RED_DYE, 1, "§4Force",Arrays.asList("§7Cliquez pour davantage d'informations","§7Niveau : §f"+pInfo.getLvL("Force")), "seisan", "force_icon"));
-        inv.setItem(39, ItemUtil.createItemStack(Material.GREEN_DYE, 1, "§2Vitesse",Arrays.asList("§7Cliquez pour davantage d'informations","§7Niveau : §f"+pInfo.getLvL("Vitesse")), "seisan", "vitesse_icon"));
-        inv.setItem(41, ItemUtil.createItemStack(Material.YELLOW_DYE, 1, "§ePerception de la vitesse",Arrays.asList("§7Cliquez pour davantage d'informations","§7Niveau : §f"+pInfo.getLvL("Perception de la vitesse")), "seisan", "perception_icon"));
-        inv.setItem(43, ItemUtil.createItemStack(Material.BLUE_DYE, 1, "§9Instinct et expérience",Arrays.asList("§7Cliquez pour davantage d'informations","§7Niveau : §f"+pInfo.getLvL("Instinct et expérience")), "seisan", "instinct_icon"));
+        inv.setItem(37, ItemUtil.createItemStack(Material.RED_DYE, 1, "§4Force",Arrays.asList("§7Cliquez pour davantage d'informations","§7Niveau : §f"+pInfo.getLvL("Force")), "ninkai", "force_icon"));
+        inv.setItem(39, ItemUtil.createItemStack(Material.GREEN_DYE, 1, "§2Vitesse",Arrays.asList("§7Cliquez pour davantage d'informations","§7Niveau : §f"+pInfo.getLvL("Vitesse")), "ninkai", "vitesse_icon"));
+        inv.setItem(41, ItemUtil.createItemStack(Material.YELLOW_DYE, 1, "§ePerception de la vitesse",Arrays.asList("§7Cliquez pour davantage d'informations","§7Niveau : §f"+pInfo.getLvL("Perception de la vitesse")), "ninkai", "perception_icon"));
+        inv.setItem(43, ItemUtil.createItemStack(Material.BLUE_DYE, 1, "§9Instinct et expérience",Arrays.asList("§7Cliquez pour davantage d'informations","§7Niveau : §f"+pInfo.getLvL("Instinct et expérience")), "ninkai", "instinct_icon"));
 
         return inv;
     }
