@@ -30,7 +30,7 @@ public class EncaCommand extends Command {
             } else {
                 sender.sendMessage(target.getDisplayName() + " §7n'est désormais plus en mode encadrant.");
                 target.setPlayerListName(target.getDisplayName());
-                target.sendMessage("§cHRP : §7Vous n'êtes plus en mode encadrant. Merci de votre contribution pour Seisan !");
+                target.sendMessage("§cHRP : §7Vous n'êtes plus en mode encadrant. Merci de votre contribution pour Ninkai !");
             }
             newPermissionEncaMode(pConfig);
         }

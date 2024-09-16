@@ -295,13 +295,13 @@ public class MiscListener extends Feature {
         String command = e.getMessage().split(" ")[0];
         command = command.substring(1);
         if(command.equalsIgnoreCase("reload")) {
-            e.getPlayer().sendMessage(ChatColor.RED + "Le reload casse le plugin de Seisan, faites un /stop à la place");
+            e.getPlayer().sendMessage(ChatColor.RED + "Le reload casse le plugin de Ninkai, faites un /stop à la place");
             e.setCancelled(true);
         }else if(command.equalsIgnoreCase("help")){
             e.getPlayer().sendMessage(ChatColor.RED + "Bien tenté, mais non, pas de /help");
             e.setCancelled(true);
         }else if(command.equalsIgnoreCase("pl") || command.equalsIgnoreCase("plugin") || command.equalsIgnoreCase("plugins")){
-            e.getPlayer().sendMessage("Plugins (1): " + ChatColor.GREEN + "Seisan");
+            e.getPlayer().sendMessage("Plugins (1): " + ChatColor.GREEN + "Ninkai");
             e.setCancelled(true);
         }
     }
@@ -309,7 +309,7 @@ public class MiscListener extends Feature {
     @EventHandler
     public void consoleCommandPreprocess(ServerCommandEvent e) {
         if (e.getCommand().equalsIgnoreCase("reload")) {
-            e.getSender().sendMessage(ChatColor.RED + "Le reload casse le plugin de Seisan, faites un /stop à la place");
+            e.getSender().sendMessage(ChatColor.RED + "Le reload casse le plugin de Ninkai, faites un /stop à la place");
             e.setCancelled(true);
         }
     }
