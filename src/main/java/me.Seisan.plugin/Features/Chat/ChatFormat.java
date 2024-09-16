@@ -21,7 +21,12 @@ import org.bukkit.plugin.EventExecutor;
 
 import java.util.*;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static me.Seisan.plugin.Features.utils.ItemUtil.translateHexCodes;
+import static org.bukkit.ChatColor.COLOR_CHAR;
 
 public class ChatFormat extends Feature {
     private static List<String> PREFIX;
@@ -128,15 +133,20 @@ public class ChatFormat extends Feature {
                         FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
                     }
                 }
+                String hex = translateHexColorCodes("#", "", String.join("", message.replace("&", "§")));
+
             }
+
+
         };
         addExecutor(prefix, executor, rule);
         return true;
     }
 
-    /**
-     * Initialize the default set of chat rules.
-     */
+
+            /**
+             * Initialize the default set of chat rules.
+             */
     private void initialize() {
         /* Speaking */
         addRule("#", "{range:3}<%a [chuchote]> {color:DARK_AQUA}%m");
@@ -210,7 +220,11 @@ public class ChatFormat extends Feature {
         /* HRP */
         addRule("(", "{range:20}<%a> {color:GRAY}(%m");
         Main.plugin().saveConfig();
+
     }
+
+
+
 
     @Override
     protected void doRegister() {
@@ -983,5 +997,19 @@ public class ChatFormat extends Feature {
             }
         }
         return name;
+    }
+    public String translateHexColorCodes(String startTag, String endTag, String message) {
+        final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
+        Matcher matcher = hexPattern.matcher(message);
+        StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
+        while (matcher.find()) {
+            String group = matcher.group(1);
+            matcher.appendReplacement(buffer, COLOR_CHAR + "x"
+                    + COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
+                    + COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
+                    + COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
+            );
+        }
+        return matcher.appendTail(buffer).toString();
     }
 }

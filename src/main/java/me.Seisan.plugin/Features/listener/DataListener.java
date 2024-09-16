@@ -75,7 +75,7 @@ public class DataListener extends Feature {
             }
             searchPlayerInfo(e.getPlayer());
         } else {
-            e.getPlayer().kickPlayer(ChatColor.GOLD + "Seisan restart !");
+            e.getPlayer().kickPlayer(ChatColor.RED + "Ninkai redémarre. Veuillez prévenir un Administrateur si le serveur s'est fermé inopinément.");
         }
     }
 
