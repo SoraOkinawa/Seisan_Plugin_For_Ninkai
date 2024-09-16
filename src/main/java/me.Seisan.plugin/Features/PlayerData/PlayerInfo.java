@@ -340,7 +340,7 @@ public class PlayerInfo {
             int min = 0;
             /* Si c'est un style de combat */
             String test = ability.getType();
-            if (nombre > 2 && ArtNinja.getIDFromName(test) >= 5) {
+            if (nombre > 2 && !ArtNinja.getFromName(test).isVoieNinja()) {
                 min = 2;
                 abilityArrayList.add(Ability.getByPluginName("style_de_combat_1"));
                 abilityArrayList.add(Ability.getByPluginName("style_de_combat_2"));
@@ -415,10 +415,7 @@ public class PlayerInfo {
     public int getLvL(String type) {
         // Si c'est un style
         int lvl = 0;
-        boolean style = false;
-        if (ArtNinja.getIDFromName(type) >= 5) {
-            style = true;
-        }
+        boolean style = !ArtNinja.getFromName(type).isVoieNinja();
         for (Ability ability : abilities) {
             if (type.equals(ability.getType())) {
                 if (ability.getLvl() > lvl) {
@@ -522,8 +519,8 @@ public class PlayerInfo {
         clan = Clan.getFromID(1);
         chakraType.clear();
         age = 15;
-        voieNinja = ArtNinja.INDEFINI;
-        styleCombat = ArtNinja.INDEFINI;
+        voieNinja = ArtNinja.getFromID(1);
+        styleCombat = ArtNinja.getFromID(1);
         abilities.clear();
         updateAbility(Ability.getByPluginName("vitesse_1"));
         updateAbility(Ability.getByPluginName("force_1"));

@@ -86,7 +86,7 @@ public class Skill {
             this.name = ItemUtil.translateHexCodes(name);
         }
         ArtNinja artNinja = ArtNinja.getFromName(this.element);
-        if (artNinja != ArtNinja.INDEFINI) {
+        if (artNinja != ArtNinja.getFromID(1)) {
             name = ChatColor.stripColor(name);
             name = ("&#" + artNinja.getColorHexa()).concat(name);
             this.name = ItemUtil.translateHexCodes(name);
@@ -99,8 +99,8 @@ public class Skill {
         }
         this.infosup = infosup;
         this.skillVisibility = skillVisibility;
-        if (ArtNinja.getIDFromName(element) < 5 && ArtNinja.getIDFromName(element) > 0) {
-            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", element.toLowerCase().replace("ô", "o") + "_scroll");
+        if (ArtNinja.getFromName(element).isVoieNinja()) {
+            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", ArtNinja.getFromName(element).getTag());
         } else if (clan != Clan.getFromID(1)) {
             this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", clan.getTag());
         } else {
@@ -194,7 +194,7 @@ public class Skill {
         if (manaTaken == 0) reste_reduc = old_reduc - manaCost;
         playerInfo.removeMana(manaTaken);
 
-        if (playerInfo.getVoieNinja() != ArtNinja.NINJUTSU) return;
+        if (playerInfo.getVoieNinja() != ArtNinja.getFromName("Ninjutsu")) return;
         int lvl = playerInfo.getLvL(playerInfo.getVoieNinja().getName());
         if (lvl <= 6) return;
         ChakraType chakraType = ChakraType.fromName(this.element);

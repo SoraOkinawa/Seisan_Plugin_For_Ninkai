@@ -169,15 +169,15 @@ public class SkillInventory {
         }
         String name_voie = ItemUtil.translateHexCodes(("&#"+pInfo.getVoieNinja().getColorHexa())
                 .concat(ChatColor.stripColor(pInfo.getVoieNinja().getName())));
-        if(pInfo.getVoieNinja().getId() < 5) {
-            inv.setItem(19, ItemUtil.createItemStack(Material.PAPER, 1, name_voie, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre voie ninja."), "ninkai", pInfo.getVoieNinja().getName().toLowerCase() + "_scroll"));
+        if(pInfo.getVoieNinja().isVoieNinja()) {
+            inv.setItem(19, ItemUtil.createItemStack(Material.PAPER, 1, name_voie, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre voie ninja."), "ninkai", pInfo.getVoieNinja().getTag()));
         }
         else {
-            inv.setItem(19, ItemUtil.createItemStack(Material.PAPER, 1, name_voie, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre second style de combat."), "ninkai", "style_icon_2"));
+            inv.setItem(19, ItemUtil.createItemStack(Material.PAPER, 1, name_voie, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre second style de combat."), "ninkai", pInfo.getVoieNinja().getTag()));
         }
         String name_style = ItemUtil.translateHexCodes(("&#"+pInfo.getStyleCombat().getColorHexa())
                 .concat(ChatColor.stripColor(pInfo.getStyleCombat().getName())));
-        inv.setItem(28, ItemUtil.createItemStack(Material.PAPER, 1, name_style, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre style de combat."), "ninkai", "style_icon"));
+        inv.setItem(28, ItemUtil.createItemStack(Material.PAPER, 1, name_style, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre style de combat."), "ninkai", pInfo.getStyleCombat().getTag()));
         inv.setItem(37, ItemUtil.createItemStack(Material.DIAMOND, "§6Favoris"));
         inv.setItem(48, ItemUtil.createItemStack(Material.DIAMOND, 1, "§6Jutsus non repertoriés", Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7non repertoriés par les catégories", "§7ci-dessus. (Exemple : 4ème voie)")));
         inv.setItem(50, ItemUtil.createItemStack(Material.BOOK, 1, "§6Liste complète des jutsus", Arrays.asList("§7Cliquez ici pour retourner sur l'ancien", "§7affichage des jutsus de votre personnage."), "ninkai", "rouleau_1"));

@@ -93,30 +93,16 @@ public class TrainInventory {
         }
         inv.setItem(12, skull);
         inv.setItem(14, ItemUtil.createItemStack(Material.BLUE_DYE, 1, "§6Informations sur le chakra", chakralore, "ninkai", "chakra_icon"));
-        inv.setItem(20, ItemUtil.createItemStack(Material.PAPER, 1, "§6Style de combat", Arrays.asList(name_style,"§7Niveau : §f"+pInfo.getLvlHint(style)), "ninkai", "style_icon"));
+        inv.setItem(20, ItemUtil.createItemStack(Material.PAPER, 1, "§6Style de combat", Arrays.asList(name_style,"§7Niveau : §f"+pInfo.getLvlHint(style)), "ninkai", pInfo.getStyleCombat().getTag()));
         inv.setItem(22, ItemUtil.createItemStack(Material.PAPER, 1, "§6Clan", clanlore, "ninkai", pInfo.getClan().getTag()));
-        if(pInfo.getVoieNinja().getId() == -1 || pInfo.getVoieNinja().getId() == 0) {
+        if(pInfo.getVoieNinja().getId() == 1) {
             inv.setItem(24, ItemUtil.createItemStack(Material.END_CRYSTAL, 1, "§6Voie ninja", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie))));
         }
-        else if(pInfo.getVoieNinja().getId() < 5){
-            List<String> lore = Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie));
-            if(pInfo.getVoieNinja().getId() == 1) {
-                int lvl = pInfo.getLvL(pInfo.getVoieNinja().getName());
-                if(lvl >= 4) {
-                    lvl-=2;
-                    PlayerConfig pConfig = PlayerConfig.getPlayerConfig(pInfo.getPlayer());
-                    String mode = pConfig.isSwapfuin() ? "Feuilles Seji" : "Encre Fuinjutsu";
-                    lore = Arrays.asList("§7"+voie,
-                            "§7Niveau : §f"+pInfo.getLvlHint(voie),
-                            /* "§7Feuilles de Seji : §f"+pInfo.getFuin_paper(), */
-                            "§7Capacité de l'assembleur Uzumaki : §f"+pInfo.getFuin_uzumaki()+" §7/ §f"+lvl*lvl,
-                            "§7Mode de consommation : §6"+mode);
-                }
-            }
-            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER, 1, "§6Voie ninja", lore, "ninkai", voie.toLowerCase()+"_scroll"));
+        else if(pInfo.getVoieNinja().isVoieNinja()){
+            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER, 1, "§6Voie ninja", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)), "ninkai", pInfo.getVoieNinja().getTag()));
         }
         else {
-            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER,1, "§6Second style de combat", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)), "ninkai", "style_icon_2"));
+            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER,1, "§6Second style de combat", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)), "ninkai", pInfo.getVoieNinja().getTag()));
         }
         inv.setItem(31, ItemUtil.createItemStack(Material.NETHER_STAR, 1, "§8Autres compétences", Arrays.asList("§7Cliquez pour davantage d'informations","§7(Ceci n'affichagera que les compétences autres)")));
 
