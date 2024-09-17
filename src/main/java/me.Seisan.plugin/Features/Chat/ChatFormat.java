@@ -2,6 +2,7 @@ package me.Seisan.plugin.Features.Chat;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerConfig;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.commands.anothers.HideLanguageCommand;
 import me.Seisan.plugin.Features.commands.anothers.PrefixCommand;
 import me.Seisan.plugin.Features.utils.Channel;
 import me.Seisan.plugin.Features.utils.ItemUtil;
@@ -259,6 +260,8 @@ public class ChatFormat extends Feature {
                             chatElement.setBold(context.isBold());
                             chatElement.setItalic(context.isItalic());
                             chatElement.setObfuscated(context.isObfuscated());
+                            chatElement.language = meta.language; //Mira anchor
+                            chatElement.languageNotUnderstandMessage = meta.languageNotUnderstandMessage;
                         } else if ("t".equals(token)) {
                             chatElement.setType(ChatElementType.TARGET);
                             chatElement.setColor(context.getChatColor());
@@ -329,6 +332,10 @@ public class ChatFormat extends Feature {
                             } else {
                                 meta.setForEveryWorld(true);
                             }
+                        } else if ("language".equals(context.getCurrentAttribute())) {
+                            meta.language = parameter;
+                        } else if ("languageNotUnderstandMessage".equals(context.getCurrentAttribute())) {
+                            meta.languageNotUnderstandMessage = parameter;
                         }
                 }
                 chatFormater._addChatElement(chatElement);
@@ -347,6 +354,7 @@ public class ChatFormat extends Feature {
         boolean italic = false;
         String currentAttribute = "";
         String commandOnClick;
+
 
         private String getCurrentAttribute() {
             return currentAttribute;
@@ -528,6 +536,9 @@ public class ChatFormat extends Feature {
         boolean targetAdded = false;
         boolean forEveryWorld = false;
         boolean hasAnimal = false;
+        String language = "";
+        String languageNotUnderstandMessage = "";
+        String originalMessage = "";
 
         private void setRestriction(String restriction) {
             this.restriction = restriction;
@@ -654,6 +665,10 @@ public class ChatFormat extends Feature {
             for (ChatElement chatElement : chatElements) {
                 textComponents.add(chatElement.createComponent(event, mutableMeta));
             }
+
+            if (meta.language.isEmpty()) {
+                meta.originalMessage = event.getMessage();
+            }
             return new FormatedMessage(meta, mutableMeta, event, textComponents.toArray(new TextComponent[textComponents.size()]));
         }
     }
@@ -666,6 +681,8 @@ public class ChatFormat extends Feature {
         boolean italic = false;
         boolean obfuscated = false;
         String commandOnClick;
+        String language = "";
+        String languageNotUnderstandMessage = "";
 
         private void setType(ChatElementType type) {
             this.type = type;
@@ -713,7 +730,14 @@ public class ChatFormat extends Feature {
                     textComponent.setColor(color);
                     break;
                 case MESSAGE:
-                    textComponent.setText(event.getMessage());
+                    textComponent.setText(event.getMessage()); //Mira
+
+                    //Utilisation d'une ancre pour la transformation du message en langage inconnu
+                    if (!language.isEmpty()) {
+                        textComponent.setText("{LANGUAGE-ANCHOR}");
+                    } else {
+                        textComponent.setText(event.getMessage());
+                    }
                     textComponent.setColor(color);
                     if (event.getMessage().contains("http://") || event.getMessage().contains("https://")) {
                         int start = event.getMessage().indexOf("http");
@@ -785,7 +809,7 @@ public class ChatFormat extends Feature {
             AsyncPlayerChatEvent event = formatedMessage.getEvent();
             TextComponent[] arrayMessage = formatedMessage.getComponents();
             TextComponent[] arrayMessageNoItalic = new TextComponent[formatedMessage.getComponents().length];
-            Meta meta = formatedMessage.getMeta();
+            Meta meta = formatedMessage.getMeta(); //Mira
             MutableMeta mutableMeta = formatedMessage.getMutableMeta();
             Player player = event.getPlayer();
             PlayerConfig playerConfig = PlayerConfig.getPlayerConfig(player);
@@ -807,6 +831,17 @@ public class ChatFormat extends Feature {
                     return;
                 }
                 if ("enca".equals(meta.getRestriction()) && !(player.isOp() || pConfig.isEncamode())) {
+                    player.sendMessage(ChatColor.RED + meta.getDenialMessage());
+                    return;
+                }
+            }
+            // Refuse access to language if player doesn't have the ability
+            if (!meta.language.isEmpty() && !meta.languageNotUnderstandMessage.isEmpty()) {
+                //if receiver speak the language
+                PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
+                //if player doesn't have the ability to speak the language
+                // If OP can speak all languages unless he is hiding them
+                if ((!pInfo.hasAbility(meta.language) && !player.isOp()) || (player.isOp() && HideLanguageCommand.isPlayerHidingLanguage(player))) {
                     player.sendMessage(ChatColor.RED + meta.getDenialMessage());
                     return;
                 }
@@ -846,6 +881,8 @@ public class ChatFormat extends Feature {
                 arrayMessageNoItalic[i].setItalic(false);
             }
             for (Player p : Main.plugin().getServer().getOnlinePlayers()) {
+                //p is target
+                //player is sender
                 if (p.getWorld() == player.getWorld() || meta.isForEveryWorld()) {
                     boolean suitable = true;
                     if (meta.getOnlyFor() != null) {
@@ -871,9 +908,9 @@ public class ChatFormat extends Feature {
                     if (suitable && (meta.isForEveryWorld() || p.getLocation().distanceSquared(location) < rangeSquared)) {
                         PlayerConfig pconfig = PlayerConfig.getPlayerConfig(p);
                         if (pconfig.isChangechat()) {
-                            sendFinalMessage(player, p, arrayMessageNoItalic, playerConfig);
+                            sendFinalMessage(player, p, arrayMessageNoItalic, playerConfig, meta);
                         } else {
-                            sendFinalMessage(player, p, arrayMessage, playerConfig);
+                            sendFinalMessage(player, p, arrayMessage, playerConfig, meta);
                         }
                     }
                 }
@@ -884,7 +921,7 @@ public class ChatFormat extends Feature {
     }
 
 
-    private static void sendFinalMessage(Player sender, Player receiver, TextComponent[] message, PlayerConfig senderConfig) {
+    private static void sendFinalMessage(Player sender, Player receiver, TextComponent[] message, PlayerConfig senderConfig, Meta meta) {
         TextComponent[] messageCopied = message.clone();
         String direction = "";
 
@@ -947,6 +984,21 @@ public class ChatFormat extends Feature {
             }
         }
 
+        // Language translations
+        if (!meta.language.isEmpty() && !meta.languageNotUnderstandMessage.isEmpty()) {
+            //if receiver speak the language
+            PlayerInfo receiverInfo = PlayerInfo.getPlayerInfo(receiver);
+            for (int i = 0; i < messageCopied.length; i++) {
+                //Change only the message nothing else
+                if (messageCopied[i].getText().equals("{LANGUAGE-ANCHOR}")) {
+                    if (receiverInfo.hasAbility(meta.language) || (receiver.isOp() && !HideLanguageCommand.isPlayerHidingLanguage(receiver))) {
+                        messageCopied[i].setText(meta.originalMessage);
+                    } else {
+                        messageCopied[i].setText(meta.languageNotUnderstandMessage);
+                    }
+                }
+            }
+        }
         receiver.spigot().sendMessage(messageCopied);
 
     }

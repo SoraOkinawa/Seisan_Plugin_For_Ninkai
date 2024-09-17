@@ -142,3 +142,5 @@ commands:
     description: Permet d'utiliser un préfixe par défaut. Utilisation /prefix <prefixe>
   TechniqueMJ:
     description: Permet d'utiliser une technique MJ
+  HideLanguage:
+    description: Permet de cacher les langues non parlées

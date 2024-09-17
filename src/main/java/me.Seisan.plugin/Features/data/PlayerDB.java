@@ -394,6 +394,9 @@ public class PlayerDB {
                 } else {
                     p.sendMessage(ChatColor.GRAY + "Votre second style de combat est: " + ChatColor.GOLD + voieNinja.getName());
                 }
+                if(p.isOp()) {
+                    p.sendMessage(ChatColor.GREEN + "Vous êtes OP et parlez toutes les langues. /hidelanguage pour ne voir que ce que votre fiche personnage comprend.");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 Bukkit.getScheduler().scheduleSyncDelayedTask(Main.plugin(), () -> {

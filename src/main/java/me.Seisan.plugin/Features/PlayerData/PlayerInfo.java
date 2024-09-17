@@ -378,7 +378,7 @@ public class PlayerInfo {
                     this.updateSkill(skill, SkillMastery.LEARNED);
                 } else {
                     player.sendMessage("§cHRP : §7Erreur sur le jutsu §6" + skill.getNameInPlugin());
-                    player.sendMessage("§cHRP : §7Merci de remonter à Shikure pour qu'il puisse corriger !");
+                    player.sendMessage("§cHRP : §7Merci de remonter au staff pour correction !");
                 }
             }
         }

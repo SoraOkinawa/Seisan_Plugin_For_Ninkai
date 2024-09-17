@@ -51,6 +51,7 @@ public class Commands extends Feature {
         new WarpCommand().register();
         new PrefixCommand().register();
         new TechniqueMJCommand().register();
+        new HideLanguageCommand().register();
 
         param.add("add");
         param.add("remove");
