@@ -145,9 +145,9 @@ public class ChatFormat extends Feature {
     }
 
 
-            /**
-             * Initialize the default set of chat rules.
-             */
+    /**
+     * Initialize the default set of chat rules.
+     */
     private void initialize() {
         /* Speaking */
         addRule("#", "{range:3}<%a [chuchote]> {color:DARK_AQUA}%m");
@@ -221,8 +221,6 @@ public class ChatFormat extends Feature {
         Main.plugin().saveConfig();
 
     }
-
-
 
 
     @Override
@@ -678,7 +676,7 @@ public class ChatFormat extends Feature {
                 textComponents.add(chatElement.createComponent(event, mutableMeta));
             }
 
-            if (meta.language.isEmpty()) {
+            if (!meta.language.isEmpty()) {
                 meta.originalMessage = event.getMessage();
             }
             return new FormatedMessage(meta, mutableMeta, event, textComponents.toArray(new TextComponent[textComponents.size()]));
@@ -927,7 +925,7 @@ public class ChatFormat extends Feature {
                     }
                 }
             }
-            String s = Arrays.stream(arrayMessage).map((Object tex) -> ((TextComponent) tex).getText()).collect(Collectors.joining(""));
+            String s = Arrays.stream(arrayMessage).map((Object tex) -> ((TextComponent) tex).getText()).collect(Collectors.joining("")).replace("{LANGUAGE-ANCHOR}", meta.originalMessage);
             Main.log(Level.INFO, s);
         }
     }
@@ -972,7 +970,7 @@ public class ChatFormat extends Feature {
                         if (textComponent.getText().contains("{PLAYER-DATA}")) {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
-                            
+
                             BaseComponent nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName())[0];
                             nameWithHover.setHoverEvent(
                                     new HoverEvent(
@@ -1002,10 +1000,19 @@ public class ChatFormat extends Feature {
             for (int i = 0; i < messageCopied.length; i++) {
                 //Change only the message nothing else
                 if (messageCopied[i].getText().equals("{LANGUAGE-ANCHOR}")) {
-                    if (receiverInfo.hasAbility(meta.language) || (receiver.isOp() && !HideLanguageCommand.isPlayerHidingLanguage(receiver))) {
-                        messageCopied[i].setText(meta.originalMessage);
+
+                    //if receiver has the ability and is not hiding or is op and not hiding language
+                    if ((receiverInfo.hasAbility(meta.language) && !HideLanguageCommand.isPlayerHidingLanguage(receiver)) || (receiver.isOp() && !HideLanguageCommand.isPlayerHidingLanguage(receiver))) {
+                        TextComponent t = new TextComponent();
+                        t.copyFormatting(messageCopied[i]);
+                        t.setText(meta.originalMessage);
+
+                        messageCopied[i] = t;
                     } else {
-                        messageCopied[i].setText(meta.languageNotUnderstandMessage);
+                        TextComponent t = new TextComponent();
+                        t.copyFormatting(messageCopied[i]);
+                        t.setText(replaceLanguage(meta.originalMessage, meta.languageNotUnderstandMessage));
+                        messageCopied[i] = t;
                     }
                 }
             }
@@ -1014,6 +1021,21 @@ public class ChatFormat extends Feature {
 
     }
 
+
+    // Replace messages character except ponctuation and blank with random characters from languageNotUnderstandMessage
+    private static String replaceLanguage(String message, String languageNotUnderstandMessage) {
+
+        StringBuilder newMessage = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            char c = message.charAt(i);
+            if (Character.isLetter(c) || Character.isDigit(c)) {
+                newMessage.append(languageNotUnderstandMessage.charAt((int) (Math.random() * languageNotUnderstandMessage.length())));
+            } else {
+                newMessage.append(c);
+            }
+        }
+        return newMessage.toString();
+    }
 
     public static boolean HasReallyAnAnimal(Player p) {
         boolean hasAnAnimal = false;
@@ -1047,6 +1069,7 @@ public class ChatFormat extends Feature {
         }
         return name;
     }
+
     public String translateHexColorCodes(String startTag, String endTag, String message) {
         final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
         Matcher matcher = hexPattern.matcher(message);
