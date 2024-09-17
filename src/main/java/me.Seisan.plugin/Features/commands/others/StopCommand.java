@@ -20,11 +20,11 @@ public class StopCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         final Server server = sender.getServer();
-        System.out.println("Closing the server");
+        Main.LOG.info("Closing the server");
         Main.serverOpen = false;
-        System.out.println("Kicking all players");
+        Main.LOG.info("Kicking all players");
         for (Player p : sender.getServer().getOnlinePlayers()) {
-            p.kickPlayer(ChatColor.GOLD + "Seisan redémarre !");
+            p.kickPlayer(ChatColor.RED + "Ninkai redémarre. Veuillez prévenir un Administrateur si le serveur s'est fermé inopinément.");
         }
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.plugin(), (Runnable) new BukkitRunnable() {
@@ -36,8 +36,7 @@ public class StopCommand extends Command {
     }
 
     @Override
-    protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split)
-    {
+    protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         return new ArrayList<>();
     }
 

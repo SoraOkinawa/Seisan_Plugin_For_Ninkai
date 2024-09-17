@@ -32,7 +32,7 @@ public class LoreCommand extends Command
         }
         ItemMeta meta = item.getItemMeta();
         if(meta == null) {
-            sender.sendMessage("§cHRP : §7Erreur dans l'objet. Donnez le à Isami pour consultation.");
+            sender.sendMessage("§cHRP : §7Erreur dans l'objet.");
             return;
         }
 
@@ -42,7 +42,7 @@ public class LoreCommand extends Command
         }
         List<String> lore = meta.hasLore()?meta.getLore():new ArrayList<>();
         if(lore == null) {
-            sender.sendMessage("§cHRP : §7Erreur dans l'objet. Donnez le à Isami pour consultation.");
+            sender.sendMessage("§cHRP : §7Erreur dans l'objet.");
             return;
         }
         int taille = 0;

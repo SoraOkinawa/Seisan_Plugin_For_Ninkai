@@ -27,7 +27,7 @@ public class SkillLoader {
         if(enabledSkills != null && !enabledSkills.isEmpty()){
             readFile(skillConfig, enabledSkills);
         }else{
-            System.out.println("[SeisanPlugin] Aucune technique n'a été activée car la liste est vide !");
+            Main.LOG.info("Aucune technique n'a été activée car la liste est vide !");
             Bukkit.getServer().shutdown();
         }
     }
@@ -66,9 +66,9 @@ public class SkillLoader {
                 String infoSup = skillConfig.getString(skillName+ ".infoSup");
                 boolean targetVisibility = skillConfig.getBoolean(skillName+ ".skillVisibility");
                 boolean publique = skillConfig.getBoolean(skillName+".publique");
-                new Skill(name, nameInPlugin, manaCost, needMastery, level, message, lore, mudras, commandList, itemType, needTarget, canBeFullMaster, infoSup, targetVisibility, publique);
+                new Skill(name, nameInPlugin, "", manaCost, needMastery, level, message, lore, mudras, commandList, itemType, needTarget, canBeFullMaster, infoSup, targetVisibility, publique);
             }catch (Exception e){
-                System.out.println("[SeisanPlugin] La technique " + skillName + " est mal configurée ! Explication de l'erreur:");
+                Main.LOG.info("La technique " + skillName + " est mal configurée ! Explication de l'erreur:");
                 e.printStackTrace();
                 return false;
             }

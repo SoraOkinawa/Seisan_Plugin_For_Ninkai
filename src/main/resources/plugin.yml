@@ -108,9 +108,9 @@ commands:
     description: save et load des fiches personnage
   maskprofil:
     description: Permets de masquer le profil (op-only)
-  bb:
-    description: Permets aux juunins de give des parchemins
-    aliases: bibliothequedesjuuninsseulementpourledondetechnique
+#  bb:
+#    description: Permets aux juunins de give des parchemins
+#    aliases: bibliothequedesjuuninsseulementpourledondetechnique
   meditation:
     description: Permet de rentrer en méditation avec soi-même
   givecompetence:

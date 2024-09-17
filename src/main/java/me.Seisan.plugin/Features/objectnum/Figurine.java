@@ -66,14 +66,14 @@ public enum Figurine {
             lore = "§8Rang : §g§eMythique";
             name = name.concat(" en or");
         }
-        return ItemUtil.createItemStack(Material.GHAST_TEAR, 1, name, Collections.singletonList(lore), "seisan", tag);
+        return ItemUtil.createItemStack(Material.GHAST_TEAR, 1, name, Collections.singletonList(lore), "ninkai", tag);
     }
 
     public static boolean isFigurine(ItemStack itemStack) {
         for(Figurine figurine : values()) {
             String tag = figurine.getId()+"_"+figurine.getTag();
-            if(ItemUtil.hasTag(itemStack, "seisan",tag)
-                    || ItemUtil.hasTag(itemStack, "seisan", tag.concat("_gold"))) {
+            if(ItemUtil.hasTag(itemStack, "ninkai",tag)
+                    || ItemUtil.hasTag(itemStack, "ninkai", tag.concat("_gold"))) {
                 return true;
             }
         }

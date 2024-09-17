@@ -106,7 +106,7 @@ public class MiscListener extends Feature {
             ItemFrame itemframe = getItemFrameAt(locclef);
             if(itemframe != null) {
                 ItemStack itemStack = itemframe.getItem();
-                if (itemStack.getType() == Material.CLOCK && ItemUtil.hasTag(itemStack, "seisan", "clef_or") && itemStack.hasItemMeta() && itemStack.getItemMeta() != null && itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName().equals("§6TENTEZ VOTRE CHANCE")) {
+                if (itemStack.getType() == Material.CLOCK && ItemUtil.hasTag(itemStack, "ninkai", "clef_or") && itemStack.hasItemMeta() && itemStack.getItemMeta() != null && itemStack.getItemMeta().hasDisplayName() && itemStack.getItemMeta().getDisplayName().equals("§6TENTEZ VOTRE CHANCE")) {
                     event.getPlayer().openInventory(CasinoInventory.getCasino(event.getPlayer()));
                     loccasino.put(event.getPlayer().getName(), locclef);
                 }
@@ -117,12 +117,12 @@ public class MiscListener extends Feature {
    /*
    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void LogCopy(InventoryCreativeEvent event) {
-        System.out.println("aaaa");
+        Main.LOG.info("aaaa");
         if(event.getWhoClicked().getGameMode() == GameMode.CREATIVE) {
             if(event.getCurrentItem() == null) {
                 return;
             }
-                System.out.println("§cHRP : §7" + event.getWhoClicked().getName() + " a copié " + event.getCursor().getType().name());
+                Main.LOG.info("§cHRP : §7" + event.getWhoClicked().getName() + " a copié " + event.getCursor().getType().name());
 
             if(event.getCursor().getType() == Material.GOLD_NUGGET) {
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
@@ -138,7 +138,7 @@ public class MiscListener extends Feature {
         boolean isVase = false;
             net.minecraft.server.v1_15_R1.ItemStack stack = CraftItemStack.asNMSCopy(vase);
             NBTTagCompound tag = stack.getTag() != null ? stack.getTag() : new NBTTagCompound();
-            if(tag.hasKey("seisan") && tag.getString("seisan").contains("vase")) {
+            if(tag.hasKey("ninkai") && tag.getString("ninkai").contains("vase")) {
                 // Blabla vérif du tag
                 isVase = true;
         }
@@ -148,9 +148,9 @@ public class MiscListener extends Feature {
     private ItemStack updateVase(ItemStack vase, String newvase) {
         net.minecraft.server.v1_15_R1.ItemStack stack = CraftItemStack.asNMSCopy(vase);
         NBTTagCompound tag = stack.getTag() != null ? stack.getTag() : new NBTTagCompound();
-        if(tag.hasKey("seisan") && tag.getString("seisan").contains("vase")) {
+        if(tag.hasKey("ninkai") && tag.getString("ninkai").contains("vase")) {
             // Blabla vérif du tag
-            tag.setString("seisan", newvase);
+            tag.setString("ninkai", newvase);
         }
         stack.setTag(tag);
         return CraftItemStack.asBukkitCopy(stack);
@@ -269,7 +269,7 @@ public class MiscListener extends Feature {
             if(e.getPlayer().isSneaking()) {
                 if(e.getItem() != null && e.getItem().getType() == Material.PAPER) {
                     ItemStack stack = e.getItem();
-                    if(ItemUtil.hasTag(stack, "seisan", "boite_sankamaisu")) {
+                    if(ItemUtil.hasTag(stack, "ninkai", "boite_sankamaisu")) {
                         e.setCancelled(true);
                         if(e.getPlayer().getInventory().firstEmpty() != -1) {
                             if (e.getItem().getAmount() > 1) {
@@ -295,13 +295,13 @@ public class MiscListener extends Feature {
         String command = e.getMessage().split(" ")[0];
         command = command.substring(1);
         if(command.equalsIgnoreCase("reload")) {
-            e.getPlayer().sendMessage(ChatColor.RED + "Le reload casse le plugin de Seisan, faites un /stop à la place");
+            e.getPlayer().sendMessage(ChatColor.RED + "Le reload casse le plugin de Ninkai, faites un /stop à la place");
             e.setCancelled(true);
         }else if(command.equalsIgnoreCase("help")){
             e.getPlayer().sendMessage(ChatColor.RED + "Bien tenté, mais non, pas de /help");
             e.setCancelled(true);
         }else if(command.equalsIgnoreCase("pl") || command.equalsIgnoreCase("plugin") || command.equalsIgnoreCase("plugins")){
-            e.getPlayer().sendMessage("Plugins (1): " + ChatColor.GREEN + "Seisan");
+            e.getPlayer().sendMessage("Plugins (1): " + ChatColor.GREEN + "Ninkai");
             e.setCancelled(true);
         }
     }
@@ -309,7 +309,7 @@ public class MiscListener extends Feature {
     @EventHandler
     public void consoleCommandPreprocess(ServerCommandEvent e) {
         if (e.getCommand().equalsIgnoreCase("reload")) {
-            e.getSender().sendMessage(ChatColor.RED + "Le reload casse le plugin de Seisan, faites un /stop à la place");
+            e.getSender().sendMessage(ChatColor.RED + "Le reload casse le plugin de Ninkai, faites un /stop à la place");
             e.setCancelled(true);
         }
     }

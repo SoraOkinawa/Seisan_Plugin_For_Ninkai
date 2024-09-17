@@ -63,7 +63,7 @@ public class Skill {
     @Getter
     private static ArrayList<Skill> instanceList = new ArrayList<>();
 
-    public Skill(String name, String nameInPlugin, int manaCost, boolean needMastery, SkillLevel level, String message, String lore, String mudras, ArrayList<String> commandList, Material itemType, boolean needTarget, boolean canBeFullMaster, String infosup, boolean skillVisibility, boolean publique) {
+    public Skill(String name, String nameInPlugin, String category, int manaCost, boolean needMastery, SkillLevel level, String message, String lore, String mudras, ArrayList<String> commandList, Material itemType, boolean needTarget, boolean canBeFullMaster, String infosup, boolean skillVisibility, boolean publique){
         this.name = name;
         this.nameInPlugin = nameInPlugin;
         this.manaCost = manaCost;
@@ -71,8 +71,14 @@ public class Skill {
         this.level = level;
         this.message = message;
         this.mudras = mudras;
-        this.element = ChatColor.stripColor(name.split("-")[0]);
-        this.element = this.element.substring(0, this.element.length() - 1);
+        
+        if (category == "") {
+            this.element = ChatColor.stripColor(name.split("-")[0]);
+            this.element = this.element.substring(0, this.element.length()-1);
+        }
+        else
+            this.element = category;
+        
         ChakraType chakraType = ChakraType.fromName(this.element);
         if (chakraType != ChakraType.NULL) {
             name = ChatColor.stripColor(name);
@@ -80,25 +86,25 @@ public class Skill {
             this.name = ItemUtil.translateHexCodes(name);
         }
         ArtNinja artNinja = ArtNinja.getFromName(this.element);
-        if (artNinja != ArtNinja.INDEFINI) {
+        if (artNinja != ArtNinja.getFromID(1)) {
             name = ChatColor.stripColor(name);
             name = ("&#" + artNinja.getColorHexa()).concat(name);
             this.name = ItemUtil.translateHexCodes(name);
         }
         Clan clan = Clan.getFromName(this.element);
-        if (clan != Clan.INDEFINI) {
+        if (clan != Clan.getFromID(1)) {
             name = ChatColor.stripColor(name);
             name = ("&#" + clan.getColorHexa()).concat(name);
             this.name = ItemUtil.translateHexCodes(name);
         }
         this.infosup = infosup;
         this.skillVisibility = skillVisibility;
-        if (ArtNinja.getIDFromName(element) < 5 && ArtNinja.getIDFromName(element) > 0) {
-            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "seisan", element.toLowerCase().replace("ô", "o") + "_scroll");
-        } else if (clan != Clan.INDEFINI) {
-            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "seisan", clan.getTag());
+        if (ArtNinja.getFromName(element).isVoieNinja()) {
+            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", ArtNinja.getFromName(element).getTag());
+        } else if (clan != Clan.getFromID(1)) {
+            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", clan.getTag());
         } else {
-            this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "seisan", "rouleau_" + this.element.replace("ô", "o").toLowerCase());
+            this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", "rouleau_" + this.element.replace("ô", "o").toLowerCase());
         }
         if (commandList != null)
             this.commandList = commandList;
@@ -188,7 +194,7 @@ public class Skill {
         if (manaTaken == 0) reste_reduc = old_reduc - manaCost;
         playerInfo.removeMana(manaTaken);
 
-        if (playerInfo.getVoieNinja() != ArtNinja.NINJUTSU) return;
+        if (playerInfo.getVoieNinja() != ArtNinja.getFromName("Ninjutsu")) return;
         int lvl = playerInfo.getLvL(playerInfo.getVoieNinja().getName());
         if (lvl <= 6) return;
         ChakraType chakraType = ChakraType.fromName(this.element);
@@ -331,8 +337,9 @@ public class Skill {
                 pInfo.increaseBonus(skill);
                 success = false;
                 break;
-
         }
+        Main.dbManager.getPlayerDB().updatePlayerMastery(pInfo);
+
         return success;
     }
 

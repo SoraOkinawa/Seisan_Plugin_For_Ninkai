@@ -26,9 +26,9 @@ public class BuildCommand extends Command {
     @Override
 
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        if(split.length == 2) {
+        if (split.length == 2) {
             Player target = Bukkit.getPlayer(split[1]);
-            if(target == null ) {
+            if (target == null) {
                 sender.sendMessage("§7Le joueur n'est pas connecté.");
                 return;
             }
@@ -38,18 +38,18 @@ public class BuildCommand extends Command {
                     pConfig.setBuildmode(!pConfig.isBuildmode());
                     if (pConfig.isBuildmode()) {
                         sender.sendMessage(target.getDisplayName() + " §7est désormais en mode build.");
-                        target.setPlayerListName("§7[Builder] "+target.getDisplayName());
+                        target.setPlayerListName("§7[Builder] " + target.getDisplayName());
                         target.sendMessage("§cHRP : §7Vous êtes désormais en mode builder. Veuillez prendre en considération vos règles sur discord.");
                     } else {
                         sender.sendMessage(target.getDisplayName() + " §7n'est désormais plus en mode build.");
                         target.setPlayerListName(target.getDisplayName());
-                        target.sendMessage("§cHRP : §7Vous n'êtes plus en mode builder. Merci de votre contribution pour Seisan !");
+                        target.sendMessage("§cHRP : §7Vous n'êtes plus en mode builder. Merci de votre contribution pour Ninkai !");
                     }
                     newPermissionBuildMode(pConfig);
                     break;
                 case "tempo":
                     /* On lui retire */
-                    if(PlayerBuildTemp.contains(target.getName())) {
+                    if (PlayerBuildTemp.contains(target.getName())) {
                         PlayerBuildTemp.remove(target.getName());
                         target.setGameMode(GameMode.SURVIVAL);
                         target.getInventory().clear();
@@ -58,7 +58,7 @@ public class BuildCommand extends Command {
                     }
                     /* On lui remet */
                     else {
-                        target.setPlayerListName("§7[Builder_TMP]"+target.getDisplayName());
+                        target.setPlayerListName("§7[Builder_TMP]" + target.getDisplayName());
                         PlayerBuildTemp.add(target.getName());
                         target.setGameMode(GameMode.CREATIVE);
                         generateChest(target);
@@ -67,15 +67,13 @@ public class BuildCommand extends Command {
                     }
                     break;
             }
-        }
-        else {
+        } else {
             sender.sendMessage("§cUsage : §7/build tempo|definitif (joueur)");
         }
     }
 
     @Override
-    protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split)
-    {
+    protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         List<String> completion = new ArrayList();
         switch (split.length) {
             case 1:
@@ -83,19 +81,19 @@ public class BuildCommand extends Command {
                 complete(completion, "definitif", split[0]);
                 break;
             case 2:
-                for(Player player : Main.plugin().getServer().getOnlinePlayers())
-                {
+                for (Player player : Main.plugin().getServer().getOnlinePlayers()) {
                     complete(completion, player.getName(), split[1]);
                 }
                 break;
         }
-        return completion;    }
+        return completion;
+    }
 
     public static void newPermissionBuildMode(PlayerConfig pConfig) {
         perms.get(pConfig.getPlayer().getUniqueId()).setPermission("minecraft.command.me", false);
         // C'est là pour l'auto complete
         pConfig.getPlayer().updateCommands();
-        if(!pConfig.getPlayer().isOp()) {
+        if (!pConfig.getPlayer().isOp()) {
             if (pConfig.isBuildmode()) {
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("fawe.admin", true);
                 perms.get(pConfig.getPlayer().getUniqueId()).setPermission("worldedit.*", true);
@@ -144,12 +142,12 @@ public class BuildCommand extends Command {
     }
 
 
-    private void generateChest(Player p){
+    private void generateChest(Player p) {
         org.bukkit.block.data.type.Chest chestData1;
         org.bukkit.block.data.type.Chest chestData2;
         Location loc = p.getLocation();
         Location loc2 = loc.clone();
-        loc2.add(-1,0,0);
+        loc2.add(-1, 0, 0);
         Block block1 = loc.getBlock();
         Block block2 = loc2.getBlock();
         block1.breakNaturally();
@@ -171,23 +169,23 @@ public class BuildCommand extends Command {
 
         //Updating the chest
         Chest chest = (org.bukkit.block.Chest) block1.getState();
-        chest.setCustomName("§7Coffre de "+p.getName());
+        chest.setCustomName("§7Coffre de " + p.getName());
         chest.update();
 
         chest1.getBlockInventory().setItem(0, ItemUtil.createItemStack(Material.TRIPWIRE_HOOK, 1, p.getName()));
 
         int k = 9;
-        for(int i = 0; i<9; i++){
-            if(p.getInventory().getItem(i) != null) {
-                chest1.getBlockInventory().setItem(k,p.getInventory().getItem(i));
-            }else{
-                chest1.getBlockInventory().setItem(k,new ItemStack(Material.AIR));
+        for (int i = 0; i < 9; i++) {
+            if (p.getInventory().getItem(i) != null) {
+                chest1.getBlockInventory().setItem(k, p.getInventory().getItem(i));
+            } else {
+                chest1.getBlockInventory().setItem(k, new ItemStack(Material.AIR));
             }
             k++;
         }
 
         /* Si il a activé ses bottes de chakra */
-        if(p.getInventory().getBoots() != null && p.getInventory().getBoots().containsEnchantment(Enchantment.BINDING_CURSE)) {
+        if (p.getInventory().getBoots() != null && p.getInventory().getBoots().containsEnchantment(Enchantment.BINDING_CURSE)) {
             p.getInventory().getBoots().removeEnchantment(Enchantment.FROST_WALKER);
             p.getInventory().getBoots().removeEnchantment(Enchantment.BINDING_CURSE);
             p.removePotionEffect(PotionEffectType.JUMP);
@@ -195,21 +193,21 @@ public class BuildCommand extends Command {
         }
 
         for (int i = 100; i < 104; i++) {
-            if(p.getInventory().getItem(i) != null) {
-                chest1.getBlockInventory().setItem(k,p.getInventory().getItem(i));
-            }else{
-                chest1.getBlockInventory().setItem(k,new ItemStack(Material.AIR));
+            if (p.getInventory().getItem(i) != null) {
+                chest1.getBlockInventory().setItem(k, p.getInventory().getItem(i));
+            } else {
+                chest1.getBlockInventory().setItem(k, new ItemStack(Material.AIR));
             }
             k++;
         }
         chest1.getBlockInventory().setItem(k, p.getInventory().getItemInOffHand());
 
-        k= 0;
-        for(int i = 9; i<p.getInventory().getContents().length && k<27; i++){
-            if(p.getInventory().getContents()[i] != null) {
-                chest2.getBlockInventory().setItem(k,p.getInventory().getContents()[i]);
-            }else{
-                chest2.getBlockInventory().setItem(k,new ItemStack(Material.AIR));
+        k = 0;
+        for (int i = 9; i < p.getInventory().getContents().length && k < 27; i++) {
+            if (p.getInventory().getContents()[i] != null) {
+                chest2.getBlockInventory().setItem(k, p.getInventory().getContents()[i]);
+            } else {
+                chest2.getBlockInventory().setItem(k, new ItemStack(Material.AIR));
             }
             k++;
         }

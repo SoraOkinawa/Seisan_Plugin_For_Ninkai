@@ -6,6 +6,7 @@ import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.objectnum.Figurine;
 import me.Seisan.plugin.Features.utils.Casino;
 import me.Seisan.plugin.Features.utils.ItemUtil;
+import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -68,8 +69,8 @@ public class PNJListener extends Feature {
                     if (itemactuel != null){
                         if (itemactuel.getItemMeta().getDisplayName().equals("§2Billet de 10 Ryôs")){
                             if (itemactuel.getType() == Material.GOLD_NUGGET){
-                                System.out.println(itemactuel.getItemMeta().getDisplayName());
-                                if(ItemUtil.hasTag(itemactuel, "seisan", "ryos_billet")){
+                                Main.LOG.info(itemactuel.getItemMeta().getDisplayName());
+                                if(ItemUtil.hasTag(itemactuel, "ninkai", "ryos_billet")){
                                     if (itemactuel.getAmount() >= 1){
                                         amount = itemactuel.getAmount();
                                         item = itemactuel;
@@ -81,7 +82,7 @@ public class PNJListener extends Feature {
                 }
                 if (item != null){
                     item.setAmount(amount - 1);
-                    p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 10, "§6Ryô", Arrays.asList(), "seisan", "ryos"));
+                    p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 10, "§6Ryô", Arrays.asList(), "ninkai", "ryos"));
                 }else {
                     p.sendMessage("§cHRP : §7Vous n'avez pas assez d'argent sur vous.");
                     p.closeInventory();
@@ -96,7 +97,7 @@ public class PNJListener extends Feature {
                     if (itemactuel != null){
                         if (itemactuel.getType() == Material.GOLD_NUGGET){
                             if (itemactuel.getItemMeta().getDisplayName().equals("§6Ryô")){
-                                if (ItemUtil.hasTag(itemactuel, "seisan", "ryos")){
+                                if (ItemUtil.hasTag(itemactuel, "ninkai", "ryos")){
                                     if (itemactuel.getAmount() >= 10){
                                         amount = itemactuel.getAmount();
                                         item = itemactuel;
@@ -108,7 +109,7 @@ public class PNJListener extends Feature {
                 }
                 if (item != null){
                     item.setAmount(amount - 10);
-                    p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 1, "§2Billet de 10 Ryôs", Arrays.asList(), "seisan", "ryos_billet"));
+                    p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 1, "§2Billet de 10 Ryôs", Arrays.asList(), "ninkai", "ryos_billet"));
                 }else {
                     p.sendMessage("§cHRP : §7Vous n'avez pas assez d'argent sur vous.");
                     p.closeInventory();
@@ -122,7 +123,7 @@ public class PNJListener extends Feature {
                     if (itemactuel != null){
                         if (itemactuel.getType() == Material.GOLD_NUGGET){
                             if (itemactuel.getItemMeta().getDisplayName().equals("§2Billet de 10 Ryôs")){
-                                if (ItemUtil.hasTag(itemactuel, "seisan", "ryos_billet")){
+                                if (ItemUtil.hasTag(itemactuel, "ninkai", "ryos_billet")){
                                     if (itemactuel.getAmount() >= 10){
                                         amount = itemactuel.getAmount();
                                         item = itemactuel;
@@ -134,7 +135,7 @@ public class PNJListener extends Feature {
                 }
                 if (item != null){
                     item.setAmount(amount - 10);
-                    p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 1, "§2Liasse de 100 Ryôs", Arrays.asList(), "seisan", "ryos_liasse"));
+                    p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 1, "§2Liasse de 100 Ryôs", Arrays.asList(), "ninkai", "ryos_liasse"));
                 }else {
                     p.sendMessage("§cHRP : §7Vous n'avez pas assez d'argent sur vous.");
                     p.closeInventory();
@@ -148,7 +149,7 @@ public class PNJListener extends Feature {
                     if (itemactuel != null){
                         if (itemactuel.getType() == Material.GOLD_NUGGET){
                             if (itemactuel.getItemMeta().getDisplayName().equals("§2Liasse de 100 Ryôs")){
-                                if (ItemUtil.hasTag(itemactuel, "seisan", "ryos_liasse")){
+                                if (ItemUtil.hasTag(itemactuel, "ninkai", "ryos_liasse")){
                                     if (itemactuel.getAmount() >= 1){
                                         amount = itemactuel.getAmount();
                                         item = itemactuel;
@@ -160,7 +161,7 @@ public class PNJListener extends Feature {
                 }
                 if (item != null){
                     item.setAmount(amount - 1);
-                    p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 10, "§2Billet de 10 Ryôs", Arrays.asList(), "seisan", "ryos_billet"));
+                    p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 10, "§2Billet de 10 Ryôs", Arrays.asList(), "ninkai", "ryos_billet"));
                 }else {
                     p.sendMessage("§cHRP : §7Vous n'avez pas assez d'argent sur vous.");
                     p.closeInventory();
@@ -177,7 +178,7 @@ public class PNJListener extends Feature {
                     if(PNJInventory.getRyos(p) >= 10) {
                         if(p.getInventory().firstEmpty() != -1) {
                             retirerRyo(10, p);
-                            p.getInventory().addItem(ItemUtil.createItemStack(Material.PAPER, 1, "§4Boîte surprise Sankamaisu", Arrays.asList("§7Boite Sankamaisu de §2la première génération."), "seisan", "boite_sankamaisu"));
+                            p.getInventory().addItem(ItemUtil.createItemStack(Material.PAPER, 1, "§4Boîte surprise Sankamaisu", Arrays.asList("§7Boite Sankamaisu de §2la première génération."), "ninkai", "boite_sankamaisu"));
                         }
                         else {
                             p.sendMessage("§cHRP : §7Vous n'avez pas assez de place dans votre inventaire.");
@@ -212,7 +213,7 @@ public class PNJListener extends Feature {
                                 itemStack.setAmount(itemStack.getAmount()-1);
                             }
                         }
-                        p.getInventory().addItem(ItemUtil.createItemStack(Material.PAPER, 1, "§4Boîte surprise Sankamaisu", Arrays.asList("§7Boite Sankamaisu de §2la première génération."), "seisan", "boite_sankamaisu"));
+                        p.getInventory().addItem(ItemUtil.createItemStack(Material.PAPER, 1, "§4Boîte surprise Sankamaisu", Arrays.asList("§7Boite Sankamaisu de §2la première génération."), "ninkai", "boite_sankamaisu"));
                         p.closeInventory();
                         p.sendMessage("§cHRP : §7Vous avez échangé 5 figurines contre une seule.");
                     }
@@ -309,12 +310,12 @@ public class PNJListener extends Feature {
                 if (meta != null && meta.hasDisplayName()) {
                     switch (meta.getDisplayName()) {
                         case "§6Ryô":
-                            if (ItemUtil.hasTag(item, "seisan", "ryos")) {
+                            if (ItemUtil.hasTag(item, "ninkai", "ryos")) {
                                 ryo_piece += item.getAmount();
                             }
                             break;
                         case "§2Billet de 10 Ryôs":
-                            if (ItemUtil.hasTag(item, "seisan", "ryos_billet")) {
+                            if (ItemUtil.hasTag(item, "ninkai", "ryos_billet")) {
                                 ryo_billet += item.getAmount();
                             }
                             break;
@@ -349,7 +350,7 @@ public class PNJListener extends Feature {
                     if (meta != null && meta.hasDisplayName() && meta.getDisplayName().equals("§2Billet de 10 Ryôs")) {
                         inventaire[i].setAmount(item.getAmount() - 1);
                         if(nb < 10) {
-                            p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 10 - nb, "§6Ryô", Arrays.asList(), "seisan", "ryos"));
+                            p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 10 - nb, "§6Ryô", Arrays.asList(), "ninkai", "ryos"));
                         }
                         paye = 0;
                     }
@@ -364,7 +365,7 @@ public class PNJListener extends Feature {
                     ItemMeta meta = item.getItemMeta();
                     if (meta != null && meta.hasDisplayName() && meta.getDisplayName().equals("§2Liasse de 100 Ryôs")) {
                         inventaire[i].setAmount(item.getAmount() - 1);
-                        p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 100 - nb, "§6Ryô", Arrays.asList(), "seisan", "ryos"));
+                        p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, 100 - nb, "§6Ryô", Arrays.asList(), "ninkai", "ryos"));
                         paye = 0;
                     }
                 }
@@ -381,10 +382,10 @@ public class PNJListener extends Feature {
             Casino casino = Casino.getFromRoll();
             int nb = casino.getRyo();
             if (nb != 0 && nb < 100) {
-                p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, nb / 10, "§2Billet de 10 Ryôs", Arrays.asList(), "seisan", "ryos_billet"));
+                p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, nb / 10, "§2Billet de 10 Ryôs", Arrays.asList(), "ninkai", "ryos_billet"));
             }
             else {
-                p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, nb/100, "§2Liasse de 100 Ryôs", Arrays.asList(), "seisan", "ryos_liasse"));
+                p.getInventory().addItem(ItemUtil.createItemStack(Material.GOLD_NUGGET, nb/100, "§2Liasse de 100 Ryôs", Arrays.asList(), "ninkai", "ryos_liasse"));
             }
             total += nb;
             jouerparticule(p, casino);

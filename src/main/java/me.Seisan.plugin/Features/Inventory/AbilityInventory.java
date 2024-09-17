@@ -4,6 +4,7 @@ import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.ability.Ability;
 import me.Seisan.plugin.Features.objectnum.ArtNinja;
 import me.Seisan.plugin.Features.utils.ItemUtil;
+import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -25,10 +26,7 @@ public class AbilityInventory {
         Inventory inv = Bukkit.createInventory(holder, 36, "§8Compétence : "+type);
 
         ArrayList<Ability> abilities = pInfo.getAbilities();
-        boolean style = false;
-        if(ArtNinja.getIDFromName(type) > 4) {
-            style = true;
-        }
+        boolean style = !ArtNinja.getFromName(type).isVoieNinja();
 
         int nb = 0;
         abilities.sort(Comparator.comparing(Ability::getName));
@@ -70,7 +68,7 @@ public class AbilityInventory {
             openInBook(p, desc);
         }
         else {
-            System.out.println("Erreur lors de l'abilité");
+            Main.LOG.info("Erreur lors de l'abilité");
         }
     }
 
@@ -87,7 +85,7 @@ public class AbilityInventory {
             p.openBook(book);
         }
         else {
-            System.out.println("NULL");
+            Main.LOG.info("NULL");
         }
     }
 }

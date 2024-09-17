@@ -54,7 +54,7 @@
 //                    time = 2;
 //                }
 //            }
-//            System.out.println("Le code est : "+code);
+//            Main.LOG.info("Le code est : "+code);
 //            int phrase;
 //            String phrasetemps;
 //            if(time == 0)  {

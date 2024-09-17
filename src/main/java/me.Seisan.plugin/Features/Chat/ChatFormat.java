@@ -22,7 +22,12 @@ import org.bukkit.plugin.EventExecutor;
 
 import java.util.*;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static me.Seisan.plugin.Features.utils.ItemUtil.translateHexCodes;
+import static org.bukkit.ChatColor.COLOR_CHAR;
 
 public class ChatFormat extends Feature {
     private static List<String> PREFIX;
@@ -129,15 +134,20 @@ public class ChatFormat extends Feature {
                         FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
                     }
                 }
+                String hex = translateHexColorCodes("#", "", String.join("", message.replace("&", "§")));
+
             }
+
+
         };
         addExecutor(prefix, executor, rule);
         return true;
     }
 
-    /**
-     * Initialize the default set of chat rules.
-     */
+
+            /**
+             * Initialize the default set of chat rules.
+             */
     private void initialize() {
         /* Speaking */
         addRule("#", "{range:3}<%a [chuchote]> {color:DARK_AQUA}%m");
@@ -200,8 +210,6 @@ public class ChatFormat extends Feature {
         addRule("?:", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
         addRule(":?", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
 
-        addRule(":", "{range:-1, color:AQUA, foreveryworld:true}%m");
-
         /* Canal interstaff ou requête */
         addRule("$", "{range:-1, onlyfor:enca, foreveryworld:true}{color:#8A4000,commandonclick:@%a }<%a> %m");
         addRule("=", "{range:-1, onlyfor:mj, foreveryworld:true}{color:GOLD,commandonclick:@%a }<%a> %m");
@@ -211,7 +219,11 @@ public class ChatFormat extends Feature {
         /* HRP */
         addRule("(", "{range:20}<%a> {color:GRAY}(%m");
         Main.plugin().saveConfig();
+
     }
+
+
+
 
     @Override
     protected void doRegister() {
@@ -279,7 +291,7 @@ public class ChatFormat extends Feature {
                             try {
                                 context.setChatColor(ChatColor.of(parameter));
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                Main.LOG.info(e.getMessage());
                             }
                         } else if ("bold".equals(context.getCurrentAttribute())) {
                             if ("false".equals(parameter)) {
@@ -306,7 +318,7 @@ public class ChatFormat extends Feature {
                                 int range = Integer.valueOf(parameter);
                                 meta.setRange(range);
                             } catch (Exception e) {
-                                System.out.println(e.getMessage());
+                                Main.LOG.info(e.getMessage());
                             }
                         } else if ("restricted".equals(context.getCurrentAttribute())) {
                             meta.setRestriction(parameter);
@@ -960,15 +972,14 @@ public class ChatFormat extends Feature {
                         if (textComponent.getText().contains("{PLAYER-DATA}")) {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
-
-                            TextComponent nameWithHover = new TextComponent();
-                            nameWithHover.setText(sender.getDisplayName());
+                            
+                            BaseComponent nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName())[0];
                             nameWithHover.setHoverEvent(
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
-                                            new ComponentBuilder(
-                                                    sender.getDisplayName()
-                                                            + " (" + sender.getName() + ") - Âge : "
+                                            new ComponentBuilder("")
+                                                    .append((BaseComponent) TextComponent.fromLegacyText(sender.getDisplayName())[0])
+                                                    .append(" (" + sender.getName() + ") - Âge : "
                                                             + PlayerInfo.getPlayerInfo(sender).getAge()
                                                             + printedDirection)
                                                     .color(ChatColor.YELLOW)
@@ -977,7 +988,7 @@ public class ChatFormat extends Feature {
                             );
 
 
-                            messageCopied[i] = nameWithHover;
+                            messageCopied[i] = new TextComponent(nameWithHover);
                         }
                     }
                 }
@@ -1009,12 +1020,12 @@ public class ChatFormat extends Feature {
         ItemStack item = p.getInventory().getItemInMainHand();
         ItemStack item2 = p.getInventory().getItemInOffHand();
         if (item.getType() != Material.AIR) {
-            if (ItemUtil.hasTag(item, "seisan", "animal")) {
+            if (ItemUtil.hasTag(item, "ninkai", "animal")) {
                 hasAnAnimal = true;
             }
         }
         if (!hasAnAnimal && item2.getType() != Material.AIR) {
-            if (ItemUtil.hasTag(item, "seisan", "animal")) {
+            if (ItemUtil.hasTag(item, "ninkai", "animal")) {
                 hasAnAnimal = true;
             }
         }
@@ -1035,5 +1046,19 @@ public class ChatFormat extends Feature {
             }
         }
         return name;
+    }
+    public String translateHexColorCodes(String startTag, String endTag, String message) {
+        final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
+        Matcher matcher = hexPattern.matcher(message);
+        StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
+        while (matcher.find()) {
+            String group = matcher.group(1);
+            matcher.appendReplacement(buffer, COLOR_CHAR + "x"
+                    + COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
+                    + COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
+                    + COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
+            );
+        }
+        return matcher.appendTail(buffer).toString();
     }
 }

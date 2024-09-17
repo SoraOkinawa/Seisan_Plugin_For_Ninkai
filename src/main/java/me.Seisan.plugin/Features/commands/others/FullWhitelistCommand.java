@@ -34,7 +34,7 @@ public class FullWhitelistCommand extends Command {
             File file = new File(spigot.getDataFolder().getCanonicalPath(),"whitelist.yaml");
 
             if(!file.exists()) {
-                System.out.println("§7Le fichier n'existe pas.");
+                Main.LOG.info("§7Le fichier n'existe pas.");
                 return;
             }
 
