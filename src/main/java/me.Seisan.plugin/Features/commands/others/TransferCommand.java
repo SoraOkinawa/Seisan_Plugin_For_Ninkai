@@ -25,6 +25,10 @@ public class TransferCommand extends Command {
 
                 if (StringUtils.isNumeric(split[0])) {
                     int amout = Integer.parseInt(split[0]);
+                    if(senderInfo.getMana() < amout){
+                        sender.sendMessage(ChatColor.RED + "Vous n'avez pas assez de chakra !");
+                        return;
+                    }
                     senderInfo.removeMana(amout);
                     targetInfo.addMana(amout);
                     String message = ChatColor.BLUE + "** " + ((Player) sender).getDisplayName() + ChatColor.BLUE + " transfère " + ChatColor.GOLD + amout + ChatColor.BLUE + " de chakra à " + target.getDisplayName() + ChatColor.BLUE + " ! **";
