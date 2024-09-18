@@ -378,7 +378,7 @@ public class PlayerInfo {
                     this.updateSkill(skill, SkillMastery.LEARNED);
                 } else {
                     player.sendMessage("§cHRP : §7Erreur sur le jutsu §6" + skill.getNameInPlugin());
-                    player.sendMessage("§cHRP : §7Merci de remonter à Shikure pour qu'il puisse corriger !");
+                    player.sendMessage("§cHRP : §7Merci de remonter au staff pour correction !");
                 }
             }
         }
@@ -389,7 +389,7 @@ public class PlayerInfo {
     public void SendLog(Player p, Ability ability, Player target) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/968956011962568846/-MQu0rWAZDS3Znevdve66nmyEJk5Wl1b45IUKHnxESgkLy43uKDG-rgOX5dkIjtyJdgU");
+        DiscordWebhook webhook = new DiscordWebhook("");
         webhook.setContent(ChatColor.stripColor(target.getDisplayName()) + " (`" + target.getName() + "`) a reçu la compétence " + ChatColor.stripColor(ability.getName()) + " - " + dtf.format(now));
         webhook.setUsername(ChatColor.stripColor(p.getDisplayName()) + " [" + p.getName() + "]");
         try {
