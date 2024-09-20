@@ -29,7 +29,7 @@ public class GenreCommand extends Command {
 
                         }
                         else {
-                            sender.sendMessage("§cHRP : §7/sexe [sexe] [joueur]");
+                            sender.sendMessage("§cHRP : §7/genre [sexe] [joueur]");
                             sender.sendMessage("§cHRP : §7Liste des sexe : Homme, Femme, Autre");
                         }
                     }
@@ -38,7 +38,7 @@ public class GenreCommand extends Command {
                     }
                 }
                 else {
-                    sender.sendMessage("§cHRP : §7/sexe [sexe] [joueur]");
+                    sender.sendMessage("§cHRP : §7/genre [sexe] [joueur]");
                     sender.sendMessage("§cHRP : §7Liste des sexe : Homme, Femme, Autre");
                 }
             }
@@ -53,7 +53,7 @@ public class GenreCommand extends Command {
                             sender.sendMessage("§cHRP : §7Vous avez choisi le sexe de votre personnage. (" + gender.getName() +")");
                         }
                     } else {
-                        sender.sendMessage("§cHRP : §7/sexe [sexe] (ATTENTION, INCHANGEABLE.)");
+                        sender.sendMessage("§cHRP : §7/genre [sexe] (ATTENTION, INCHANGEABLE.)");
                         sender.sendMessage("§cHRP : §7Liste des sexe : Homme, Femme, Autre");
                     }
                 }
