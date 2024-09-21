@@ -127,7 +127,7 @@ public class HRPCommand extends Command {
                 openInventoryFromChest(p, "hrpClanChest." + args[1].toLowerCase(), args[1], -1);
             } else {
                 if (p.isOp())
-                    p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan] [add|remove|list] [clan]");
+                    p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan] [add|remove|list] [clan] [niveau]");
                 else p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan/poubelle/rien]");
             }
         }
