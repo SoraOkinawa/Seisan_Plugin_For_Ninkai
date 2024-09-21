@@ -47,7 +47,7 @@ public class DBManager {
             String user = cfg.getString("user");
             String password = cfg.getString("password");
             String database = cfg.getString("database");
-            String sqlhost = "jdbc:mysql://" + host + ":" + port + "/" + database + "?verifyServerCertificate=false&useSSL=true";
+            String sqlhost = "jdbc:mysql://" + host + ":" + port + "/" + database + "?verifyServerCertificate=false&useSSL=true&characterEncoding=utf8";
             
             Bukkit.getLogger().log(Level.FINE, "Connexion à la base de données réussie.");
             this.connection = DriverManager.getConnection(sqlhost, user, password);
