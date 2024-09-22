@@ -1042,12 +1042,12 @@ public class ChatFormat extends Feature {
         ItemStack item = p.getInventory().getItemInMainHand();
         ItemStack item2 = p.getInventory().getItemInOffHand();
         if (item.getType() != Material.AIR) {
-            if (ItemUtil.hasTag(item, "ninkai", "animal")) {
+            if (ItemUtil.hasTag(item, "ninkai-animal", "animal")) {
                 hasAnAnimal = true;
             }
         }
         if (!hasAnAnimal && item2.getType() != Material.AIR) {
-            if (ItemUtil.hasTag(item, "ninkai", "animal")) {
+            if (ItemUtil.hasTag(item, "ninkai-animal", "animal")) {
                 hasAnAnimal = true;
             }
         }

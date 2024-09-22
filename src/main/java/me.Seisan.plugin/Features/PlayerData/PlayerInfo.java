@@ -200,15 +200,15 @@ public class PlayerInfo {
         this.pointsAbilities = pointsAbilities;
         this.prouesse = prouesse;
         this.ink = ink;
-        if (getNextDimanche(LocalDateTime.now()) > delayPoints) {
+        /*if (getNextDimanche(LocalDateTime.now()) > delayPoints) {
             this.delayPoints = getNextDimanche(LocalDateTime.now());
             this.points++;
             if (this.points != 0 & age >= 15) {
                 player.sendMessage("§cHRP : §7Un point de compétence vous a été attribué.");
             }
-        } else {
-            this.delayPoints = delayPoints;
-        }
+        } else {*/
+        this.delayPoints = delayPoints;
+        //}
         this.couleurChakra = couleurChakra;
         this.teinte = teinte;
         this.maxMana = getManaMission() + rank.getChakraRank() + bonusChakra() + getManaBonus();
@@ -750,7 +750,6 @@ public class PlayerInfo {
     }
 
 
-
     public void sendActionBar(Player player, String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
         /*
@@ -762,10 +761,10 @@ public class PlayerInfo {
     }
 
     public void ajoutInstinct() {
-        Ability instinct_1 = Ability.getByPluginName("instinct_&_experience_1");
-        Ability instinct_2 = Ability.getByPluginName("instinct_&_experience_2");
-        Ability instinct_3 = Ability.getByPluginName("instinct_&_experience_3");
-        Ability instinct_4 = Ability.getByPluginName("instinct_&_experience_4");
+        Ability instinct_1 = Ability.getByPluginName("instinct_1");
+        Ability instinct_2 = Ability.getByPluginName("instinct_2");
+        Ability instinct_3 = Ability.getByPluginName("instinct_3");
+        Ability instinct_4 = Ability.getByPluginName("instinct_4");
         Ability gestion_douleur_1 = Ability.getByPluginName("gestion_douleur_1");
         int nbpoints = getPointsUsed() + getPoints();
         if (getLvL(styleCombat.getName()) >= 3) {
