@@ -19,9 +19,11 @@ import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +42,7 @@ public class PlayerDB {
 
     public void insertPlayer(String uuid) {
         try {
-            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerInfo(uuid, mana, manamission, manabonus, currentSkill, knownSkills, rang, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerInfo(uuid, mana, manamission, manabonus, currentSkill, knownSkills, rang, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu, jutsuPoints, lastPrayer) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, uuid); //UUID
             pst.setInt(2, 100); //Mana
@@ -74,6 +76,8 @@ public class PlayerDB {
             pst.setInt(30, PlayerInfo.getLastDay(LocalDateTime.now())); // Fuin_lastday
             pst.setInt(31, 0); // Maskprofil
             pst.setInt(32, 0); // reduc_ninjutsu
+            pst.setInt(33, 0); // jutsuPoints
+            pst.setDate(34, Date.valueOf(LocalDate.of(2024, 01, 01)));
             pst.executeUpdate();
             pst.close();
         } catch (SQLException e) {
@@ -102,7 +106,7 @@ public class PlayerDB {
         Main.getIsSaving().add(pInfo.getPlayer().getName());
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin(), () -> {
             try {
-                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerInfo SET mana = ?, manamission = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ? WHERE uuid = ?");
+                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerInfo SET mana = ?, manamission = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ?, jutsuPoints = ?, lastPrayer = ?  WHERE uuid = ?");
 
                 pst.setInt(1, pInfo.getMana());
                 pst.setInt(2, pInfo.getNbmission());
@@ -140,7 +144,9 @@ public class PlayerDB {
                 pst.setInt(30, pInfo.getFuin_lastday());
                 pst.setInt(31, pInfo.getMaskprofil());
                 pst.setInt(32, pInfo.getReduc_ninjutsu());
-                pst.setString(33, uuid);
+                pst.setInt(33, pInfo.getJutsuPoints());
+                pst.setDate(34, pInfo.getLastPrayer());
+                pst.setString(35, uuid);
 
                 pst.executeUpdate();
                 pst.close();
@@ -205,7 +211,7 @@ public class PlayerDB {
             }
 
             try {
-                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerFiche SET mana = ?, manamission = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ? WHERE name = ?");
+                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerFiche SET mana = ?, manamission = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ?, jutsuPoints = ?, lastPrayer = ? WHERE name = ?");
 
                 pst.setInt(1, pInfo.getMana());
                 pst.setInt(2, pInfo.getNbmission());
@@ -243,7 +249,9 @@ public class PlayerDB {
                 pst.setInt(30, pInfo.getFuin_lastday());
                 pst.setInt(31, pInfo.getMaskprofil());
                 pst.setInt(32, pInfo.getReduc_ninjutsu());
-                pst.setString(33, pInfo.getId());
+                pst.setInt(33, pInfo.getJutsuPoints());
+                pst.setDate(34, pInfo.getLastPrayer());
+                pst.setString(35, pInfo.getId());
 
                 pst.executeUpdate();
                 pst.close();
@@ -255,7 +263,7 @@ public class PlayerDB {
 
     private void insertFichePerso(String id) {
         try {
-            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerFiche(name, mana, manamission, manabonus, currentSkill, knownSkills, `rang`, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerFiche(name, mana, manamission, manabonus, currentSkill, knownSkills, `rang`, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu, jutsuPoints, lastPrayer) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, id); //UUID
             pst.setInt(2, 100); //Mana
@@ -289,6 +297,8 @@ public class PlayerDB {
             pst.setInt(30, PlayerInfo.getLastDay(LocalDateTime.now())); // Fuin_lastday
             pst.setInt(31, 0); // Maskprofil
             pst.setInt(32, 0); // reduc_ninjutsu
+            pst.setInt(33, 0);
+            pst.setDate(34, Date.valueOf(LocalDate.of(2024, 01, 01)));
             pst.executeUpdate();
             pst.close();
         } catch (SQLException e) {
@@ -327,7 +337,9 @@ public class PlayerDB {
         int fuin_lastday = set.getInt("fuin_lastday");
         int maskprofil = set.getInt("maskprofil");
         int reduc_ninjutsu = set.getInt("reduc_ninjutsu");
-        return new PlayerInfo(name, mana, manamission, manabonus, rank, skills, rollBonus, favoriteList, clan, chakraType, age, apparence, voieNinja, styleCombat, abilities, apparenceprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleurChakra, teinte, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu);
+        int jutsuPoints=  set.getInt("jutsuPoints");
+        Date lastPrayer = set.getDate("lastPrayer");
+        return new PlayerInfo(name, mana, manamission, manabonus, rank, skills, rollBonus, favoriteList, clan, chakraType, age, apparence, voieNinja, styleCombat, abilities, apparenceprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleurChakra, teinte, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu, jutsuPoints, lastPrayer);
     }
 
     public void loadData(Player p) {
@@ -371,7 +383,9 @@ public class PlayerDB {
                 int fuin_lastday = set.getInt("fuin_lastday");
                 int maskprofil = set.getInt("maskprofil");
                 int reduc_ninjutsu = set.getInt("reduc_ninjutsu");
-                PlayerInfo pInfo = new PlayerInfo(p, mana, manamission, manabonus, rank, skills, rollBonus, favoriteList, clan, chakraType, age, apparence, voieNinja, styleCombat, abilities, apparenceprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleurChakra, teinte, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu);
+                int jutsuPoints=  set.getInt("jutsuPoints");
+                Date lastPrayer = set.getDate("lastPrayer");
+                PlayerInfo pInfo = new PlayerInfo(p, mana, manamission, manabonus, rank, skills, rollBonus, favoriteList, clan, chakraType, age, apparence, voieNinja, styleCombat, abilities, apparenceprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleurChakra, teinte, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu, jutsuPoints, lastPrayer);
 
                 long disconnectTime = set.getLong("disconnectTime");
                 long timeDisconnected = System.currentTimeMillis() - disconnectTime;
