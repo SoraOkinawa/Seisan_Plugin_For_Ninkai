@@ -49,7 +49,7 @@ public class HRPCommand extends Command {
             }
             // /hrp poubelle : Ouvre la poubelle HRP (Code Seisan de base)
             else if (args.length == 1 && args[0].equalsIgnoreCase("poubelle")) {
-                getPoubelleInventory(p);
+                p.openInventory(getPoubelleInventory(p));
             }
             // /hrp add : Ajoute un coffre aux coffres de HRP
             else if (args.length == 1 && args[0].equalsIgnoreCase("add") && p.isOp()) {
@@ -126,7 +126,9 @@ public class HRPCommand extends Command {
             else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && p.isOp()) {
                 openInventoryFromChest(p, "hrpClanChest." + args[1].toLowerCase(), args[1], -1);
             } else {
-                p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan] [add|remove|list] [clan]");
+                if (p.isOp())
+                    p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan] [add|remove|list] [clan] [niveau]");
+                else p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan/poubelle/rien]");
             }
         }
     }
@@ -259,7 +261,7 @@ public class HRPCommand extends Command {
 
         InventoryGui gui = new InventoryGui(plugin, p, invName, setup);
 
-        gui.setFiller(new ItemStack(Material.AIR, 1));
+        gui.setFiller(new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1));
 
         GuiElementGroup group = new GuiElementGroup('g');
 
@@ -269,6 +271,13 @@ public class HRPCommand extends Command {
                         (new StaticGuiElement('g', itemStack, itemStack.getAmount(),
                                 click -> {
                                     p.getInventory().addItem(itemStack);
+                                    return true;
+                                }
+                        )));
+            } else {
+                group.addElement(
+                        (new StaticGuiElement('g', new ItemStack(Material.GRAY_STAINED_GLASS_PANE), 1,
+                                click -> {
                                     return true;
                                 }
                         )));
