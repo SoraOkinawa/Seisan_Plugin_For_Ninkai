@@ -23,10 +23,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -174,9 +176,17 @@ public class PlayerInfo {
     int reduc_ninjutsu;
 
     @Getter
+    @Setter
+    int jutsuPoints;
+
+    @Getter
+    @Setter
+    Date lastPrayer;
+
+    @Getter
     public static HashMap<String, PlayerInfo> instanceList = new HashMap<>();
 
-    public PlayerInfo(Player p, int mana, int nbmission, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu) {
+    public PlayerInfo(Player p, int mana, int nbmission, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu, int jutsuPoints, Date lastPrayer) {
         this.player = p;
         this.uuid = p.getUniqueId().toString();
         this.mana = mana;
@@ -226,12 +236,14 @@ public class PlayerInfo {
         if (!instanceList.containsKey(uuid)) instanceList.put(uuid, this);
         this.transparence = calculTransparence();
         this.reduc_ninjutsu = reduc_ninjutsu;
+        this.jutsuPoints = jutsuPoints;
+        this.lastPrayer = lastPrayer;
         ajoutInstinct();
         caract = new Caract(this.abilities);
         FuinjutsuUzumaki();
     }
 
-    public PlayerInfo(String id, int mana, int nbmission, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu) {
+    public PlayerInfo(String id, int mana, int nbmission, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu, int jutsuPoints, Date lastPrayer) {
         this.id = id;
         this.mana = mana;
         this.nbmission = nbmission;
@@ -265,6 +277,8 @@ public class PlayerInfo {
         this.fuin_lastday = fuin_lastday;
         this.maskprofil = maskprofil;
         this.reduc_ninjutsu = reduc_ninjutsu;
+        this.jutsuPoints = jutsuPoints;
+        this.lastPrayer = lastPrayer;
     }
 
 
@@ -965,7 +979,9 @@ public class PlayerInfo {
                 this.fuin_uzumaki,
                 this.fuin_lastday,
                 this.maskprofil,
-                this.reduc_ninjutsu
+                this.reduc_ninjutsu,
+                this.jutsuPoints,
+                this.lastPrayer
         );
     }
 
@@ -1000,7 +1016,9 @@ public class PlayerInfo {
                 this.fuin_uzumaki,
                 this.fuin_lastday,
                 this.maskprofil,
-                this.reduc_ninjutsu
+                this.reduc_ninjutsu,
+                this.jutsuPoints,
+                this.lastPrayer
         );
     }
 

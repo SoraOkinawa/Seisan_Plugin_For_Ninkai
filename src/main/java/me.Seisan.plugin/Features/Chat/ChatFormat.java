@@ -4,10 +4,13 @@ import me.Seisan.plugin.Features.PlayerData.PlayerConfig;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.commands.anothers.HideLanguageCommand;
 import me.Seisan.plugin.Features.commands.anothers.PrefixCommand;
+import me.Seisan.plugin.Features.commands.anothers.PriereCommand;
 import me.Seisan.plugin.Features.utils.Channel;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Features.Feature;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Content;
@@ -26,6 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static net.kyori.adventure.text.Component.text;
 import static me.Seisan.plugin.Features.utils.ItemUtil.translateHexCodes;
 import static org.bukkit.ChatColor.COLOR_CHAR;
 
@@ -110,27 +114,44 @@ public class ChatFormat extends Feature {
             @Override
             public void execute(Listener listener, Event event) throws EventException {
                 AsyncPlayerChatEvent chatEvent = (AsyncPlayerChatEvent) event;
+                Player player = chatEvent.getPlayer();
 
                 // If message ends with ">", we store it in a map to send it all at once
                 String message = chatEvent.getMessage();
                 if (message.endsWith(">")) {
-                    if (halfWrittenMessage.containsKey(chatEvent.getPlayer())) {
+                    if (halfWrittenMessage.containsKey(player)) {
                         // Remove the ">" at the end of the message
-                        halfWrittenMessage.put(chatEvent.getPlayer(), halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
+                        halfWrittenMessage.put(player, halfWrittenMessage.get(player) + " " + chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
                     } else {
-                        halfWrittenMessage.put(chatEvent.getPlayer(), chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
-                    }
-                    chatEvent.setCancelled(true);
-                } else {
-                    if (halfWrittenMessage.containsKey(chatEvent.getPlayer())) {
-                        message = halfWrittenMessage.get(chatEvent.getPlayer()) + " " + chatEvent.getMessage();
-                        halfWrittenMessage.remove(chatEvent.getPlayer());
-                        chatEvent.setMessage(message);
+                        halfWrittenMessage.put(player, chatEvent.getMessage().substring(0, chatEvent.getMessage().length() - 1));
                     }
 
-                    if (innerChatFormater.isGoodPrefix(PrefixCommand.getPlayerDefaultPrefix(chatEvent.getPlayer()) + chatEvent.getMessage())) {
+                    if (PriereCommand.isPlayerPraying(player)) {
+                        player.sendActionBar(
+                                text("HRP : ", NamedTextColor.DARK_RED)
+                                .append(text("Prière allongée avec ce nouveau texte. Si vous avez terminé, tapez ", NamedTextColor.DARK_GREEN))
+                                .append(text("/priere send ", NamedTextColor.GREEN))
+                                .append(text("pour l'envoyer.", NamedTextColor.DARK_GREEN))
+                        );
+                    }
+
+                    chatEvent.setCancelled(true);
+                } else {
+                    if (halfWrittenMessage.containsKey(player)) {
+                        message = halfWrittenMessage.get(player) + " " + chatEvent.getMessage();
+                        halfWrittenMessage.remove(player);
+
+                        if (PriereCommand.isPlayerPraying(player)) {
+                            PriereCommand.playerFinishPraying(player, message);
+                            chatEvent.setCancelled(true);
+                        } else {
+                            chatEvent.setMessage(message);
+                        }
+                    }
+
+                    if (innerChatFormater.isGoodPrefix(PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage())) {
                         chatEvent.setCancelled(true);
-                        chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(chatEvent.getPlayer()) + chatEvent.getMessage());
+                        chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage());
                         FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
                     }
                 }
@@ -627,7 +648,7 @@ public class ChatFormat extends Feature {
         }
     }
 
-    protected class ChatFormater {
+    public class ChatFormater {
         Meta meta = null;
         List<ChatElement> chatElements;
 
