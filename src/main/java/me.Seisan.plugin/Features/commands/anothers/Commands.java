@@ -8,7 +8,7 @@ import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import me.Seisan.plugin.Features.commands.anothers.TechniqueMJCommand;
-import me.Seisan.plugin.Features.commands.anothers.PrierCommand;
+import me.Seisan.plugin.Features.commands.anothers.PriereCommand;
 
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class Commands extends Feature {
         new WarpCommand().register();
         new PrefixCommand().register();
         new TechniqueMJCommand().register();
-        new PrierCommand().register();
+        new PriereCommand().register();
         param.add("add");
         param.add("remove");
 
