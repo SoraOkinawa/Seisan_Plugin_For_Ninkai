@@ -30,7 +30,8 @@ import static org.apache.commons.lang.StringUtils.split;
 
 public class PriereCommand extends Command {
 
-    private static Map<UUID, String> halfWrittenMessage = new HashMap<>();
+//    private static Map<UUID, String> halfWrittenMessage = new HashMap<>();
+private static List<UUID> playersPraying = new ArrayList<>();
 
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
@@ -38,52 +39,46 @@ public class PriereCommand extends Command {
         Player player = (Player) sender;
         if (sender instanceof Player) {
 
-            //message d'erreur si il y a pas d'argument dans la commande
-            if (split.length == 0) {
-                player.sendMessage("§4HRP : §7Il faut faire la commande /priere <message>");
+            // Si le joueur met un paramètre
+            if (split.length != 0) {
+                player.sendMessage("§4HRP : §7Usage : /priere");
             }
-            else if (!(split[0].equals(("send")))) {
-                String message = "";
-                if (halfWrittenMessage.containsKey(player.getUniqueId()))
-                    message = halfWrittenMessage.get(player.getUniqueId()) + " ";
-                message += String.join(" ", split);
-
-                halfWrittenMessage.put(player.getUniqueId(), message);
-                player.sendActionBar(Component.text("HRP : ", NamedTextColor.DARK_RED)
-                        .append(Component.text("Prière allongée avec ce nouveau texte. Si vous avez terminé, tapez ", NamedTextColor.DARK_GREEN))
-                        .append(Component.text("/priere send ", NamedTextColor.GREEN))
-                        .append(Component.text("pour l'envoyer.", NamedTextColor.DARK_GREEN))
-                );
+            // Si le joueur tape le /priere et qu'il n'a aucune priere en cours
+            else if(!playersPraying.contains(player.getUniqueId())) {
+                playersPraying.add(player.getUniqueId());
+                player.sendMessage("§4HRP : §7Vous débuttez votre prière. Écrivez la dans le tchat comme une parole classique de votre personnage, §2sans aucun préfixe§7. La fonction '§2>§7' est compatible avec la prière.");
             }
-            //Si le joueur envoi la prière avec le send
+            // Si le joueur tape /priere alors qu'il a déjà une priere en cours
             else {
-                if (halfWrittenMessage.containsKey(player.getUniqueId())) {
-                    String message = halfWrittenMessage.get(player.getUniqueId());
-                    sendLog(player, message);
-                    player.sendMessage("§bHRP : Votre prière a été envoyé !");
-                }
+                player.sendMessage("§4HRP : §7Vous êtes déjà en train de prier !");
             }
         }
     }
 
-    private void sendLog (Player player, String message){
+    public static boolean isPlayerPraying(Player player) {
+        return playersPraying.contains(player.getUniqueId());
+    }
+
+    public static void playerFinishPraying(Player player, String message) {
+        player.sendMessage("§4HRP : §7Envoi de votre prière...");
+        sendLog(player, message);
+    }
+
+    private static void sendLog (Player player, String message){
         DiscordWebhook webhook = new DiscordWebhook("https://discord.com/api/webhooks/1288410639655506004/HbE3tnoqPjLI4C53STL-1LvdiBm6n47obryqPsZsz0oEwFqQ-IvpU71hj5WsA912XoOE");
         webhook.setContent(message);
         webhook.setUsername("Prière de " + ChatColor.stripColor(player.getDisplayName()) + " [" + player.getName() + "]");
         try {
             webhook.execute();
-            halfWrittenMessage.remove(player.getUniqueId());
+            playersPraying.remove(player.getUniqueId());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        player.sendMessage("§bHRP : Votre prière a été envoyée !");
     }
 
-    //Pour la complétion
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        if (split.length == 1 && halfWrittenMessage.containsKey(((Player) sender).getUniqueId())) {
-            return StringUtil.copyPartialMatches(split[0], Collections.singletonList("send"), new ArrayList<>());
-        }
         return Collections.emptyList();
     }
 }
