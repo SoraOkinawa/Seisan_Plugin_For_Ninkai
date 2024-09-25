@@ -261,7 +261,7 @@ public class HRPCommand extends Command {
 
         InventoryGui gui = new InventoryGui(plugin, p, invName, setup);
 
-        gui.setFiller(new ItemStack(Material.AIR, 1));
+        gui.setFiller(new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1));
 
         GuiElementGroup group = new GuiElementGroup('g');
 
@@ -271,6 +271,13 @@ public class HRPCommand extends Command {
                         (new StaticGuiElement('g', itemStack, itemStack.getAmount(),
                                 click -> {
                                     p.getInventory().addItem(itemStack);
+                                    return true;
+                                }
+                        )));
+            } else {
+                group.addElement(
+                        (new StaticGuiElement('g', new ItemStack(Material.GRAY_STAINED_GLASS_PANE), 1,
+                                click -> {
                                     return true;
                                 }
                         )));
