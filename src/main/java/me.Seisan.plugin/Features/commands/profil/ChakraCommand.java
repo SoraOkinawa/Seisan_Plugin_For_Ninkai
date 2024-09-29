@@ -12,8 +12,10 @@ import me.Seisan.plugin.Main.Command;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
+import java.awt.print.Paper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -154,7 +156,7 @@ public class ChakraCommand extends Command {
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
 
                     if (pInfo.getChakraType() == null || pInfo.getChakraType().equals("§7Non défini") || pInfo.getChakraType().equals("")) {
-                        if (p.getEquipment().getItemInMainHand().equals(ItemUtil.createItemStack(Material.PAPER, 1, "§6Papier à Chakra"))) {
+                        if (p.getEquipment().getItemInMainHand().equals(ItemUtil.createItemStack(Material.PAPER, 1, "§8Papier de chakra"))) {
                             Random r = new Random();
                             int i = r.nextInt(4) + 1;
                             String encaMessage = "";

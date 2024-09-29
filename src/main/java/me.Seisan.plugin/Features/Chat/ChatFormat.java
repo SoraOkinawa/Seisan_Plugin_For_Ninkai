@@ -4,6 +4,7 @@ import me.Seisan.plugin.Features.PlayerData.PlayerConfig;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.commands.anothers.HideLanguageCommand;
 import me.Seisan.plugin.Features.commands.anothers.PrefixCommand;
+import me.Seisan.plugin.Features.objectnum.Gender;
 import me.Seisan.plugin.Features.utils.Channel;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
@@ -150,6 +151,7 @@ public class ChatFormat extends Feature {
      */
     private void initialize() {
         /* Speaking */
+        addRule("##", "{range:1}<%a [sussure]> {color:#616673}%m");
         addRule("#", "{range:3}<%a [chuchote]> {color:DARK_AQUA}%m");
         addRule("-", "{range:7}<%a [parle bas]> {color:DARK_GREEN}%m");
         addRule("default", "{range:20}<%a [dit]> {color:GREEN}%m");
@@ -157,6 +159,10 @@ public class ChatFormat extends Feature {
         addRule("!", "{range:100}<%a [crie]> {color:RED}%m");
 
         /* Acting */
+        addRule("##*", "{range:1}{color:#616673, italic:true}*%a %m");
+        addRule("*##", "{range:1}{color:#616673, italic:true}*%a %m");
+        addRule("##*,", "{range:1}{color:#616673, italic:true}*%a, %m");
+        addRule("*##,", "{range:1}{color:#616673, italic:true}*%a, %m");
         addRule("*#", "{range:3}{color:DARK_AQUA,italic:true}*%a %m*");
         addRule("#*", "{range:3}{color:DARK_AQUA,italic:true}*%a %m*");
         addRule("*#,", "{range:3}{color:DARK_AQUA,italic:true}*%a, %m*");
@@ -165,6 +171,7 @@ public class ChatFormat extends Feature {
         addRule("-*", "{range:7}{color:DARK_GREEN, italic:true}*%a %m*");
         addRule("*-,", "{range:7}{color:DARK_GREEN, italic:true}*%a, %m*");
         addRule("-*,", "{range:7}{color:DARK_GREEN, italic:true}*%a, %m*");
+
         addRule("*", "{range:20}{color:GREEN, italic:true}*%a %m*");
         addRule("*,", "{range:20}{color:GREEN, italic:true}*%a, %m*");
         addRule("*+", "{range:50}{color:YELLOW, italic:true}*%a %m*");
@@ -175,6 +182,7 @@ public class ChatFormat extends Feature {
         addRule("!*", "{range:100}{color:RED, italic:true}*%a %m*");
         addRule("*!,", "{range:100}{color:RED, italic:true}*%a, %m*");
         addRule("!*,", "{range:100}{color:RED, italic:true}*%a, %m*");
+        addRule("##*", "{range:1}{color:DARK_AQUA, italic:true}*%a %m");
         addRule("**", "{range:30}{color:BLUE}**[%a] %m**");
 
         /* Animal */
@@ -197,7 +205,8 @@ public class ChatFormat extends Feature {
         addRule(";!*", "{range:100, animal:true}{color:RED, italic:true}*%a %m*");
 
         /* Encadrement */
-
+        addRule("?##", "{range:1}{restricted:enca, color:AQUA}** %m");
+        addRule("##?", "{range:1}{restricted:enca, color:AQUA}** %m");
         addRule("?#", "{range:3}{restricted:enca, color:AQUA}** %m");
         addRule("#?", "{range:3}{restricted:enca, color:AQUA}** %m");
         addRule("-?", "{range:7}{restricted:enca, color:AQUA}** %m");
@@ -207,6 +216,7 @@ public class ChatFormat extends Feature {
         addRule("+?", "{range:50}{restricted:enca, color:AQUA}** %m");
         addRule("?!", "{range:100}{restricted:enca, color:AQUA}** %m");
         addRule("!?", "{range:100}{restricted:enca, color:AQUA}** %m");
+
         addRule("?:", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
         addRule(":?", "{range:-1, restricted:enca, color:AQUA, foreveryworld:true}%m");
 
@@ -772,7 +782,12 @@ public class ChatFormat extends Feature {
                         textComponent.setText(mutableMeta.getTarget());
                     } else {
                         textComponent.setText(target.getDisplayName());
-                        textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(target.getName()).color(ChatColor.YELLOW).create()));
+                        textComponent.setHoverEvent(
+                                new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                        new ComponentBuilder(target.getName())
+                                                .append(" - Genre : " + PlayerInfo.getPlayerInfo(target).getGender().getName())
+                                                .color(ChatColor.YELLOW)
+                                                .create()));
                     }
             }
             return textComponent;
@@ -978,8 +993,14 @@ public class ChatFormat extends Feature {
                                             new ComponentBuilder("")
                                                     .append((BaseComponent) TextComponent.fromLegacyText(sender.getDisplayName())[0])
                                                     .append(" (" + sender.getName() + ") - Âge : "
-                                                            + PlayerInfo.getPlayerInfo(sender).getAge()
-                                                            + printedDirection)
+                                                            + PlayerInfo.getPlayerInfo(sender).getAge())
+                                                    .color(ChatColor.YELLOW)
+                                                    .append(" "
+                                                            + printedDirection
+                                                    )
+                                                    .color(ChatColor.YELLOW)
+                                                    .append("\n" + "Genre : "
+                                                            + PlayerInfo.getPlayerInfo(sender).getGender().getName())
                                                     .color(ChatColor.YELLOW)
                                                     .create()
                                     )
