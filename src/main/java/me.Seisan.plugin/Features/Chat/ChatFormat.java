@@ -129,9 +129,9 @@ public class ChatFormat extends Feature {
                     if (PriereCommand.isPlayerPraying(player)) {
                         player.sendActionBar(
                                 text("HRP : ", NamedTextColor.DARK_RED)
-                                .append(text("Prière allongée avec ce nouveau texte. Si vous avez terminé, tapez ", NamedTextColor.DARK_GREEN))
-                                .append(text("/priere send ", NamedTextColor.GREEN))
-                                .append(text("pour l'envoyer.", NamedTextColor.DARK_GREEN))
+                                        .append(text("Prière allongée avec ce nouveau texte. Si vous avez terminé, tapez ", NamedTextColor.DARK_GREEN))
+                                        .append(text("/priere send ", NamedTextColor.GREEN))
+                                        .append(text("pour l'envoyer.", NamedTextColor.DARK_GREEN))
                         );
                     }
 
@@ -958,8 +958,17 @@ public class ChatFormat extends Feature {
                     }
                 }
             }
-            String s = Arrays.stream(arrayMessage).map((Object tex) -> ((TextComponent) tex).getText()).collect(Collectors.joining("")).replace("{LANGUAGE-ANCHOR}", meta.originalMessage);
-            Main.log(Level.INFO, s);
+            // Generate a string with the message for the console using the format
+            StringBuilder s = new StringBuilder();
+            for (TextComponent textComponent : arrayMessage) {
+                // If the text contain {LANGUAGE-ANCHOR} we replace it by the original message
+                if (textComponent.getText().contains("{LANGUAGE-ANCHOR}")) {
+                    s.append(meta.originalMessage);
+                } else {
+                    s.append(textComponent.toPlainText());
+                }
+            }
+            Main.log(Level.INFO, s.toString());
         }
     }
 
@@ -1004,7 +1013,7 @@ public class ChatFormat extends Feature {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
 
-                            BaseComponent [] nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName());
+                            BaseComponent[] nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName());
                             for (BaseComponent baseComponent1 : nameWithHover) {
                                 if (baseComponent1 instanceof TextComponent) {
                                     TextComponent textComponent1 = (TextComponent) baseComponent1;
