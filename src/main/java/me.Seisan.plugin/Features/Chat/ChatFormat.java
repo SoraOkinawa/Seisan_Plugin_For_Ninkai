@@ -971,7 +971,7 @@ public class ChatFormat extends Feature {
             }
         }
 
-        String printedDirection = ChatColor.YELLOW + "\nDirection : " + direction;
+        String printedDirection = ChatColor.GRAY + "\nDirection : " + direction;
         if (sender.getUniqueId() == receiver.getUniqueId() || senderConfig.isVanish() || sender.getWorld() != receiver.getWorld()) {
             printedDirection = "";
         }
@@ -1000,7 +1000,6 @@ public class ChatFormat extends Feature {
                                                     .append(" "
                                                             + printedDirection
                                                     )
-                                                    .color(ChatColor.YELLOW)
                                                     .color(ChatColor.YELLOW)
                                                     .create()
                                     )
