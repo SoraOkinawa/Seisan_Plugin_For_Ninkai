@@ -142,5 +142,7 @@ commands:
     description: Permet d'utiliser un préfixe par défaut. Utilisation /prefix <prefixe>
   TechniqueMJ:
     description: Permet d'utiliser une technique MJ
+  Priere:
+    description: Permet d'écrire une prière le Rikudo
   HideLanguage:
     description: Permet de cacher les langues non parlées
