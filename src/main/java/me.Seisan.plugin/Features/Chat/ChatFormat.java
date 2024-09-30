@@ -129,9 +129,9 @@ public class ChatFormat extends Feature {
                     if (PriereCommand.isPlayerPraying(player)) {
                         player.sendActionBar(
                                 text("HRP : ", NamedTextColor.DARK_RED)
-                                .append(text("Prière allongée avec ce nouveau texte. Si vous avez terminé, tapez ", NamedTextColor.DARK_GREEN))
-                                .append(text("/priere send ", NamedTextColor.GREEN))
-                                .append(text("pour l'envoyer.", NamedTextColor.DARK_GREEN))
+                                        .append(text("Prière allongée avec ce nouveau texte. Si vous avez terminé, tapez ", NamedTextColor.DARK_GREEN))
+                                        .append(text("/priere send ", NamedTextColor.GREEN))
+                                        .append(text("pour l'envoyer.", NamedTextColor.DARK_GREEN))
                         );
                     }
 
@@ -744,21 +744,14 @@ public class ChatFormat extends Feature {
         }
 
         private TextComponent createComponent(AsyncPlayerChatEvent event, MutableMeta mutableMeta) {
+            ArrayList<TextComponent> textComponents = new ArrayList<>();
             TextComponent textComponent = new TextComponent();
-            textComponent.setBold(bold);
-            textComponent.setItalic(italic);
-            textComponent.setObfuscated(obfuscated);
-            if (commandOnClick != null) {
-                textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,
-                        commandOnClick.replace("%t", mutableMeta.getTarget())
-                                .replace("%m", event.getMessage())
-                                .replace("%a", event.getPlayer().getName()))
-                );
-            }
+
             switch (type) {
                 case TEXT:
                     textComponent.setText(text);
                     textComponent.setColor(color);
+                    textComponents.add(textComponent);
                     break;
                 case MESSAGE:
                     textComponent.setText(event.getMessage()); //Mira
@@ -778,7 +771,10 @@ public class ChatFormat extends Feature {
                     break;
                 case NAME:
                     Player player = event.getPlayer();
-                    textComponent.setText(player.getDisplayName());
+                    // Use the display name of the player with fromLegacyText to keep the color
+                    BaseComponent[] baseComponents = TextComponent.fromLegacyText(player.getDisplayName());
+                    textComponent = new TextComponent(baseComponents);
+
                     textComponent.setHoverEvent(
                             new HoverEvent(
                                     HoverEvent.Action.SHOW_TEXT,
@@ -792,10 +788,26 @@ public class ChatFormat extends Feature {
                     if (target == null) {
                         textComponent.setText(mutableMeta.getTarget());
                     } else {
-                        textComponent.setText(target.getDisplayName());
+                        // Use the display name of the player with fromLegacyText to keep the color
+                        BaseComponent[] baseTargetComponents = TextComponent.fromLegacyText(target.getDisplayName());
+                        textComponent = new TextComponent(baseTargetComponents);
+
                         textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(target.getName()).color(ChatColor.YELLOW).create()));
                     }
             }
+
+            textComponent.setBold(bold);
+            textComponent.setItalic(italic);
+            textComponent.setObfuscated(obfuscated);
+            if (commandOnClick != null) {
+                textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND,
+                        commandOnClick.replace("%t", mutableMeta.getTarget())
+                                .replace("%m", event.getMessage())
+                                .replace("%a", event.getPlayer().getName()))
+                );
+            }
+
+
             return textComponent;
         }
     }
@@ -840,7 +852,7 @@ public class ChatFormat extends Feature {
             AsyncPlayerChatEvent event = formatedMessage.getEvent();
             TextComponent[] arrayMessage = formatedMessage.getComponents();
             TextComponent[] arrayMessageNoItalic = new TextComponent[formatedMessage.getComponents().length];
-            Meta meta = formatedMessage.getMeta(); //Mira
+            Meta meta = formatedMessage.getMeta();
             MutableMeta mutableMeta = formatedMessage.getMutableMeta();
             Player player = event.getPlayer();
             PlayerConfig playerConfig = PlayerConfig.getPlayerConfig(player);
@@ -946,8 +958,17 @@ public class ChatFormat extends Feature {
                     }
                 }
             }
-            String s = Arrays.stream(arrayMessage).map((Object tex) -> ((TextComponent) tex).getText()).collect(Collectors.joining("")).replace("{LANGUAGE-ANCHOR}", meta.originalMessage);
-            Main.log(Level.INFO, s);
+            // Generate a string with the message for the console using the format
+            StringBuilder s = new StringBuilder();
+            for (TextComponent textComponent : arrayMessage) {
+                // If the text contain {LANGUAGE-ANCHOR} we replace it by the original message
+                if (textComponent.getText().contains("{LANGUAGE-ANCHOR}")) {
+                    s.append(meta.originalMessage);
+                } else {
+                    s.append(textComponent.toPlainText());
+                }
+            }
+            Main.log(Level.INFO, s.toString());
         }
     }
 
@@ -992,21 +1013,24 @@ public class ChatFormat extends Feature {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
 
-                            BaseComponent nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName())[0];
-                            nameWithHover.setHoverEvent(
-                                    new HoverEvent(
-                                            HoverEvent.Action.SHOW_TEXT,
-                                            new ComponentBuilder("")
-                                                    .append((BaseComponent) TextComponent.fromLegacyText(sender.getDisplayName())[0])
-                                                    .append(" (" + sender.getName() + ") - Âge : "
-                                                            + PlayerInfo.getPlayerInfo(sender).getAge()
-                                                            + printedDirection)
-                                                    .color(ChatColor.YELLOW)
-                                                    .create()
-                                    )
-                            );
-
-
+                            BaseComponent[] nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName());
+                            for (BaseComponent baseComponent1 : nameWithHover) {
+                                if (baseComponent1 instanceof TextComponent) {
+                                    TextComponent textComponent1 = (TextComponent) baseComponent1;
+                                    textComponent1.setHoverEvent(
+                                            new HoverEvent(
+                                                    HoverEvent.Action.SHOW_TEXT,
+                                                    new ComponentBuilder("")
+                                                            .append((BaseComponent) TextComponent.fromLegacyText(sender.getDisplayName())[0])
+                                                            .append(" (" + sender.getName() + ") - Âge : "
+                                                                    + PlayerInfo.getPlayerInfo(sender).getAge()
+                                                                    + printedDirection)
+                                                            .color(ChatColor.YELLOW)
+                                                            .create()
+                                            )
+                                    );
+                                }
+                            }
                             messageCopied[i] = new TextComponent(nameWithHover);
                         }
                     }
