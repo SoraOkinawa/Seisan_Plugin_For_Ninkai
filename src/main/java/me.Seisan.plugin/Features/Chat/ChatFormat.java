@@ -151,7 +151,7 @@ public class ChatFormat extends Feature {
      */
     private void initialize() {
         /* Speaking */
-        addRule("##", "{range:1}<%a [sussure]> {color:#616673}%m");
+        addRule("##", "{range:1}<%a [murmure]> {color:#616673}%m");
         addRule("#", "{range:3}<%a [chuchote]> {color:DARK_AQUA}%m");
         addRule("-", "{range:7}<%a [parle bas]> {color:DARK_GREEN}%m");
         addRule("default", "{range:20}<%a [dit]> {color:GREEN}%m");
@@ -159,7 +159,7 @@ public class ChatFormat extends Feature {
         addRule("!", "{range:100}<%a [crie]> {color:RED}%m");
 
         /* Acting */
-        addRule("##*", "{range:1}{color:#616673, italic:true}*%a %m");
+        addRule("##*", "{range:1}{color:#6e6e6e, italic:true}*%a %m");
         addRule("*##", "{range:1}{color:#616673, italic:true}*%a %m");
         addRule("##*,", "{range:1}{color:#616673, italic:true}*%a, %m");
         addRule("*##,", "{range:1}{color:#616673, italic:true}*%a, %m");
@@ -971,7 +971,7 @@ public class ChatFormat extends Feature {
             }
         }
 
-        String printedDirection = ChatColor.WHITE + "\nDirection : " + direction;
+        String printedDirection = ChatColor.YELLOW + "\nDirection : " + direction;
         if (sender.getUniqueId() == receiver.getUniqueId() || senderConfig.isVanish() || sender.getWorld() != receiver.getWorld()) {
             printedDirection = "";
         }
@@ -995,12 +995,12 @@ public class ChatFormat extends Feature {
                                                     .append(" (" + sender.getName() + ") - Âge : "
                                                             + PlayerInfo.getPlayerInfo(sender).getAge())
                                                     .color(ChatColor.YELLOW)
+                                                    .append("\n" + "Genre : "
+                                                            + PlayerInfo.getPlayerInfo(sender).getGender().getName())
                                                     .append(" "
                                                             + printedDirection
                                                     )
                                                     .color(ChatColor.YELLOW)
-                                                    .append("\n" + "Genre : "
-                                                            + PlayerInfo.getPlayerInfo(sender).getGender().getName())
                                                     .color(ChatColor.YELLOW)
                                                     .create()
                                     )
