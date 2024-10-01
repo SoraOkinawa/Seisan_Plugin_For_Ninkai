@@ -153,37 +153,33 @@ public class ChakraCommand extends Command {
                     Player p = (Player) sender;
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
 
-                    sender.sendMessage("" + pInfo.getChakraType());
-
                     if (pInfo.getChakraType() == null || pInfo.getChakraType().equals("§7Non défini") || pInfo.getChakraType().equals("") || pInfo.getChakraType().isEmpty()) {
 
                         ItemStack item = p.getEquipment().getItemInMainHand();
                         boolean isChakraPaper = NBT.get(item, nbt -> (boolean) nbt.getBoolean("ChakraPaper"));
 
-                        sender.sendMessage("" + isChakraPaper);
-
                         if (isChakraPaper) {
                             Random r = new Random();
-                            int i = r.nextInt(4) + 1;
+                            int i = r.nextInt(5);
                             String encaMessage = "";
                             switch (i) {
-                                case 1:
+                                case 0:
                                     pInfo.addChakraType(ChakraType.RAITON, 0);
                                     encaMessage = "§b** Le papier se froisse **";
                                     break;
-                                case 2:
+                                case 1:
                                     pInfo.addChakraType(ChakraType.DOTON, 0);
                                     encaMessage = "§b** Le papier se salit avant de s'effriter **";
                                     break;
-                                case 3:
+                                case 2:
                                     pInfo.addChakraType(ChakraType.KATON, 0);
                                     encaMessage = "§b** Le papier s'enflamme **";
                                     break;
-                                case 4:
+                                case 3:
                                     pInfo.addChakraType(ChakraType.FUUTON, 0);
                                     encaMessage = "§b** Le papier se coupe en deux **";
                                     break;
-                                case 5:
+                                case 4:
                                     pInfo.addChakraType(ChakraType.SUITON, 0);
                                     encaMessage = "§b** Le papier devient humide **";
                                     break;
