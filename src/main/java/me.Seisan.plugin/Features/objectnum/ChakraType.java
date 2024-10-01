@@ -1,8 +1,6 @@
 package me.Seisan.plugin.Features.objectnum;
 
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
-
 
 
 public enum ChakraType {
@@ -11,7 +9,7 @@ public enum ChakraType {
     KATON("§cKaton", "CE2029"),
     DOTON("§6Doton", "84655F"),
     SUITON("§9Suiton", "2F94C1"),
-    FUTON("§fFuton", "E6F0F4"),
+    FUUTON("§fFûton", "E6F0F4"),
     REZUTON( "§1Rezuton", "2957EE"),
     SHINTON( "§8Shinton", "3F3F63"),
     SHOTON("§dShoton", "DF90EB"),
