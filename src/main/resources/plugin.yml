@@ -42,8 +42,10 @@ commands:
   canish:
     description: Le vanish du pauvre
     aliases: c
-  reloadyml:
+  reloaddb:
     description: Permet de reload les jutsus ou les compétences
+    usage: "Usage : /reloaddb <jutsu|ability>"
+    permission: ninkai.reloaddb
   apparence:
     description: Permet de gerer son apparence.
     aliases: a
@@ -143,6 +145,7 @@ commands:
   TechniqueMJ:
     description: Permet d'utiliser une technique MJ
   Priere:
-    description: Permet d'écrire une prière le Rikudo
+    description: Permet d'écrire une prière pour votre dieu.
+    usage : "Usage : /priere"
   HideLanguage:
     description: Permet de cacher les langues non parlées
