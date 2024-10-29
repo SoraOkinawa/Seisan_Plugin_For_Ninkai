@@ -144,5 +144,7 @@ commands:
     description: Permet d'utiliser une technique MJ
   Priere:
     description: Permet d'écrire une prière le Rikudo
+  Conversion:
+    description: Permet de convertir en euro ou ryo
   HideLanguage:
     description: Permet de cacher les langues non parlées

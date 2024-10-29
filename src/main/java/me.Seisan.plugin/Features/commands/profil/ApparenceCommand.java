@@ -10,12 +10,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Helliot on 16/08/2018
  */
 public class ApparenceCommand extends Command {
+    private static Map<Player, String> halfWrittenMessage = new HashMap<>();
+
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if(sender instanceof Player){
@@ -23,7 +27,9 @@ public class ApparenceCommand extends Command {
             PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
 
             if(split.length > 0){
+
                 String message = "";
+
                 for(String s : split){
                     message = message.concat(s + " ");
                 }
@@ -33,6 +39,7 @@ public class ApparenceCommand extends Command {
             }else{
                 String apparence = "" + pInfo.getAppearance();
                 p.sendMessage(ChatColor.GREEN + "* " + ChatColor.translateAlternateColorCodes('&', apparence) + ChatColor.GREEN + " *");
+
             }
         }
     }

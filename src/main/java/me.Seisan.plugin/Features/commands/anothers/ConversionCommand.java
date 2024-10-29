@@ -49,7 +49,7 @@ public class ConversionCommand extends Command {
             if (split[0].equals("ryo")) {
                 double Nb = 0.01;
                 double NbInput = Double.parseDouble(split[1]);
-                double res1 = (Nb / NbInput);
+                double res1 = (NbInput / Nb);
                 p.sendMessage("§4HRP: §2Votre conversion en ryo donne : §a" + NbInput + " euro = " + res1 + " ryo");
             }
 
