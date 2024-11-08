@@ -187,7 +187,7 @@ public class SkillInventory {
             if(chakraType != null) {
                 if(typeJutsu.contains(ChatColor.stripColor(chakraType.getName()))) {
                     String name = ItemUtil.translateHexCodes("&#"+chakraType.colorHexa.concat(ChatColor.stripColor(chakraType.getName())));
-                    inv.setItem(i, ItemUtil.createItemStack(Material.DRAGON_BREATH, 1, name, Collections.singletonList("§7Vos techniques " + name), "ninkai", chakraType.getName().substring(2).toLowerCase().replace("ô", "o")));
+                    inv.setItem(i, ItemUtil.createItemStack(Material.DRAGON_BREATH, 1, name, Collections.singletonList("§7Vos techniques " + name), "ninkai", chakraType.getName().substring(2).toLowerCase().replace("ô", "o").replace("û", "u")));
                     i++;
                 }
             }
