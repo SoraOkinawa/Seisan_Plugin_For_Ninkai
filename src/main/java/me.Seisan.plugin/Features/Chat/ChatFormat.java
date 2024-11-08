@@ -130,9 +130,7 @@ public class ChatFormat extends Feature {
                     if (PriereCommand.isPlayerPraying(player)) {
                         player.sendActionBar(
                                 text("HRP : ", NamedTextColor.DARK_RED)
-                                        .append(text("Prière allongée avec ce nouveau texte. Si vous avez terminé, tapez ", NamedTextColor.DARK_GREEN))
-                                        .append(text("/priere send ", NamedTextColor.GREEN))
-                                        .append(text("pour l'envoyer.", NamedTextColor.DARK_GREEN))
+                                        .append(text("Prière allongée avec ce nouveau texte.", NamedTextColor.DARK_GREEN))
                         );
                     }
 
@@ -152,8 +150,12 @@ public class ChatFormat extends Feature {
 
                     if (innerChatFormater.isGoodPrefix(PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage())) {
                         chatEvent.setCancelled(true);
-                        chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage());
-                        FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
+                        if (PriereCommand.isPlayerPraying(player)) {
+                            PriereCommand.playerFinishPraying(player, message);
+                        } else {
+                            chatEvent.setMessage(PrefixCommand.getPlayerDefaultPrefix(player) + chatEvent.getMessage());
+                            FormatedMessageSender.send(innerChatFormater.formatMessage(chatEvent));
+                        }
                     }
                 }
                 String hex = translateHexColorCodes("#", "", String.join("", message.replace("&", "§")));

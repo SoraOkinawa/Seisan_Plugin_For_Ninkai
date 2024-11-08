@@ -1,21 +1,19 @@
 package me.Seisan.plugin.Features.commands.profil;
 
 
+import de.tr7zw.nbtapi.NBT;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.objectnum.ChakraType;
-import me.Seisan.plugin.Features.utils.ItemUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import me.Seisan.plugin.Main.Command;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.awt.print.Paper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -155,31 +153,35 @@ public class ChakraCommand extends Command {
                     Player p = (Player) sender;
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
 
-                    if (pInfo.getChakraType() == null || pInfo.getChakraType().equals("§7Non défini") || pInfo.getChakraType().equals("")) {
-                        if (p.getEquipment().getItemInMainHand().equals(ItemUtil.createItemStack(Material.PAPER, 1, "§8Papier de chakra"))) {
+                    if (pInfo.getChakraType() == null || pInfo.getChakraType().equals("§7Non défini") || pInfo.getChakraType().equals("") || pInfo.getChakraType().isEmpty()) {
+
+                        ItemStack item = p.getEquipment().getItemInMainHand();
+                        boolean isChakraPaper = NBT.get(item, nbt -> (boolean) nbt.getBoolean("ChakraPaper"));
+
+                        if (isChakraPaper) {
                             Random r = new Random();
-                            int i = r.nextInt(4) + 1;
+                            int i = r.nextInt(5);
                             String encaMessage = "";
                             switch (i) {
-                                case 1:
+                                case 0:
                                     pInfo.addChakraType(ChakraType.RAITON, 0);
-                                    encaMessage = "§c** Le papier se froisse **";
+                                    encaMessage = "§b** Le papier se froisse **";
+                                    break;
+                                case 1:
+                                    pInfo.addChakraType(ChakraType.DOTON, 0);
+                                    encaMessage = "§b** Le papier se salit avant de s'effriter **";
                                     break;
                                 case 2:
-                                    pInfo.addChakraType(ChakraType.DOTON, 0);
-                                    encaMessage = "§c** Le papier se salit avant de s'effriter **";
+                                    pInfo.addChakraType(ChakraType.KATON, 0);
+                                    encaMessage = "§b** Le papier s'enflamme **";
                                     break;
                                 case 3:
-                                    pInfo.addChakraType(ChakraType.KATON, 0);
-                                    encaMessage = "§c** Le papier s'enflamme **";
+                                    pInfo.addChakraType(ChakraType.FUUTON, 0);
+                                    encaMessage = "§b** Le papier se coupe en deux **";
                                     break;
                                 case 4:
-                                    pInfo.addChakraType(ChakraType.FUTON, 0);
-                                    encaMessage = "§c** Le papier se coupe en deux **";
-                                    break;
-                                case 5:
                                     pInfo.addChakraType(ChakraType.SUITON, 0);
-                                    encaMessage = "§c** Le papier devient humide **";
+                                    encaMessage = "§b** Le papier devient humide **";
                                     break;
                             }
 

@@ -14,7 +14,7 @@ public class OthersCommandRegister extends Feature {
         new MeditationCommand().register();
         new NinkenCommand().register();
         new ParcheminCommand().register();
-        new ReloadYMLCommand().register();
+        new ReloadDBCommand().register();
         new JutsuCommand().register();
         new StealChakraCommand().register();
         new StopCommand().register();

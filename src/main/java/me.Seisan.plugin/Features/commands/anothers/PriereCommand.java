@@ -65,6 +65,11 @@ private static List<UUID> playersPraying = new ArrayList<>();
         }
     }
 
+    @Override
+    protected boolean isOpOnly() {
+        return false;
+    }
+
     public static void playerFinishPraying(Player player, String message) {
         player.sendMessage("§4HRP : §7Envoi de votre prière...");
         sendLog(player, message);

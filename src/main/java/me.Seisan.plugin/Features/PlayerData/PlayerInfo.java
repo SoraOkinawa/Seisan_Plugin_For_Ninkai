@@ -354,11 +354,6 @@ public class PlayerInfo {
             int min = 0;
             /* Si c'est un style de combat */
             String test = ability.getType();
-            if (nombre > 2 && !ArtNinja.getFromName(test).isVoieNinja()) {
-                min = 2;
-                abilityArrayList.add(Ability.getByPluginName("style_de_combat_1"));
-                abilityArrayList.add(Ability.getByPluginName("style_de_combat_2"));
-            }
             for (int i = nombre; i > min; i--) {
                 char[] name = ability.getNameInPlugin().toCharArray();
                 name[name.length - 1] = Character.forDigit(i, 10);

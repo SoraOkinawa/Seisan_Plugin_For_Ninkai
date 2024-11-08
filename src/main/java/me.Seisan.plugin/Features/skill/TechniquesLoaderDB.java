@@ -147,7 +147,7 @@ public class TechniquesLoaderDB {
         return true;
     }
 
-    public static void reloadAllSkills(CommandSender p) {
+    public static void reloadAllTechniques(CommandSender p) {
         HashMap<String, PlayerInfo> playerInfoList = (HashMap<String,PlayerInfo>) PlayerInfo.getInstanceList().clone();
 
         SkillManager.setSkillEnabled(false);
