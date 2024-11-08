@@ -12,31 +12,15 @@ import java.util.List;
 
 
 public class ConversionCommand extends Command {
+    private final static String USAGE = "§cUsage : \n-/conversion euro [nombre] : Convertir un montant en euros en ryos.\n -/conversion ryo [nombre] : Convertir un montant en ryos en euros.";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
 
-            if (split.length == 0) {
-                p.sendMessage("§cUsage : \n-/conversion euro [nombre] : Convertir un montant en euros en ryos.\n -/conversion ryo [nombre] : Convertir un montant en ryos en euros.");
-
-            }
-
-            if (split[0].equals("help")) {
-                p.sendMessage("§cUsage : \n-/conversion euro [nombre] : Convertir un montant en euros en ryos.\n -/conversion ryo [nombre] : Convertir un montant en ryos en euros.");
-
-            }
-
-            if (split.equals(null)) {
-                p.sendMessage("§cUsage : \n-/conversion euro [nombre] : Convertir un montant en euros en ryos.\n -/conversion ryo [nombre] : Convertir un montant en ryos en euros.");
-
-            }
-            if (split.equals("euro") && split.equals(null)) {
-                p.sendMessage("§cUsage : \n-/conversion euro [nombre] : Convertir un montant en euros en ryos.\n -/conversion ryo [nombre] : Convertir un montant en ryos en euros.");
-
-            }
-            if (split.equals("ryo") && split.equals(null)) {
-                p.sendMessage("§cUsage : \n-/conversion euro [nombre] : Convertir un montant en euros en ryos.\n -/conversion ryo [nombre] : Convertir un montant en ryos en euros.");
+            if (split.length == 0 || split[0].equals("help") || split.equals(null) || split.equals("euro") && split.equals(null) || split.equals("ryo") && split.equals(null)) {
+                p.sendMessage(USAGE);
             }
 
             if (split[0].equals("euro")) {
