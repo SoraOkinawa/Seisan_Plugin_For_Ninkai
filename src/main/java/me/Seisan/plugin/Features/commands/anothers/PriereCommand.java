@@ -13,6 +13,7 @@ import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -36,6 +37,7 @@ public class PriereCommand extends Command {
 
 //    private static Map<UUID, String> halfWrittenMessage = new HashMap<>();
 private static List<UUID> playersPraying = new ArrayList<>();
+private final static String HELP = "§4[HRP] §r§7Usage :\n§7- §c/priere commencer §7: Commencer une prière. La prière pourra ensuite être envoyée comme un message chat classique, et est compatible avec le suffixe >.\n§7- §c/priere annuler §7: Annuler une prière en cours.\n§7- §c/priere help §7: Afficher ce message.";
 
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
@@ -45,24 +47,39 @@ private static List<UUID> playersPraying = new ArrayList<>();
         if (sender instanceof Player) {
             Date currentDate = Date.valueOf(LocalDate.now());
 
-            // Si le joueur met un paramètre
-            if (split.length != 0) {
-                player.sendMessage("§4HRP : §cUsage : /priere");
+            // Si le joueur oublie de mettre un paramètre
+            if (split.length != 1) {
+                player.sendMessage("§4HRP : §cUsage : /priere <commencer|annuler>");
             }
             // On vérifie le cooldown
             else if (!checkCooldown(player)) {
                 player.sendMessage("§4HRP : §cVous avez déjà prié ce mois-ci. Attendez le mois prochain !");
             }
-            // Si le joueur tape le /priere et qu'il n'a aucune priere en cours
-            else if (!playersPraying.contains(player.getUniqueId())) {
-                playersPraying.add(player.getUniqueId());
-                player.sendMessage("§4HRP : §7Vous débuttez votre prière. Écrivez la dans le tchat comme une parole classique de votre personnage, §2sans aucun préfixe§7. La fonction '§2>§7' est compatible avec la prière.");
-            }
-            // Si le joueur tape /priere alors qu'il a déjà une priere en cours
             else {
-                player.sendMessage("§4HRP : §7Vous êtes déjà en train de prier !");
+                switch (split[0]) {
+                    case "commencer":
+                        // Si le joueur tape le /priere start et qu'il n'a aucune priere en cours
+                        if (!playersPraying.contains(player.getUniqueId())) {
+                            playersPraying.add(player.getUniqueId());
+                            player.sendMessage("§4HRP : §7Vous débutez votre prière. Écrivez la dans le tchat comme une parole classique de votre personnage, §2sans aucun préfixe§7. La fonction '§2>§7' est compatible avec la prière.");
+                        }
+                        // Si le joueur tape /priere start alors qu'il a déjà une priere en cours
+                        else {
+                            player.sendMessage("§4HRP : §7Vous êtes déjà en train de prier !");
+                        }
+                        break;
+                    case "annuler":
+                        playersPraying.remove(player.getUniqueId());
+                        player.sendMessage("§4HRP : §7Prière annulée.");
+                        break;
+                    case "help":
+                        player.sendMessage(HELP);
+                        break;
+                }
             }
         }
+        
+        
     }
 
     @Override
@@ -110,8 +127,9 @@ private static List<UUID> playersPraying = new ArrayList<>();
     }
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        return Collections.emptyList();
-    }
+        List<String> completion = new ArrayList<>(Arrays.asList("debuter", "annuler"));
+        if(split.length == 1) for(Player p : Bukkit.getOnlinePlayers()) complete(completion, p.getName(), split[0]);
+        return completion;    }
 }
 
 
