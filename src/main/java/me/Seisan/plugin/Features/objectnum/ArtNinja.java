@@ -1,6 +1,7 @@
 package me.Seisan.plugin.Features.objectnum;
 
 import lombok.Getter;
+import me.Seisan.plugin.Main;
 import org.bukkit.Art;
 
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class ArtNinja {
     public boolean isVoieNinja() {
         return this.equals(getFromIdentifiant("ninjutsu")) ||
                 this.equals(getFromIdentifiant("genjutsu")) ||
-                this.equals(getFromIdentifiant("iryoujutsu")) ||
-                this.equals(getFromIdentifiant("houjutsu"));
+                this.equals(getFromIdentifiant("iryojutsu")) ||
+                this.equals(getFromIdentifiant("hojutsu"));
     }
 }

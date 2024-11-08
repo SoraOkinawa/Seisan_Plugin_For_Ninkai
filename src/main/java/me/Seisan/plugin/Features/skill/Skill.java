@@ -72,7 +72,7 @@ public class Skill {
         this.message = message;
         this.mudras = mudras;
         
-        if (category == "") {
+        if (category.equals("")) {
             this.element = ChatColor.stripColor(name.split("-")[0]);
             this.element = this.element.substring(0, this.element.length()-1);
         }
@@ -104,7 +104,7 @@ public class Skill {
         } else if (clan != Clan.getFromID(1)) {
             this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", clan.getTag());
         } else {
-            this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", "rouleau_" + this.element.replace("ô", "o").toLowerCase());
+            this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", "rouleau_" + this.element.replace("ô", "o").replace("û", "u").toLowerCase());
         }
         if (commandList != null)
             this.commandList = commandList;
