@@ -9,7 +9,7 @@ public enum ChakraType {
     KATON("§cKaton", "CE2029"),
     DOTON("§6Doton", "84655F"),
     SUITON("§9Suiton", "2F94C1"),
-    FUUTON("§fFûton", "5AD17E"),
+    FUUTON("§fFûton", "48E06D"),
     REZUTON( "§1Rezuton", "2957EE"),
     SHINTON( "§8Shinton", "3F3F63"),
     SHOTON("§dShoton", "DF90EB"),
