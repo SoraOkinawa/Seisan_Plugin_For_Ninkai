@@ -23,22 +23,24 @@ public class AbilityLoaderDB {
             Main.LOG.info("Chargement des compétences réussi.");
     }
 
-    public static void saveInDb(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
+    public static void saveInDb(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
         if(name == null) name = "";
         if(nameInPlugin == null) nameInPlugin = "";
         if(key == null) key = "";
-        if(description == null) description = "";
         if(type == null) type = "BOOK";
         if(tagkey == null) tagkey = "";
         if(tagvalue == null) tagvalue = "";
+        if(description == null) description = "";
         // String reqAbilities, String givenAbilities, String giveAbilities, String lore
         if(reqAbilities == null) reqAbilities = "";
         if(givenAbilities == null) givenAbilities = "";
         if(giveAbilities == null) giveAbilities = "";
+        if (giveAllowed == null) giveAllowed = false;
+        if (givenJutsu == null) givenJutsu = "";
         if(lore == null) lore = "";
 
         if(isInsertDB(nameInPlugin)) {
-            insertSkill(name, nameInPlugin, key, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore);
+            insertSkill(name, nameInPlugin, key, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
         }
     }
 
@@ -79,25 +81,26 @@ public class AbilityLoaderDB {
     }
 
 
-    public static void insertSkill(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, String lore) {
+    public static void insertSkill(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
         try{
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Skills(name, nameInPlugin, item, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Abilities(name, nameInPlugin, item, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-            pst.setString(1, name); //UUID
-            pst.setString(2, nameInPlugin); //Mana
-            pst.setString(3, key); // Manamission
-            pst.setString(4, description); // Manamaze
-            pst.setString(5, type); //CurrentSkill
-            pst.setInt(6, lvl); //SkilList
-            pst.setString(7, tagkey); //Rank
-            pst.setString(8, tagvalue); //DisconnectTime
-            //pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore
-            pst.setInt(9, pts); //RollBonus
-            pst.setInt(10, ptsnec); //Clan
-            pst.setString(11, reqAbilities); //Chakra Type
-            pst.setString(12, givenAbilities); //Age
-            pst.setString(13, giveAbilities); //Apparence
-            pst.setString(14, lore); // Voie Ninja
+            pst.setString(1, name);
+            pst.setString(2, nameInPlugin);
+            pst.setString(3, item);
+            pst.setString(4, type);
+            pst.setInt(5, lvl);
+            pst.setString(6, tagkey);
+            pst.setString(7, tagvalue);
+            pst.setString(8, description);
+            pst.setInt(9, pts);
+            pst.setInt(10, ptsnec);
+            pst.setString(11, reqAbilities);
+            pst.setString(12, givenAbilities);
+            pst.setString(13, giveAbilities);
+            pst.setBoolean(14, giveAllowed);
+            pst.setString(15, givenJutsu);
+            pst.setString(16, lore); // Voie Ninja
             pst.executeUpdate();
             pst.close();
         }catch (SQLException e){

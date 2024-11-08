@@ -85,14 +85,6 @@
       <scope>provided</scope>
       <exclusions>
         <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>snakeyaml</artifactId>
           <groupId>org.yaml</groupId>
         </exclusion>
@@ -145,10 +137,6 @@
           <groupId>net.kyori</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>checker-qual</artifactId>
-          <groupId>org.checkerframework</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>asm</artifactId>
           <groupId>org.ow2.asm</groupId>
         </exclusion>
@@ -164,14 +152,6 @@
       <version>1.20.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
       <exclusions>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
         <exclusion>
           <artifactId>joml</artifactId>
           <groupId>org.joml</groupId>
@@ -331,16 +311,6 @@
       <artifactId>bungeecord-chat</artifactId>
       <version>1.16-R0.4</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>gson</artifactId>
-          <groupId>com.google.code.gson</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
