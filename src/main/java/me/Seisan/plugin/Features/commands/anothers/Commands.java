@@ -7,14 +7,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import me.Seisan.plugin.Features.commands.anothers.TechniqueMJCommand;
-import me.Seisan.plugin.Features.commands.anothers.PriereCommand;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class Commands extends Feature {
     public static ArrayList<String> param = new ArrayList<>();
@@ -53,8 +48,8 @@ public class Commands extends Feature {
         new PrefixCommand().register();
         new TechniqueMJCommand().register();
         new PriereCommand().register();
+        new ConversionCommand().register();
         new HideLanguageCommand().register();
-
         param.add("add");
         param.add("remove");
 
