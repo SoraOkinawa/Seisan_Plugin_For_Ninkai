@@ -49,7 +49,7 @@ private final static String HELP = "§4[HRP] §r§7Usage :\n§7- §c/priere comm
 
             // Si le joueur oublie de mettre un paramètre
             if (split.length != 1) {
-                player.sendMessage("§4HRP : §cUsage : /priere <commencer|annuler>");
+                player.sendMessage("§4HRP : §cUsage : /priere <commencer|annuler|help>");
             }
             // On vérifie le cooldown
             else if (!checkCooldown(player)) {
@@ -127,9 +127,10 @@ private final static String HELP = "§4[HRP] §r§7Usage :\n§7- §c/priere comm
     }
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        List<String> completion = new ArrayList<>(Arrays.asList("debuter", "annuler"));
+        List<String> completion = new ArrayList<>(Arrays.asList("commencer", "annuler", "help"));
         if(split.length == 1) for(Player p : Bukkit.getOnlinePlayers()) complete(completion, p.getName(), split[0]);
-        return completion;    }
+        return completion;
+    }
 }
 
 
