@@ -25,10 +25,10 @@ public class TechniquesLoaderDB {
             Main.LOG.info("Chargement des techniques réussi.");
     }
     
-    public static void insertTechnique(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, ArrayList<String> commandList) {
+    public static void insertTechnique(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {
         try {
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Techniques(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, public, itemType, level, message, infoSup, lore, mudras, commandList \n) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Techniques(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, public, itemType, level, message, infoSup, lore, mudras, commandList) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+    
             pst.setString(1, name);
             pst.setString(2, nameInPlugin);
             pst.setString(3, category);
@@ -45,14 +45,11 @@ public class TechniquesLoaderDB {
             pst.setString(14, infoSup);
             pst.setString(15, lore);
             pst.setString(16, mudras);
-            String commandListString = "";
-            for (int i = 0; i < commandList.size(); i++)
-                commandListString += commandList.get(i) + (i < commandList.size() - 1 ? ";" : "");
-            pst.setString(17, commandListString);
-
+            pst.setString(17, commandList);
+    
             pst.executeUpdate();
             pst.close();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

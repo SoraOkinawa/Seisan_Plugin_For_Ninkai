@@ -149,3 +149,6 @@ commands:
     usage : "Usage : /priere"
   HideLanguage:
     description: Permet de cacher les langues non parlées
+  SheetsToBdd:
+    description: Permet de convertir un Google Sheet directement en BDD
+    usage: "Usage : /sheetstobdd <sheets id> <range>"
