@@ -907,14 +907,15 @@ public class ChatFormat extends Feature {
                 if (HasReallyAnAnimal(player)) {
                     String m = NameOfAnimal(player);
                     if (!m.equals("")) {
-                        int i = 0;
-                        while (!arrayMessage[i].getText().contains(player.getDisplayName())) {
-                            i++;
+                        for (int i = 0; i < arrayMessage.length; i++) {
+                            if (arrayMessage[i].getHoverEvent() != null && arrayMessage[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
+
+                                TextComponent animal = new TextComponent();
+                                animal.setText(m);
+                                animal.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Animal de " + player.getName()).color(ChatColor.YELLOW).create()));
+                                arrayMessage[i] = animal;
+                            }
                         }
-                        TextComponent t = new TextComponent();
-                        t.setText(m);
-                        t.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Animal de " + player.getName()).color(ChatColor.YELLOW).create()));
-                        arrayMessage[i] = t;
                     } else {
                         player.sendMessage(ChatColor.RED + "HRP : " + ChatColor.GRAY + "L'animal que vous avez n'a pas de nom.");
                         return;
