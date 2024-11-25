@@ -1,10 +1,8 @@
 package me.Seisan.plugin.Features.Sheets;
 
 import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -19,6 +17,8 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 import me.Seisan.plugin.Main;
 import org.bukkit.command.CommandSender;
 
@@ -40,30 +40,21 @@ public class SheetsReader {
 	 * @return An authorized Credential object.
 	 * @throws IOException If the credentials.json file cannot be found.
 	 */
-	private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+	private static GoogleCredentials getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
 		// Load client secrets.
 		File credentialsFile = new File(Main.plugin().getDataFolder().getCanonicalPath(), CREDENTIALS_FILE_PATH);
 		InputStream in = new FileInputStream(credentialsFile);
 		if (in == null) {
 			throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
 		}
-		GoogleClientSecrets clientSecrets =
-				GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-		
-		// Build flow and trigger user authorization request.
-		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-				HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-				.setAccessType("offline")
-				.build();
-		LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+		GoogleCredentials credential = GoogleCredentials.fromStream(in).createScoped(SCOPES);
+		return credential;
 	}
 	
 	private static Sheets getSheetsService() throws IOException, GeneralSecurityException {
 		// Build a new authorized API client service.
 		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-		return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+		return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, new HttpCredentialsAdapter(getCredentials(HTTP_TRANSPORT)))
 				.setApplicationName(APPLICATION_NAME)
 				.build();
 	}

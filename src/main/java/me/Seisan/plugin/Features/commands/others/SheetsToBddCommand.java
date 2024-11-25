@@ -1,7 +1,6 @@
 package me.Seisan.plugin.Features.commands.others;
 
 import me.Seisan.plugin.Features.Sheets.SheetsReader;
-import me.Seisan.plugin.Features.ability.Ability;
 import me.Seisan.plugin.Features.ability.AbilityLoaderDB;
 import me.Seisan.plugin.Features.skill.TechniquesLoaderDB;
 import me.Seisan.plugin.Main;
@@ -38,7 +37,7 @@ public class SheetsToBddCommand extends Main.Command {
 	
 	private void addTechniques(CommandSender sender, List<List<Object>> values) {
 		for (List row : values) {
-			TechniquesLoaderDB.insertTechnique(
+			TechniquesLoaderDB.insertOrUpdate(
 					row.get(0).toString(),
 					row.get(1).toString(),
 					row.get(2).toString(),
@@ -57,14 +56,14 @@ public class SheetsToBddCommand extends Main.Command {
 					row.get(15).toString(),
 					(row.size() > 16 ? row.get(16).toString() : "")
 			);
-			sender.sendMessage("§aTechnique " + row.get(0) + " §r§arajouté à la BDD.");
+			sender.sendMessage("§aTechnique " + row.get(0) + " §r§arajouté à la BDD ou mise à jour.");
 		}
-		sender.sendMessage("§2§l" + values.size() + " §r§atechniques rajoutées à la BDD.");
+		sender.sendMessage("§2§l" + values.size() + " §r§atechniques rajoutées à la BDD ou mise à jour.");
 	}
 	
 	private void addAbilities(CommandSender sender, List<List<Object>> values) {
 		for (List row : values) {
-			AbilityLoaderDB.insertSkill(
+			AbilityLoaderDB.updateOrInsert(
 					row.get(0).toString(),
 					row.get(1).toString(),
 					row.get(2).toString(),
@@ -82,9 +81,9 @@ public class SheetsToBddCommand extends Main.Command {
 					row.get(14).toString(),
 					row.get(15).toString()
 			);
-			sender.sendMessage("§aCompétence " + row.get(0) + " §r§arajouté à la BDD.");
+			sender.sendMessage("§aCompétence " + row.get(0) + " §r§arajouté à la BDD ou mise à jour.");
 		}
-		sender.sendMessage("§2§l" + values.size() + " §r§acompétences rajoutées à la BDD.");
+		sender.sendMessage("§2§l" + values.size() + " §r§acompétences rajoutées à la BDD ou mise à jour.");
 	}
 	
 	private void displaySheet(CommandSender sender, List<List<Object>> values) {

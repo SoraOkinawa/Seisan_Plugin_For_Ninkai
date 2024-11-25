@@ -21,11 +21,18 @@ public class TechniquesLoaderDB {
     public static void LoadAllTechniquesFromDB() {
         Main.LOG.info("Chargement des jutsu en base de données...");
         
-        if (loadAllTechniques())
+        if (loadAll())
             Main.LOG.info("Chargement des techniques réussi.");
     }
     
-    public static void insertTechnique(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {
+    public static void insertOrUpdate(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {
+        if (isInserted(nameInPlugin))
+            update(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, _public, itemType, level, message, infoSup, lore, mudras, commandList);
+        else
+            insert(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, _public, itemType, level, message, infoSup, lore, mudras, commandList);
+    }
+    
+    public static void insert(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {
         try {
             PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Techniques(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, public, itemType, level, message, infoSup, lore, mudras, commandList) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     
@@ -54,9 +61,9 @@ public class TechniquesLoaderDB {
         }
     }
 
-    public static void UpdateTechnique(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, ArrayList<String> commandList) {
+    public static void update(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {
         try {
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("UPDATE Techniques SET name = ?, category = ?, enabled = ?, manaCost = ?, needMaster = ?, needTarget = ?, skillVisibility = ?, canBeFullMaster = ?, public = ?, itemType = ?, level = ?, message = ?, infoSup = ?, lore = ?, mudras = ?, commandList = ? WHERE nameInPlugin = ?");
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("UPDATE Techniques SET name = ?, category = ?, enabled = ?, manaCost = ?, needMastery = ?, needTarget = ?, skillVisibility = ?, canBeFullMaster = ?, public = ?, itemType = ?, level = ?, message = ?, infoSup = ?, lore = ?, mudras = ?, commandList = ? WHERE nameInPlugin = ?");
 
             pst.setString(1, name);
             pst.setString(2, category);
@@ -73,11 +80,7 @@ public class TechniquesLoaderDB {
             pst.setString(13, infoSup);
             pst.setString(14, lore);
             pst.setString(15, mudras);
-            String commandListString = "";
-            for (int i = 0; i < commandList.size(); i++)
-                commandListString += commandList.get(i) + (i < commandList.size() - 1 ? ";" : "");
-            pst.setString(16, commandListString);
-
+            pst.setString(16, commandList);
             pst.setString(17, nameInPlugin);
 
             pst.executeUpdate();
@@ -87,11 +90,11 @@ public class TechniquesLoaderDB {
         }
     }
 
-    public static boolean isTechniqueInDb(String name) {
+    public static boolean isInserted(String nameInPlugin) {
         boolean insert = false;
         try {
-            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("SELECT id FROM Techniques WHERE name = ?");
-            pst.setString(1, name);
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("SELECT id FROM Techniques WHERE nameInPlugin = ?");
+            pst.setString(1, nameInPlugin);
             pst.executeQuery();
 
             ResultSet result = pst.getResultSet();
@@ -103,7 +106,7 @@ public class TechniquesLoaderDB {
         return insert;
     }
 
-    public static boolean loadAllTechniques() {
+    public static boolean loadAll() {
         try {
             PreparedStatement pst = Main.dbManager.getConnection()
                     .prepareStatement("SELECT * FROM Techniques WHERE enabled = ?");
@@ -144,7 +147,7 @@ public class TechniquesLoaderDB {
         return true;
     }
 
-    public static void reloadAllTechniques(CommandSender p) {
+    public static void reloadAll(CommandSender p) {
         HashMap<String, PlayerInfo> playerInfoList = (HashMap<String,PlayerInfo>) PlayerInfo.getInstanceList().clone();
 
         SkillManager.setSkillEnabled(false);
@@ -186,7 +189,7 @@ public class TechniquesLoaderDB {
             p.sendMessage(ChatColor.GREEN + "Jutsus des joueurs connectés sauvegardés !\n" + ChatColor.GRAY + "Rechargement des jutsus...");
 
         Skill.getInstanceList().clear();
-        loadAllTechniques();
+        loadAll();
 
         if(p != null)
             p.sendMessage(ChatColor.GREEN + "Jutsus rechargés ! \n" + ChatColor.GRAY + "Restitution des jutsus aux joueurs...");

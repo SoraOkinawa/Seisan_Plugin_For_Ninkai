@@ -19,69 +19,18 @@ public class AbilityLoaderDB {
     public static void loadAllAbilitiesFromDB() {
         Main.LOG.info("Chargement des compétences depuis la base de données...");
 
-        if (loadAllAbilities())
+        if (loadAll())
             Main.LOG.info("Chargement des compétences réussi.");
     }
 
-    public static void saveInDb(String name, String nameInPlugin, String key, String description, String type, int lvl, String tagkey, String tagvalue, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
-        if(name == null) name = "";
-        if(nameInPlugin == null) nameInPlugin = "";
-        if(key == null) key = "";
-        if(type == null) type = "BOOK";
-        if(tagkey == null) tagkey = "";
-        if(tagvalue == null) tagvalue = "";
-        if(description == null) description = "";
-        // String reqAbilities, String givenAbilities, String giveAbilities, String lore
-        if(reqAbilities == null) reqAbilities = "";
-        if(givenAbilities == null) givenAbilities = "";
-        if(giveAbilities == null) giveAbilities = "";
-        if (giveAllowed == null) giveAllowed = false;
-        if (givenJutsu == null) givenJutsu = "";
-        if(lore == null) lore = "";
-
-        if(isInsertDB(nameInPlugin)) {
-            insertSkill(name, nameInPlugin, key, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
-        }
+    public static void updateOrInsert(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
+        if (isInserted(nameInPlugin))
+            update(name, nameInPlugin, item, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
+        else
+            insert(name, nameInPlugin, item, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
     }
-
-    private static boolean loadAllAbilities() {
-        try {
-            PreparedStatement pst = Main.dbManager.getConnection()
-                    .prepareStatement("SELECT * FROM Abilities");
-
-            pst.executeQuery();
-            ResultSet result = pst.getResultSet();
-
-            while (result.next()) {
-                String name = result.getString("name");
-                String nameInPlugin = result.getString("nameInPlugin");
-                Material item = (Material.getMaterial(result.getString("item")) != null) ? Material.getMaterial(result.getString("item")) : Material.BOOK;
-                String description = result.getString("description");
-                String type = result.getString("type");
-                int lvl = result.getInt("lvl");
-                String tagkey = result.getString("tagkey");
-                String tagvalue = result.getString("tagvalue");
-                int pts = result.getInt("pts");
-                int ptsnec = result.getInt("ptsnec");
-                String reqAbilities = result.getString("reqAbilities");
-                String givenAbilities = result.getString("givenAbilities");
-                String giveAbilities = result.getString("giveAbilities");
-                String lore = result.getString("lore");
-                boolean giveAllowed = result.getBoolean("giveAllowed");
-                String givenJutsu = result.getString("givenJutsu");
-
-                new Ability(name, nameInPlugin, item, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, givenJutsu);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Main.LOG.log(Level.SEVERE, "Chargement des compétences échoué. Veuillez vérifier la console pour plus d'informations.");
-            return false;
-        }
-        return true;
-    }
-
-
-    public static void insertSkill(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
+    
+    public static void insert(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
         try{
             PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("INSERT INTO Abilities(name, nameInPlugin, item, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
@@ -107,8 +56,36 @@ public class AbilityLoaderDB {
             e.printStackTrace();
         }
     }
+    
+    public static void update(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("UPDATE Abilities SET name = ?, item = ?, type = ?, lvl = ?, tagkey = ?, tagvalue = ?, description = ?, pts = ?, ptsnec = ?, reqAbilities = ?, givenAbilities = ?, giveAbilities = ?, giveAllowed = ?, givenJutsu = ?, lore = ? WHERE nameInPlugin = ?");
+            
+            pst.setString(1, name);
+            pst.setString(2, item);
+            pst.setString(3, type);
+            pst.setInt(4, lvl);
+            pst.setString(5, tagkey);
+            pst.setString(6, tagvalue);
+            pst.setString(7, description);
+            pst.setInt(8, pts);
+            pst.setInt(9, ptsnec);
+            pst.setString(10, reqAbilities);
+            pst.setString(11, givenAbilities);
+            pst.setString(12, giveAbilities);
+            pst.setBoolean(13, giveAllowed);
+            pst.setString(14, givenJutsu);
+            pst.setString(15, lore);
+            pst.setString(16, nameInPlugin);
+            
+            pst.executeUpdate();
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public static boolean isInsertDB(String nameInPlugin){
+    public static boolean isInserted(String nameInPlugin){
         boolean insert = false;
         try {
             PreparedStatement pst = Main.dbManager.getConnection()
@@ -123,8 +100,44 @@ public class AbilityLoaderDB {
         }
         return !insert;
     }
+    
+    private static boolean loadAll() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection()
+                    .prepareStatement("SELECT * FROM Abilities");
+            
+            pst.executeQuery();
+            ResultSet result = pst.getResultSet();
+            
+            while (result.next()) {
+                String name = result.getString("name");
+                String nameInPlugin = result.getString("nameInPlugin");
+                Material item = (Material.getMaterial(result.getString("item")) != null) ? Material.getMaterial(result.getString("item")) : Material.BOOK;
+                String description = result.getString("description");
+                String type = result.getString("type");
+                int lvl = result.getInt("lvl");
+                String tagkey = result.getString("tagkey");
+                String tagvalue = result.getString("tagvalue");
+                int pts = result.getInt("pts");
+                int ptsnec = result.getInt("ptsnec");
+                String reqAbilities = result.getString("reqAbilities");
+                String givenAbilities = result.getString("givenAbilities");
+                String giveAbilities = result.getString("giveAbilities");
+                String lore = result.getString("lore");
+                boolean giveAllowed = result.getBoolean("giveAllowed");
+                String givenJutsu = result.getString("givenJutsu");
+                
+                new Ability(name, nameInPlugin, item, description, type, lvl, tagkey, tagvalue, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, lore, giveAllowed, givenJutsu);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Main.LOG.log(Level.SEVERE, "Chargement des compétences échoué. Veuillez vérifier la console pour plus d'informations.");
+            return false;
+        }
+        return true;
+    }
 
-    public static void reloadAllAbility(CommandSender p){
+    public static void reloadAll(CommandSender p){
         HashMap<String, PlayerInfo> playerInfoList = (HashMap<String, PlayerInfo>) PlayerInfo.getInstanceList().clone();
 
         if(p != null)
@@ -158,7 +171,7 @@ public class AbilityLoaderDB {
             p.sendMessage(ChatColor.GREEN + "Compétences des joueurs connectés sauvegardés !\n" + ChatColor.GRAY + "Rechargement des compétences...");
 
         Ability.getInstanceList().clear();
-        loadAllAbilities();
+        loadAll();
 
         if(p != null)
             p.sendMessage(ChatColor.GREEN + "Compétences sauvegardés ! \n" + ChatColor.GRAY + "Restitution des compétences aux joueurs...");

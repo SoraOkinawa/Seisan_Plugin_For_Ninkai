@@ -3,14 +3,12 @@
  */
 package me.Seisan.plugin.Features.commands.others;
 
-import me.Seisan.plugin.Features.ability.AbilityLoader;
 import me.Seisan.plugin.Features.ability.AbilityLoaderDB;
 import me.Seisan.plugin.Features.skill.TechniquesLoaderDB;
 import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Main.Command;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -32,10 +30,10 @@ public class ReloadDBCommand extends Command {
             
             switch (split[0]) {
                 case "jutsu":
-                    TechniquesLoaderDB.reloadAllTechniques(sender);
+                    TechniquesLoaderDB.reloadAll(sender);
                     break;
                 case "ability":
-                    AbilityLoaderDB.reloadAllAbility(sender);
+                    AbilityLoaderDB.reloadAll(sender);
                     break;
                 default:
                     sender.sendMessage("§4Usage : §c/reloaddb justu");
