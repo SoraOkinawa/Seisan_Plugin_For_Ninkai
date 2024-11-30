@@ -89,7 +89,7 @@ public class AbilityLoaderDB {
         boolean insert = false;
         try {
             PreparedStatement pst = Main.dbManager.getConnection()
-                    .prepareStatement("SELECT id FROM Skills WHERE nameInPlugin = ?");
+                    .prepareStatement("SELECT id FROM Abilities WHERE nameInPlugin = ?");
             pst.setString(1, nameInPlugin);
             pst.executeQuery();
             ResultSet result = pst.getResultSet();
