@@ -88,17 +88,17 @@ public class AbilityLoaderDB {
     public static boolean isInserted(String nameInPlugin){
         boolean insert = false;
         try {
-            PreparedStatement pst = Main.dbManager.getConnection()
-                    .prepareStatement("SELECT id FROM Abilities WHERE nameInPlugin = ?");
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("SELECT id FROM Abilities WHERE nameInPlugin = ?");
             pst.setString(1, nameInPlugin);
             pst.executeQuery();
+            
             ResultSet result = pst.getResultSet();
             insert = result.next();
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return !insert;
+        return insert;
     }
     
     private static boolean loadAll() {
