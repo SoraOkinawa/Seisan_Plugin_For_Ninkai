@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import me.Seisan.plugin.Main.Command;
 
+import org.bukkit.block.data.type.Switch;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -30,12 +31,23 @@ public class ChakraCommand extends Command {
                             PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
                             sender.sendMessage("§cHRP : " + p.getDisplayName() + "§7 a obtenu §6" + playerInfo.getManaMission() + " §7chakra en récompense de ses §6"+ playerInfo.getNbmission()+" §7mission(s).");
                         } else {
-                            sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
+                            sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
                         }
                     } else {
                         sendHelpList(sender);
                     }
-                } else {
+                } else if (split[0].equals("passif")) {
+                    if (split[1].equals("get")) {
+                        Player p = Bukkit.getServer().getPlayer(split[2]);
+                        if (p != null) {
+                            PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
+                            sender.sendMessage("§cHRP : §7Le joueur §c" + p.getName() + " §7possède §a" + playerInfo.getPassiveMana() + " §7portions de chakra passif.");
+                        } else
+                            sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
+                    } else
+                        sendHelpList(sender);
+                }
+                else {
                     Player target = Bukkit.getPlayer(split[1]);
                     String nameType = split[2];
                     int prct = 0;
@@ -127,7 +139,7 @@ public class ChakraCommand extends Command {
                                 sendHelpList(sender);
                         }
                     } else {
-                        sender.sendMessage(ChatColor.RED + "Le joueur n'est pas connecté !");
+                        sender.sendMessage(ChatColor.RED + "Le joueur est inconnu ou n'est pas connecté !");
                     }
                 }
             }
@@ -142,7 +154,7 @@ public class ChakraCommand extends Command {
                         sendHelpList(sender);
                     }
                 } else {
-                    sender.sendMessage(ChatColor.RED + "Le joueur n'est pas connecté !");
+                    sender.sendMessage(ChatColor.RED + "Le joueur est inconnu ou n'est pas connecté !");
                 }
             } else {
                 sender.sendMessage(ChatColor.RED + "Vous n'avez pas la permission !");
@@ -226,7 +238,7 @@ public class ChakraCommand extends Command {
                             sender.sendMessage("§4N'oubliez pas de mettre à jour le document des missions !");
                         }
                         else {
-                            sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté");
+                            sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté");
                         }
                         break;
                     case "remove":
@@ -247,7 +259,7 @@ public class ChakraCommand extends Command {
                             sender.sendMessage("§4N'oubliez pas de mettre à jour le document des missions !");
                         }
                         else {
-                            sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté");
+                            sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté");
                         }
                         break;
                     default:
@@ -258,7 +270,7 @@ public class ChakraCommand extends Command {
                 if(split[1].equals("add")) {
                     Player p = Bukkit.getServer().getPlayer(split[2]);
                     if(p == null) {
-                        sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
+                        sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
                         return;
                     }
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
@@ -276,7 +288,7 @@ public class ChakraCommand extends Command {
                 else if(split[1].equals("remove")) {
                     Player p = Bukkit.getServer().getPlayer(split[2]);
                     if(p == null) {
-                        sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
+                        sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
                         return;
                     }
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
@@ -289,6 +301,29 @@ public class ChakraCommand extends Command {
                     p.sendMessage("§cHRP : §7Votre personnage a désormais un complément de "+pInfo.getManaBonus()+" portions de chakra.");
                     sender.sendMessage("§cHRP : §7"+p.getName()+" §7a désormais un complément de "+pInfo.getManaBonus()+" portions de chakra.");
                     pInfo.updateChakra();
+                }
+            }
+            else if(split[0].equals("passif") && (split[1].equals("add") || split[1].equals("remove"))) {
+                Player p = Bukkit.getServer().getPlayer(split[2]);
+                if (p != null) {
+                    PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
+                    int amount;
+                    int newamount;
+                    if (!StringUtils.isNumeric(split[3])) {
+                        sender.sendMessage("§cHRP : §7Montant de chakra incorrect. Veuillez indiquer un chiffre.");
+                    } else {
+                        amount = Integer.parseInt(split[3]);
+                        newamount = amount;
+                        
+                        if (split[1].equals("add")) newamount = amount + playerInfo.getPassiveMana();
+                        if (split[1].equals("remove")) newamount = Math.max(amount - playerInfo.getPassiveMana(), 0);
+    
+                        playerInfo.setPassiveMana(newamount);
+                        playerInfo.updateChakra();
+                        playerInfo.ajoutInstinct();
+                    }
+                } else {
+                    sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté");
                 }
             }
             else {
@@ -315,15 +350,16 @@ public class ChakraCommand extends Command {
                     complete(completion, "addtype", split[0]);
                     complete(completion, "removetype", split[0]);
                     complete(completion, "mission", split[0]);
+                    complete(completion, "passif", split[0]);
                     complete(completion, "complement", split[0]);
                 }
                 break;
             case 2 :
                 if(sender.isOp()) {
-                    if(split[0].equals("mission") || split[0].equals("meditation") || split[0].equals("complement")) {
+                    if(split[0].equals("mission") || split[0].equals("passif") || split[0].equals("complement")) {
                         complete(completion, "add", split[1]);
                         complete(completion, "remove", split[1]);
-                        if(split[0].equals("mission")) {
+                        if(split[0].equals("mission") || split[0].equals("passif")) {
                             complete(completion, "get", split[1]);
                         }
                     }
@@ -337,7 +373,7 @@ public class ChakraCommand extends Command {
                 break;
             case 3 :
                 if(sender.isOp()) {
-                    if(split[0].equals("mission") || split[0].equals("meditation") || split[0].equals("complement")) {
+                    if(split[0].equals("mission") || split[0].equals("passif") || split[0].equals("complement")) {
                         if(split[1].equals("add") || split[1].equals("remove") || split[1].equals("get")) {
                             for(Player p : Bukkit.getOnlinePlayers()) {
                                 complete(completion, p.getName(), split[2]);
@@ -373,8 +409,9 @@ public class ChakraCommand extends Command {
             helpList.add("§6/chakra §emission §7remove (joueur) (nb) §8- Permet de retirer du chakra de mission.");
             helpList.add("§6/chakra §emission §7get (joueur) §8- Permet de connaître le chakra de mission.");
             helpList.add("§6/chakra §ecomplement §7set (joueur) (nb) §8- Ajoute ou retire du chakra maximum au joueur");
-            helpList.add("§6/chakra §emeditation §7add (joueur) §8- Permet d'ajouter le chakra de meditation (le palier).");
-            helpList.add("§6/chakra §emeditation §7remove (joueur) §8- Permet de retirer le chakra de meditation (le palier).");
+            helpList.add("§6/chakra §epassif §7add (joueur) (nombre) §8- Permet d'ajouter du chakra passif.");
+            helpList.add("§6/chakra §epassif §7remove (joueur) (nombre) §8- Permet de retirer du chakra passif.");
+            helpList.add("§6/chakra §epassif §7get (joueur) §8- Permet de connaître le chakra passif d'un joueur.");
         }
 
         for(String s : helpList){

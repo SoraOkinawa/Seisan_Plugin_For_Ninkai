@@ -177,7 +177,7 @@ public class Main extends JavaPlugin {
         setupManaLoop();
         dbManager.getPlayerDB().loadPlayerFiche();
 
-        spigotLogger.info("---> SeisanPlugin enabled <---");
+        spigotLogger.info("---> SeisanPluginForNinkai enabled <---");
     }
 
     public void notifyEnd() {

@@ -23,16 +23,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 
 /**
@@ -61,6 +58,10 @@ public class PlayerInfo {
     @Getter
     @Setter
     private int nbmission;
+    
+    @Getter
+    @Setter
+    private int passiveMana;
 
     @Getter
     @Setter
@@ -186,10 +187,11 @@ public class PlayerInfo {
     @Getter
     public static HashMap<String, PlayerInfo> instanceList = new HashMap<>();
 
-    public PlayerInfo(Player p, int mana, int nbmission, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu, int jutsuPoints, Date lastPrayer) {
+    public PlayerInfo(Player p, int mana, int nbmission, int passiveMana, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu, int jutsuPoints, Date lastPrayer) {
         this.player = p;
         this.uuid = p.getUniqueId().toString();
         this.mana = mana;
+        this.passiveMana = passiveMana;
         this.manaBonus = manabonus;
         this.rank = rank;
         this.skills = skills;
@@ -207,21 +209,21 @@ public class PlayerInfo {
         this.apparenceprofil = appearanceprofil;
         this.attributClan = attributClan;
         this.points = points;
+        this.jutsuPoints = jutsuPoints;
         this.pointsAbilities = pointsAbilities;
         this.prouesse = prouesse;
         this.ink = ink;
-        /*if (getNextDimanche(LocalDateTime.now()) > delayPoints) {
+        if (getNextDimanche(LocalDateTime.now()) > delayPoints) {
             this.delayPoints = getNextDimanche(LocalDateTime.now());
-            this.points++;
-            if (this.points != 0 & age >= 15) {
-                player.sendMessage("§cHRP : §7Un point de compétence vous a été attribué.");
-            }
-        } else {*/
-        this.delayPoints = delayPoints;
-        //}
+            ajoutAbilityPoints();
+            ajoutJutsuPoints();
+            ajoutPassiveMana();
+        } else {
+            this.delayPoints = delayPoints;
+        }
         this.couleurChakra = couleurChakra;
         this.teinte = teinte;
-        this.maxMana = getManaMission() + rank.getChakraRank() + bonusChakra() + getManaBonus();
+        this.maxMana = getManaMission() + getPassiveMana() + rank.getChakraRank() + bonusChakra() + getManaBonus();
         this.oldpos = oldpos;
         this.gender = gender;
         this.fuin_paper = fuin_paper;
@@ -236,17 +238,36 @@ public class PlayerInfo {
         if (!instanceList.containsKey(uuid)) instanceList.put(uuid, this);
         this.transparence = calculTransparence();
         this.reduc_ninjutsu = reduc_ninjutsu;
-        this.jutsuPoints = jutsuPoints;
         this.lastPrayer = lastPrayer;
         ajoutInstinct();
         caract = new Caract(this.abilities);
         FuinjutsuUzumaki();
     }
-
-    public PlayerInfo(String id, int mana, int nbmission, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu, int jutsuPoints, Date lastPrayer) {
+    
+    private void ajoutAbilityPoints() {
+        this.points++;
+        if (this.points != 0 & age >= 15) {
+            player.sendMessage("§cHRP : §7Un point de §ccompétence §7vous a été attribué.");
+        }
+    }
+    
+    private void ajoutJutsuPoints() {
+        this.jutsuPoints++;
+        player.sendMessage("§cHRP : §7Un point de §atechnique §7vous a été attribué.");
+    }
+    
+    private void ajoutPassiveMana() {
+        if (this.passiveMana < 300) {
+            this.passiveMana = Math.min(this.passiveMana + 5, 300);
+            player.sendMessage("§cHRP : §7Vous avez gagné passivement §3§l5 §r§3portions de chakra.");
+        }
+    }
+    
+    public PlayerInfo(String id, int mana, int nbmission, int passiveMana, int manabonus, RPRank rank, HashMap<Skill, SkillMastery> skills, HashMap<Skill, Integer> rollBonus, ArrayList<Skill> favoriteList, Clan clan, HashMap<ChakraType, Integer> chakraType, int age, String appearance, ArtNinja voieNinja, ArtNinja styleCombat, ArrayList<Ability> abilities, String appearanceprofil, String attributClan, int points, String pointsAbilities, long delayPoints, ArrayList<String> prouesse, int ink, CouleurChakra couleurChakra, Teinte teinte, String oldpos, Gender gender, int fuin_paper, int fuin_uzumaki, int fuin_lastday, int maskprofil, int reduc_ninjutsu, int jutsuPoints, Date lastPrayer) {
         this.id = id;
         this.mana = mana;
         this.nbmission = nbmission;
+        this.passiveMana = passiveMana;
         this.manaBonus = manabonus;
         this.rank = rank;
         this.skills = skills;
@@ -269,7 +290,7 @@ public class PlayerInfo {
         this.couleurChakra = couleurChakra;
         this.teinte = teinte;
         this.transparence = calculTransparence();
-        this.maxMana = getManaMission() + rank.getChakraRank() + bonusChakra() + getManaBonus();
+        this.maxMana = getManaMission() + getPassiveMana() + rank.getChakraRank() + bonusChakra() + getManaBonus();
         this.oldpos = oldpos;
         this.gender = gender;
         this.fuin_paper = fuin_paper;
@@ -521,6 +542,7 @@ public class PlayerInfo {
     public void reset() {
         mana = 100;
         nbmission = 0;
+        passiveMana = 0;
         currentSkill = null;
         skills.clear();
         rank = RPRank.STUDENT;
@@ -571,7 +593,7 @@ public class PlayerInfo {
     }
 
     public void updateChakra() {
-        this.maxMana = getManaMission() + rank.getChakraRank() + bonusChakra() + getManaBonus();
+        this.maxMana = getManaMission() + getPassiveMana() + rank.getChakraRank() + bonusChakra() + getManaBonus();
     }
 
     public int getPointsToAbility(String name) {
@@ -947,6 +969,7 @@ public class PlayerInfo {
                 id,
                 this.mana,
                 this.nbmission,
+                this.passiveMana,
                 this.manaBonus,
                 this.rank,
                 (HashMap<Skill, SkillMastery>) this.skills.clone(),
@@ -985,6 +1008,7 @@ public class PlayerInfo {
                 p,
                 this.mana,
                 this.nbmission,
+                this.passiveMana,
                 this.manaBonus,
                 this.rank,
                 (HashMap<Skill, SkillMastery>) this.skills.clone(),
