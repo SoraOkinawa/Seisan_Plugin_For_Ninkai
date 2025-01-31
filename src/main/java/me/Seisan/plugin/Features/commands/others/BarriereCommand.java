@@ -5,6 +5,7 @@ import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
 import me.Seisan.plugin.Features.Barriere.Barriere;
+import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Main;
 import org.bukkit.Material;
@@ -27,7 +28,8 @@ public class BarriereCommand extends Main.Command {
     // - Rank
 
 
-    private Map<UUID, List<Skill>> barriere = new HashMap<>();
+    private Map<UUID, List<Barriere>> barriereList = new HashMap<>();
+    private List<UUID> lockedBarriereList = new ArrayList<>();
 
     /**
      * Usage : /barriere : Open item menu to select a skill and add it to the player's barriere list
@@ -39,41 +41,81 @@ public class BarriereCommand extends Main.Command {
      * Usage : /barriere envoie : Send the player's barriere list as a unique skill
      */
 
-
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         Player player = (Player) sender;
         // Check if the player has barrieres in his skill list
+        PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
+        if(pInfo.getVoieNinja().getIdentifiant().equals("houjutsu")) { //beurk hardcoded
+            //Level of the voieNinja is defined by the skill level
+            int barriereLevel = pInfo.getLvL("Houjutsu"); //beurk hardcoded
+            ArrayList<Barriere> knownBarriere = new ArrayList<>();
+            for (Barriere b : Barriere.instanceList) {
+                if (b.getLevel() <= barriereLevel) {
+                    knownBarriere.add(b);
+                }
+            }
 
 
-        if (split.length == 0) {
-            // Open item menu to select a skill and add it to the player's barriere list
+            if (split.length == 0) {
+                // Open item menu to select a skill and add it to the player's barriere list
 
+            } else {
+                switch (split[0]) {
+                    case "add":
+                        // Add a barriere to the player's barriere list if list is not locked
+                        if (!lockedBarriereList.contains(player.getUniqueId())) {
+                            Barriere barriere = getBarriereByName(split[1], knownBarriere);
+                            if (barriere != null) {
+                                addBarriere(player, barriere);
+                            } else {
+                                player.sendMessage("Barriere not found");
+                            }
+                        } else {
+                            player.sendMessage("Barriere list is locked");
+                        }
 
-        } else {
-            switch (split[0]) {
-                case "add":
-                    // Add a skill to the player's barriere list
-                    break;
-                case "remove":
-                    // Remove a skill from the player's barriere list
-                    break;
-                case "list":
-                    // List all the skills in the player's barriere list
-                    break;
-                case "clear":
-                    // Clear the player's barriere list
-                    break;
-                case "lock":
-                    // Lock the player's barriere list
-                    break;
-                case "envoie":
-                    // Send the player's barriere list as a unique skill
-                    break;
+                        break;
+                    case "remove":
+                        // Remove a skill from the player's barriere list if list is not locked
+                        if (!lockedBarriereList.contains(player.getUniqueId())) {
+                            Barriere barriere = getBarriereByName(split[1], knownBarriere);
+                            if (barriere != null) {
+                                removeBarriere(player, barriere);
+                            } else {
+                                player.sendMessage("Barriere not found");
+                            }
+                        } else {
+                            player.sendMessage("Barriere list is locked");
+                        }
+
+                        break;
+                    case "list":
+                        // List all the skills in the player's barriere list
+                        listBarriere(player);
+                        break;
+                    case "clear":
+                        // Clear the player's barriere list if list is not locked
+                        if (!lockedBarriereList.contains(player.getUniqueId())) {
+                            clearBarriere(player);
+                        } else {
+                            player.sendMessage("Barriere list is locked");
+                        }
+                        break;
+                    case "lock":
+                        // Lock the player's barriere list
+                        lockBarriere(player);
+                        break;
+                    case "envoie":
+                        // Send the player's barriere list as a unique skill
+                        envoieBarriere(player);
+                        break;
+                }
             }
         }
     }
 
+    //TODO : TAB COMPLETION
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         List<String> completion = new ArrayList();
@@ -89,9 +131,73 @@ public class BarriereCommand extends Main.Command {
         return false;
     }
 
-    // Setups arrays for the barriere menu
+    // add to the player's barriere list
+    private void addBarriere(Player player, Barriere barriere) {
+        UUID uuid = player.getUniqueId();
+        if (!barriereList.containsKey(uuid)) {
+            barriereList.put(uuid, new ArrayList<>());
+        }
+        barriereList.get(uuid).add(barriere);
+        player.sendMessage("Barriere " + barriere.getName() + " ajoutée");
+    }
 
-    private static ArrayList<String[]> setupBarriereMenu(Barriere[] barriere) {
+    // remove from the player's barriere list
+    private void removeBarriere(Player player, Barriere barriere) {
+        UUID uuid = player.getUniqueId();
+        if (barriereList.containsKey(uuid)) {
+            barriereList.get(uuid).remove(barriere);
+            player.sendMessage("Barriere " + barriere.getName() + " retirée");
+        }
+    }
+
+    // list all the skills in the player's barriere list
+    private void listBarriere(Player player) {
+        UUID uuid = player.getUniqueId();
+        if (barriereList.containsKey(uuid)) {
+            for (Barriere barriere : barriereList.get(uuid)) {
+                player.sendMessage(barriere.getName());
+            }
+        }
+    }
+
+    // clear the player's barriere list
+    private void clearBarriere(Player player) {
+        UUID uuid = player.getUniqueId();
+        if (barriereList.containsKey(uuid)) {
+            barriereList.get(uuid).clear();
+        }
+    }
+
+    // lock the player's barriere list
+    private void lockBarriere(Player player) {
+        UUID uuid = player.getUniqueId();
+        if (barriereList.containsKey(uuid)) {
+            lockedBarriereList.add(uuid);
+            int cost = getBarriereCost(barriereList.get(uuid));
+            player.sendMessage("Vérouillage de la barrière, coût " + cost + ".\nTemps de préparation : " + getMaxPrepareTime(barriereList.get(uuid)) + "tours.");
+        }
+    }
+
+    // send the player's barriere list as a unique skill
+    private void envoieBarriere(Player player) {
+        UUID uuid = player.getUniqueId();
+        if (barriereList.containsKey(uuid)) {
+            // Create a new skill with the player's barriere list
+            List<Barriere> barriere = barriereList.get(uuid);
+            // TODO : Send a message to the player with all the barrieres
+            player.sendMessage("Barriere envoyée");
+            // Clear the player's barriere list
+            barriereList.get(uuid).clear();
+            // unlock the player's barriere list
+            lockedBarriereList.remove(uuid);
+        }
+    }
+
+
+
+
+    // Setups arrays for the barriere menu
+    private static ArrayList<String[]> setupBarriereMenu(ArrayList<Barriere> barriere) {
         // Create a list of all categories
         ArrayList<String> categories = new ArrayList<>();
         for (Barriere b : barriere) {
@@ -143,6 +249,44 @@ public class BarriereCommand extends Main.Command {
     }
 
 
+    //get a barrier by its name from a list
+    private Barriere getBarriereByName(String name, List<Barriere> barriere) {
+        for (Barriere b : barriere) {
+            if (b.getName().equals(name)) {
+                return b;
+            }
+        }
+        return null;
+    }
 
+    // calculate max preparation time
+    private int getMaxPrepareTime(List<Barriere> barriere) {
+        int maxPrepareTime = 0;
+        for (Barriere b : barriere) {
+            if (b.getPrepareTime() > maxPrepareTime) {
+                maxPrepareTime = b.getPrepareTime();
+            }
+        }
+        return maxPrepareTime;
+    }
+
+    // calculate cost of the barriere
+    private int getBarriereCost(List<Barriere> barriere) {
+        int cost = 0;
+        List<Double> multipliers = new ArrayList<>();
+        for (Barriere b : barriere) {
+            if (b.isPriceMultiplier()) {
+                multipliers.add(b.getPrice());
+            } else {
+                cost += b.getPrice();
+            }
+        }
+        double endMultiplier = 100;
+        for (Double multiplier : multipliers) {
+            endMultiplier += (multiplier-1)*100;
+        }
+        cost *= endMultiplier/100;
+        return cost;
+    }
 
 }

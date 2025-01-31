@@ -2,6 +2,7 @@ package me.Seisan.plugin.Features.commands.anothers;
 
 import me.Seisan.plugin.Features.Feature;
 import me.Seisan.plugin.Features.PlayerData.PlayerConfig;
+import me.Seisan.plugin.Features.commands.others.BarriereCommand;
 import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.permissions.PermissionAttachment;
@@ -50,6 +51,7 @@ public class Commands extends Feature {
         new PriereCommand().register();
         new ConversionCommand().register();
         new HideLanguageCommand().register();
+        new BarriereCommand().register();
         param.add("add");
         param.add("remove");
 
