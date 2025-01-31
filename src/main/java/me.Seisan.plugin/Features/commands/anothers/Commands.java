@@ -18,6 +18,8 @@ public class Commands extends Feature {
     public static ArrayList<String> PlayerBuildTemp = new ArrayList<>();
     public static Random random;
 
+
+
     @Override
     protected void doRegister() {
         new ChatMasterCommand().register();

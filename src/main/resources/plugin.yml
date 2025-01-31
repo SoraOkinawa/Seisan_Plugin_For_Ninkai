@@ -151,3 +151,10 @@ commands:
     description: Permet de convertir en euro ou ryo
   HideLanguage:
     description: Permet de cacher les langues non parlées
+  Show:
+    description: Montre l'item dans la main avec son nom et lore
+    usage: "/show"
+    aliases: []
+
+
+

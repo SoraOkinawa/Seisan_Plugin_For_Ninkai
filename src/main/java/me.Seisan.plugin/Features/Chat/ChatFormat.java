@@ -248,7 +248,7 @@ public class ChatFormat extends Feature {
         addRule("=", "{range:-1, onlyfor:mj, foreveryworld:true}{color:GOLD,commandonclick:@%a }<%a> %m");
         /* Demande d'aide au staff & réponse */
         addRule("@", "{range:-1, restricted:enca, foreveryworld:true, onlyfor:mj, addtarget:true}{color:LIGHT_PURPLE,commandonclick:$}<%a->@%t> %m");
-        addRule(">", "{range:-1, onlyfor:none, addtarget:true, foreveryworld:true}{commandonclick:>%a }%a > %t :{color:GRAY} %m");
+        addRule(">", "{range:-1, onlyfor:none, addtarget:true, foreveryworld:true}{commandonclick:>%a }{color:#FFAA00}%a > %t :{color:GRAY} %m");
         /* HRP */
         addRule("(", "{range:20}<%a> {color:GRAY}(%m");
         Main.plugin().saveConfig();
