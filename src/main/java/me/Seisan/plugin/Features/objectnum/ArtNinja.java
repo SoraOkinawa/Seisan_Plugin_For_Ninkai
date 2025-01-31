@@ -99,6 +99,6 @@ public class ArtNinja {
         return this.equals(getFromIdentifiant("ninjutsu")) ||
                 this.equals(getFromIdentifiant("genjutsu")) ||
                 this.equals(getFromIdentifiant("iryojutsu")) ||
-                this.equals(getFromIdentifiant("hojutsu"));
+                this.equals(getFromIdentifiant("houjutsu"));
     }
 }

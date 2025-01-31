@@ -177,7 +177,7 @@ public class Skill {
         TextComponent messagecomponent = new TextComponent(message);
         TextComponent techniquecomponent = new TextComponent(name);
 
-        affichejutsu(p, playerInfo, range, messagecomponent, techniquecomponent, ItemUtil.createItemStack(Material.BOOK, 1, newname, getLore(p)), this.skillVisibility, this.needTarget, playerInfo.getTarget());
+        affichejutsu(p, playerInfo, range, messagecomponent, techniquecomponent, ItemUtil.createItemStack(Material.BOOK, 1, newname, formatToLore(p)), this.skillVisibility, this.needTarget, playerInfo.getTarget());
         //Lancement de la technique
         ArrayList<String> commandToRun = (ArrayList<String>) commandList.clone();
         runCommands(commandToRun, 0, p);
@@ -427,7 +427,19 @@ public class Skill {
         return 0;
     }
 
-    public ArrayList<String> getLore(Player p) {
+    public ArrayList<String> formatToLore(Player player) {
+        // Split the message into lines
+        String[] lines = message.split("\n");
+        ArrayList<String> lore = new ArrayList<>();
+        // split each line if more than 50 characters
+        for (String line : lines) {
+            lore.addAll(getLore(line, player));
+        }
+        return lore;
+
+    }
+
+    public ArrayList<String> getLore(String message, Player p) {
         ArrayList<String> lore = new ArrayList<>();
         int taille = message.length();
         int tailledef = taille;

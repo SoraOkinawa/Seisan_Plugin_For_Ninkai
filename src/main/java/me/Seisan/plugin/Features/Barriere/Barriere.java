@@ -20,6 +20,7 @@ public class Barriere {
     // - Rank
     // - Secret
     // - Level
+    // - Invisible when default
 
 
 
@@ -29,7 +30,7 @@ public class Barriere {
 
     private String description;
 
-    private double price;
+    private float price;
 
     private boolean isPriceMultiplier;
 
@@ -37,18 +38,19 @@ public class Barriere {
 
     private boolean isDefault;
 
+    private boolean isInvisibleWhenDefault;
+
     private int prepareTime;
 
     private String rank;
 
     private boolean isSecret;
 
-
     private int level;
 
     public static ArrayList<Barriere> instanceList = new ArrayList<>();
 
-    public Barriere(String nameInPlugin, String name, String description, double price, boolean isPriceMultiplier, String category, boolean isDefault, int prepareTime, String rank, boolean isSecret, int level) {
+    public Barriere(String nameInPlugin, String name, String description, float price, boolean isPriceMultiplier, String category, boolean isDefault, boolean isInvisibleWhenDefault, int prepareTime, String rank, boolean isSecret, int level) {
         this.nameInPlugin = name;
         this.name = name;
         this.description = description;
@@ -56,6 +58,7 @@ public class Barriere {
         this.isPriceMultiplier = isPriceMultiplier;
         this.category = category;
         this.isDefault = isDefault;
+        this.isInvisibleWhenDefault = isInvisibleWhenDefault;
         this.prepareTime = prepareTime;
         this.rank = rank;
         this.isSecret = isSecret;
@@ -89,11 +92,11 @@ public class Barriere {
         this.description = description;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -120,6 +123,14 @@ public class Barriere {
 
     public void setDefault(boolean aDefault) {
         isDefault = aDefault;
+    }
+
+    public boolean isInvisibleWhenDefault() {
+        return isInvisibleWhenDefault;
+    }
+
+    public void setInvisibleWhenDefault(boolean isInvisibleWhenDefault) {
+        this.isInvisibleWhenDefault = isInvisibleWhenDefault;
     }
 
     public int getPrepareTime() {
@@ -163,6 +174,27 @@ public class Barriere {
         Barriere.instanceList = instanceList;
     }
 
+
+    // get all default barrieres
+    public static ArrayList<Barriere> getDefaultBarrieres() {
+        ArrayList<Barriere> defaultBarrieres = new ArrayList<>();
+        for (Barriere barriere : instanceList) {
+            if (barriere.isDefault()) {
+                defaultBarrieres.add(barriere);
+            }
+        }
+        return defaultBarrieres;
+    }
+
+    //get default barriere of a category
+    public static Barriere getDefaultBarriereByCategory(String category) {
+        for (Barriere barriere : instanceList) {
+            if (barriere.getCategory().equalsIgnoreCase(category) && barriere.isDefault()) {
+                return barriere;
+            }
+        }
+        return null;
+    }
     public static Barriere getBarriereByName(String name) {
         for (Barriere barriere : instanceList) {
             if (barriere.getName().equalsIgnoreCase(name)) {

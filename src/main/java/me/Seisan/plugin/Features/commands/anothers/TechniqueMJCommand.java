@@ -133,11 +133,24 @@ public class TechniqueMJCommand extends Command {
                 range,
                 new TextComponent(message),
                 new TextComponent(name),
-                ItemUtil.createItemStack(Material.BOOK, 1, newname, formatLore(description, player)),
+                ItemUtil.createItemStack(Material.BOOK, 1, newname, formatToLore(description, player)),
                 true,
                 false,
                 null);
     }
+
+    public ArrayList<String> formatToLore(String message, Player player) {
+        // Split the message into lines
+        String[] lines = message.split("\n");
+        ArrayList<String> lore = new ArrayList<>();
+        // split each line if more than 50 characters
+        for (String line : lines) {
+            lore.addAll(formatLore(line, player));
+        }
+        return lore;
+
+    }
+
 
 
     // Copy past from Skill.java : ugly af
