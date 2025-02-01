@@ -128,9 +128,10 @@ public class BarriereLoader {
                 String nameInPlugin = result.getString("nameInPlugin");
                 String name = result.getString("name");
                 String description = result.getString("description");
-                int price = result.getInt("price");
+                float price = result.getFloat("price");
                 boolean isPriceMultiplier = result.getBoolean("isPriceMultiplier");
                 String category = result.getString("category");
+                boolean isUniqueInCategory = result.getBoolean("isUniqueInCategory");
                 boolean isDefault = result.getBoolean("isDefault");
                 boolean isInvisibleWhenDefault = result.getBoolean("isInvisibleWhenDefault");
                 int prepareTime = result.getInt("prepareTime");
@@ -138,7 +139,7 @@ public class BarriereLoader {
                 boolean isSecret = result.getBoolean("isSecret");
                 int level = result.getInt("level");
 
-                new Barriere(nameInPlugin, name, description, price, isPriceMultiplier, category, isDefault, isInvisibleWhenDefault, prepareTime, rank, isSecret, level);
+                new Barriere(nameInPlugin, name, description, price, isPriceMultiplier, category, isUniqueInCategory, isDefault, isInvisibleWhenDefault, prepareTime, rank, isSecret, level);
             }
 
         } catch (SQLException e) {

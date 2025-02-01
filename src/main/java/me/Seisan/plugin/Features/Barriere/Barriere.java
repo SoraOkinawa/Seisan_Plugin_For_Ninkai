@@ -15,13 +15,13 @@ public class Barriere {
     // - Price
     // - IsPriceMultiplier
     // - Category
+    // - isUniqueInCategory
     // - Default
     // - PrepareTime
     // - Rank
     // - Secret
     // - Level
     // - Invisible when default
-
 
 
     private String nameInPlugin;
@@ -35,6 +35,7 @@ public class Barriere {
     private boolean isPriceMultiplier;
 
     private String category;
+    private boolean isUniqueInCategory;
 
     private boolean isDefault;
 
@@ -50,13 +51,14 @@ public class Barriere {
 
     public static ArrayList<Barriere> instanceList = new ArrayList<>();
 
-    public Barriere(String nameInPlugin, String name, String description, float price, boolean isPriceMultiplier, String category, boolean isDefault, boolean isInvisibleWhenDefault, int prepareTime, String rank, boolean isSecret, int level) {
-        this.nameInPlugin = name;
+    public Barriere(String nameInPlugin, String name, String description, float price, boolean isPriceMultiplier, String category, boolean isUniqueInCategory, boolean isDefault, boolean isInvisibleWhenDefault, int prepareTime, String rank, boolean isSecret, int level) {
+        this.nameInPlugin = nameInPlugin;
         this.name = name;
         this.description = description;
         this.price = price;
         this.isPriceMultiplier = isPriceMultiplier;
         this.category = category;
+        this.isUniqueInCategory = isUniqueInCategory;
         this.isDefault = isDefault;
         this.isInvisibleWhenDefault = isInvisibleWhenDefault;
         this.prepareTime = prepareTime;
@@ -115,6 +117,10 @@ public class Barriere {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public boolean isUniqueInCategory() {
+        return isUniqueInCategory;
     }
 
     public boolean isDefault() {
@@ -195,6 +201,7 @@ public class Barriere {
         }
         return null;
     }
+
     public static Barriere getBarriereByName(String name) {
         for (Barriere barriere : instanceList) {
             if (barriere.getName().equalsIgnoreCase(name)) {

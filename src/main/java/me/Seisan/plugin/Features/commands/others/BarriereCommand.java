@@ -49,7 +49,7 @@ public class BarriereCommand extends Main.Command {
         Player player = (Player) sender;
         // Check if the player has barrieres in his skill list
         PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
-        if(pInfo.getVoieNinja().getIdentifiant().equals("houjutsu")) { //beurk hardcoded
+        if (pInfo.getVoieNinja().getIdentifiant().equals("houjutsu")) { //beurk hardcoded
             //Level of the voieNinja is defined by the skill level
             int barriereLevel = pInfo.getLvL("Houjutsu"); //beurk hardcoded
             ArrayList<Barriere> knownBarriere = new ArrayList<>();
@@ -66,13 +66,13 @@ public class BarriereCommand extends Main.Command {
             } else {
                 switch (split[0]) {
                     case "add":
-                        if(split.length < 2) {
+                        if (split.length < 2) {
                             player.sendMessage("Usage : /barriere add <skillName>");
                             return;
                         }
                         // Add a barriere to the player's barriere list if list is not locked
                         if (!lockedBarriereList.contains(player.getUniqueId())) {
-                            Barriere barriere = getBarriereByName(split[1], knownBarriere);
+                            Barriere barriere = getBarriereByNameInPlugin(split[1], knownBarriere);
                             if (barriere != null) {
                                 addBarriere(player, barriere);
                             } else {
@@ -84,13 +84,13 @@ public class BarriereCommand extends Main.Command {
 
                         break;
                     case "remove":
-                        if(split.length < 2) {
+                        if (split.length < 2) {
                             player.sendMessage("Usage : /barriere remove <skillName>");
                             return;
                         }
                         // Remove a skill from the player's barriere list if list is not locked
                         if (!lockedBarriereList.contains(player.getUniqueId())) {
-                            Barriere barriere = getBarriereByName(split[1], knownBarriere);
+                            Barriere barriere = getBarriereByNameInPlugin(split[1], knownBarriere);
                             if (barriere != null) {
                                 removeBarriere(player, barriere);
                             } else {
@@ -115,13 +115,13 @@ public class BarriereCommand extends Main.Command {
                         break;
                     case "lock":
                         // Lock the player's barriere list if the prepare time is supperior than 0
-                        if(getMaxPrepareTime(barriereList.get(player.getUniqueId())) > 0) {
+                        if (getMaxPrepareTime(barriereList.get(player.getUniqueId())) > 0) {
                             lockBarriere(player);
                         } else {
                             player.sendMessage("Barrière instanée. Pas besoin de la verouiller.");
                         }
                         break;
-                        case "cancel":
+                    case "cancel":
                         // Cancel the player's barriere list if list is locked
                         if (lockedBarriereList.contains(player.getUniqueId())) {
                             barriereList.get(player.getUniqueId()).clear();
@@ -168,7 +168,6 @@ public class BarriereCommand extends Main.Command {
                     Player player = (Player) sender;
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
                     int barriereLevel = pInfo.getLvL("Houjutsu"); //beurk hardcoded
-                    ArrayList<Barriere> knownBarriere = new ArrayList<>();
                     for (Barriere b : Barriere.instanceList) {
                         if (b.getLevel() <= barriereLevel) {
                             completion.add(b.getNameInPlugin());
@@ -191,8 +190,18 @@ public class BarriereCommand extends Main.Command {
         if (!barriereList.containsKey(uuid)) {
             barriereList.put(uuid, new ArrayList<>());
         }
+        // Check if barriere is unique in its category, then replace it if it's the case
+        if (barriere.isUniqueInCategory()) {
+            for (Barriere b : barriereList.get(uuid)) {
+                if (b.getCategory().equals(barriere.getCategory())) {
+                    barriereList.get(uuid).remove(b);
+                    player.sendMessage("§7 - Barriere " + b.getName() + " retirée.");
+                    break;
+                }
+            }
+        }
         barriereList.get(uuid).add(barriere);
-        player.sendMessage("§7 - Barriere " + barriere.getName() + " ajoutée");
+        player.sendMessage("§7 - Barriere " + barriere.getCategory() + " : " + barriere.getName() + " ajoutée");
     }
 
     // remove from the player's barriere list
@@ -200,7 +209,7 @@ public class BarriereCommand extends Main.Command {
         UUID uuid = player.getUniqueId();
         if (barriereList.containsKey(uuid)) {
             barriereList.get(uuid).remove(barriere);
-            player.sendMessage("§7 - Barriere " + barriere.getName() + " retirée");
+            player.sendMessage("§7 - Barriere " + barriere.getCategory() + " : " + barriere.getName() + " retirée");
         }
     }
 
@@ -244,18 +253,21 @@ public class BarriereCommand extends Main.Command {
     // send the player's barriere list as a unique skill
     private void envoieBarriere(Player player, List<Barriere> knownBarriere) {
         UUID uuid = player.getUniqueId();
+        List<Barriere> barriere;
         if (barriereList.containsKey(uuid)) {
             // Create a new skill with the player's barriere list
-            List<Barriere> barriere = barriereList.get(uuid);
-
-            // Send the barriere message
-            sendBarriereMessage(player, barriere, knownBarriere);
-
-            // Clear the player's barriere list
-            barriereList.get(uuid).clear();
-            // unlock the player's barriere list
-            lockedBarriereList.remove(uuid);
+            barriere = barriereList.get(uuid);
+        } else {
+            // If the player has no barriere in his list, send the default barriere
+            barriere = getDefaultBarrieres(knownBarriere);
         }
+        // Send the barriere message
+        sendBarriereMessage(player, barriere, knownBarriere);
+
+        // Clear the player's barriere list
+        barriereList.get(uuid).clear();
+        // unlock the player's barriere list
+        lockedBarriereList.remove(uuid);
     }
 
 
@@ -316,7 +328,7 @@ public class BarriereCommand extends Main.Command {
         SkillLevel rank = getMaxRank(barrieres);
 
         // Send the barriere message
-        sendTechniqueWithDescription(player, barriereName, rank, description);
+        sendTechniqueWithDescription(player, "#" + pInfo.getVoieNinja().getColorHexa() + "" + barriereName, rank, description);
 
     }
 
@@ -411,15 +423,15 @@ public class BarriereCommand extends Main.Command {
         for (ArrayList<Barriere> barriereList : barriereByCategory) {
             String[] layout;
             int line = 0;
-            for (int i = 0; i < barriereList.size(); i+=8) {
+            for (int i = 0; i < barriereList.size(); i += 8) {
                 if (line == 0) {
-                    layout = new String[]{"d", " ", "b", "b", "b", "b", "b", "b", "b" };
+                    layout = new String[]{"d", " ", "b", "b", "b", "b", "b", "b", "b"};
                 } else {
-                    layout = new String[]{" ", " ", "b", "b", "b", "b", "b", "b", "b" };
+                    layout = new String[]{" ", " ", "b", "b", "b", "b", "b", "b", "b"};
                 }
                 line++;
                 if (line == 6) {
-                    layout = new String[]{"p", " ", "r", " ", "v", " ", "l", " ", "n" };
+                    layout = new String[]{"p", " ", "r", " ", "v", " ", "l", " ", "n"};
                     line = 0;
                 }
                 menu.add(layout);
@@ -428,8 +440,8 @@ public class BarriereCommand extends Main.Command {
         // Menu must be a multiple of 6 lines
         int emptyLines = 6 - (menu.size() % 6);
         for (int i = 0; i < emptyLines; i++) {
-            if(menu.size() % 6 == 0) {
-                menu.add(new String[]{"p", " ", "r", " ", "v", " ", "l", " ", "n" });
+            if (menu.size() % 6 == 0) {
+                menu.add(new String[]{"p", " ", "r", " ", "v", " ", "l", " ", "n"});
             } else {
                 menu.add(new String[]{" ", " ", " ", " ", " ", " ", " ", " ", " "});
             }
@@ -444,9 +456,9 @@ public class BarriereCommand extends Main.Command {
 
 
     //get a barrier by its name from a list
-    private Barriere getBarriereByName(String name, List<Barriere> barriere) {
+    private Barriere getBarriereByNameInPlugin(String name, List<Barriere> barriere) {
         for (Barriere b : barriere) {
-            if (b.getName().equals(name)) {
+            if (b.getNameInPlugin().equals(name)) {
                 return b;
             }
         }
@@ -467,19 +479,22 @@ public class BarriereCommand extends Main.Command {
     // calculate cost of the barriere
     private int getBarriereCost(List<Barriere> barriere) {
         float cost = 0;
-        List<Float> multipliers = new ArrayList<>();
+        float multiplier = 1;
         for (Barriere b : barriere) {
             if (b.isPriceMultiplier()) {
-                multipliers.add(b.getPrice());
+                multiplier = b.getPrice();
+                System.out.println(b.getName() + " : " + b.getPrice() + " multiplier");
             } else {
                 cost += b.getPrice();
+                System.out.println(b.getName() + " : " + b.getPrice());
+                System.out.println("cost : " + cost);
             }
         }
-        double endMultiplier = 100;
-        for (Float multiplier : multipliers) {
-            endMultiplier += (multiplier-1)*100;
-        }
-        cost *= endMultiplier/100;
+        System.out.println("multiplier : " + multiplier);
+        System.out.println("cost : " + cost);
+        cost *= multiplier;
+        System.out.println("total cost : " + cost);
+
         return Math.round(cost);
     }
 
@@ -515,7 +530,7 @@ public class BarriereCommand extends Main.Command {
         return null;
     }
 
-    public static ArrayList<Barriere> getDefaultBarrieres(ArrayList<Barriere> barrieres) {
+    public static ArrayList<Barriere> getDefaultBarrieres(List<Barriere> barrieres) {
         ArrayList<Barriere> defaultBarrieres = new ArrayList<>();
         for (Barriere barriere : barrieres) {
             if (barriere.isDefault()) {
@@ -529,7 +544,7 @@ public class BarriereCommand extends Main.Command {
     private SkillLevel getMaxRank(List<Barriere> barriere) {
         SkillLevel maxRank = SkillLevel.NULL;
         for (Barriere b : barriere) {
-            if (SkillLevel.getByCharName(b.getRank()).getLevelOrder() < maxRank.getLevelOrder()) {
+            if (SkillLevel.getByCharName(b.getRank()).getLevelOrder() > maxRank.getLevelOrder()) {
                 maxRank = SkillLevel.getByCharName(b.getRank());
             }
         }
