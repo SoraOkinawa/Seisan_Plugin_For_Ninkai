@@ -170,7 +170,7 @@ public class BarriereCommand extends Main.Command {
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
                     int barriereLevel = pInfo.getLvL("Houjutsu"); //beurk hardcoded
                     for (Barriere b : Barriere.instanceList) {
-                        if (b.getLevel() <= barriereLevel) {
+                        if (b.getLevel() <= barriereLevel && !b.isSecret()) {
                             completion.add(b.getNameInPlugin());
                         }
                     }
