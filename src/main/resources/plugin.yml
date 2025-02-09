@@ -156,4 +156,4 @@ commands:
     usage: "Usage : /sheetstobdd <sheets id> <range>"
   barriere:
     description: Permet d'utiliser les barrières
-    usage: "Usage : /barriere <add|remove|list|lock|clear>"
+    usage: "Usage : /barriere <add|remove|list|lock|clear|envoie>"
