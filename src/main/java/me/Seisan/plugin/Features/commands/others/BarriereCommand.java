@@ -4,6 +4,7 @@ import me.Seisan.plugin.Features.Barriere.Barriere;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Features.skill.SkillLevel;
+import me.Seisan.plugin.Features.skill.SkillUtils;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -54,7 +55,7 @@ public class BarriereCommand extends Main.Command {
             int barriereLevel = pInfo.getLvL("Houjutsu"); //beurk hardcoded
             ArrayList<Barriere> knownBarriere = new ArrayList<>();
             for (Barriere b : Barriere.instanceList) {
-                if (b.getLevel() <= barriereLevel) {
+                if (b.getLevel() <= barriereLevel && !b.isSecret()) {
                     knownBarriere.add(b);
                 }
             }
@@ -72,7 +73,7 @@ public class BarriereCommand extends Main.Command {
                         }
                         // Add a barriere to the player's barriere list if list is not locked
                         if (!lockedBarriereList.contains(player.getUniqueId())) {
-                            Barriere barriere = getBarriereByNameInPlugin(split[1], knownBarriere);
+                            Barriere barriere = Barriere.getBarriereByNameInPlugin(split[1], knownBarriere);
                             if (barriere != null) {
                                 addBarriere(player, barriere);
                             } else {
@@ -90,7 +91,7 @@ public class BarriereCommand extends Main.Command {
                         }
                         // Remove a skill from the player's barriere list if list is not locked
                         if (!lockedBarriereList.contains(player.getUniqueId())) {
-                            Barriere barriere = getBarriereByNameInPlugin(split[1], knownBarriere);
+                            Barriere barriere = Barriere.getBarriereByNameInPlugin(split[1], knownBarriere);
                             if (barriere != null) {
                                 removeBarriere(player, barriere);
                             } else {
@@ -115,7 +116,7 @@ public class BarriereCommand extends Main.Command {
                         break;
                     case "lock":
                         // Lock the player's barriere list if the prepare time is supperior than 0
-                        if (getMaxPrepareTime(barriereList.get(player.getUniqueId())) > 0) {
+                        if (Barriere.getMaxPrepareTime(barriereList.get(player.getUniqueId())) > 0) {
                             lockBarriere(player);
                         } else {
                             player.sendMessage("Barrière instanée. Pas besoin de la verouiller.");
@@ -220,8 +221,8 @@ public class BarriereCommand extends Main.Command {
             for (Barriere barriere : barriereList.get(uuid)) {
                 player.sendMessage("§7 - " + barriere.getName());
             }
-            int cost = getBarriereCost(barriereList.get(uuid));
-            player.sendMessage("§7 - Coût " + cost + " chakra.\nTemps de préparation : " + getMaxPrepareTime(barriereList.get(uuid)) + "tours.");
+            int cost = Barriere.getBarriereCost(barriereList.get(uuid));
+            player.sendMessage("§7 - Coût " + cost + " chakra.\nTemps de préparation : " + Barriere.getMaxPrepareTime(barriereList.get(uuid)) + "tours.");
         }
     }
 
@@ -238,9 +239,9 @@ public class BarriereCommand extends Main.Command {
         UUID uuid = player.getUniqueId();
         if (barriereList.containsKey(uuid)) {
             lockedBarriereList.add(uuid);
-            int cost = getBarriereCost(barriereList.get(uuid));
-            player.sendMessage("§7 - Vérouillage de la barrière, coût " + cost + ".\nTemps de préparation : " + getMaxPrepareTime(barriereList.get(uuid)) + "tours.");
-            String startPhrase = "§c** " + player.getDisplayName() + " §r§ccommence à préparer une barrière pendant " + getMaxPrepareTime(barriereList.get(uuid)) + " tours.";
+            int cost = Barriere.getBarriereCost(barriereList.get(uuid));
+            player.sendMessage("§7 - Vérouillage de la barrière, coût " + cost + ".\nTemps de préparation : " + Barriere.getMaxPrepareTime(barriereList.get(uuid)) + "tours.");
+            String startPhrase = "§c** " + player.getDisplayName() + " §r§ccommence à préparer une barrière pendant " + Barriere.getMaxPrepareTime(barriereList.get(uuid)) + " tours.";
             player.sendMessage(startPhrase);
             for (Entity entity : player.getNearbyEntities(50, 50, 50)) {
                 if (entity instanceof Player) {
@@ -259,7 +260,7 @@ public class BarriereCommand extends Main.Command {
             barriere = barriereList.get(uuid);
         } else {
             // If the player has no barriere in his list, send the default barriere
-            barriere = getDefaultBarrieres(knownBarriere);
+            barriere = Barriere.getDefaultBarrieres(knownBarriere);
         }
         // Send the barriere message
         sendBarriereMessage(player, barriere, knownBarriere);
@@ -274,17 +275,17 @@ public class BarriereCommand extends Main.Command {
     private void sendBarriereMessage(Player player, List<Barriere> barrieres, List<Barriere> knownBarriere) {
 
         // Get all categories of barrieres in the player's barriere list
-        List<String> categories = getBarriereCategories(knownBarriere);
+        List<String> categories = Barriere.getBarriereCategories(knownBarriere);
 
         // For all categories of the player's category, get the default barriere if he has nothing in that category
         for (String category : categories) {
-            if (getBarriereByCategory(barrieres, category).size() == 0) {
-                barrieres.add(Barriere.getDefaultBarriereByCategory(category));
+            if (Barriere.getBarriereByCategory(barrieres, category).size() == 0) {
+                barrieres.add(Barriere.getDefaultBarriereByCategory(category, Barriere.instanceList));
             }
         }
 
         // get the mana cost
-        int cost = getBarriereCost(barrieres);
+        int cost = Barriere.getBarriereCost(barrieres);
         // Remove the cost from the player's mana
         PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
         pInfo.removeMana(cost);
@@ -293,18 +294,18 @@ public class BarriereCommand extends Main.Command {
 
         Barriere forme;
         // Techniquement il peut y avoir qu'une seule barrière de cette catégorie mais un peu lasdeg
-        if (getBarriereByCategory(barrieres, "forme").size() > 0) {
-            forme = getBarriereByCategory(barrieres, "forme").get(0);
+        if (Barriere.getBarriereByCategory(barrieres, "forme").size() > 0) {
+            forme = Barriere.getBarriereByCategory(barrieres, "forme").get(0);
         } else {
-            forme = getDefaultBarriere(barrieres, "forme");
+            forme = Barriere.getDefaultBarriere(barrieres, "forme");
         }
 
         Barriere taille;
         // Techniquement il peut y avoir qu'une seule barrière de cette catégorie mais un peu lasdeg
-        if (getBarriereByCategory(barrieres, "taille").size() > 0) {
-            taille = getBarriereByCategory(barrieres, "taille").get(0);
+        if (Barriere.getBarriereByCategory(barrieres, "taille").size() > 0) {
+            taille = Barriere.getBarriereByCategory(barrieres, "taille").get(0);
         } else {
-            taille = getDefaultBarriere(barrieres, "taille");
+            taille = Barriere.getDefaultBarriere(barrieres, "taille");
         }
 
         // Do a puce list of all descriptions of the barrieres
@@ -317,15 +318,15 @@ public class BarriereCommand extends Main.Command {
         // Descriptions should start with "- " and end with "\n"
         String description = "- " + String.join("\n- ", descriptions);
         // add preparation time at the begening of descrition if more than 0
-        if (getMaxPrepareTime(barrieres) > 0) {
-            description = "Préparé pendant : " + getMaxPrepareTime(barrieres) + " tours.\n" + description;
+        if (Barriere.getMaxPrepareTime(barrieres) > 0) {
+            description = "Préparé pendant : " + Barriere.getMaxPrepareTime(barrieres) + " tours.\n" + description;
         }
 
         // Barriere name
         String barriereName = "Houjutsu - " + taille.getName() + " barrière " + forme.getName();
 
         // Barriere rank
-        SkillLevel rank = getMaxRank(barrieres);
+        SkillLevel rank = Barriere.getMaxRank(barrieres);
 
         // Send the barriere message
         sendTechniqueWithDescription(player, "#" + pInfo.getVoieNinja().getColorHexa() + "" + barriereName, rank, description);
@@ -351,51 +352,10 @@ public class BarriereCommand extends Main.Command {
                 range,
                 new TextComponent(message),
                 new TextComponent(name),
-                ItemUtil.createItemStack(Material.BOOK, 1, newname, formatToLore(description, player)),
+                ItemUtil.createItemStack(Material.BOOK, 1, newname, SkillUtils.formatToLore(description, player)),
                 true,
                 false,
                 null);
-    }
-
-    // format a string to an arraylist with each entry being a line, so each line is less than 50 characters, without skipping \n as new lore line
-    public ArrayList<String> formatToLore(String message, Player player) {
-        // Split the message into lines
-        String[] lines = message.split("\n");
-        ArrayList<String> lore = new ArrayList<>();
-        // split each line if more than 50 characters
-        for (String line : lines) {
-            lore.addAll(formatLore(line, player));
-        }
-        return lore;
-
-    }
-
-    // Copy past from Skill.java : ugly af
-    public ArrayList<String> formatLore(String message, Player player) {
-        ArrayList<String> lore = new ArrayList<>();
-        int taille = message.length();
-        int tailledef = taille;
-        int divi = 1;
-        while (tailledef > 50) {
-            divi++;
-            tailledef = taille / divi;
-        }
-        int borneinf = 0;
-        for (int i = 0; i < divi; i++) {
-            int bornesupp = tailledef * (i + 1);
-            while (bornesupp < message.length() && message.charAt(bornesupp) != ' ') {
-                bornesupp++;
-            }
-            if (divi - 1 == i) {
-                bornesupp = taille;
-            }
-            while (message.substring(borneinf, bornesupp).startsWith(" ")) {
-                borneinf++;
-            }
-            lore.add("§7" + Skill.formatEncaMessage(message.substring(borneinf, bornesupp), player));
-            borneinf = bornesupp;
-        }
-        return lore;
     }
 
     // Setups arrays for the barriere menu
@@ -454,102 +414,6 @@ public class BarriereCommand extends Main.Command {
 
     }
 
-
-    //get a barrier by its name from a list
-    private Barriere getBarriereByNameInPlugin(String name, List<Barriere> barriere) {
-        for (Barriere b : barriere) {
-            if (b.getNameInPlugin().equals(name)) {
-                return b;
-            }
-        }
-        return null;
-    }
-
-    // calculate max preparation time
-    private int getMaxPrepareTime(List<Barriere> barriere) {
-        int maxPrepareTime = 0;
-        for (Barriere b : barriere) {
-            if (b.getPrepareTime() > maxPrepareTime) {
-                maxPrepareTime = b.getPrepareTime();
-            }
-        }
-        return maxPrepareTime;
-    }
-
-    // calculate cost of the barriere
-    private int getBarriereCost(List<Barriere> barriere) {
-        float cost = 0;
-        float multiplier = 1;
-        for (Barriere b : barriere) {
-            if (b.isPriceMultiplier()) {
-                multiplier = b.getPrice();
-                System.out.println(b.getName() + " : " + b.getPrice() + " multiplier");
-            } else {
-                cost += b.getPrice();
-                System.out.println(b.getName() + " : " + b.getPrice());
-                System.out.println("cost : " + cost);
-            }
-        }
-        System.out.println("multiplier : " + multiplier);
-        System.out.println("cost : " + cost);
-        cost *= multiplier;
-        System.out.println("total cost : " + cost);
-
-        return Math.round(cost);
-    }
-
-    // get all catergorie of barrieres in the player's barriere list
-    private List<String> getBarriereCategories(List<Barriere> barriere) {
-        List<String> categories = new ArrayList<>();
-        for (Barriere b : barriere) {
-            if (!categories.contains(b.getCategory())) {
-                categories.add(b.getCategory());
-            }
-        }
-        return categories;
-    }
-
-    // get all barriere of a category in the player's barriere list
-    private List<Barriere> getBarriereByCategory(List<Barriere> barriere, String category) {
-        List<Barriere> barriereList = new ArrayList<>();
-        for (Barriere b : barriere) {
-            if (b.getCategory().equals(category)) {
-                barriereList.add(b);
-            }
-        }
-        return barriereList;
-    }
-
-    // get the default barriere in one category in the player's barriere list
-    private Barriere getDefaultBarriere(List<Barriere> barriere, String category) {
-        for (Barriere b : barriere) {
-            if (b.getCategory().equals(category) && b.isDefault()) {
-                return b;
-            }
-        }
-        return null;
-    }
-
-    public static ArrayList<Barriere> getDefaultBarrieres(List<Barriere> barrieres) {
-        ArrayList<Barriere> defaultBarrieres = new ArrayList<>();
-        for (Barriere barriere : barrieres) {
-            if (barriere.isDefault()) {
-                defaultBarrieres.add(barriere);
-            }
-        }
-        return defaultBarrieres;
-    }
-
-    //get max rank of a barriere
-    private SkillLevel getMaxRank(List<Barriere> barriere) {
-        SkillLevel maxRank = SkillLevel.NULL;
-        for (Barriere b : barriere) {
-            if (SkillLevel.getByCharName(b.getRank()).getLevelOrder() > maxRank.getLevelOrder()) {
-                maxRank = SkillLevel.getByCharName(b.getRank());
-            }
-        }
-        return maxRank;
-    }
 
 
 }

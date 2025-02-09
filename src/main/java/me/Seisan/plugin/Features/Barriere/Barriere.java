@@ -3,8 +3,10 @@ package me.Seisan.plugin.Features.Barriere;
 import lombok.Getter;
 import lombok.Setter;
 import me.Seisan.plugin.Features.ability.Ability;
+import me.Seisan.plugin.Features.skill.SkillLevel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Barriere {
 
@@ -193,8 +195,8 @@ public class Barriere {
     }
 
     //get default barriere of a category
-    public static Barriere getDefaultBarriereByCategory(String category) {
-        for (Barriere barriere : instanceList) {
+    public static Barriere getDefaultBarriereByCategory(String category, List<Barriere> barrieres) {
+        for (Barriere barriere : barrieres) {
             if (barriere.getCategory().equalsIgnoreCase(category) && barriere.isDefault()) {
                 return barriere;
             }
@@ -202,53 +204,94 @@ public class Barriere {
         return null;
     }
 
-    public static Barriere getBarriereByName(String name) {
-        for (Barriere barriere : instanceList) {
-            if (barriere.getName().equalsIgnoreCase(name)) {
-                return barriere;
+    //get a barrier by its name from a list
+    public static Barriere getBarriereByNameInPlugin(String name, List<Barriere> barriere) {
+        for (Barriere b : barriere) {
+            if (b.getNameInPlugin().equals(name)) {
+                return b;
             }
         }
         return null;
     }
 
-    public static Barriere getBarriereByNameInPlugin(String name) {
-        for (Barriere barriere : instanceList) {
-            if (barriere.getNameInPlugin().equalsIgnoreCase(name)) {
-                return barriere;
+    // calculate max preparation time
+    public static int getMaxPrepareTime(List<Barriere> barriere) {
+        int maxPrepareTime = 0;
+        for (Barriere b : barriere) {
+            if (b.getPrepareTime() > maxPrepareTime) {
+                maxPrepareTime = b.getPrepareTime();
+            }
+        }
+        return maxPrepareTime;
+    }
+
+    // calculate cost of the barriere
+    public static int getBarriereCost(List<Barriere> barriere) {
+        float cost = 0;
+        float multiplier = 1;
+        for (Barriere b : barriere) {
+            if (b.isPriceMultiplier()) {
+                multiplier = b.getPrice();
+            } else {
+                cost += b.getPrice();
+            }
+        }
+        cost *= multiplier;
+
+        return Math.round(cost);
+    }
+
+    // get all catergorie of barrieres in the player's barriere list
+    public static List<String> getBarriereCategories(List<Barriere> barriere) {
+        List<String> categories = new ArrayList<>();
+        for (Barriere b : barriere) {
+            if (!categories.contains(b.getCategory())) {
+                categories.add(b.getCategory());
+            }
+        }
+        return categories;
+    }
+
+    // get all barriere of a category in the player's barriere list
+    public static List<Barriere> getBarriereByCategory(List<Barriere> barriere, String category) {
+        List<Barriere> barriereList = new ArrayList<>();
+        for (Barriere b : barriere) {
+            if (b.getCategory().equals(category)) {
+                barriereList.add(b);
+            }
+        }
+        return barriereList;
+    }
+
+    // get the default barriere in one category in the player's barriere list
+    public static Barriere getDefaultBarriere(List<Barriere> barriere, String category) {
+        for (Barriere b : barriere) {
+            if (b.getCategory().equals(category) && b.isDefault()) {
+                return b;
             }
         }
         return null;
     }
 
-    public static ArrayList<Barriere> getBarriereByCategory(String category) {
-        ArrayList<Barriere> barriereList = new ArrayList<>();
-        for (Barriere barriere : instanceList) {
-            if (barriere.getCategory().equalsIgnoreCase(category)) {
-                barriereList.add(barriere);
+    public static ArrayList<Barriere> getDefaultBarrieres(List<Barriere> barrieres) {
+        ArrayList<Barriere> defaultBarrieres = new ArrayList<>();
+        for (Barriere barriere : barrieres) {
+            if (barriere.isDefault()) {
+                defaultBarrieres.add(barriere);
             }
         }
-        return barriereList;
+        return defaultBarrieres;
     }
 
-    public static ArrayList<Barriere> getBarriereByRank(String rank) {
-        ArrayList<Barriere> barriereList = new ArrayList<>();
-        for (Barriere barriere : instanceList) {
-            if (barriere.getRank().equalsIgnoreCase(rank)) {
-                barriereList.add(barriere);
+    //get max rank of a barriere
+    public static SkillLevel getMaxRank(List<Barriere> barriere) {
+        SkillLevel maxRank = SkillLevel.NULL;
+        for (Barriere b : barriere) {
+            if (SkillLevel.getByCharName(b.getRank()).getLevelOrder() > maxRank.getLevelOrder()) {
+                maxRank = SkillLevel.getByCharName(b.getRank());
             }
         }
-        return barriereList;
+        return maxRank;
     }
-
-    public static ArrayList<Barriere> getBarriereByLevel(int level) {
-        ArrayList<Barriere> barriereList = new ArrayList<>();
-        for (Barriere barriere : instanceList) {
-            if (barriere.getLevel() == level) {
-                barriereList.add(barriere);
-            }
-        }
-        return barriereList;
-    }
-
 
 }

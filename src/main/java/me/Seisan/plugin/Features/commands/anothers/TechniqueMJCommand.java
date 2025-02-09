@@ -6,6 +6,7 @@ import me.Seisan.plugin.Features.commands.anothers.Commands;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Features.skill.SkillLevel;
 import me.Seisan.plugin.Features.skill.SkillMastery;
+import me.Seisan.plugin.Features.skill.SkillUtils;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Features.utils.Nickname;
 import me.Seisan.plugin.Main.Command;
@@ -145,41 +146,12 @@ public class TechniqueMJCommand extends Command {
         ArrayList<String> lore = new ArrayList<>();
         // split each line if more than 50 characters
         for (String line : lines) {
-            lore.addAll(formatLore(line, player));
+            lore.addAll(SkillUtils.formatLore(line, player));
         }
         return lore;
 
     }
 
-
-
-    // Copy past from Skill.java : ugly af
-    public ArrayList<String> formatLore(String message, Player player) {
-        ArrayList<String> lore = new ArrayList<>();
-        int taille = message.length();
-        int tailledef = taille;
-        int divi = 1;
-        while (tailledef > 50) {
-            divi++;
-            tailledef = taille / divi;
-        }
-        int borneinf = 0;
-        for (int i = 0; i < divi; i++) {
-            int bornesupp = tailledef * (i + 1);
-            while (bornesupp < message.length() && message.charAt(bornesupp) != ' ') {
-                bornesupp++;
-            }
-            if (divi - 1 == i) {
-                bornesupp = taille;
-            }
-            while (message.substring(borneinf, bornesupp).startsWith(" ")) {
-                borneinf++;
-            }
-            lore.add("§7" + Skill.formatEncaMessage(message.substring(borneinf, bornesupp), player));
-            borneinf = bornesupp;
-        }
-        return lore;
-    }
     
     public static String translateHexColorCodes(String startTag, String endTag, String message) {
         final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
