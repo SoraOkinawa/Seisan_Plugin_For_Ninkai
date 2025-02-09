@@ -145,7 +145,7 @@ public class SkillInventoryListener extends Feature {
 
                                                 TextComponent messagecomponent = new TextComponent(message);
                                                 TextComponent techniquecomponent = new TextComponent(skillName);
-                                                Skill.affichejutsu(p, pInfo, range, messagecomponent, techniquecomponent, ItemUtil.createItemStack(Material.BOOK, 1, skillName, skill.getLore(p)), skill.isSkillVisibility(), skill.isNeedTarget(), pInfo.getTarget());
+                                                Skill.affichejutsu(p, pInfo, range, messagecomponent, techniquecomponent, ItemUtil.createItemStack(Material.BOOK, 1, skillName, skill.formatToLore(p)), skill.isSkillVisibility(), skill.isNeedTarget(), pInfo.getTarget());
 
                                                 //Lancement de la technique
                                                 ArrayList<String> commandToRun = skill.getCommandList();

@@ -154,3 +154,6 @@ commands:
   SheetsToBdd:
     description: Permet de convertir un Google Sheet directement en BDD
     usage: "Usage : /sheetstobdd <sheets id> <range>"
+  barriere:
+    description: Permet d'utiliser les barrières
+    usage: "Usage : /barriere <add|remove|list|lock|clear|envoie>"
