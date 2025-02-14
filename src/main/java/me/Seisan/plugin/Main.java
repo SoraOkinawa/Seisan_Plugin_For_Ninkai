@@ -1,6 +1,8 @@
 package me.Seisan.plugin;
 
 
+import me.Seisan.plugin.Features.Barriere.Barriere;
+import me.Seisan.plugin.Features.Barriere.BarriereLoader;
 import me.Seisan.plugin.Features.ability.AbilityLoaderDB;
 import lombok.Getter;
 import me.Seisan.plugin.Features.Chat.ChatFormat;
@@ -170,6 +172,8 @@ public class Main extends JavaPlugin {
         NinjaArtsDB.loadAllNinjaArtsFromDB();
         TechniquesLoaderDB.LoadAllTechniquesFromDB();
         AbilityLoaderDB.loadAllAbilitiesFromDB();
+        BarriereLoader.loadAllBarriereFromDB();
+        spigotLogger.info(Barriere.instanceList.size() + " barrières have been loaded !");
         spigotLogger.info(Ability.instanceList.size() + " abilities have been loaded !");
         spigotLogger.info(Skill.getInstanceList().size() + " jutsu have been loaded !");
         spigotLogger.info(Clan.allClans.size() + " clans have been loaded !");

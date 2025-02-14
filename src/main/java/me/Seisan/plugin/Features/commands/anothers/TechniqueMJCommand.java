@@ -6,6 +6,7 @@ import me.Seisan.plugin.Features.commands.anothers.Commands;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Features.skill.SkillLevel;
 import me.Seisan.plugin.Features.skill.SkillMastery;
+import me.Seisan.plugin.Features.skill.SkillUtils;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Features.utils.Nickname;
 import me.Seisan.plugin.Main.Command;
@@ -133,40 +134,24 @@ public class TechniqueMJCommand extends Command {
                 range,
                 new TextComponent(message),
                 new TextComponent(name),
-                ItemUtil.createItemStack(Material.BOOK, 1, newname, formatLore(description, player)),
+                ItemUtil.createItemStack(Material.BOOK, 1, newname, formatToLore(description, player)),
                 true,
                 false,
                 null);
     }
 
-
-    // Copy past from Skill.java : ugly af
-    public ArrayList<String> formatLore(String message, Player player) {
+    public ArrayList<String> formatToLore(String message, Player player) {
+        // Split the message into lines
+        String[] lines = message.split("\n");
         ArrayList<String> lore = new ArrayList<>();
-        int taille = message.length();
-        int tailledef = taille;
-        int divi = 1;
-        while (tailledef > 50) {
-            divi++;
-            tailledef = taille / divi;
-        }
-        int borneinf = 0;
-        for (int i = 0; i < divi; i++) {
-            int bornesupp = tailledef * (i + 1);
-            while (bornesupp < message.length() && message.charAt(bornesupp) != ' ') {
-                bornesupp++;
-            }
-            if (divi - 1 == i) {
-                bornesupp = taille;
-            }
-            while (message.substring(borneinf, bornesupp).startsWith(" ")) {
-                borneinf++;
-            }
-            lore.add("§7" + Skill.formatEncaMessage(message.substring(borneinf, bornesupp), player));
-            borneinf = bornesupp;
+        // split each line if more than 50 characters
+        for (String line : lines) {
+            lore.addAll(SkillUtils.formatLore(line, player));
         }
         return lore;
+
     }
+
     
     public static String translateHexColorCodes(String startTag, String endTag, String message) {
         final Pattern hexPattern = Pattern.compile(startTag + "([A-Fa-f0-9]{6})" + endTag);
