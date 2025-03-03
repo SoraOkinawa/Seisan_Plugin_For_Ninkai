@@ -167,7 +167,7 @@ public class PlayerDB {
                 PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerInfo SET knownSkills = ?, rollBonus = ? WHERE uuid = ?");
 
                 pst.setString(1, skillMapToString(pInfo));
-                pst.setString(9, rollBonusMapToString(pInfo));
+                pst.setString(2, rollBonusMapToString(pInfo));
                 pst.setString(3, uuid);
 
                 pst.executeUpdate();
