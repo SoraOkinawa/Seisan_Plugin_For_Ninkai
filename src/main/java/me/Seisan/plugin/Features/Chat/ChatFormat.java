@@ -1,5 +1,6 @@
 package me.Seisan.plugin.Features.Chat;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import me.Seisan.plugin.Features.PlayerData.PlayerConfig;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.commands.anothers.HideLanguageCommand;
@@ -910,8 +911,7 @@ public class ChatFormat extends Feature {
                         for (int i = 0; i < arrayMessage.length; i++) {
                             if (arrayMessage[i].getHoverEvent() != null && arrayMessage[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
 
-                                TextComponent animal = new TextComponent();
-                                animal.setText(m);
+                                TextComponent animal = new TextComponent(TextComponent.fromLegacyText(m)[0]);
                                 animal.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Animal de " + player.getName()).color(ChatColor.YELLOW).create()));
                                 arrayMessage[i] = animal;
                             }
