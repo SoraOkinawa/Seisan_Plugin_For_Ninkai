@@ -138,8 +138,8 @@ commands:
   nick:
     aliases: name
     description: Permet de rename
-  warp:
-    description: Permet de gérer les warp
+#  warp:
+#    description: Permet de gérer les warp
   prefix:
     description: Permet d'utiliser un préfixe par défaut. Utilisation /prefix <prefixe>
   TechniqueMJ:

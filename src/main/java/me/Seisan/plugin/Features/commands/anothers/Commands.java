@@ -45,7 +45,7 @@ public class Commands extends Feature {
         new CanishCommand().register();
         new HRPCommand().register();
         new JumpUpDownCommand().register();
-        new WarpCommand().register();
+//        new WarpCommand().register();
         new PrefixCommand().register();
         new TechniqueMJCommand().register();
         new PriereCommand().register();
