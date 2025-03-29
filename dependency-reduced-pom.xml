@@ -38,7 +38,7 @@
   <repositories>
     <repository>
       <id>papermc</id>
-      <url>https://papermc.io/repo/repository/maven-public/</url>
+      <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
     <repository>
       <id>citizens-repo</id>
@@ -47,10 +47,6 @@
     <repository>
       <id>bungeecord-repo</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-    <repository>
-      <id>enginehub-maven</id>
-      <url>http://maven.enginehub.org/repo/</url>
     </repository>
     <repository>
       <id>codemc-repo</id>
