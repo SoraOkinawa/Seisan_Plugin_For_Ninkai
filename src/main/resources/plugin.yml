@@ -94,10 +94,6 @@ commands:
     description: Permet d'ouvrir l'inventaire d'un joueur
     permission: ninkai.invsee
     permission-message: Permissions insuffisantes pour cette commande.
-  train:
-    description: /train help pour plus d'infos
-    permission: ninkai.train
-    permission-message: Permissions insuffisantes pour cette commande.
   profiledit:
     description: Permet de gerer les clans | voie de ninja |style de combat.
     permission: ninkai.profil.edit
