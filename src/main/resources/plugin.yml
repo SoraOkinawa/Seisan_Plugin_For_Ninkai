@@ -63,7 +63,7 @@ commands:
     permission-message: Permissions insuffisantes pour cette commande.
   valideritem:
     description: Commande qui permet de valider l'item
-    permission: ninkai.validateitem
+    permission: ninkai.valideritem
     permission-message: Permissions insuffisantes pour cette commande.
 #  antonin:
 #    description: SURPRISE
@@ -316,8 +316,8 @@ permissions:
     description: Donne l'accès à la commande /renameitem.
   ninkai.lore:
     description: Donne l'accès à la commande /lore.
-  ninkai.validateitem:
-    description: Donne l'accès à la commande /validateitem.
+  ninkai.valideritem:
+    description: Donne l'accès à la commande /valideritem.
   ninkai.tpworld:
     description: Donne l'accès à la commande /tpworld.
   ninkai.canish:

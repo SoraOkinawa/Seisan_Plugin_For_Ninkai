@@ -30,7 +30,7 @@ public class RenameItemCommand extends Command
             return;
         }
 
-        if(!sender.isOp() && meta.hasDisplayName() && !meta.getDisplayName().endsWith("§4*")) {
+        if(!sender.hasPermission(ValiderItemCommand.PERMISSION) && meta.hasDisplayName() && !meta.getDisplayName().endsWith("§4*")) {
             sender.sendMessage("§cHRP : §7L'item est déjà validé. Impossible de le modifier.");
             return;
         }
@@ -43,7 +43,7 @@ public class RenameItemCommand extends Command
             taille += word.length();
         }
         result = result.substring(0, result.length()-1);
-        if(taille > 40 && !sender.isOp()) {
+        if(taille > 40 && !sender.hasPermission(ValiderItemCommand.PERMISSION)) {
             sender.sendMessage(ChatColor.RED + "HRP :" + ChatColor.GRAY + " Veuillez saisir un nom plus petit.");
             return;
         }
@@ -52,7 +52,7 @@ public class RenameItemCommand extends Command
             return;
         }
         result = result.replace("&","§");
-        if(!sender.isOp()) {
+        if(!sender.hasPermission(ValiderItemCommand.PERMISSION)) {
             result = result.concat("§4*");
             result = result.replace("§k", "");
             result = result.replace("§l", "");

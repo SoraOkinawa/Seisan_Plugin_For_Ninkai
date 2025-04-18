@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ValiderItemCommand extends Main.Command {
+    public static final String PERMISSION = "ninkai.valideritem";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         Player player = (Player) sender;
