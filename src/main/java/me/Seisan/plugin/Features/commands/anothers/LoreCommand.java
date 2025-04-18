@@ -36,7 +36,7 @@ public class LoreCommand extends Command
             return;
         }
 
-        if(!sender.isOp() && meta.hasDisplayName() && !meta.getDisplayName().endsWith("§4*")) {
+        if(!sender.hasPermission(ValiderItemCommand.PERMISSION) && meta.hasDisplayName() && !meta.getDisplayName().endsWith("§4*")) {
             sender.sendMessage("§cHRP : §7L'item est déjà validé. Impossible de le modifier.");
             return;
         }
@@ -165,7 +165,7 @@ public class LoreCommand extends Command
                     return;
                 }
             }
-            if(!sender.isOp()) {
+            if(!sender.hasPermission(ValiderItemCommand.PERMISSION)) {
                 meta.setDisplayName(meta.getDisplayName().concat("§4*"));
             }
             meta.setLore(lore);
@@ -180,7 +180,7 @@ public class LoreCommand extends Command
     }
 
     private String specialCaracteres(CommandSender sender, String line) {
-        if(!sender.isOp()) {
+        if(!sender.hasPermission(ValiderItemCommand.PERMISSION)) {
             line = line.replace("§k", "");
             line = line.replace("§l", "");
             line = line.replace("§m", "");
