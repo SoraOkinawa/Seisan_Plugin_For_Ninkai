@@ -20,21 +20,17 @@ public class ParcheminCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if(sender instanceof Player) {
-            if (sender.isOp()) {
-                if (split.length != 0) {
-                    String nom_jutsu = split[0];
-                    Skill skill = Skill.getByPluginName(nom_jutsu);
-                    if (skill != null) {
-                        GiveParchemin(skill, (Player)sender);
-                        sender.sendMessage("§4HRP : §7 Le parchemin pour le jutsu "+skill.getName()+" a été ajouté à votre inventaire.");
-                    } else {
-                        sender.sendMessage("§4HRP : §7Le nom du jutsu est incorrect. Veuillez vérifier l'écriture de ce dernier.");
-                    }
+            if (split.length != 0) {
+                String nom_jutsu = split[0];
+                Skill skill = Skill.getByPluginName(nom_jutsu);
+                if (skill != null) {
+                    GiveParchemin(skill, (Player)sender);
+                    sender.sendMessage("§4HRP : §7 Le parchemin pour le jutsu "+skill.getName()+" a été ajouté à votre inventaire.");
                 } else {
-                    sender.sendMessage("§4Usage : §7/parchemin (nom_du_jutsu)");
+                    sender.sendMessage("§4HRP : §7Le nom du jutsu est incorrect. Veuillez vérifier l'écriture de ce dernier.");
                 }
             } else {
-                sender.sendMessage("§4HRP : §7Vous n'avez pas la permission pour exécuter cette commande.");
+                sender.sendMessage("§4Usage : §7/parchemin (nom_du_jutsu)");
             }
         }
         else {
