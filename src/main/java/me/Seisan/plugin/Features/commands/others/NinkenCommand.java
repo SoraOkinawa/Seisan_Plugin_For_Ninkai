@@ -17,6 +17,8 @@ import java.util.List;
 
 
 public class NinkenCommand extends Command {
+    public static final String PERMISSION_FORCE_SIZE = "ninkai.ninken.forcesize";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if(!((split.length == 2 || split.length == 1) && (split[0].equals("size"))) && (split.length != 1 || (!split[0].equals("spawn") && !split[0].equals("switch") && !split[0].equals("IA") && !split[0].equals("tphere")))) {
@@ -68,7 +70,7 @@ public class NinkenCommand extends Command {
                     }
                 }
                 else {
-                    if(sender.isOp()) {
+                    if(sender.hasPermission(PERMISSION_FORCE_SIZE)) {
                         if (Main.getIDninkenFromNamePlayer().containsKey(target)) {
                             Entity entity = Bukkit.getServer().getEntity(Main.getIDninkenFromNamePlayer().get(target));
                             if (entity instanceof Wolf) {
