@@ -23,27 +23,24 @@ public class GmCommand extends Main.Command {
             return;
         }
         
-        if ((sender.isOp()) || PlayerConfig.getPlayerConfig(p).isBuildmode()){
-            switch (split[0]){
-                case "0":
-                    p.setGameMode(GameMode.SURVIVAL);
-                    p.sendMessage(ChatColor.AQUA + "Tu es maintenant en survie !");
-                    break;
-                case "1":
-                    p.setGameMode(GameMode.CREATIVE);
-                    p.sendMessage(ChatColor.AQUA + "Tu es maintenant en créatif !");
-                    break;
-                case "2":
-                    p.setGameMode(GameMode.ADVENTURE);
-                    p.sendMessage(ChatColor.AQUA + "Tu es maintenant en adventure !");
-                    break;
-                case "3":
-                    p.setGameMode(GameMode.SPECTATOR);
-                    p.sendMessage(ChatColor.AQUA + "Tu es maintenant en spectateur !");
-                    break;
-            }
+        switch (split[0]){
+            case "0":
+                p.setGameMode(GameMode.SURVIVAL);
+                p.sendMessage(ChatColor.AQUA + "Tu es maintenant en survie !");
+                break;
+            case "1":
+                p.setGameMode(GameMode.CREATIVE);
+                p.sendMessage(ChatColor.AQUA + "Tu es maintenant en créatif !");
+                break;
+            case "2":
+                p.setGameMode(GameMode.ADVENTURE);
+                p.sendMessage(ChatColor.AQUA + "Tu es maintenant en adventure !");
+                break;
+            case "3":
+                p.setGameMode(GameMode.SPECTATOR);
+                p.sendMessage(ChatColor.AQUA + "Tu es maintenant en spectateur !");
+                break;
         }
-
     }
 
     @Override
