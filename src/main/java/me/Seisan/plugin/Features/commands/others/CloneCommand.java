@@ -3,6 +3,7 @@ package me.Seisan.plugin.Features.commands.others;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerClone;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Main.Command;
 import net.citizensnpcs.api.npc.NPC;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +22,12 @@ import java.util.List;
  * Created by Helliot on 15/04/2018
  */
 public class CloneCommand extends Command {
+    public static final String PERMISSION_FORCE_CREATE  = "ninkai.clone.forcecreate";
+    public static final String PERMISSION_REMOVE        = "ninkai.clone.remove";
+    public static final String PERMISSION_REMOVE_ALL    = "ninkai.clone.remove.all";
+    public static final String PERMISSION_TPHERE        = "ninkai.clone.tphere";
+    public static final String PERMISSION_SWITCH        = "ninkai.clone.switch";
+    public static final String PERMISSION_ADDPERM       = "ninkai.clone.addperm";
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if(sender instanceof Player){
@@ -30,11 +37,11 @@ public class CloneCommand extends Command {
                 switch (split[0]) {
                     case "create":
                         if (split.length == 2) {
-                            if(p.isOp() || PlayerClone.getCloneTicket().containsKey(p)){
+                            if(p.hasPermission(PERMISSION_FORCE_CREATE) || PlayerClone.getCloneTicket().containsKey(p)){
                                 if(StringUtils.isNumeric(split[1])){
                                     int nbClone = Integer.parseInt(split[1]);
                                     if(nbClone > 0){
-                                        if(p.isOp() || nbClone <= PlayerClone.getCloneTicket().get(p)){
+                                        if(p.hasPermission(PERMISSION_FORCE_CREATE) || nbClone <= PlayerClone.getCloneTicket().get(p)){
                                             for(int i = 0; i<nbClone; i++){
                                                 pInfo.getPlayerClone().createClone();
                                             }
@@ -57,50 +64,56 @@ public class CloneCommand extends Command {
                         }
                         break;
                     case "removeall":
-                        pInfo.getPlayerClone().destroyAllClones();
+                        if (p.hasPermission(PERMISSION_REMOVE_ALL)) {
+                            pInfo.getPlayerClone().destroyAllClones();
+                        }
                         break;
                     case "tphere":
-                        if (split.length == 2) {
-                            if (StringUtils.isNumeric(split[1])) {
-                                int id = Integer.parseInt(split[1]);
-                                NPC npc = pInfo.getPlayerClone().get(id);
-
-                                if (npc != null) {
-                                    npc.teleport(p.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                        if (p.hasPermission(PERMISSION_TPHERE)) {
+                            if (split.length == 2) {
+                                if (StringUtils.isNumeric(split[1])) {
+                                    int id = Integer.parseInt(split[1]);
+                                    NPC npc = pInfo.getPlayerClone().get(id);
+    
+                                    if (npc != null) {
+                                        npc.teleport(p.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+                                    } else {
+                                        p.sendMessage(ChatColor.RED + "Vous n'avez pas de clone portant l'id " + id);
+                                    }
                                 } else {
-                                    p.sendMessage(ChatColor.RED + "Vous n'avez pas de clone portant l'id " + id);
+                                    p.sendMessage(ChatColor.RED + "L'id du clone doit être un chiffre");
                                 }
                             } else {
-                                p.sendMessage(ChatColor.RED + "L'id du clone doit être un chiffre");
+                                p.sendMessage(ChatColor.RED + "Syntaxe: /clone tphere (id)");
                             }
-                        } else {
-                            p.sendMessage(ChatColor.RED + "Syntaxe: /clone tphere (id)");
                         }
                         break;
                     case "switch":
-                        if (split.length == 2) {
-                            if (StringUtils.isNumeric(split[1])) {
-                                int id = Integer.parseInt(split[1]);
-                                NPC npc = pInfo.getPlayerClone().get(id);
-
-                                if (npc != null) {
-                                    Location npcLoc = npc.getStoredLocation();
-                                    Location pLoc = p.getLocation();
-
-                                    npc.teleport(pLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
-                                    p.teleport(npcLoc);
+                        if (p.hasPermission(PERMISSION_SWITCH)) {
+                            if (split.length == 2) {
+                                if (StringUtils.isNumeric(split[1])) {
+                                    int id = Integer.parseInt(split[1]);
+                                    NPC npc = pInfo.getPlayerClone().get(id);
+    
+                                    if (npc != null) {
+                                        Location npcLoc = npc.getStoredLocation();
+                                        Location pLoc = p.getLocation();
+        
+                                        npc.teleport(pLoc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                                        p.teleport(npcLoc);
+                                    } else {
+                                        p.sendMessage(ChatColor.RED + "Vous n'avez pas de clone portant l'id " + id);
+                                    }
                                 } else {
-                                    p.sendMessage(ChatColor.RED + "Vous n'avez pas de clone portant l'id " + id);
+                                    p.sendMessage(ChatColor.RED + "L'id du clone doit être un chiffre");
                                 }
                             } else {
-                                p.sendMessage(ChatColor.RED + "L'id du clone doit être un chiffre");
+                                p.sendMessage(ChatColor.RED + "Syntaxe: /clone tphere (id)");
                             }
-                        } else {
-                            p.sendMessage(ChatColor.RED + "Syntaxe: /clone tphere (id)");
                         }
                         break;
                     case "remove":
-                        if (split.length == 2) {
+                        if (p.hasPermission(PERMISSION_REMOVE) && split.length == 2) {
                             if (StringUtils.isNumeric(split[1])) {
                                 int id = Integer.parseInt(split[1]);
                                 NPC npc = pInfo.getPlayerClone().get(id);
@@ -119,7 +132,7 @@ public class CloneCommand extends Command {
                         }
                         break;
                     case "addperm":
-                        if (p.isOp()) {
+                        if (p.hasPermission(PERMISSION_ADDPERM)) {
                             if (split.length == 2) {
                                 if (StringUtils.isNumeric(split[1])) {
                                     int nbMax = Integer.parseInt(split[1]);
@@ -173,10 +186,9 @@ public class CloneCommand extends Command {
     private static void sendHelpMessage(Player p){
         ArrayList<String> helpList = new ArrayList<>();
 
-        if(p.isOp()){
-            helpList.add("§6/clone §eaddperm §7(nb) §8- Utilisé par les jutsus (Voir Helliot pour info)");
-        }
-
+        if(p.hasPermission(PERMISSION_ADDPERM))
+            helpList.add("§6/clone §eaddperm §7(nb) §8- Utilisé par les jutsus (Voir le pôle Dev pour info)");
+        
         helpList.add("§6/clone §ecreate §7(nb) §8- Crée un nombre de clones donné à votre position");
         helpList.add("§6/clone §eremoveall §8- Permet de faire disparaître tous vos clones");
         helpList.add("§6/clone §eremove §7(id) §8- Permet de faire disparaître un clone en particulier");
