@@ -7,153 +7,284 @@ depend: [ Citizens, NBTAPI ]
 commands:
   chatmaster:
     description: Permet de gerer les admins du chat
+    permission: ninkai.chatmaster
+    permission-message: Permissions insuffisantes pour cette commande.
   roll:
     description: permet de roll en local ou global
+    permission: ninkai.roll
+    permission-message: Permissions insuffisantes pour cette commande.
   boots:
     description: permet de marcher sur l'eau
+    permission: ninkai.boots
+    permission-message: Permissions insuffisantes pour cette commande.
   hat:
     description: permet de mettre un chapeau
+    permission: ninkai.hat
+    permission-message: Permissions insuffisantes pour cette commande.
   walk:
     description: permet de marcher
+    permission: ninkai.walk
+    permission-message: Permissions insuffisantes pour cette commande.
   test:
     description: test
+    permission: ninkai.test
+    permission-message: Permissions insuffisantes pour cette commande.
   build:
-    description: permet de mettre un joueur en build, provisoirement ou définitivementt
+    description: permet de mettre un joueur en build, provisoirement ou définitivement.
+    permission: ninkai.build
+    permission-message: Permissions insuffisantes pour cette commande.
   changechatdeseisan:
     description: permet de ne plus voir l'italique
+    permission: ninkai.changechat
+    permission-message: Permissions insuffisantes pour cette commande.
   lay:
     description: permet de s'allonger
+    permission: ninkai.lay
+    permission-message: Permissions insuffisantes pour cette commande.
   sit:
     description: permet de s'asseoir
+    permission: ninkai.sit
+    permission-message: Permissions insuffisantes pour cette commande.
   gm:
     description: Ancien gamemode pour les flemmards
+    permission: ninkai.gamemode
+    permission-message: Permissions insuffisantes pour cette commande.
   pnj:
     description: Créer des PNJ (banque ou jouet)
+    permission: ninkai.pnj
+    permission-message: Permissions insuffisantes pour cette commande.
   renameitem:
     description: Commande qui permet le renameitem
+    permission: ninkai.renameitem
+    permission-message: Permissions insuffisantes pour cette commande.
   lore:
-    description: Commande qui permet de LoRE
+    description: Commande qui permet de Lore
+    permission: ninkai.lore
+    permission-message: Permissions insuffisantes pour cette commande.
   valideritem:
     description: Commande qui permet de valider l'item
-  antonin:
-    description: SURPRISE
+    permission: ninkai.validateitem
+    permission-message: Permissions insuffisantes pour cette commande.
+#  antonin:
+#    description: SURPRISE
   tpworld:
     description: TPWORLD
+    permission: ninkai.tpworld
+    permission-message: Permissions insuffisantes pour cette commande.
   canish:
     description: Le vanish du pauvre
     aliases: c
+    permission: ninkai.canish
+    permission-message: Permissions insuffisantes pour cette commande.
   reloaddb:
     description: Permet de reload les jutsus ou les compétences
     usage: "Usage : /reloaddb <jutsu|ability>"
     permission: ninkai.reloaddb
+    permission-message: Permissions insuffisantes pour cette commande.
   apparence:
     description: Permet de gerer son apparence.
     aliases: a
+    permission: ninkai.apparence
+    permission-message: Permissions insuffisantes pour cette commande.
   age:
     description: Permet de gerer l'age d'un joueur.
+    permission: ninkai.age
+    permission-message: Permissions insuffisantes pour cette commande.
   invsee:
     description: Permet d'ouvrir l'inventaire d'un joueur
+    permission: ninkai.invsee
+    permission-message: Permissions insuffisantes pour cette commande.
   train:
     description: /train help pour plus d'infos
+    permission: ninkai.train
+    permission-message: Permissions insuffisantes pour cette commande.
   profiledit:
     description: Permet de gerer les clans | voie de ninja |style de combat.
+    permission: ninkai.profil.edit
+    permission-message: Permissions insuffisantes pour cette commande.
   clone:
     description: Permet de créer un clone
+    permission: ninkai.clone
+    permission-message: Permissions insuffisantes pour cette commande.
   stop:
     description: Permet de stopper proprement le serveur.
+    permission: ninkai.stop
+    permission-message: Permissions insuffisantes pour cette commande.
   target:
     description: Permet de selectionner une cible.
     aliases: focus
+    permission: ninkai.target
+    permission-message: Permissions insuffisantes pour cette commande.
   chakra:
     description: Permet d'ajouter ou de retirer du chakra a un joueur.
+    permission: ninkai.chakra
+    permission-message: Permissions insuffisantes pour cette commande.
   rank:
     description: Permet de modifier le rang RP d'un joueur
+    permission: ninkai.rank
+    permission-message: Permissions insuffisantes pour cette commande.
   jutsu:
     description: /justsu help pour plus d'infos
+    permission: ninkai.jutsu
+    permission-message: Permissions insuffisantes pour cette commande.
   lost:
     description: Permet à un joueur de perdre du chakra.
+    permission: ninkai.chakra.lost
+    permission-message: Permissions insuffisantes pour cette commande.
   transfer:
     description: Permet à un joueur de tranférer du chakra.
+    permission: ninkai.chakra.transfer
+    permission-message: Permissions insuffisantes pour cette commande.
   profil:
     description: Permet d'avoir son profil
+    permission: ninkai.profil
+    permission-message: Permissions insuffisantes pour cette commande.
   abilities:
     description: Permet de mettre des compétences
+    permission: ninkai.abilities
+    permission-message: Permissions insuffisantes pour cette commande.
   parchemin:
     description: permet de give un parchemin avec l'abilité en question
+    permission: ninkai.parchemin
+    permission-message: Permissions insuffisantes pour cette commande.
   aprofil:
     description: permet d'avoir une description de profil de 5 pages
+    permission: ninkai.aprofil
+    permission-message: Permissions insuffisantes pour cette commande.
   ninken:
     description: permet d'invoquer le ninken si vous êtes inuzuka
+    permission: ninkai.ninken
+    permission-message: Permissions insuffisantes pour cette commande.
   competence:
     description: permet d'ouvrir l'inventaire de compétence
+    permission: ninkai.competence
+    permission-message: Permissions insuffisantes pour cette commande.
   entrainement:
     description: permet d'add 1 points aux joueurs
+    permission: ninkai.entrainement
+    permission-message: Permissions insuffisantes pour cette commande.
   prouesse:
     description: Ajoute des prouesses
+    permission: ninkai.prouesse
+    permission-message: Permissions insuffisantes pour cette commande.
   whois:
     description: Donne la liste des joueurs connectés
+    permission: ninkai.whois
+    permission-message: Permissions insuffisantes pour cette commande.
   stealchakra:
     description: Vole du chakra via jutsu
+    permission: ninkai.chakra.steal
+    permission-message: Permissions insuffisantes pour cette commande.
   givechakra:
     description: Donne du chakra via jutsu
+    permission: ninkai.chakra.give
+    permission-message: Permissions insuffisantes pour cette commande.
   colorchakra:
     description: Change la couleur de chakra du joueur
+    permission: ninkai.chakra.color
+    permission-message: Permissions insuffisantes pour cette commande.
   giveitem:
     description: Permet de give des items personnalisé
+    permission: ninkai.giveitem
+    permission-message: Permissions insuffisantes pour cette commande.
   tpback:
     description: Commande utilisé dans les jutsus pour permettre des tp puis back
+    permission: ninkai.tpback
+    permission-message: Permissions insuffisantes pour cette commande.
   genre:
     description: Choisis le genre du personnage
-  feuille:
-    description: Commande qui permet de retirer les fuilles de Seji pour les fuin lvl4+
+    permission: ninkai.genre
+    permission-message: Permissions insuffisantes pour cette commande.
+#  feuille:
+#    description: Commande qui permet de retirer les fuilles de Seji pour les fuin lvl4+
+#    permission: ninkai.feuille
+#    permission-message: Permissions insuffisantes pour cette commande.
   profilmj:
     description: save et load des fiches personnage
+    permission: ninkai.profil.mj
+    permission-message: Permissions insuffisantes pour cette commande.
   maskprofil:
-    description: Permets de masquer le profil (op-only)
+    description: Permets de masquer le profil
+    permission: ninkai.profil.mask
+    permission-message: Permissions insuffisantes pour cette commande.
 #  bb:
 #    description: Permets aux juunins de give des parchemins
 #    aliases: bibliothequedesjuuninsseulementpourledondetechnique
   meditation:
     description: Permet de rentrer en méditation avec soi-même
+    permission: ninkai.meditation
+    permission-message: Permissions insuffisantes pour cette commande.
   givecompetence:
     description: Permet de donner une compétence
+    permission: ninkai.givecompetence
+    permission-message: Permissions insuffisantes pour cette commande.
   hrp:
     description: Permet de give des items. Utilisation /hrp <clan>
+    permission: ninkai.hrp
+    permission-message: Permissions insuffisantes pour cette commande.
   ryoji:
     description: Permet d'avoir des ryojis
-  lostfuin:
-    description: lost la consommation actuel de Fuinjutsu
-  swapfuin:
-    description: permet de changer de consommation Fuinjutsu
+    permission: ninkai.ryoji
+    permission-message: Permissions insuffisantes pour cette commande.
+#  lostfuin:
+#    description: lost la consommation actuel de Fuinjutsu
+#  swapfuin:
+#    description: permet de changer de consommation Fuinjutsu
   jumpupdown:
     description: permet de jump
+    permission: ninkai.jumpupdown
+    permission-message: Permissions insuffisantes pour cette commande.
   fullwhitelist:
     description: permet d'ajouter des gens à la whitelist rapidement
+    permission: ninkai.fullwhitelist
+    permission-message: Permissions insuffisantes pour cette commande.
   reducninjutsu:
     description: permet d'initialiser la reduction ninjutsu
+    permission: ninkai.reduceninjutsu
+    permission-message: Permissions insuffisantes pour cette commande.
   reloadskin:
     description: permet de changer de skin sans déco reco
+    permission: ninkai.reloadskin
+    permission-message: Permissions insuffisantes pour cette commande.
   enca:
     description: Ajout des gens aux encadrants
+    permission: ninkai.enca
+    permission-message: Permissions insuffisantes pour cette commande.
   nick:
     aliases: name
     description: Permet de rename
+    permission: ninkai.nick
+    permission-message: Permissions insuffisantes pour cette commande.
 #  warp:
 #    description: Permet de gérer les warp
   prefix:
     description: Permet d'utiliser un préfixe par défaut. Utilisation /prefix <prefixe>
+    permission: ninkai.prefix
+    permission-message: Permissions insuffisantes pour cette commande.
   TechniqueMJ:
     description: Permet d'utiliser une technique MJ
+    permission: ninkai.techniquemj
+    permission-message: Permissions insuffisantes pour cette commande.
   Priere:
     description: Permet d'écrire une prière le Rikudo
     usage : "Usage : /priere"
+    permission: ninkai.priere
+    permission-message: Permissions insuffisantes pour cette commande.
   Conversion:
     description: Permet de convertir en euro ou ryo
+    permission: ninkai.conversion
+    permission-message: Permissions insuffisantes pour cette commande.
   HideLanguage:
     description: Permet de cacher les langues non parlées
+    permission: ninkai.hidelanguage
+    permission-message: Permissions insuffisantes pour cette commande.
   SheetsToBdd:
     description: Permet de convertir un Google Sheet directement en BDD
     usage: "Usage : /sheetstobdd <sheets id> <range>"
+    permission: ninkai.sheetstobdd
+    permission-message: Permissions insuffisantes pour cette commande.
   barriere:
     description: Permet d'utiliser les barrières
     usage: "Usage : /barriere <add|remove|list|lock|clear|envoie>"
+    permission: ninkai.barriere
+    permission-message: Permissions insuffisantes pour cette commande.
