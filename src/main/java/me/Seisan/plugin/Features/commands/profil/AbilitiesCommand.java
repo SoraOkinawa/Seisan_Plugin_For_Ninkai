@@ -15,86 +15,81 @@ import java.util.List;
 public class AbilitiesCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        if(sender.isOp()) {
-            if (args.length == 3) {
-                Player p = Bukkit.getPlayer(args[1]);
-                PlayerInfo playerInfo;
-                if (p != null) {
-                    playerInfo = PlayerInfo.getPlayerInfo(p);
-                } else {
-                    sender.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté");
-                    return;
-                }
-                Ability ability = Ability.getByPluginName(args[2]);
-                if(ability == null) {
-                    sender.sendMessage(ChatColor.RED+"L'abilité n'est pas reconnu");
-                    return;
-                }
-                switch (args[0]) {
-                    case "learn":
-                        if(!playerInfo.getAbilities().contains(ability)) {
-                            playerInfo.updateAbility(ability, sender);
-                            playerInfo.addgiveAbilities(ability.getGiveAbilities());
-                            playerInfo.updateChakra();
-                        }
-                        else {
-                            sender.sendMessage(ChatColor.RED+"Le joueur a déjà la compétence.");
-                        }
-                        break;
-                    case "unlearn":
-                        if(playerInfo.getAbilities().contains(ability)) {
-                            playerInfo.removeAbility(ability, sender);
-                            playerInfo.removegiveAbilities(ability.getGiveAbilities());
-                            playerInfo.updateChakra();
-                        }
-                        else {
-                            sender.sendMessage(ChatColor.RED+"Le joueur n'a pas la compétence.");
-                        }
-                        break;
-                    default:
-                        SendHelp((Player)sender);
-                }
+        if (args.length == 3) {
+            Player p = Bukkit.getPlayer(args[1]);
+            PlayerInfo playerInfo;
+            if (p != null) {
+                playerInfo = PlayerInfo.getPlayerInfo(p);
             } else {
-                if (args.length == 2) {
-                    if("unlearnall".equals(args[0])) {
-                        Player target = Bukkit.getPlayer(args[1]);
-                        if(target != null) {
-                            PlayerInfo pInfo = PlayerInfo.getPlayerInfo(target);
-                            pInfo.getAbilities().clear();
-                            pInfo.updateAbility(Ability.getByPluginName("vitesse_1"));
-                            pInfo.updateAbility(Ability.getByPluginName("force_1"));
-                            pInfo.updateAbility(Ability.getByPluginName("perception_vitesse_3"));
-                            if(!target.getName().equals(sender.getName())) {
-                                sender.sendMessage(ChatColor.RED+"HRP : "+target.getDisplayName()+ChatColor.GRAY+ "a eu ses compétences de réinitialisées");
-                            }
-                            target.sendMessage(ChatColor.RED+"HRP : "+ChatColor.GRAY+"Vos compétences ont été réinitialisées.");
-                            pInfo.updateChakra();
+                sender.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté");
+                return;
+            }
+            Ability ability = Ability.getByPluginName(args[2]);
+            if(ability == null) {
+                sender.sendMessage(ChatColor.RED+"L'abilité n'est pas reconnu");
+                return;
+            }
+            switch (args[0]) {
+                case "learn":
+                    if(!playerInfo.getAbilities().contains(ability)) {
+                        playerInfo.updateAbility(ability, sender);
+                        playerInfo.addgiveAbilities(ability.getGiveAbilities());
+                        playerInfo.updateChakra();
+                    }
+                    else {
+                        sender.sendMessage(ChatColor.RED+"Le joueur a déjà la compétence.");
+                    }
+                    break;
+                case "unlearn":
+                    if(playerInfo.getAbilities().contains(ability)) {
+                        playerInfo.removeAbility(ability, sender);
+                        playerInfo.removegiveAbilities(ability.getGiveAbilities());
+                        playerInfo.updateChakra();
+                    }
+                    else {
+                        sender.sendMessage(ChatColor.RED+"Le joueur n'a pas la compétence.");
+                    }
+                    break;
+                default:
+                    SendHelp((Player)sender);
+            }
+        } else {
+            if (args.length == 2) {
+                if("unlearnall".equals(args[0])) {
+                    Player target = Bukkit.getPlayer(args[1]);
+                    if(target != null) {
+                        PlayerInfo pInfo = PlayerInfo.getPlayerInfo(target);
+                        pInfo.getAbilities().clear();
+                        pInfo.updateAbility(Ability.getByPluginName("vitesse_1"));
+                        pInfo.updateAbility(Ability.getByPluginName("force_1"));
+                        pInfo.updateAbility(Ability.getByPluginName("perception_vitesse_3"));
+                        if(!target.getName().equals(sender.getName())) {
+                            sender.sendMessage(ChatColor.RED+"HRP : "+target.getDisplayName()+ChatColor.GRAY+ "a eu ses compétences de réinitialisées");
                         }
-                        else {
-                            sender.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté");
-                        }
-                    } else {
-                        SendHelp((Player)sender);
+                        target.sendMessage(ChatColor.RED+"HRP : "+ChatColor.GRAY+"Vos compétences ont été réinitialisées.");
+                        pInfo.updateChakra();
+                    }
+                    else {
+                        sender.sendMessage(ChatColor.RED+"Le joueur n'est pas connecté");
                     }
                 } else {
-                    if (args.length == 1) {
-                        if ("learnall".equals(args[0])) {
-                            PlayerInfo pInfo = PlayerInfo.getPlayerInfo((Player) sender);
-                            for (Ability newability : Ability.instanceList) {
-                                if (!pInfo.getAbilities().contains(newability))
-                                    pInfo.updateAbility(newability);
-                            }
-                        } else {
-                            SendHelp((Player) sender);
+                    SendHelp((Player)sender);
+                }
+            } else {
+                if (args.length == 1) {
+                    if ("learnall".equals(args[0])) {
+                        PlayerInfo pInfo = PlayerInfo.getPlayerInfo((Player) sender);
+                        for (Ability newability : Ability.instanceList) {
+                            if (!pInfo.getAbilities().contains(newability))
+                                pInfo.updateAbility(newability);
                         }
                     } else {
                         SendHelp((Player) sender);
                     }
+                } else {
+                    SendHelp((Player) sender);
                 }
             }
-        }
-        else {
-            sender.sendMessage(ChatColor.RED+"HRP : "+ChatColor.GRAY+"Vous n'avez pas la permission.");
         }
     }
 
