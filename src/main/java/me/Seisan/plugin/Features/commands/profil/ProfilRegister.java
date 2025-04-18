@@ -13,11 +13,9 @@ public class ProfilRegister extends Feature {
         new ColorChakraCommand().register();
         new CompetenceCommand().register();
         new EntrainementCommand().register();
-        new FeuilleCommand().register();
         new GenreCommand().register();
         new GiveCompetenceCommand().register();
         new LostCommand().register();
-        new LostFuinCommand().register();
         new MaskProfilCommand().register();
         new ProfilCommand().register();
         new ProfilEditCommand().register();
@@ -26,6 +24,5 @@ public class ProfilRegister extends Feature {
         new ReducNinjutsuCommand().register();
         new ProuesseCommand().register();
         new RyojiCommand().register();
-        new SwapFuinCommand().register();
     }
 }

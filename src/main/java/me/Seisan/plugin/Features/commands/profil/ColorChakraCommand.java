@@ -52,9 +52,4 @@ public class ColorChakraCommand extends Command {
     {
         return new ArrayList<>();
     }
-
-    @Override
-    protected boolean isOpOnly() {
-        return true;
-    }
 }

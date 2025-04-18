@@ -40,7 +40,7 @@ public class Commands extends Feature {
         new ReloadSkinCommand().register();
         new RenameItemCommand().register();
         new ValiderItemCommand().register();
-        new AntoninCommand().register();
+//        new AntoninCommand().register();
         new TpWorldCommand().register();
         new CanishCommand().register();
         new HRPCommand().register();
