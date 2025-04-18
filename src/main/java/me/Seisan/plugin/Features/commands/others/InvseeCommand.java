@@ -16,7 +16,7 @@ import java.util.List;
 public class InvseeCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        if(sender instanceof Player && sender.isOp()){
+        if(sender instanceof Player){
             if(split.length == 1) {
                 Player p = (Player) sender;
                 Player target = p.getServer().getPlayer(split[0]);
