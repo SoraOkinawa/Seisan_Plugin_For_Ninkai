@@ -197,7 +197,6 @@ commands:
     permission-message: Permissions insuffisantes pour cette commande.
 #  feuille:
 #    description: Commande qui permet de retirer les fuilles de Seji pour les fuin lvl4+
-#    permission: ninkai.feuille
 #    permission-message: Permissions insuffisantes pour cette commande.
   profilmj:
     description: save et load des fiches personnage
@@ -288,3 +287,144 @@ commands:
     usage: "Usage : /barriere <add|remove|list|lock|clear|envoie>"
     permission: ninkai.barriere
     permission-message: Permissions insuffisantes pour cette commande.
+permissions:
+  ninkai.chatmaster:
+    description: Donne l'accès à la commande /chatmaster.
+  ninkai.roll:
+    description: Donne l'accès à la commande /roll.
+  ninkai.boots:
+    description: Donne l'accès à la commande /boots.
+  ninkai.hat:
+    description: Donne l'accès à la commande /hat.
+  ninkai.walk:
+    description: Donne l'accès à la commande /walk.
+  ninkai.test:
+    description: Donne l'accès à la commande /test.
+  ninkai.build:
+    description: Donne l'accès à la commande /build, permettant de donner ou non le mode build à un joueur temporairement ou définitivement.
+  ninkai.changechat:
+    description: Donne l'accès à la commande /changechatdeseisan.
+  ninkai.lay:
+    description: Donne l'accès à la commande /lay.
+  ninkai.sit:
+    description: Donne l'accès à la commande /sit.
+  ninkai.gamemode:
+    description: Donne l'accès à la commande /gm.
+  ninkai.pnj:
+    description: Donne l'accès à la commande /pnj.
+  ninkai.renameitem:
+    description: Donne l'accès à la commande /renameitem.
+  ninkai.lore:
+    description: Donne l'accès à la commande /lore.
+  ninkai.validateitem:
+    description: Donne l'accès à la commande /validateitem.
+  ninkai.tpworld:
+    description: Donne l'accès à la commande /tpworld.
+  ninkai.canish:
+    description: Donne l'accès à la commande /canish.
+  ninkai.reloaddb:
+    description: Donne l'accès à la commande /reloaddb pour reload la base de données.
+  ninkai.apparence:
+    description: Donne l'accès à la commande /apparence, ou /a.
+  ninkai.age:
+    description: Donne l'accès à la commande /age.
+  ninkai.invsee:
+    description: Donne l'accès à la commande /invsee.
+  ninkai.train:
+    description: Donne l'accès à la commande /train.
+  ninkai.clone:
+    description: Donne l'accès à la commande /clone.
+  ninkai.stop:
+    description: Donne l'accès à la commande /stop.
+  ninkai.target:
+    description: Donne l'accès à la commande /target, utile pour les techniques ciblées.
+  ninkai.rank:
+    description: Donne l'accès à la commande /rank pour changer le rank d'un joueur.
+  ninkai.jutsu:
+    description: Donne l'accès à la commande /jutsu et ses sous commandes.
+  ninkai.chakra:
+    description: Permission mère pour toutes les commandes liées au chakra.
+    children:
+      ninkai.chakra.lost: true
+      ninkai.chakra.transfer: false
+      ninkai.chakra.steal: false
+      ninkai.chakra.give: false
+      ninkai.chakra.color: false
+  ninkai.chakra.lost:
+    description: Donne l'accès à la commande /lost, pour s'enlever soi-même du chakra.
+  ninkai.chakra.transfer:
+    description: Donne l'accès à la commande /chakratransfer, pour transférer du chakra entre deux personnes.
+  ninkai.chakra.steal:
+    description: Donne l'accès à la commande /stealchakra, pour voler du chakra.
+  ninkai.chakra.give:
+    description: Donne l'accès à la commande /givechakra, pour donner du chakra à un joueur.
+  ninkai.chakra.color:
+    description: Donne l'accès à la commande /colorchakra, pour changer la couleur de chakra d'un joueur.
+  ninkai.profil:
+    description: Permission mère pour toutes les commandes liées aux profils.
+    children:
+      ninkai.profil.mj: false
+      ninkai.profil.mask: false
+      ninkai.profil.edit: false
+  ninkai.profil.mj:
+    description: Donne l'accès à la commande /profilmj.
+  ninkai.profil.mask:
+    description: Donne l'accès à la commande /maskprofil.
+  ninkai.profil.edit:
+    description: Donne l'accès à la commande /profiledit, pour modifier le profil des joueurs.
+  ninkai.abilities:
+    description: Donne l'accès à la commande /abilities.
+  ninkai.parchemin:
+    description: Donne l'accès à la commande /parchemin.
+  ninkai.aprofil:
+    description: Donne l'accès à la commande /aprofil.
+  ninkai.ninken:
+    description: Donne l'accès à la commande /ninke.
+  ninkai.competence:
+    description: Donne l'accès à la commande /competence.
+  ninkai.entrainement:
+    description: Donne l'accès à la commande /entrainement.
+  ninkai.prouesse:
+    description: Donne l'accès à la commande /prouesse.
+  ninkai.whois:
+    description: Donne l'accès à la commande /whois.
+  ninkai.giveitem:
+    description: Donne l'accès à la commande /giveitem.
+  ninkai.tpback:
+    description: Donne l'accès à la commande /tpback.
+  ninkai.genre:
+    description: Donne l'accès à la commande /genre.
+  ninkai.meditation:
+    description: Donne l'accès à la commande /meditation.
+  ninkai.givecompetence:
+    description: Donne l'accès à la commande /givecompetence.
+  ninkai.hrp:
+    description: Donne l'accès à la commande /hrp.
+  ninkai.ryoji:
+    description: Donne l'accès à la commande /ryoji.
+  ninkai.jumpupdown:
+    description: Donne l'accès à la commande /jumpupdown.
+  ninkai.fullwhitelist:
+    description: Donne l'accès à la commande /fullwhitelist.
+  ninkai.reduceninjutsu:
+    description: Donne l'accès à la commande /reduceninjutsu.
+  ninkai.reloadskin:
+    description: Donne l'accès à la commande /reloadskin.
+  ninkai.enca:
+    description: Donne l'accès à la commande /enca.
+  ninkai.nick:
+    description: Donne l'accès à la commande /nick.
+  ninkai.prefix:
+    description: Donne l'accès à la commande /prefix.
+  ninkai.techniquemj:
+    description: Donne l'accès à la commande /techniquemj.
+  ninkai.priere:
+    description: Donne l'accès à la commande /priere.
+  ninkai.conversion:
+    description: Donne l'accès à la commande /conversion.
+  ninkai.hidelanguage:
+    description: Donne l'accès à la commande /hidelanguage.
+  ninkai.sheetstobdd:
+    description: Donne l'accès à la commande /sheetstobdd.
+  ninkai.barriere:
+    description: Donne l'accès à la commande /barriere.
