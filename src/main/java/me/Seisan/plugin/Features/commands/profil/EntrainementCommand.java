@@ -12,14 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntrainementCommand extends Command {
+    public static final String PERMISSION_ADD       = "ninkai.entrainement.add";
+    public static final String PERMISSION_REMOVE    = "ninkai.entrainement.remove";
+    public static final String PERMISSION_RESET     = "ninkai.entrainement.reset";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         // entrainemant add (joueur) (ability)
-        if(!sender.isOp()) {
-            sender.sendMessage("§cHRP : §7Vous n'avez pas la permission.");
-            return;
-        }
-
         if(!(split.length == 4 && (split[0].equals("add") || split[0].equals("remove"))) && !(split.length == 2 && split[0].equals("reset"))) {
             sender.sendMessage("§cHRP : §6/entrainement add <joueur> <ability> <amount>");
             sender.sendMessage("§cHRP : §6/entrainement remove <joueur> <ability> <amount>");
@@ -27,12 +26,13 @@ public class EntrainementCommand extends Command {
             return;
         }
         Player target = Bukkit.getPlayer(split[1]);
+        Player pSender = (Player) sender;
         if(target == null) {
             sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
             return;
         }
         PlayerInfo tInfo = PlayerInfo.getPlayerInfo(target);
-        if(split[0].equals("reset")) {
+        if(split[0].equals("reset") && pSender.hasPermission(PERMISSION_RESET)) {
             tInfo.setPoints(0);
             tInfo.setPointsAbilities("");
             tInfo.getPlayer().sendMessage("§cHRP : §7Vos entraînements ont été réinitialisés et avez ainsi perdu tout vos points de compétence.");
@@ -40,20 +40,22 @@ public class EntrainementCommand extends Command {
         }
         else {
             int val = Integer.parseInt(split[3]);
-            if (split[0].equals("remove")) {
+            if (pSender.hasPermission(PERMISSION_REMOVE) && split[0].equals("remove")) {
                 val *= -1;
             }
-            if (split[2].equals("general")) {
-                tInfo.setPoints(tInfo.getPoints() + val);
-                sender.sendMessage("§cHRP : §7Le joueur a désormais §6" + tInfo.getPoints() + " §7points globaux.");
-            } else {
-                Ability ability = Ability.getByPluginName(split[2]);
-                if (ability == null) {
-                    sender.sendMessage("§cHRP : §7L'abilité n'existe pas.");
-                    return;
+            if (pSender.hasPermission(PERMISSION_ADD)) {
+                if (split[2].equals("general")) {
+                    tInfo.setPoints(tInfo.getPoints() + val);
+                    sender.sendMessage("§cHRP : §7Le joueur a désormais §6" + tInfo.getPoints() + " §7points globaux.");
+                } else {
+                    Ability ability = Ability.getByPluginName(split[2]);
+                    if (ability == null) {
+                        sender.sendMessage("§cHRP : §7L'abilité n'existe pas.");
+                        return;
+                    }
+                    int i = tInfo.incrementePointsAbility(ability, val);
+                    sender.sendMessage("§cHRP : §7Le joueur a désormais §6" + i + " §7points dans la compétence : " + ability.getName());
                 }
-                int i = tInfo.incrementePointsAbility(ability, val);
-                sender.sendMessage("§cHRP : §7Le joueur a désormais §6" + i + " §7points dans la compétence : " + ability.getName());
             }
         }
     }
