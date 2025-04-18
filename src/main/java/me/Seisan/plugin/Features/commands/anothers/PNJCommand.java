@@ -13,35 +13,33 @@ import java.util.List;
 public class PNJCommand extends Main.Command {
     @Override
     protected void myOnCommand(CommandSender sender, Command command, String label, String[] split) {
-        if (sender.isOp()) {
-            if(split.length == 1) {
-                Player p = (Player) sender;
-                Villager villager;
-                switch(split[0]) {
-                    case "banquier":
-                        villager = (Villager) p.getWorld().spawnEntity(p.getLocation(), EntityType.VILLAGER);
-                        villager.setInvulnerable(true);
-                        villager.setAI(false);
-                        villager.setCustomName("§6Banquier");
+        if(split.length == 1) {
+            Player p = (Player) sender;
+            Villager villager;
+            switch(split[0]) {
+                case "banquier":
+                    villager = (Villager) p.getWorld().spawnEntity(p.getLocation(), EntityType.VILLAGER);
+                    villager.setInvulnerable(true);
+                    villager.setAI(false);
+                    villager.setCustomName("§6Banquier");
 
-                        p.sendMessage("Le banquier a été créé avec succès.");
-                        break;
-                    case "jouet":
-                        villager = (Villager) p.getWorld().spawnEntity(p.getLocation(), EntityType.VILLAGER);
-                        villager.setInvulnerable(true);
-                        villager.setAI(false);
-                        villager.setCustomName("§6Vendeur de jouet");
+                    p.sendMessage("Le banquier a été créé avec succès.");
+                    break;
+                case "jouet":
+                    villager = (Villager) p.getWorld().spawnEntity(p.getLocation(), EntityType.VILLAGER);
+                    villager.setInvulnerable(true);
+                    villager.setAI(false);
+                    villager.setCustomName("§6Vendeur de jouet");
 
-                        p.sendMessage("Le vendeur de jouet a été créé avec succès.");
-                        break;
-                    case "encre":
-                        villager = (Villager) p.getWorld().spawnEntity(p.getLocation(), EntityType.VILLAGER);
-                        villager.setInvulnerable(true);
-                        villager.setAI(false);
-                        villager.setCustomName("§6Vendeur d'encre");
+                    p.sendMessage("Le vendeur de jouet a été créé avec succès.");
+                    break;
+                case "encre":
+                    villager = (Villager) p.getWorld().spawnEntity(p.getLocation(), EntityType.VILLAGER);
+                    villager.setInvulnerable(true);
+                    villager.setAI(false);
+                    villager.setCustomName("§6Vendeur d'encre");
 
-                        p.sendMessage("Le vendeur d'encre a été créé avec succès.");
-                }
+                    p.sendMessage("Le vendeur d'encre a été créé avec succès.");
             }
         }
     }
