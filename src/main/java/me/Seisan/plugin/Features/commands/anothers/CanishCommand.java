@@ -11,12 +11,6 @@ import java.util.List;
 public class CanishCommand extends Command{
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[]split){
-
-        if (!sender.isOp())
-        {
-            sender.sendMessage("§cHRP : §7Vous n'avez pas la permission.");
-            return;
-        }
         Player p = (Player)sender;
         PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
 
