@@ -394,10 +394,7 @@ public class JutsuCommand extends Command {
         return completion;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 
     private void sendMastery(CommandSender s){
         for(SkillMastery mastery : SkillMastery.values()){

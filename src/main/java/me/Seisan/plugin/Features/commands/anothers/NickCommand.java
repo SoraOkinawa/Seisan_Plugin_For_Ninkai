@@ -52,8 +52,5 @@ public class NickCommand extends Command {
         return completion;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

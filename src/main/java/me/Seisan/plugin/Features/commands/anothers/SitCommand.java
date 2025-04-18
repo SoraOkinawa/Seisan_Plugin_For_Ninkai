@@ -45,8 +45,5 @@ public class SitCommand extends Command {
         return completion;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

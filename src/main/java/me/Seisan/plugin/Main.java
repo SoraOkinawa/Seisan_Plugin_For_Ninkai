@@ -270,32 +270,19 @@ public class Main extends JavaPlugin {
 
         private CommandExecutor getExecutor() {
             return (sender, command, label, args) -> {
-                if (!sender.isOp() && Command.this.isOpOnly()) {
-                    sender.sendMessage("§cHRP : Commande pour les OPs seulement.");
-                    return true;
-                }
                 Command.this.myOnCommand(sender, command, label, args);
                 return true;
             };
         }
 
         private TabCompleter getTabCompleter() {
-            return (sender, command, alias, args) -> {
-                if (!sender.isOp() && Command.this.isOpOnly()) {
-                    return new ArrayList<>();
-                }
-                return Command.this.myOnTabComplete(sender, command, alias, args);
-            };
+            return (sender, command, alias, args) -> Command.this.myOnTabComplete(sender, command, alias, args);
         }
 
         protected void complete(List<String> completion, String target, String arg) {
             if (target.toLowerCase().startsWith(arg.toLowerCase())) {
                 completion.add(target);
             }
-        }
-
-        protected boolean isOpOnly() {
-            return true;
         }
 
         public static class DisabledCompleter implements TabCompleter {

@@ -81,8 +81,5 @@ public class RollCommand extends Command {
         return true;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

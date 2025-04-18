@@ -196,10 +196,7 @@ public class MeditationCommand extends Command {
         return completion;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 
     public static void exitMedit(String name, boolean crash) {
         Player p = Bukkit.getPlayer(name);

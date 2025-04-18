@@ -50,8 +50,5 @@ public class TransferCommand extends Command {
         return new ArrayList<>();
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

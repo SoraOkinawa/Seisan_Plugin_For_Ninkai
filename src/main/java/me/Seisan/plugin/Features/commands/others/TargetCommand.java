@@ -48,10 +48,7 @@ public class TargetCommand extends Command {
         return completion;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 
     private Player getByDisplayName(String dName){
         for(Player p : Bukkit.getOnlinePlayers()){

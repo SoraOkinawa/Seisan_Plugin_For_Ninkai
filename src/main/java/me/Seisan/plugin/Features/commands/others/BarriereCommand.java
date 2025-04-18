@@ -180,10 +180,7 @@ public class BarriereCommand extends Main.Command {
         return completion;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 
     // add to the player's barriere list
     private void addBarriere(Player player, Barriere barriere) {

@@ -82,10 +82,7 @@ private final static String HELP = "§4[HRP] §r§7Usage :\n§7- §c/priere comm
         
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 
     public static void playerFinishPraying(Player player, String message) {
         player.sendMessage("§4HRP : §7Envoi de votre prière...");

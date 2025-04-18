@@ -35,8 +35,5 @@ public class LayCommand extends Command {
         return null;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

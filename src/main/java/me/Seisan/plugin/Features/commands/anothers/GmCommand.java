@@ -49,9 +49,4 @@ public class GmCommand extends Main.Command {
         if(split.length == 1) for(Player p : Bukkit.getOnlinePlayers()) complete(completion, p.getName(), split[0]);
         return completion;
     }
-
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
 }

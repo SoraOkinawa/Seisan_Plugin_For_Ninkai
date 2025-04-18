@@ -46,8 +46,5 @@ public class LostFuinCommand extends Command {
         return new ArrayList<>();
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

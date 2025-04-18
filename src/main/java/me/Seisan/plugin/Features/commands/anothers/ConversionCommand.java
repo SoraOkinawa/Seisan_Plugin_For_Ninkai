@@ -48,10 +48,4 @@ public class ConversionCommand extends Command {
         completion.add("help");
         return completion;
     }
-
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
-
 }

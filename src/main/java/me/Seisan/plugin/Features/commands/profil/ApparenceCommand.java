@@ -61,8 +61,5 @@ public class ApparenceCommand extends Command {
         return completion;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

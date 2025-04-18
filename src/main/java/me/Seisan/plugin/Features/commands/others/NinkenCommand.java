@@ -173,10 +173,7 @@ public class NinkenCommand extends Command {
         return new ArrayList<>();
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
     private Wolf createWolf(PlayerInfo pInfo) {
         Player p = pInfo.getPlayer();
         Wolf wolf = (Wolf) p.getWorld().spawnEntity(p.getLocation(), EntityType.WOLF);

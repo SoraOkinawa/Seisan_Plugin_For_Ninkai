@@ -419,8 +419,5 @@ public class ChakraCommand extends Command {
         }
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

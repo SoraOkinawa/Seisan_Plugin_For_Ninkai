@@ -65,8 +65,5 @@ public class ReloadSkinCommand extends Command {
         }
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

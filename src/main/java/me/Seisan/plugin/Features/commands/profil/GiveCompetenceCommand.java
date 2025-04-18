@@ -135,10 +135,7 @@ public class GiveCompetenceCommand extends Command {
         return completion;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 
 }
 

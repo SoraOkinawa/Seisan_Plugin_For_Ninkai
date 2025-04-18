@@ -71,8 +71,5 @@ public class RenameItemCommand extends Command
         return null;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

@@ -117,8 +117,5 @@ public class ProuesseCommand extends Command {
         return raison;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

@@ -192,8 +192,5 @@ public class CloneCommand extends Command {
         sender.sendMessage("§6/clone §eaddperm $6joueur §7(nb) §8- Utilisé par les jutsus");
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 }

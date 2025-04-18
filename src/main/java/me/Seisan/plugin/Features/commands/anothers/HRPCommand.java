@@ -244,12 +244,6 @@ public class HRPCommand extends Command {
         return Bukkit.createInventory(p, 9, "§8HRP : §7Poubelle §4(VOUS PERDEZ VOS ITEMS DEDANS)");
     }
 
-
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
-
     public static void openItemMenu(Main plugin, String invName, Player p, List<ItemStack> items) {
 
         String[] setup = {

@@ -92,9 +92,6 @@ public class WarpCommand extends Command {
         return null;
     }
 
-    @Override
-    protected boolean isOpOnly() {
-        return false;
-    }
+
 
 }
