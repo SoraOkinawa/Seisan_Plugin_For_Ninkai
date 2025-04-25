@@ -45,6 +45,4 @@ public class PrefixCommand extends Command {
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         return new ArrayList<>();
     }
-
-
 }

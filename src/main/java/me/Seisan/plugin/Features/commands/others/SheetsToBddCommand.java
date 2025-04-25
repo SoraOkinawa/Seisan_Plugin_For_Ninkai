@@ -16,7 +16,7 @@ import java.util.List;
 public class SheetsToBddCommand extends Main.Command {
 	@Override
 	protected void myOnCommand(CommandSender sender, Command command, String label, String[] split) {
-		if (sender.isOp() && split.length == 3) {
+		if (split.length == 3) {
 			try {
 				switch (split[0]) {
 					case "jutsu":
@@ -99,8 +99,20 @@ public class SheetsToBddCommand extends Main.Command {
 	
 	@Override
 	protected List<String> myOnTabComplete(CommandSender sender, Command command, String label, String[] split) {
-		List<String> completion = new ArrayList<>(Arrays.asList("jutsu", "abilities", "test"));
-		if(split.length == 1) for(Player p : Bukkit.getOnlinePlayers()) complete(completion, p.getName(), split[0]);
+		List<String> completion = new ArrayList<>();
+		switch (split.length) {
+			case 1:
+				complete(completion, "jutsu", split[0]);
+				complete(completion, "abilities", split[0]);
+				complete(completion, "test", split[0]);
+				break;
+			case 2:
+				complete(completion,  "idGsheet", split[1]);
+				break;
+			case 3:
+				complete(completion,  "plage", split[2]);
+				break;
+		}
 		return completion;
 	}
 }
