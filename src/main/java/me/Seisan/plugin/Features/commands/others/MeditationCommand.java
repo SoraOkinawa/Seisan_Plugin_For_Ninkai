@@ -21,7 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MeditationCommand extends Command {
-
+    public static final String PERMISSION_LIST = "ninkai.meditation.list";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if (sender instanceof Player) {
@@ -77,7 +78,7 @@ public class MeditationCommand extends Command {
 
                 switch (split[0]) {
                     case "list":
-                        if (sender.isOp()) {
+                        if (p.hasPermission(PERMISSION_LIST)) {
                             sender.sendMessage("§cHRP : §7Voici les différentes personnes en méditation :");
                         }
                         break;
@@ -98,7 +99,7 @@ public class MeditationCommand extends Command {
                         sender.sendMessage("§cHRP : §7/meditation setspawn");
                         sender.sendMessage("§cHRP : §7/meditation accept pseudoMC");
                         sender.sendMessage("§cHRP : §7/meditation deny pseudoMC");
-                        if (sender.isOp()) {
+                        if (p.hasPermission(PERMISSION_LIST)) {
                             sender.sendMessage("§cHRP : §7/meditation list");
                         }
                         break;
@@ -171,18 +172,19 @@ public class MeditationCommand extends Command {
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String
             label, String[] split) {
+        Player p = (Player) sender;
         List<String> completion = new ArrayList();
         switch (split.length) {
             case 1:
                 complete(completion, "accept", split[0]);
                 complete(completion, "deny", split[0]);
                 complete(completion, "setspawn", split[0]);
-                if (sender.isOp()) {
+                if (p.hasPermission(PERMISSION_LIST)) {
                     complete(completion, "list", split[0]);
                 }
                 break;
             case 2:
-                if (sender.isOp()) {
+                if (p.hasPermission(PERMISSION_LIST)) {
                     if (split[0].equals("accept") || split[0].equals("deny")) {
                         for (String name : Main.askMedit.keySet()) {
                             if (Main.askMedit.get(name).equals(sender.getName())) {
