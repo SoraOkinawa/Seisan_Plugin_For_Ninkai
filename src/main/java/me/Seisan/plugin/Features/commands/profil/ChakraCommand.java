@@ -376,7 +376,7 @@ public class ChakraCommand extends Command {
                 if (sender.hasPermission(PERMISSION_TYPE_REMOVE)) complete(completion, "removetype", split[0]);
                 if (sender.hasPermission(PERMISSION_MISSION_ADD) || sender.hasPermission(PERMISSION_MISSION_REMOVE) || sender.hasPermission(PERMISSION_MISSION_GET)) complete(completion, "mission", split[0]);
                 if (sender.hasPermission(PERMISSION_PASSIF_ADD) || sender.hasPermission(PERMISSION_PASSIF_REMOVE) || sender.hasPermission(PERMISSION_PASSIF_GET)) complete(completion, "passif", split[0]);
-                if (sender.hasPermission(PERMISSION_COMPLEMENT_ADD) || sender.hasPermission(PERMISSION_COMPLEMENT_REMOVE))) complete(completion, "complement", split[0]);
+                if (sender.hasPermission(PERMISSION_COMPLEMENT_ADD) || sender.hasPermission(PERMISSION_COMPLEMENT_REMOVE)) complete(completion, "complement", split[0]);
                 break;
             case 2 :
                 if(split[0].equals("mission") || split[0].equals("passif") || split[0].equals("complement")) {
