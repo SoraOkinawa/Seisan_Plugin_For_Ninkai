@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by Helliot on 16/08/2018
- */
 public class ReloadDBCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
@@ -36,11 +33,11 @@ public class ReloadDBCommand extends Command {
                     AbilityLoaderDB.reloadAll(sender);
                     break;
                 default:
-                    sender.sendMessage("§4Usage : §c/reloaddb justu");
+                    sender.sendMessage("§4Usage : §c/reloaddb <justu/ability> <gsheet ID> <plage>");
             }
         }
         else {
-            sender.sendMessage("§4Usage : §c/reloaddb justu");
+            sender.sendMessage("§4Usage : §c/reloaddb <justu/ability> <gsheet ID> <plage>");
         }
     }
 
