@@ -235,7 +235,7 @@ commands:
     permission-message: Permissions insuffisantes pour cette commande.
   reducninjutsu:
     description: permet d'initialiser la reduction ninjutsu
-    permission: ninkai.reduceninjutsu
+    permission: ninkai.reducninjutsu
     permission-message: Permissions insuffisantes pour cette commande.
   reloadskin:
     description: permet de changer de skin sans déco reco
@@ -402,8 +402,8 @@ permissions:
     description: Donne l'accès à la commande /jumpupdown.
   ninkai.fullwhitelist:
     description: Donne l'accès à la commande /fullwhitelist.
-  ninkai.reduceninjutsu:
-    description: Donne l'accès à la commande /reduceninjutsu.
+  ninkai.reducninjutsu:
+    description: Donne l'accès à la commande /reducninjutsu.
   ninkai.reloadskin:
     description: Donne l'accès à la commande /reloadskin.
   ninkai.enca:

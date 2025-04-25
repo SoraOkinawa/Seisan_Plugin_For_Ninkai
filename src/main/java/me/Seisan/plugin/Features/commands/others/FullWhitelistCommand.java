@@ -23,8 +23,6 @@ import static org.bukkit.Bukkit.getServer;
 public class FullWhitelistCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-
-
         if(!(sender instanceof Player)) {
             return;
         }

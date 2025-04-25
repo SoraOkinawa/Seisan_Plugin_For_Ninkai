@@ -14,7 +14,6 @@ import java.util.List;
 public class ReducNinjutsuCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        if(!sender.isOp()) return;
         if(split.length != 1) return;
         Player p = Bukkit.getPlayer(split[0]);
         if(p == null) { sender.sendMessage("§cHRP :§7Joueur non connecté"); return;}
