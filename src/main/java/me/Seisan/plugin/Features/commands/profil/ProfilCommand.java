@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfilCommand extends Command {
+    public static final String PERMISSION_MASK_BYPASS = "ninkai.profil.mask.bypass";
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if(sender instanceof Player) {
@@ -23,7 +24,7 @@ public class ProfilCommand extends Command {
                 Player target = Bukkit.getPlayer(split[0]);
                 if (target != null) {
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(target);
-                    if(pInfo.getMaskprofil() == 0 || sender.isOp()) {
+                    if(pInfo.getMaskprofil() == 0 || sender.hasPermission(PERMISSION_MASK_BYPASS)) {
                         p.openInventory(TrainInventory.getFichePerso(pInfo, p));
                     }
                     else {
