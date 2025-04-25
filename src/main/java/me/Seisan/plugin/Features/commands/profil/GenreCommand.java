@@ -2,6 +2,7 @@ package me.Seisan.plugin.Features.commands.profil;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.objectnum.Gender;
+import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Main.Command;
 import org.bukkit.Bukkit;
 
@@ -13,10 +14,13 @@ import java.util.List;
 
 
 public class GenreCommand extends Command {
+    public static final String PERMISSION_FORCE = "ninkai.genre.force";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if(sender instanceof Player){
-            if(sender.isOp()) {
+            Player pSender = (Player) sender;
+            if(pSender.hasPermission(PERMISSION_FORCE)) {
                 if(split.length == 2) {
                     Player p = Bukkit.getPlayer(split[1]);
                     Gender gender = Gender.fromName(split[0]);
@@ -67,6 +71,19 @@ public class GenreCommand extends Command {
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split)
     {
-        return new ArrayList<>();
+        Player pSender = (Player) sender;
+        List<String> completion = new ArrayList<>();
+        switch (split.length) {
+            case 1:
+                complete(completion, "Homme", split[0]);
+                complete(completion, "Femme", split[0]);
+                complete(completion, "Autre", split[0]);
+                break;
+            case 2:
+                if (pSender.hasPermission(PERMISSION_FORCE))
+                    for(Player p : Bukkit.getOnlinePlayers()) complete(completion, p.getName(), split[0]);
+                break;
+        }
+        return completion;
     }
 }
