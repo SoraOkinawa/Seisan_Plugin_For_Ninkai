@@ -45,18 +45,8 @@ public class ReloadDBCommand extends Command {
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split)
     {
         List<String> completion = new ArrayList<>();
-        switch (split.length) {
-            case 1:
-                complete(completion, "jutsu", split[0]);
-                complete(completion, "ability", split[0]);
-                break;
-            case 2:
-                complete(completion,  "idGsheet", split[1]);
-                break;
-            case 3:
-                complete(completion,  "plage", split[2]);
-                break;
-        }
+        complete(completion, "jutsu", split[0]);
+        complete(completion, "ability", split[0]);
         return completion;
     }
 }
