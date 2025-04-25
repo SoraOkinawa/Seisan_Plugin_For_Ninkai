@@ -14,12 +14,8 @@ import java.util.List;
 public class NickCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-
         if(sender instanceof Player) {
             PlayerConfig pConfig = PlayerConfig.getPlayerConfig((Player)sender);
-            if(!sender.isOp() && !pConfig.isEncamode()) {
-                return;
-            }
         }
         if(split.length < 2) {
             sender.sendMessage("§cHRP : §7/nick [player] [nickname]");
@@ -51,6 +47,4 @@ public class NickCommand extends Command {
         if(split.length == 1) for(Player p : Bukkit.getOnlinePlayers()) complete(completion, p.getName(), split[0]);
         return completion;
     }
-
-
 }
