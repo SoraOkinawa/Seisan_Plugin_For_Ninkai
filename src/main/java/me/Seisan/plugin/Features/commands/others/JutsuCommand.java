@@ -21,6 +21,18 @@ import java.util.List;
 
 
 public class JutsuCommand extends Command {
+    public static final String PERMISSION_MASTERY       = "ninkai.jutsu.mastery";
+    public static final String PERMISSION_MASTERY_ALL   = "ninkai.jutsu.mastery.all";
+    public static final String PERMISSION_LEARN         = "ninkai.jutsu.learn";
+    public static final String PERMISSION_LEARN_ALL     = "ninkai.jutsu.learn.all";
+    public static final String PERMISSION_UNLEARN       = "ninkai.jutsu.unlearn";
+    public static final String PERMISSION_UNLEARN_ALL   = "ninkai.jutsu.unlearn.all";
+    public static final String PERMISSION_LIST          = "ninkai.jutsu.list";
+    public static final String PERMISSION_LIST_ALL      = "ninkai.jutsu.list.all";
+    public static final String PERMISSION_SELECT        = "ninkai.jutsu.select";
+    public static final String PERMISSION_UNSELECT      = "ninkai.jutsu.unselect";
+    public static final String PERMISSION_HELP          = "ninkai.jutsu.help";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if(split.length == 0){
@@ -37,9 +49,55 @@ public class JutsuCommand extends Command {
         }else{
             if(SkillManager.isSkillEnabled()) {
                 switch (split[0]) {
+                    case "mastery":
+                      /*  if (split.length == 3) {
+                            if (sender instanceof Player && sender.hasPermission(PERMISSION_MASTERY)) {
+                                Player p = (Player) sender;
+                                PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
+                                Skill skill = Skill.getByPluginName(split[1]);
+                                if (skill != null && playerInfo.getSkills().containsKey(skill)) {
+                                    if (StringUtils.isNumeric(split[2]) && SkillMastery.getById(Integer.parseInt(split[2])) != null) {
+                                        SkillMastery mastery = SkillMastery.getById(Integer.parseInt(split[2]));
+                                        playerInfo.updateSkill(skill, mastery);
+                                    } else {
+                                        sendMastery(p);
+                                    }
+                                } else {
+                                    p.sendMessage(ChatColor.RED + "Vous ne connaissez pas la technique indiquée !");
+                                }
+                            } else {
+                                sender.sendMessage(ChatColor.RED + "Vous n'avez pas la permission d'utiliser cette commande");
+                            }
+                        } else*/
+                        if (split.length == 4) {
+                            if (sender instanceof Player && sender.hasPermission(PERMISSION_MASTERY)) {
+                                Player target = sender.getServer().getPlayer(split[1]);
+                                if (target != null) {
+                                    PlayerInfo pInfo = PlayerInfo.getPlayerInfo(target);
+                                    Skill skill = Skill.getByPluginName(split[2]);
+                                    if (skill != null && pInfo.getSkills().containsKey(skill)) {
+                                        SkillMastery mastery = SkillMastery.getById(Integer.parseInt(split[3]));
+                                        if (StringUtils.isNumeric(split[3]) && mastery != null) {
+                                            pInfo.updateSkill(skill, mastery);
+                                            sender.sendMessage(target.getDisplayName() + ChatColor.GREEN + " a acquis la maitrise de la technique " + ChatColor.GOLD + skill.getName() +
+                                                    ChatColor.GREEN + " au rang " + ChatColor.GOLD + mastery.getName());
+                                        } else {
+                                            sendMastery(sender);
+                                        }
+                                    } else {
+                                        sender.sendMessage(ChatColor.RED + "Ce joueur ne connait pas la technique indiquée !");
+                                    }
+                                } else {
+                                    sender.sendMessage(ChatColor.RED + "Le joueur " + split[1] + " n'est pas connecté !");
+                                }
+                            } else {
+                                sender.sendMessage(ChatColor.RED + "Vous n'avez pas la permission d'utiliser cette commande");
+                            }
+                        }
+                        break;
                     case "masteryall":
                         if(split.length == 2) {
-                            if (sender instanceof Player && sender.isOp() && StringUtils.isNumeric(split[1]) && SkillMastery.getById(Integer.parseInt(split[1])) != null) {
+                            if (sender instanceof Player && sender.hasPermission(PERMISSION_MASTERY_ALL) && StringUtils.isNumeric(split[1]) && SkillMastery.getById(Integer.parseInt(split[1])) != null) {
                                 Player p = (Player) sender;
                                 PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
                                 SkillMastery mastery = SkillMastery.getById(Integer.parseInt(split[1]));
@@ -54,7 +112,7 @@ public class JutsuCommand extends Command {
                         break;
                     case "unlearn":
                        if (split.length == 3) {
-                            if (sender.isOp()) {
+                            if (sender instanceof Player && sender.hasPermission(PERMISSION_UNLEARN)) {
                                 String skillName = split[2];
                                 Skill skill = Skill.getByPluginName(skillName);
                                 if (skill != null) {
@@ -80,7 +138,7 @@ public class JutsuCommand extends Command {
                        }
                         break;
                     case "unlearnall":
-                        if (sender.isOp() && sender instanceof Player) {
+                        if (sender instanceof Player && sender.hasPermission(PERMISSION_UNLEARN_ALL)) {
                             Player p;
                             if (split.length == 1) {
                                 p = (Player) sender;
@@ -110,7 +168,7 @@ public class JutsuCommand extends Command {
                         }
                         break;
                     case "select":
-                        if (sender instanceof Player) {
+                        if (sender instanceof Player && sender.hasPermission(PERMISSION_SELECT)) {
                             if (split.length == 2) {
                                 Player p = (Player) sender;
                                 PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
@@ -129,7 +187,7 @@ public class JutsuCommand extends Command {
                         }
                         break;
                     case "list":
-                        if (sender instanceof Player) {
+                        if (sender instanceof Player && sender.hasPermission(PERMISSION_LIST)) {
                             Player p;
                             if(split.length == 2) {
                                 p = Bukkit.getPlayer(split[1]);
@@ -177,7 +235,7 @@ public class JutsuCommand extends Command {
                         }
                         break;
                     case "listall":
-                        if (sender instanceof Player && sender.isOp()) {
+                        if (sender instanceof Player && sender.hasPermission(PERMISSION_LIST_ALL)) {
                             String mess = "§6Liste des techniques§7: ";
 
                             int counter = mess.length();
@@ -205,7 +263,7 @@ public class JutsuCommand extends Command {
                         break;
                     case "learn":
                        if (split.length == 3 || split.length == 4) {
-                            if (sender.isOp()) {
+                            if (sender instanceof Player && sender.hasPermission(PERMISSION_LEARN)) {
                                 String skillName = split[2];
                                 Skill skill = Skill.getByPluginName(skillName);
                                 int nb = 0;
@@ -243,7 +301,7 @@ public class JutsuCommand extends Command {
                         }
                         break;
                     case "learnall":
-                        if (sender instanceof Player && sender.isOp()) {
+                        if (sender instanceof Player && sender.hasPermission(PERMISSION_LEARN_ALL)) {
                             Player p = (Player) sender;
                             PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
 
@@ -255,69 +313,25 @@ public class JutsuCommand extends Command {
                             sender.sendMessage(ChatColor.RED + "Vous n'avez pas la permission d'utiliser cette commande");
                         }
                         break;
-                    case "mastery":
-                      /*  if (split.length == 3) {
-                            if (sender instanceof Player && sender.isOp()) {
-                                Player p = (Player) sender;
-                                PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
-                                Skill skill = Skill.getByPluginName(split[1]);
-                                if (skill != null && playerInfo.getSkills().containsKey(skill)) {
-                                    if (StringUtils.isNumeric(split[2]) && SkillMastery.getById(Integer.parseInt(split[2])) != null) {
-                                        SkillMastery mastery = SkillMastery.getById(Integer.parseInt(split[2]));
-                                        playerInfo.updateSkill(skill, mastery);
-                                    } else {
-                                        sendMastery(p);
-                                    }
-                                } else {
-                                    p.sendMessage(ChatColor.RED + "Vous ne connaissez pas la technique indiquée !");
-                                }
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "Vous n'avez pas la permission d'utiliser cette commande");
-                            }
-                        } else*/
-                        if (split.length == 4) {
-                            if (sender.isOp()) {
-                                Player target = sender.getServer().getPlayer(split[1]);
-                                if (target != null) {
-                                    PlayerInfo pInfo = PlayerInfo.getPlayerInfo(target);
-                                    Skill skill = Skill.getByPluginName(split[2]);
-                                    if (skill != null && pInfo.getSkills().containsKey(skill)) {
-                                        SkillMastery mastery = SkillMastery.getById(Integer.parseInt(split[3]));
-                                        if (StringUtils.isNumeric(split[3]) && mastery != null) {
-                                            pInfo.updateSkill(skill, mastery);
-                                            sender.sendMessage(target.getDisplayName() + ChatColor.GREEN + " a acquis la maitrise de la technique " + ChatColor.GOLD + skill.getName() +
-                                                    ChatColor.GREEN + " au rang " + ChatColor.GOLD + mastery.getName());
-                                        } else {
-                                            sendMastery(sender);
-                                        }
-                                    } else {
-                                        sender.sendMessage(ChatColor.RED + "Ce joueur ne connait pas la technique indiquée !");
-                                    }
-                                } else {
-                                    sender.sendMessage(ChatColor.RED + "Le joueur " + split[1] + " n'est pas connecté !");
-                                }
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "Vous n'avez pas la permission d'utiliser cette commande");
-                            }
-                        }
-                        break;
                     case "unselect":
-                        if(!Main.getCurrentSelectSkill().containsKey(sender.getName())) {
-                            sender.sendMessage("§cHRP : §7Vous n'avez pas de jutsu de sélectionné.");
-                        }
-                        else {
-                            Player target = (Player)sender;
-                            PlayerInfo pInfo = PlayerInfo.getPlayerInfo(target);
-
-                            Bukkit.getScheduler().cancelTask(Main.getCurrentSelectSkill().get(sender.getName()));
-                            Main.getCurrentSelectSkill().remove(sender.getName());
-
-                            sender.sendMessage("§cHRP : §7Vous ne sélectionnez plus la technique : "+pInfo.getCurrentSkill().getName());
-                            pInfo.setCurrentSkill(null);
-                        }
+                        if (sender instanceof Player && sender.hasPermission(PERMISSION_UNSELECT))
+                            if(!Main.getCurrentSelectSkill().containsKey(sender.getName())) {
+                                sender.sendMessage("§cHRP : §7Vous n'avez pas de jutsu de sélectionné.");
+                            }
+                            else {
+                                Player target = (Player)sender;
+                                PlayerInfo pInfo = PlayerInfo.getPlayerInfo(target);
+    
+                                Bukkit.getScheduler().cancelTask(Main.getCurrentSelectSkill().get(sender.getName()));
+                                Main.getCurrentSelectSkill().remove(sender.getName());
+    
+                                sender.sendMessage("§cHRP : §7Vous ne sélectionnez plus la technique : "+pInfo.getCurrentSkill().getName());
+                                pInfo.setCurrentSkill(null);
+                            }
                         break;
                     case "help":
-                        sendHelpMessage(sender);
+                        if (sender.hasPermission(PERMISSION_HELP))
+                            sendHelpMessage(sender);
                         break;
                 }
             }else{
@@ -332,36 +346,35 @@ public class JutsuCommand extends Command {
         List<String> completion = new ArrayList();
         switch(split.length) {
             case 1:
-                complete(completion, "select", split[0]);
-                complete(completion, "unselect", split[0]);
-                complete(completion, "list", split[0]);
-                if (sender.isOp()) {
-                    complete(completion, "learn", split[0]);
-                    complete(completion, "learnall", split[0]);
-                    complete(completion, "listall", split[0]);
-                    complete(completion, "mastery", split[0]);
-                    complete(completion, "unlearn", split[0]);
-                    complete(completion, "unlearnall", split[0]);
-                    complete(completion, "masteryall", split[0]);
-                }
+                if (sender.hasPermission(PERMISSION_SELECT)) complete(completion, "select", split[0]);
+                if (sender.hasPermission(PERMISSION_UNSELECT)) complete(completion, "unselect", split[0]);
+                if (sender.hasPermission(PERMISSION_LIST)) complete(completion, "list", split[0]);
+                if (sender.hasPermission(PERMISSION_LIST_ALL)) complete(completion, "listall", split[0]);
+                if (sender.hasPermission(PERMISSION_LEARN)) complete(completion, "learn", split[0]);
+                if (sender.hasPermission(PERMISSION_LEARN_ALL)) complete(completion, "learnall", split[0]);
+                if (sender.hasPermission(PERMISSION_UNLEARN)) complete(completion, "unlearn", split[0]);
+                if (sender.hasPermission(PERMISSION_UNLEARN_ALL)) complete(completion, "unlearnall", split[0]);
+                if (sender.hasPermission(PERMISSION_MASTERY)) complete(completion, "mastery", split[0]);
+                if (sender.hasPermission(PERMISSION_MASTERY_ALL)) complete(completion, "masteryall", split[0]);
                 break;
             case 2:
-                if (split[0].equals("select")) {
+                if (split[0].equals("select") && sender.hasPermission(PERMISSION_SELECT)) {
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo((Player) sender);
                     for (Skill jutsu : pInfo.getSkills().keySet()) {
                         complete(completion, jutsu.getNameInPlugin(), split[1]);
                     }
                 }
-                if (sender.isOp()) {
-                    if (split[0].equals("learn") || split[0].equals("unlearn") || split[0].equals("mastery")) {
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            complete(completion, p.getName(), split[1]);
-                        }
+                if ((split[0].equals("learn") && sender.hasPermission(PERMISSION_LEARN)) ||
+                    (split[0].equals("unlearn") && sender.hasPermission(PERMISSION_UNLEARN)) ||
+                    (split[0].equals("mastery") && sender.hasPermission(PERMISSION_MASTERY)))
+                {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        complete(completion, p.getName(), split[1]);
                     }
-                    if(split[0].equals("masteryall")) {
-                        for(SkillMastery mastery : SkillMastery.values()) {
-                            complete(completion, Integer.toString(mastery.getId()), split[1]);
-                        }
+                }
+                if(split[0].equals("masteryall")) {
+                    for(SkillMastery mastery : SkillMastery.values()) {
+                        complete(completion, Integer.toString(mastery.getId()), split[1]);
                     }
                 }
                 break;
@@ -369,22 +382,24 @@ public class JutsuCommand extends Command {
                 Player p = Bukkit.getPlayer(split[1]);
                 if (p != null) {
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
-                    if (sender.isOp()) {
-                        if (split[0].equals("learn")) {
-                            for (Skill jutsu : Skill.getInstanceList()) {
-                                complete(completion, jutsu.getNameInPlugin(), split[2]);
-                            }
+                    if (split[0].equals("learn") && sender.hasPermission(PERMISSION_LEARN)) {
+                        for (Skill jutsu : Skill.getInstanceList()) {
+                            complete(completion, jutsu.getNameInPlugin(), split[2]);
                         }
-                        if (split[0].equals("unlearn") || split[0].equals("mastery")) {
-                            for (Skill jutsu : pInfo.getSkills().keySet()) {
-                                complete(completion, jutsu.getNameInPlugin(), split[2]);
-                            }
+                    }
+                    if ((split[0].equals("unlearn") && sender.hasPermission(PERMISSION_UNLEARN)) ||
+                        (split[0].equals("mastery") && sender.hasPermission(PERMISSION_MASTERY)))
+                    {
+                        for (Skill jutsu : pInfo.getSkills().keySet()) {
+                            complete(completion, jutsu.getNameInPlugin(), split[2]);
                         }
                     }
                 }
                 break;
             case 4:
-                if(split[0].equals("mastery") || split[0].equals("learn")) {
+                if ((split[0].equals("mastery") && sender.hasPermission(PERMISSION_MASTERY)) ||
+                    (split[0].equals("learn") && sender.hasPermission(PERMISSION_LEARN)))
+                {
                     for(SkillMastery mastery : SkillMastery.values()) {
                         complete(completion, Integer.toString(mastery.getId()), split[1]);
                     }
@@ -406,18 +421,16 @@ public class JutsuCommand extends Command {
         ArrayList<String> helpList = new ArrayList<>();
 
         helpList.add("§6/jutsu §8- Permet d'accéder au sélecteur de jutsu");
-        helpList.add("§6/jutsu §ehelp §8- Affiche ce message");
-        helpList.add("§6/jutsu §eselect §7(nom) §8- Permet de sélectionner une technique donnée sans passer par l'inventaire");
-        helpList.add("§6/jutsu §elist §8- Liste vos techniques");
-        if(s.isOp()){
-            helpList.add("§6/jutsu §elearn §7(nom) [joueur] §8- Permet d'apprendre une technique à soi même ou à un joueur (optionnel)");
-            helpList.add("§6/jutsu §elearnall §8- Apprend toutes les techniques au lanceur de la commande");
-            helpList.add("§6/jutsu §elistall §8- Liste les techniques existantes et activées");
-            helpList.add("§6/jutsu §emastery §7(nom) (niveau) [joueur] §8- Permet de changer manuellement la maîtrise d'une technique (joueur optionnel)");
-            helpList.add("§6/jutsu §eunlearn §7(nom) [joueur] §8- Permet d'oublier une technique");
-            helpList.add("§6/jutsu §eunlearnall §7[joueur] §8- Permet d'oublier toutes les techniques");
-            helpList.add("§6/jutsu §emasteryall §7(niveau) §8- Permet de mettre un niveau de maitrise à toutes les techniques");
-        }
+        if (s.hasPermission(PERMISSION_HELP)) helpList.add("§6/jutsu §ehelp §8- Affiche ce message");
+        if (s.hasPermission(PERMISSION_SELECT)) helpList.add("§6/jutsu §eselect §7(nom) §8- Permet de sélectionner une technique donnée sans passer par l'inventaire");
+        if (s.hasPermission(PERMISSION_LIST)) helpList.add("§6/jutsu §elist §8- Liste vos techniques");
+        if (s.hasPermission(PERMISSION_LIST_ALL)) helpList.add("§6/jutsu §elistall §8- Liste les techniques existantes et activées");
+        if (s.hasPermission(PERMISSION_LEARN)) helpList.add("§6/jutsu §elearn §7(nom) [joueur] §8- Permet d'apprendre une technique à soi même ou à un joueur (optionnel)");
+        if (s.hasPermission(PERMISSION_LEARN_ALL)) helpList.add("§6/jutsu §elearnall §8- Apprend toutes les techniques au lanceur de la commande");
+        if (s.hasPermission(PERMISSION_UNLEARN)) helpList.add("§6/jutsu §eunlearn §7(nom) [joueur] §8- Permet d'oublier une technique");
+        if (s.hasPermission(PERMISSION_UNLEARN_ALL)) helpList.add("§6/jutsu §eunlearnall §7[joueur] §8- Permet d'oublier toutes les techniques");
+        if (s.hasPermission(PERMISSION_MASTERY)) helpList.add("§6/jutsu §emastery §7(nom) (niveau) [joueur] §8- Permet de changer manuellement la maîtrise d'une technique (joueur optionnel)");
+        if (s.hasPermission(PERMISSION_MASTERY_ALL)) helpList.add("§6/jutsu §emasteryall §7(niveau) §8- Permet de mettre un niveau de maitrise à toutes les techniques");
 
         for(String str : helpList){
             s.sendMessage(str);
