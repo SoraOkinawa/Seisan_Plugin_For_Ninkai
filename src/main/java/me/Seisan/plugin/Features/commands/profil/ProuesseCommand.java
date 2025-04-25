@@ -1,21 +1,24 @@
 package me.Seisan.plugin.Features.commands.profil;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
-import me.Seisan.plugin.Features.ability.Ability;
 import me.Seisan.plugin.Main.Command;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ProuesseCommand extends Command {
+    public static final String PERMISSION_GET       = "ninkai.prouesse.get";
+    public static final String PERMISSION_REMOVE    = "ninkai.prouesse.remove";
+    public static final String PERMISSION_ADD       = "ninkai.prouesse.add";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        if (!sender.isOp()) {
+        Player pSender = (Player) sender;
+        
+        if (pSender.hasPermission(PERMISSION_GET)) {
             if (split.length == 0) {
                 PlayerInfo playerInfo = PlayerInfo.getPlayerInfo((Player) sender);
                 afficherInfo(playerInfo, (Player) sender);
@@ -23,7 +26,7 @@ public class ProuesseCommand extends Command {
             return;
         }
 
-        if (split.length == 2 && split[0].equals("get")) {
+        if (pSender.hasPermission(PERMISSION_GET) && split.length == 2 && split[0].equals("get")) {
             Player p = Bukkit.getPlayer(split[1]);
             if (p != null) {
                 PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
@@ -31,7 +34,7 @@ public class ProuesseCommand extends Command {
             } else {
                 sendHelpList(sender);
             }
-        } else if (split.length >= 3 && split[0].equals("remove")) {
+        } else if (pSender.hasPermission(PERMISSION_REMOVE) && split.length >= 3 && split[0].equals("remove")) {
             Player p = Bukkit.getPlayer(split[1]);
             if (p != null) {
                 PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
@@ -44,7 +47,7 @@ public class ProuesseCommand extends Command {
             } else {
                 sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
             }
-        } else if (split.length >= 3 && split[0].equals("add")) {
+        } else if (pSender.hasPermission(PERMISSION_ADD) && split.length >= 3 && split[0].equals("add")) {
 
             Player p = Bukkit.getPlayer(split[1]);
             if (p == null) {
@@ -67,7 +70,8 @@ public class ProuesseCommand extends Command {
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         List<String> completion = new ArrayList();
-        if (sender.isOp()) {
+        Player pSender = (Player) sender;
+        if (pSender.hasPermission(PERMISSION_ADD) && pSender.hasPermission(PERMISSION_GET) && pSender.hasPermission(PERMISSION_REMOVE)) {
             if (split.length == 1) {
                 complete(completion, "get", split[0]);
                 complete(completion, "remove", split[0]);
@@ -84,12 +88,11 @@ public class ProuesseCommand extends Command {
 
     private void sendHelpList(CommandSender sender) {
         ArrayList<String> helpList = new ArrayList<>();
-
-        if (sender.isOp()) {
-            helpList.add("§6/resistance §7add (joueur) (raison) §8- Permet d'ajouter une prouesse");
-            helpList.add("§6/resistance §7remove (joueur) (raison) §8- Permet de retirer une prouesse.");
-            helpList.add("§6/resistance §7get (joueur) §8- Permet de connaître l'historique des prouesses.");
-        }
+        Player pSender = (Player) sender;
+    
+        if (pSender.hasPermission(PERMISSION_ADD)) helpList.add("§6/resistance §7add (joueur) (raison) §8- Permet d'ajouter une prouesse");
+        if (pSender.hasPermission(PERMISSION_REMOVE)) helpList.add("§6/resistance §7remove (joueur) (raison) §8- Permet de retirer une prouesse.");
+        if (pSender.hasPermission(PERMISSION_GET)) helpList.add("§6/resistance §7get (joueur) §8- Permet de connaître l'historique des prouesses.");
 
         for (String s : helpList) {
             sender.sendMessage(s);
@@ -116,6 +119,4 @@ public class ProuesseCommand extends Command {
         raison = raison.substring(0, raison.length() - 1);
         return raison;
     }
-
-
 }
