@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import me.Seisan.plugin.Main.Command;
 
-import org.bukkit.block.data.type.Switch;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,54 +19,71 @@ import java.util.List;
 import java.util.Random;
 
 public class ChakraCommand extends Command {
+    public static final String PERMISSION_INFO              = "ninkai.chakra.info";
+    public static final String PERMISSION_ROLL              = "ninkai.chakra.roll";
+    public static final String PERMISSION_ADD               = "ninkai.chakra.add";
+    public static final String PERMISSION_REMOVE            = "ninkai.chakra.remove";
+    public static final String PERMISSION_SET               = "ninkai.chakra.set";
+    public static final String PERMISSION_SET_MAX           = "ninkai.chakra.set.max";
+    public static final String PERMISSION_TYPE_ADD          = "ninkai.chakra.type.add";
+    public static final String PERMISSION_TYPE_REMOVE       = "ninkai.chakra.type.remove";
+    public static final String PERMISSION_MISSION_GET       = "ninkai.chakra.mission.get";
+    public static final String PERMISSION_MISSION_ADD       = "ninkai.chakra.mission.add";
+    public static final String PERMISSION_MISSION_REMOVE    = "ninkai.chakra.mission.remove";
+    public static final String PERMISSION_PASSIF_GET        = "ninkai.chakra.passif.get";
+    public static final String PERMISSION_PASSIF_ADD        = "ninkai.chakra.passif.add";
+    public static final String PERMISSION_PASSIF_REMOVE     = "ninkai.chakra.passif.remove";
+    public static final String PERMISSION_COMPLEMENT_ADD    = "ninkai.chakra.complement.add";
+    public static final String PERMISSION_COMPLEMENT_REMOVE = "ninkai.chakra.complement.remove";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if (split.length == 3) {
-            if (sender.isOp()) {
-                if (split[0].equals("mission")) {
-                    if ("get".equals(split[1])) {
-                        Player p = Bukkit.getServer().getPlayer(split[2]);
-                        if (p != null) {
-                            PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
-                            sender.sendMessage("§cHRP : " + p.getDisplayName() + "§7 a obtenu §6" + playerInfo.getManaMission() + " §7chakra en récompense de ses §6"+ playerInfo.getNbmission()+" §7mission(s).");
-                        } else {
-                            sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
-                        }
+            if (split[0].equals("mission")) {
+                if ("get".equals(split[1]) && sender.hasPermission(PERMISSION_MISSION_GET)) {
+                    Player p = Bukkit.getServer().getPlayer(split[2]);
+                    if (p != null) {
+                        PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
+                        sender.sendMessage("§cHRP : " + p.getDisplayName() + "§7 a obtenu §6" + playerInfo.getManaMission() + " §7chakra en récompense de ses §6"+ playerInfo.getNbmission()+" §7mission(s).");
                     } else {
-                        sendHelpList(sender);
+                        sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
                     }
-                } else if (split[0].equals("passif")) {
-                    if (split[1].equals("get")) {
-                        Player p = Bukkit.getServer().getPlayer(split[2]);
-                        if (p != null) {
-                            PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
-                            sender.sendMessage("§cHRP : §7Le joueur §c" + p.getName() + " §7possède §a" + playerInfo.getPassiveMana() + " §7portions de chakra passif.");
-                        } else
-                            sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
-                    } else
-                        sendHelpList(sender);
+                } else {
+                    sendHelpList(sender);
                 }
-                else {
-                    Player target = Bukkit.getPlayer(split[1]);
-                    String nameType = split[2];
-                    int prct = 0;
-                    if(split[2].contains("_")) {
-                        nameType = split[2].split("_")[0];
-                        if(!StringUtils.isNumeric(split[2].split("_")[1])) {
-                            sender.sendMessage("§cHRP : §7La seconde partie se doit d'être un chiffre.");
-                            return;
-                        }
-                        prct = Integer.parseInt(split[2].split("_")[1]);
-                        if(prct < 0 || prct > 75 || prct%25 != 0) {
-                            sender.sendMessage("§cHRP : §7La seconde partie se doit d'être un multiple de 25.");
-                            return;
-                        }
+            } else if (split[0].equals("passif")) {
+                if (split[1].equals("get") && sender.hasPermission(PERMISSION_PASSIF_GET)) {
+                    Player p = Bukkit.getServer().getPlayer(split[2]);
+                    if (p != null) {
+                        PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
+                        sender.sendMessage("§cHRP : §7Le joueur §c" + p.getName() + " §7possède §a" + playerInfo.getPassiveMana() + " §7portions de chakra passif.");
+                    } else
+                        sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
+                } else
+                    sendHelpList(sender);
+            }
+            else {
+                Player target = Bukkit.getPlayer(split[1]);
+                String nameType = split[2];
+                int prct = 0;
+                if(split[2].contains("_")) {
+                    nameType = split[2].split("_")[0];
+                    if(!StringUtils.isNumeric(split[2].split("_")[1])) {
+                        sender.sendMessage("§cHRP : §7La seconde partie se doit d'être un chiffre.");
+                        return;
                     }
-                    ChakraType type = ChakraType.fromName(nameType);
-                    if (target != null) {
-                        PlayerInfo targetInfo = PlayerInfo.getPlayerInfo(target);
-                        switch (split[0]) {
-                            case "addtype":
+                    prct = Integer.parseInt(split[2].split("_")[1]);
+                    if(prct < 0 || prct > 75 || prct%25 != 0) {
+                        sender.sendMessage("§cHRP : §7La seconde partie se doit d'être un multiple de 25.");
+                        return;
+                    }
+                }
+                ChakraType type = ChakraType.fromName(nameType);
+                if (target != null) {
+                    PlayerInfo targetInfo = PlayerInfo.getPlayerInfo(target);
+                    switch (split[0]) {
+                        case "addtype":
+                            if (sender.hasPermission(PERMISSION_TYPE_ADD)) {
                                 if (type != null) {
                                     if (type == ChakraType.NULL) {
                                         sender.sendMessage("§cHRP : §7La nature n'existe pas ou le nombre suivant n'est pas 25 ou 50");
@@ -82,8 +98,10 @@ public class ChakraCommand extends Command {
                                 } else {
                                     sendHelpList(sender);
                                 }
-                                break;
-                            case "removetype":
+                            }
+                            break;
+                        case "removetype":
+                            if (sender.hasPermission(PERMISSION_TYPE_REMOVE)) {
                                 if (type != null) {
                                     if (targetInfo.hasChakra(type)) {
                                         targetInfo.removeChakraType(type);
@@ -94,8 +112,10 @@ public class ChakraCommand extends Command {
                                 } else {
                                     sendHelpList(sender);
                                 }
-                                break;
-                            case "add":
+                            }
+                            break;
+                        case "add":
+                            if (sender.hasPermission(PERMISSION_ADD)) {
                                 if (StringUtils.isNumeric(split[2])) {
                                     int amount = Integer.parseInt(split[2]);
                                     targetInfo.addMana(amount);
@@ -103,8 +123,10 @@ public class ChakraCommand extends Command {
                                 } else {
                                     sendHelpList(sender);
                                 }
-                                break;
-                            case "remove":
+                            }
+                            break;
+                        case "remove":
+                            if (sender.hasPermission(PERMISSION_REMOVE)) {
                                 if (StringUtils.isNumeric(split[2])) {
                                     int amount = Integer.parseInt(split[2]);
                                     targetInfo.removeMana(amount);
@@ -112,8 +134,10 @@ public class ChakraCommand extends Command {
                                 } else {
                                     sendHelpList(sender);
                                 }
-                                break;
-                            case "setmax":
+                            }
+                            break;
+                        case "setmax":
+                            if (sender.hasPermission(PERMISSION_SET_MAX)) {
                                 if (StringUtils.isNumeric(split[2])) {
                                     int amount = Integer.parseInt(split[2]);
                                     if (amount % 10 == 0) {
@@ -125,8 +149,10 @@ public class ChakraCommand extends Command {
                                 } else {
                                     sendHelpList(sender);
                                 }
-                                break;
-                            case "set":
+                            }
+                            break;
+                        case "set":
+                            if (sender.hasPermission(PERMISSION_SET)) {
                                 if (StringUtils.isNumeric(split[2])) {
                                     int amount = Integer.parseInt(split[2]);
                                     targetInfo.setMana(amount);
@@ -134,17 +160,17 @@ public class ChakraCommand extends Command {
                                 } else {
                                     sendHelpList(sender);
                                 }
-                                break;
-                            default:
-                                sendHelpList(sender);
-                        }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "Le joueur est inconnu ou n'est pas connecté !");
+                            }
+                            break;
+                        default:
+                            sendHelpList(sender);
                     }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "Le joueur est inconnu ou n'est pas connecté !");
                 }
             }
         } else if (split.length == 2) {
-            if (sender.isOp()) {
+            if (sender.hasPermission(PERMISSION_INFO)) {
                 Player target = sender.getServer().getPlayer(split[1]);
                 if (target != null) {
                     PlayerInfo targetInfo = PlayerInfo.getPlayerInfo(target);
@@ -160,7 +186,7 @@ public class ChakraCommand extends Command {
                 sender.sendMessage(ChatColor.RED + "Vous n'avez pas la permission !");
             }
         }else if(split.length == 1){
-            if ("roll".equals(split[0])) {
+            if ("roll".equals(split[0]) && sender.hasPermission(PERMISSION_ROLL)) {
                 if (sender instanceof Player) {
                     Player p = (Player) sender;
                     PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
@@ -221,7 +247,7 @@ public class ChakraCommand extends Command {
                 Player p = Bukkit.getServer().getPlayer(split[2]);
                 switch (split[1]) {
                     case "add":
-                        if(p != null) {
+                        if(sender.hasPermission(PERMISSION_MISSION_ADD) && p != null) {
                             int amount;
                             if (!StringUtils.isNumeric(split[3])) {
                                 amount = 1;
@@ -242,7 +268,7 @@ public class ChakraCommand extends Command {
                         }
                         break;
                     case "remove":
-                        if(p != null) {
+                        if(sender.hasPermission(PERMISSION_MISSION_REMOVE) && p != null) {
                             int amount;
                             if (!StringUtils.isNumeric(split[3])) {
                                 amount = -1;
@@ -267,7 +293,7 @@ public class ChakraCommand extends Command {
                 }
             }
             else if(split[0].equals("complement")) {
-                if(split[1].equals("add")) {
+                if(split[1].equals("add") && sender.hasPermission(PERMISSION_COMPLEMENT_ADD)) {
                     Player p = Bukkit.getServer().getPlayer(split[2]);
                     if(p == null) {
                         sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
@@ -285,7 +311,7 @@ public class ChakraCommand extends Command {
                     pInfo.updateChakra();
 
                 }
-                else if(split[1].equals("remove")) {
+                else if(split[1].equals("remove") && sender.hasPermission(PERMISSION_COMPLEMENT_REMOVE)) {
                     Player p = Bukkit.getServer().getPlayer(split[2]);
                     if(p == null) {
                         sender.sendMessage("§cHRP : §7Le joueur est inconnu ou n'est pas connecté.");
@@ -303,7 +329,7 @@ public class ChakraCommand extends Command {
                     pInfo.updateChakra();
                 }
             }
-            else if(split[0].equals("passif") && (split[1].equals("add") || split[1].equals("remove"))) {
+            else if(split[0].equals("passif") && ((split[1].equals("add") && sender.hasPermission(PERMISSION_PASSIF_ADD))) || (split[1].equals("remove") && sender.hasPermission(PERMISSION_PASSIF_REMOVE))) {
                 Player p = Bukkit.getServer().getPlayer(split[2]);
                 if (p != null) {
                     PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
@@ -341,54 +367,57 @@ public class ChakraCommand extends Command {
         List<String> completion = new ArrayList();
         switch (split.length) {
             case 1 :
-                complete(completion, "roll", split[0]);
-                if(sender.isOp()) {
-                    complete(completion, "add", split[0]);
-                    complete(completion, "remove", split[0]);
-                    complete(completion, "setmax", split[0]);
-                    complete(completion, "set", split[0]);
-                    complete(completion, "addtype", split[0]);
-                    complete(completion, "removetype", split[0]);
-                    complete(completion, "mission", split[0]);
-                    complete(completion, "passif", split[0]);
-                    complete(completion, "complement", split[0]);
-                }
+                if (sender.hasPermission(PERMISSION_ROLL)) complete(completion, "roll", split[0]);
+                if (sender.hasPermission(PERMISSION_ADD)) complete(completion, "add", split[0]);
+                if (sender.hasPermission(PERMISSION_REMOVE)) complete(completion, "remove", split[0]);
+                if (sender.hasPermission(PERMISSION_SET_MAX)) complete(completion, "setmax", split[0]);
+                if (sender.hasPermission(PERMISSION_SET)) complete(completion, "set", split[0]);
+                if (sender.hasPermission(PERMISSION_TYPE_ADD)) complete(completion, "addtype", split[0]);
+                if (sender.hasPermission(PERMISSION_TYPE_REMOVE)) complete(completion, "removetype", split[0]);
+                if (sender.hasPermission(PERMISSION_MISSION_ADD) || sender.hasPermission(PERMISSION_MISSION_REMOVE) || sender.hasPermission(PERMISSION_MISSION_GET)) complete(completion, "mission", split[0]);
+                if (sender.hasPermission(PERMISSION_PASSIF_ADD) || sender.hasPermission(PERMISSION_PASSIF_REMOVE) || sender.hasPermission(PERMISSION_PASSIF_GET)) complete(completion, "passif", split[0]);
+                if (sender.hasPermission(PERMISSION_COMPLEMENT_ADD) || sender.hasPermission(PERMISSION_COMPLEMENT_REMOVE))) complete(completion, "complement", split[0]);
                 break;
             case 2 :
-                if(sender.isOp()) {
-                    if(split[0].equals("mission") || split[0].equals("passif") || split[0].equals("complement")) {
-                        complete(completion, "add", split[1]);
-                        complete(completion, "remove", split[1]);
-                        if(split[0].equals("mission") || split[0].equals("passif")) {
-                            complete(completion, "get", split[1]);
-                        }
-                    }
-                    else if(split[0].equals("addtype") || split[0].equals("removetype") || split[0].equals("add") ||
-                            split[0].equals("remove") || split[0].equals("setmax") || split[0].equals("set")) {
-                        for (Player p : Bukkit.getOnlinePlayers()) {
-                            complete(completion, p.getName(), split[1]);
-                        }
+                if(split[0].equals("mission") || split[0].equals("passif") || split[0].equals("complement")) {
+                    if ((split[0].equals("mission") && sender.hasPermission(PERMISSION_MISSION_ADD)) ||
+                        (split[0].equals("passif") && sender.hasPermission(PERMISSION_PASSIF_ADD)) ||
+                        (split[0].equals("complement") && sender.hasPermission(PERMISSION_COMPLEMENT_ADD)))
+                    complete(completion, "add", split[1]);
+                    
+                    if ((split[0].equals("mission") && sender.hasPermission(PERMISSION_MISSION_REMOVE)) ||
+                        (split[0].equals("passif") && sender.hasPermission(PERMISSION_PASSIF_REMOVE)) ||
+                        (split[0].equals("complement") && sender.hasPermission(PERMISSION_COMPLEMENT_REMOVE)))
+                    complete(completion, "remove", split[1]);
+                    
+                    if ((split[0].equals("mission") && sender.hasPermission(PERMISSION_MISSION_GET)) ||
+                        (split[0].equals("passif") && sender.hasPermission(PERMISSION_PASSIF_GET)))
+                    complete(completion, "get", split[1]);
+                }
+                else if(split[0].equals("addtype") || split[0].equals("removetype") || split[0].equals("add") ||
+                        split[0].equals("remove") || split[0].equals("setmax") || split[0].equals("set")) {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        complete(completion, p.getName(), split[1]);
                     }
                 }
                 break;
             case 3 :
-                if(sender.isOp()) {
-                    if(split[0].equals("mission") || split[0].equals("passif") || split[0].equals("complement")) {
-                        if(split[1].equals("add") || split[1].equals("remove") || split[1].equals("get")) {
-                            for(Player p : Bukkit.getOnlinePlayers()) {
-                                complete(completion, p.getName(), split[2]);
-                            }
-                        }
-                    }
-                    else if(split[0].equals("addtype") || split[0].equals("removetype")) {
-                        Player p = Bukkit.getPlayer(split[1]);
-                        if(p != null) {
-                            for(ChakraType chakraType : ChakraType.values()) {
-                                complete(completion, chakraType.name.substring(2), split[2]);
-                            }
+                if(split[0].equals("mission") || split[0].equals("passif") || split[0].equals("complement")) {
+                    if(split[1].equals("add") || split[1].equals("remove") || split[1].equals("get")) {
+                        for(Player p : Bukkit.getOnlinePlayers()) {
+                            complete(completion, p.getName(), split[2]);
                         }
                     }
                 }
+                else if(split[0].equals("addtype") || split[0].equals("removetype")) {
+                    Player p = Bukkit.getPlayer(split[1]);
+                    if(p != null) {
+                        for(ChakraType chakraType : ChakraType.values()) {
+                            complete(completion, chakraType.name.substring(2), split[2]);
+                        }
+                    }
+                }
+                break;
         }
         return completion;
     }
@@ -408,7 +437,8 @@ public class ChakraCommand extends Command {
             helpList.add("§6/chakra §emission §7add (joueur) (nb)§8- Permet d'ajouter du chakra de mission.");
             helpList.add("§6/chakra §emission §7remove (joueur) (nb) §8- Permet de retirer du chakra de mission.");
             helpList.add("§6/chakra §emission §7get (joueur) §8- Permet de connaître le chakra de mission.");
-            helpList.add("§6/chakra §ecomplement §7set (joueur) (nb) §8- Ajoute ou retire du chakra maximum au joueur");
+            helpList.add("§6/chakra §ecomplement §7add (joueur) (nb) §8- Ajoute du chakra maximum au joueur");
+            helpList.add("§6/chakra §ecomplement §7remove (joueur) (nb) §8- Retire du chakra maximum au joueur");
             helpList.add("§6/chakra §epassif §7add (joueur) (nombre) §8- Permet d'ajouter du chakra passif.");
             helpList.add("§6/chakra §epassif §7remove (joueur) (nombre) §8- Permet de retirer du chakra passif.");
             helpList.add("§6/chakra §epassif §7get (joueur) §8- Permet de connaître le chakra passif d'un joueur.");
