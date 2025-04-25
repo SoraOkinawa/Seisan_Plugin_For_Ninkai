@@ -16,26 +16,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProfilEditCommand extends Command {
+    public static final String PERMISSION_SET = "ninkai.profil.edit.set";
+    public static final String PERMISSION_RESET = "ninkai.profil.edit.reset";
+    public static final String PERMISSION_LIST = "ninkai.profil.edit.list";
+    public static final String PERMISSION_SEE = "ninkai.profil.edit.see";
+    public static final String PERMISSION_ATTRIBUT = "ninkai.profil.attribut";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        if(sender.isOp()){
-            if(split.length == 2 && split[0].equals("reset")) {
-                Player target = sender.getServer().getPlayer(split[1]);
-                if (target != null) {
-                    PlayerInfo tInfo = PlayerInfo.getPlayerInfo(target);
-                    tInfo.reset();
-                    sender.sendMessage("§cHRP : §7La fiche personnage de "+ target.getDisplayName()+" a été réinitialisée.");
-                }
+        if(split.length == 2 && split[0].equals("reset") && sender.hasPermission(PERMISSION_RESET)) {
+            Player target = sender.getServer().getPlayer(split[1]);
+            if (target != null) {
+                PlayerInfo tInfo = PlayerInfo.getPlayerInfo(target);
+                tInfo.reset();
+                sender.sendMessage("§cHRP : §7La fiche personnage de "+ target.getDisplayName()+" a été réinitialisée.");
             }
-            else {
-                if (split.length > 1) {
-                    modify(sender, split);
-                } else {
-                    sendHelpList(sender);
-                }
+        }
+        else {
+            if (split.length > 1) {
+                modify(sender, split);
+            } else {
+                sendHelpList(sender);
             }
-        } else {
-            sender.sendMessage(ChatColor.RED + "Vous n'avez pas la permission !");
         }
     }
 
@@ -45,18 +47,22 @@ public class ProfilEditCommand extends Command {
         List<String> completion = new ArrayList();
         switch(split.length) {
             case 1:
-                complete(completion, "style", split[0]);
-                complete(completion, "voie", split[0]);
-                complete(completion, "clan", split[0]);
-                complete(completion, "encre", split[0]);
-                complete(completion, "reset", split[0]);
+                if (sender.hasPermission(PERMISSION_SET) || sender.hasPermission(PERMISSION_LIST)) {
+                    complete(completion, "style", split[0]);
+                    complete(completion, "voie", split[0]);
+                    complete(completion, "clan", split[0]);
+                }
+                
+                if (sender.hasPermission(PERMISSION_RESET)) {
+                    complete(completion, "reset", split[0]);
+                }
                 break;
             case 2:
                 if(split[0].equals("style") || split[0].equals("voie") || split[0].equals("clan")) {
-                    complete(completion, "list", split[1]);
-                    complete(completion, "set", split[1]);
+                    if (sender.hasPermission(PERMISSION_LIST)) complete(completion, "list", split[1]);
+                    if (sender.hasPermission(PERMISSION_SET)) complete(completion, "set", split[1]);
                 }
-                if(split[0].equals("reset")) {
+                if(split[0].equals("reset") && sender.hasPermission(PERMISSION_RESET)) {
                     for(Player p : Bukkit.getOnlinePlayers()) {
                         complete(completion,p.getName(), split[1]);
                     }
@@ -64,7 +70,7 @@ public class ProfilEditCommand extends Command {
                 break;
             case 3:
                 if(split[0].equals("style") || split[0].equals("voie") || split[0].equals("clan")) {
-                    if(split[1].equals("set")) {
+                    if(split[1].equals("set") && sender.hasPermission(PERMISSION_SET)) {
                         for(Player p : Bukkit.getOnlinePlayers()) {
                             complete(completion,p.getName(), split[2]);
                         }
@@ -72,7 +78,7 @@ public class ProfilEditCommand extends Command {
                 }
                 break;
             case 4:
-                if(split[1].equals("set")) {
+                if(split[1].equals("set") && sender.hasPermission(PERMISSION_SET)) {
                     switch (split[0]) {
                         case "style":
                         case "voie":
@@ -90,7 +96,6 @@ public class ProfilEditCommand extends Command {
         }
         return completion;
     }
-
 
     private void modify(CommandSender sender, String[] args) {
         switch (args[1]) {
@@ -139,12 +144,6 @@ public class ProfilEditCommand extends Command {
                                         sendHelpList(sender);
                                     }
                                 }
-                                break;
-                            case "encre":
-                                // nb d'encre
-                                int ink = Integer.parseInt(args[3]);
-                                tInfo.setInk(ink);
-                                sender.sendMessage("§cHRP : "+tInfo.getPlayer().getDisplayName() + "§7 a désormais " + ink+" doses d'encre.");
                                 break;
                             default:
                                 sendHelpList(sender);
@@ -199,7 +198,7 @@ public class ProfilEditCommand extends Command {
             sender.sendMessage("§6/profiledit §aclan§7|§bvoie§7|§cstyle §elist §8- Liste les clans, les styles ou les voies (avec leurs id)");
             sender.sendMessage("§6/profiledit §aclan§7|§bvoie§7|§cstyle §esee §7(joueur) §8- Informe sur le clan, voie ou style d'un joueur");
             sender.sendMessage("§6/profiledit §aattribut set (joueur) §6(attribut) - §8L'attribut est un nom si le joueur est Inuzuka, si il est Sabaku : 1/2/3/4");
-            sender.sendMessage("§6/profiledit §aencre set (joueur) §6(nb) - §8Donne un montant des doses d'encre");
+            sender.sendMessage("§6/profiledit §areset (joueur) - §8Remet à zéro le profil d'un joueur.");
         }
     }
 
