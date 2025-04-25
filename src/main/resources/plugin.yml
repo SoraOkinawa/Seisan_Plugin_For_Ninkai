@@ -330,6 +330,27 @@ permissions:
     description: Donne l'accès à la commande /train.
   ninkai.clone:
     description: Donne l'accès à la commande /clone.
+    children:
+      ninkai.clone.forcecreate: false
+      ninkai.clone.remove: false
+      ninkai.clone.remove.all: false
+      ninkai.clone.tphere: false
+      ninkai.clone.switch: false
+      ninkai.clone.addperm: false
+  ninkai.clone.forcecreate:
+    description: Permet de créer des clones sans restrictions.
+  ninkai.clone.remove:
+    description: Permet de supprimer un clone.
+    children:
+      ninkai.clone.remove.all: false
+  ninkai.clone.remove.all:
+    description: Permet de supprimer tous ses clones.
+  ninkai.clone.tphere:
+    description: Permet de téléporter un clone à soi.
+  ninkai.clone.switch:
+    description: Permet d'échanger sa position avec celle d'un clone.
+  ninkai.clone.addperm:
+    description: Permet de donner l'autorisation à un joueur de créer X nombre de clones.
   ninkai.stop:
     description: Donne l'accès à la commande /stop.
   ninkai.target:
@@ -338,14 +359,106 @@ permissions:
     description: Donne l'accès à la commande /rank pour changer le rank d'un joueur.
   ninkai.jutsu:
     description: Donne l'accès à la commande /jutsu et ses sous commandes.
+    children:
+      ninkai.jutsu.mastery: false
+      ninkai.jutsu.mastery.all: false
+      ninkai.jutsu.learn: false
+      ninkai.jutsu.learn.all: false
+      ninkai.jutsu.unlearn: false
+      ninkai.jutsu.unlearn.all: false
+      ninkai.jutsu.list: false
+      ninkai.jutsu.list.all: false
+      ninkai.jutsu.select: false
+      ninkai.jutsu.unselect: false
+      ninkai.jutsu.help: false
+  ninkai.jutsu.mastery:
+    description: Permet de modifier le niveau de maîtrise d'un jutsu.
+    children:
+      ninkai.jutsu.mastery.all: false
+  ninkai.jutsu.mastery.all:
+    description: Permet de modifier le niveau de maîtrise de tous les jutsu.
+  ninkai.jutsu.learn:
+    description: Permet d'apprendre un jutsu.
+    children:
+      ninkai.jutsu.learn.all: false
+  ninkai.jutsu.learn.all:
+    description: Permet d'apprendre tous les jutsu.
+  ninkai.jutsu.unlearn:
+    description: Permet d'oublier un jutsu.
+    children:
+      ninkai.jutsu.unlearn.all: false
+  ninkai.jutsu.unlearn.all:
+    description: Permet d'oublier tous les jutsu.
+  ninkai.jutsu.list:
+    description: Permet de lister les jutsu connus par le joueur.
+    children:
+      ninkai.jutsu.list.all: false
+  ninkai.jutsu.list.all:
+    description: Permet de lister tous les jutsu existants sur le server.
+  ninkai.jutsu.select:
+    description: Permet de sélectionner un jutsu.
+  ninkai.jutsu.unselect:
+    description: Permet de déselectionner un jutsu.
+  ninkai.jutsu.help:
+    description: Permet d'afficher l'aide.
   ninkai.chakra:
     description: Permission mère pour toutes les commandes liées au chakra.
     children:
+      ninkai.chakra.info: false
+      ninkai.chakra.roll: true
+      ninkai.chakra.add: false
+      ninkai.chakra.remove: false
+      ninkai.chakra.set: false
+      ninkai.chakra.set.max: false
+      ninkai.chakra.type.add: false
+      ninkai.chakra.type.remove: false
+      ninkai.chakra.mission.get: false
+      ninkai.chakra.mission.add: false
+      ninkai.chakra.mission.remove: false
+      ninkai.chakra.passif.get: false
+      ninkai.chakra.passif.add: false
+      ninkai.chakra.passif.remove: false
+      ninkai.chakra.complement.add: false
+      ninkai.chakra.complement.remove: false
       ninkai.chakra.lost: true
       ninkai.chakra.transfer: false
       ninkai.chakra.steal: false
       ninkai.chakra.give: false
       ninkai.chakra.color: false
+  ninkai.chakra.info:
+    description: Permet d'obtenir une liste d'infos sur le chakra du joueur choisi.
+  ninkai.chakra.roll:
+    description: Permet de choisir aléatoirement sa nature de chakra.
+  ninkai.chakra.add:
+    description: Permet d'ajouter du chakra.
+  ninkai.chakra.remove:
+    description: Permet d'enlever du chakra.
+  ninkai.chakra.set:
+    description: Permet de modifie la quantité actuelle de chakra d'un joueur.
+    children:
+      ninkai.chakra.set.max: false
+  ninkai.chakra.set.max:
+    description: Permet de modifier la quantité maximale de chakra d'un joueur.
+  ninkai.chakra.type.add:
+    description: Permet d'ajouter une nouvelle nature de chakra à un joueur.
+  ninkai.chakra.type.remove:
+    description: Permet de retirer une nature de chakra à un joueur.
+  ninkai.chakra.mission.get:
+    description: Permet d'obtenir la quantité de chakra de mission détenue par un joueur.
+  ninkai.chakra.mission.add:
+    description: Permet d'ajouter du chakra de mission à un joueur.
+  ninkai.chakra.mission.remove:
+    description: Permet d'enlever du chakra de mission à un joueur.
+  ninkai.chakra.passif.get:
+    description: Permet d'obtenir la quantité de chakra passif détenue par un joueur
+  ninkai.chakra.passif.add:
+    description: Permet d'ajouter du chakra passif à un joueur
+  ninkai.chakra.passif.remove:
+    description: Permet d'enlever du chakra passif à un joueur
+  ninkai.chakra.complement.add:
+    description: Permet d'ajouter un complément de chakra à un joueur
+  ninkai.chakra.complement.remove:
+    description: Permet de retirer un complément de chakra à un joueur
   ninkai.chakra.lost:
     description: Donne l'accès à la commande /lost, pour s'enlever soi-même du chakra.
   ninkai.chakra.transfer:
@@ -364,8 +477,17 @@ permissions:
       ninkai.profil.edit: false
   ninkai.profil.mj:
     description: Donne l'accès à la commande /profilmj.
+    children:
+      ninkai.profil.mj.save: false
+      ninkai.profil.mj.load: false
+  ninkai.profil.mj.save:
+    description: Permet de sauvegarder le profil actuel du MJ sous un nom précis.
+  ninkai.profil.mj.load:
+    description: Permet de charger un des profils sauvegardés.
   ninkai.profil.mask:
     description: Donne l'accès à la commande /maskprofil.
+    children:
+      ninkai.profil.mask.bypass: false
   ninkai.profil.edit:
     description: Donne l'accès à la commande /profiledit, pour modifier le profil des joueurs.
   ninkai.abilities:
@@ -375,13 +497,37 @@ permissions:
   ninkai.aprofil:
     description: Donne l'accès à la commande /aprofil.
   ninkai.ninken:
-    description: Donne l'accès à la commande /ninke.
+    description: Donne l'accès à la commande /ninken.
+    children:
+      ninkai.ninken.forcesize: false
+  ninkai.ninken.forcesize:
+    description: Permet de changer de force la taille d'un ninken.
   ninkai.competence:
     description: Donne l'accès à la commande /competence.
   ninkai.entrainement:
     description: Donne l'accès à la commande /entrainement.
+    children:
+      ninkai.entrainement.add: false
+      ninkai.entrainement.remove: false
+      ninkai.entrainement.reset: false
+  ninkai.entrainement.add:
+    description: Permet d'ajouter des points de compétence d'entraînement
+  ninkai.entrainement.remove:
+    description: Permet d'enlever des points de compétence d'entraînement
+  ninkai.entrainement.reset:
+    description: Permet de réinitialiser les points de compétence d'entraînement
   ninkai.prouesse:
     description: Donne l'accès à la commande /prouesse.
+    children:
+      ninkai.prouesse.get: false
+      ninkai.prouesse.remove: false
+      ninkai.prouesse.add: false
+  ninkai.prouesse.get:
+    description: Permet d'obtenir les prouesses d'un joueur
+  ninkai.prouesse.remove:
+    description: Permet d'enlever une prouesse d'un joueur
+  ninkai.prouesse.add:
+    description: Permet d'ajouter une prouesse à un joueur
   ninkai.whois:
     description: Donne l'accès à la commande /whois.
   ninkai.giveitem:
@@ -390,12 +536,38 @@ permissions:
     description: Donne l'accès à la commande /tpback.
   ninkai.genre:
     description: Donne l'accès à la commande /genre.
+    children:
+      ninkai.genre.force: false
+  ninkai.genre.force:
+    description: Permet de modifier le genre d'un autre joueur.
   ninkai.meditation:
     description: Donne l'accès à la commande /meditation.
   ninkai.givecompetence:
     description: Donne l'accès à la commande /givecompetence.
   ninkai.hrp:
     description: Donne l'accès à la commande /hrp.
+    children:
+      ninkai.hrp.add: false
+      ninkai.hrp.remove: false
+      ninkai.hrp.list: false
+      ninkai.hrp.clan.add: false
+      ninkai.hrp.clan.remove: false
+      ninkai.hrp.clan.list: false
+      ninkai.hrp.clan.force: false
+  ninkai.hrp.add:
+    description: Permet d'ajouter un coffre dans le /hrp.
+  ninkai.hrp.remove:
+    description: Permet d'enlever un coffre dans le /hrp.
+  ninkai.hrp.list:
+    description: Permet de lister tous les coffres du /hrp.
+  ninkai.hrp.clan.add:
+    description: Permet d'ajouter un coffre de clan dans le /hrp.
+  ninkai.hrp.clan.remove:
+    description: Permet d'enlever un coffre de clan dans le /hrp.
+  ninkai.hrp.clan.list:
+    description: Permet de lister tous les coffres de clan du /hrp.
+  ninkai.hrp.clan.force:
+    description: Permet d'ouvrir de force un des coffres de clan du /hrp.
   ninkai.ryoji:
     description: Donne l'accès à la commande /ryoji.
   ninkai.jumpupdown:
