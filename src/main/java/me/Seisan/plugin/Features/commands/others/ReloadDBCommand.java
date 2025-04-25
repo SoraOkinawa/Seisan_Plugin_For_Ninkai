@@ -47,8 +47,19 @@ public class ReloadDBCommand extends Command {
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split)
     {
-        List<String> completion = new ArrayList<>(Arrays.asList("jutsu", "ability"));
-        if(split.length == 1) for(Player p : Bukkit.getOnlinePlayers()) complete(completion, p.getName(), split[0]);
+        List<String> completion = new ArrayList<>();
+        switch (split.length) {
+            case 1:
+                complete(completion, "jutsu", split[0]);
+                complete(completion, "ability", split[0]);
+                break;
+            case 2:
+                complete(completion,  "idGsheet", split[1]);
+                break;
+            case 3:
+                complete(completion,  "plage", split[2]);
+                break;
+        }
         return completion;
     }
 }
