@@ -14,40 +14,43 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class RyojiCommand extends Command {
+    public static final String PERMISSION_ADD = "ninkai.ryoji.add";
+    public static final String PERMISSION_REMOVE = "ninkai.ryoji.remove";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
-        if (sender.isOp()) {
-            if(split.length == 2) {
-                if(split[0].equals("add")) {
-                    Player p = Bukkit.getPlayer(split[1]);
-                    if(p == null) {
-                        sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
-                        return;
-                    }
-                    PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
-                    if(pConfig.isRyoji()) {
-                        sender.sendMessage("§cHRP : §7Le joueur est déjà Ryoji.");
-                        return;
-                    }
-                    pConfig.setRyoji(true);
+        Player pSender = (Player) sender;
+        
+        if(split.length == 2) {
+            if(split[0].equals("add") && pSender.hasPermission(PERMISSION_ADD)) {
+                Player p = Bukkit.getPlayer(split[1]);
+                if(p == null) {
+                    sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
+                    return;
                 }
-                else if(split[0].equals("remove")) {
-                    Player p = Bukkit.getPlayer(split[1]);
-                    if(p == null) {
-                        sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
-                        return;
-                    }
-                    PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
-                    if(!pConfig.isRyoji()) {
-                        sender.sendMessage("§cHRP : §7Le joueur n'est pas Ryoji.");
-                        return;
-                    }
-                    pConfig.setRyoji(false);
+                PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
+                if(pConfig.isRyoji()) {
+                    sender.sendMessage("§cHRP : §7Le joueur est déjà Ryoji.");
+                    return;
                 }
-                else {
-                    sender.sendMessage("§cHRP : §7/ryoji add [joueur]");
-                    sender.sendMessage("§cHRP : §7/ryoji remove [joueur]");
+                pConfig.setRyoji(true);
+            }
+            else if(split[0].equals("remove")  && pSender.hasPermission(PERMISSION_REMOVE)) {
+                Player p = Bukkit.getPlayer(split[1]);
+                if(p == null) {
+                    sender.sendMessage("§cHRP : §7Le joueur n'est pas connecté.");
+                    return;
                 }
+                PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
+                if(!pConfig.isRyoji()) {
+                    sender.sendMessage("§cHRP : §7Le joueur n'est pas Ryoji.");
+                    return;
+                }
+                pConfig.setRyoji(false);
+            }
+            else {
+                sender.sendMessage("§cHRP : §7/ryoji add [joueur]");
+                sender.sendMessage("§cHRP : §7/ryoji remove [joueur]");
             }
         }
         else {
@@ -76,16 +79,12 @@ public class RyojiCommand extends Command {
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split)
     {
+        Player pSender = (Player) sender;
         List<String> completion = new ArrayList();
         if(split.length == 1) {
-            if(sender.isOp()) {
-                complete(completion, "add", split[0]);
-                complete(completion, "remove", split[0]);
-            }
+            if (pSender.hasPermission(PERMISSION_ADD)) complete(completion, "add", split[0]);
+            if (pSender.hasPermission(PERMISSION_REMOVE)) complete(completion, "remove", split[0]);
         }
         return completion;
     }
-
-
-
 }
