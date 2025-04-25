@@ -134,8 +134,5 @@ public class GiveCompetenceCommand extends Command {
         }
         return completion;
     }
-
-
-
 }
 

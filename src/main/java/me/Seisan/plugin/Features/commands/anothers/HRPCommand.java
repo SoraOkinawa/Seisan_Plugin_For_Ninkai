@@ -26,9 +26,15 @@ import java.util.List;
 
 
 public class HRPCommand extends Command {
-
     private static final Config hrpConfig = new Config("hrpChest.yml");
-
+    private static final String PERMISSION_ADD = "ninkai.hrp.add";
+    private static final String PERMISSION_REMOVE = "ninkai.hrp.remove";
+    private static final String PERMISSION_LIST = "ninkai.hrp.list";
+    private static final String PERMISSION_CLAN_ADD = "ninkai.hrp.clan.add";
+    private static final String PERMISSION_CLAN_REMOVE = "ninkai.hrp.clan.remove";
+    private static final String PERMISSION_CLAN_LIST = "ninkai.hrp.clan.list";
+    private static final String PERMISSION_CLAN_FORCE = "ninkai.hrp.clan.force";
+    
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -52,7 +58,7 @@ public class HRPCommand extends Command {
                 p.openInventory(getPoubelleInventory(p));
             }
             // /hrp add : Ajoute un coffre aux coffres de HRP
-            else if (args.length == 1 && args[0].equalsIgnoreCase("add") && p.isOp()) {
+            else if (args.length == 1 && args[0].equalsIgnoreCase("add") && p.hasPermission(PERMISSION_ADD)) {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
@@ -63,7 +69,7 @@ public class HRPCommand extends Command {
                 }
             }
             // /hrp remove : Supprime un coffre des coffres de HRP
-            else if (args.length == 1 && args[0].equalsIgnoreCase("remove") && p.isOp()) {
+            else if (args.length == 1 && args[0].equalsIgnoreCase("remove") && p.hasPermission(PERMISSION_REMOVE)) {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
@@ -76,7 +82,7 @@ public class HRPCommand extends Command {
 
             }
             // /hrp list : Liste les coordonnées des coffres de HRP
-            else if (args.length == 1 && args[0].equalsIgnoreCase("list") && p.isOp()) {
+            else if (args.length == 1 && args[0].equalsIgnoreCase("list") && p.hasPermission(PERMISSION_LIST)) {
                 p.sendMessage(ChatColor.GRAY + "Liste des coffres HRP :");
                 hrpConfig.getKeys("hrpMainChest", true).forEach(key -> {
                     p.sendMessage(ChatColor.GRAY + " - " + key);
@@ -84,7 +90,7 @@ public class HRPCommand extends Command {
             }
 
             // /hrp clan add <clan> <level> : Ajoute un coffre aux coffres de HRP du clan pour un niveau donné (MJ seulement)
-            else if (args.length == 4 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("add") && args[3].matches("[0-9]+") && p.isOp()) {
+            else if (args.length == 4 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("add") && args[3].matches("[0-9]+") && p.hasPermission(PERMISSION_CLAN_ADD)) {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
@@ -97,7 +103,7 @@ public class HRPCommand extends Command {
                 }
             }
             // /hrp clan remove <clan> : Supprime un coffre des coffres de HRP du clan
-            else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("remove") && p.isOp()) {
+            else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("remove") && p.hasPermission(PERMISSION_CLAN_REMOVE)) {
                 Block b = p.getTargetBlock(null, 5);
                 if (b.getType() == Material.CHEST) {
                     Location loc = b.getLocation();
@@ -109,24 +115,24 @@ public class HRPCommand extends Command {
                 }
             }
             // /hrp clan list <clan> : Liste les coordonnées des coffres de HRP du clan
-            else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("list") && p.isOp()) {
+            else if (args.length == 3 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("list") && p.hasPermission(PERMISSION_CLAN_LIST)) {
                 p.sendMessage(ChatColor.GRAY + "Liste des coffres HRP du clan " + args[2] + " :");
                 hrpConfig.getKeys("hrpClanChest." + args[2].toLowerCase(), true).forEach(key -> {
                     p.sendMessage(ChatColor.GRAY + " - " + key + " : " + hrpConfig.getInt("hrpClanChest." + args[2] + "." + key) + " (niveau)");
                 });
             }
             // /hrp clan list : Liste les clans ayant des coffres HRP
-            else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("list") && p.isOp()) {
+            else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && args[1].equalsIgnoreCase("list") && p.hasPermission(PERMISSION_CLAN_LIST)) {
                 p.sendMessage(ChatColor.GRAY + "Liste des clans ayant des coffres HRP :");
                 hrpConfig.getKeys("hrpClanChest", false).forEach(key -> {
                     p.sendMessage(ChatColor.GRAY + " - " + key);
                 });
             }
             // /hrp clan <clan> : Ouvre le coffre HRP du clan au level max
-            else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && p.isOp()) {
+            else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && p.hasPermission(PERMISSION_CLAN_FORCE)) {
                 openInventoryFromChest(p, "hrpClanChest." + args[1].toLowerCase(), args[1], -1);
             } else {
-                if (p.isOp())
+                if (p.hasPermission(PERMISSION_CLAN_FORCE))
                     p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan] [add|remove|list] [clan] [niveau]");
                 else p.sendMessage(ChatColor.RED + "Utilisation : /hrp [clan/poubelle/rien]");
             }
@@ -135,16 +141,14 @@ public class HRPCommand extends Command {
 
     @Override
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-
         if (args.length == 1) {
-
             List<String> completions = new ArrayList<>();
             completions.add("clan");
             completions.add("poubelle");
             completions.add("add");
             completions.add("remove");
             return StringUtil.copyPartialMatches(args[0], completions, new ArrayList<>());
-        } else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && sender.isOp()) {
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("clan") && sender.hasPermission(PERMISSION_CLAN_ADD) && sender.hasPermission(PERMISSION_CLAN_REMOVE) && sender.hasPermission(PERMISSION_CLAN_LIST)) {
             List<String> completions = new ArrayList<>();
             completions.add("add");
             completions.add("remove");
