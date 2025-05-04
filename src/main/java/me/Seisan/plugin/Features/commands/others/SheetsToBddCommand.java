@@ -36,8 +36,10 @@ public class SheetsToBddCommand extends Main.Command {
 	}
 	
 	private void addTechniques(CommandSender sender, List<List<Object>> values) {
+		int updated = 0, inserted = 0;
+		boolean result;
 		for (List row : values) {
-			TechniquesLoaderDB.insertOrUpdate(
+			result = TechniquesLoaderDB.insertOrUpdate(
 					row.get(0).toString(),
 					row.get(1).toString(),
 					row.get(2).toString(),
@@ -56,14 +58,24 @@ public class SheetsToBddCommand extends Main.Command {
 					row.get(15).toString(),
 					(row.size() > 16 ? row.get(16).toString() : "")
 			);
-			sender.sendMessage("§aTechnique " + row.get(0) + " §r§arajouté à la BDD ou mise à jour.");
+			
+			if (result) {
+				sender.sendMessage("§aTechnique " + row.get(0) + " §r§6mise à jour§a.");
+				updated++;
+			} else {
+				sender.sendMessage("§aTechnique " + row.get(0) + " §r§eajoutée à BDD.");
+				inserted++;
+			}
 		}
-		sender.sendMessage("§2§l" + values.size() + " §r§atechniques rajoutées à la BDD ou mise à jour.");
+		sender.sendMessage("§2§l" + inserted + " §r§atechniques rajoutées à la BDD.");
+		sender.sendMessage("§2§l" + updated + " §r§atechniques mises à jour.");
 	}
 	
 	private void addAbilities(CommandSender sender, List<List<Object>> values) {
+		int updated = 0, inserted = 0;
+		boolean result;
 		for (List row : values) {
-			AbilityLoaderDB.updateOrInsert(
+			result = AbilityLoaderDB.updateOrInsert(
 					row.get(0).toString(),
 					row.get(1).toString(),
 					row.get(2).toString(),
@@ -81,9 +93,17 @@ public class SheetsToBddCommand extends Main.Command {
 					row.get(14).toString(),
 					row.get(15).toString()
 			);
-			sender.sendMessage("§aCompétence " + row.get(0) + " §r§arajouté à la BDD ou mise à jour.");
+			
+			if (result) {
+				sender.sendMessage("§bCompétence " + row.get(0) + " §r§6mise à jour§b.");
+				updated++;
+			} else {
+				sender.sendMessage("§bCompétence " + row.get(0) + " §r§eajoutée à BDD§b.");
+				inserted++;
+			}
 		}
-		sender.sendMessage("§2§l" + values.size() + " §r§acompétences rajoutées à la BDD ou mise à jour.");
+		sender.sendMessage("§3§l" + inserted + " §r§acompétences rajoutées à la BDD.");
+		sender.sendMessage("§3§l" + updated + " §r§acompétences mises à jour.");
 	}
 	
 	private void displaySheet(CommandSender sender, List<List<Object>> values) {

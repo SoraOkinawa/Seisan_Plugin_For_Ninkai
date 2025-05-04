@@ -25,11 +25,36 @@ public class TechniquesLoaderDB {
             Main.LOG.info("Chargement des techniques réussi.");
     }
     
-    public static void insertOrUpdate(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {
-        if (isInserted(nameInPlugin))
+    /***
+     * Met à jour une technique si elle est déjà dans la BDD. Sinon, elle l'insère.
+     * @param name
+     * @param nameInPlugin
+     * @param category
+     * @param enabled
+     * @param manaCost
+     * @param needMastery
+     * @param needTarget
+     * @param skillVisibility
+     * @param canBeFullMaster
+     * @param _public
+     * @param itemType
+     * @param level
+     * @param message
+     * @param infoSup
+     * @param lore
+     * @param mudras
+     * @param commandList
+     * @return true si la technique a été update, false si elle a été insert
+     */
+    public static boolean insertOrUpdate(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {
+        if (isInserted(nameInPlugin)) {
             update(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, _public, itemType, level, message, infoSup, lore, mudras, commandList);
-        else
+            return true;
+        }
+        else {
             insert(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, _public, itemType, level, message, infoSup, lore, mudras, commandList);
+            return false;
+        }
     }
     
     public static void insert(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {

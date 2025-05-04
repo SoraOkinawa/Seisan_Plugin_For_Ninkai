@@ -22,12 +22,36 @@ public class AbilityLoaderDB {
         if (loadAll())
             Main.LOG.info("Chargement des compétences réussi.");
     }
-
-    public static void updateOrInsert(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
-        if (isInserted(nameInPlugin))
+    
+    /**
+     * Met à jour une compétence si elle est déjà dans la BDD. Sinon, elle l'insère.
+     * @param name
+     * @param nameInPlugin
+     * @param item
+     * @param type
+     * @param lvl
+     * @param tagkey
+     * @param tagvalue
+     * @param description
+     * @param pts
+     * @param ptsnec
+     * @param reqAbilities
+     * @param givenAbilities
+     * @param giveAbilities
+     * @param giveAllowed
+     * @param givenJutsu
+     * @param lore
+     * @return true si la compétence a été update, false si elle a été insert
+     */
+    public static boolean updateOrInsert(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
+        if (isInserted(nameInPlugin)) {
             update(name, nameInPlugin, item, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
-        else
+            return true;
+        }
+        else {
             insert(name, nameInPlugin, item, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
+            return false;
+        }
     }
     
     public static void insert(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
