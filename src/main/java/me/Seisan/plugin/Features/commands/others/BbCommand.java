@@ -3,6 +3,7 @@ package me.Seisan.plugin.Features.commands.others;
 import me.Seisan.plugin.Features.Inventory.SkillInventory;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Main.Command;
+import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -21,27 +22,29 @@ public class BbCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         Player p = (Player)sender;
-        PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
         
         switch (split.length) {
             case 0:
                 throw new NotImplementedException("Feature à venir soon !");
             case 1:
-                break;
             case 2:
-                break;
             case 3:
+                p.sendMessage(ChatColor.RED + "Usage : /bb <add|remove|set> <player> <amount>");
+                break;
+            case 4:
+                Player target = p.getServer().getPlayer(split[2]);
+                if (target == null) p.sendMessage(ChatColor.RED + "Usage : /bb <add|remove|set> <player> <amount>");
+                PlayerInfo targetInfo = PlayerInfo.getPlayerInfo(target);
+                
                 if (split[0].equals("points")) {
+                    int amount = Integer.parseInt(split[2]);
                     if ((split[1].equals("add") && p.hasPermission(PERMISSION_POINTS_ADD)) || (split[1].equals("remove") && p.hasPermission(PERMISSION_POINTS_REMOVE))) {
-                        int amount = Integer.parseInt(split[2]);
                         int modifier = (split[1].equals("add") ? 1 : -1);
-                        
-                        playerInfo.setJutsuPoints(playerInfo.getJutsuPoints() + (amount * modifier));
+    
+                        targetInfo.setJutsuPoints(targetInfo.getJutsuPoints() + (amount * modifier));
                     }
                     else if (split[1].equals("set") && p.hasPermission(PERMISSION_POINTS_SET)) {
-                        int amount = Integer.parseInt(split[2]);
-                        
-                        playerInfo.setJutsuPoints(amount);
+                        targetInfo.setJutsuPoints(amount);
                     }
                 }
                 break;
@@ -99,7 +102,11 @@ public class BbCommand extends Command {
                 break;
             case 3:
                 if (p.hasPermission(PERMISSION_POINTS_ADD) || p.hasPermission(PERMISSION_POINTS_REMOVE) || p.hasPermission(PERMISSION_POINTS_SET))
-                    complete(completion, "nombre entier", split[2]);
+                    for (Player onlinePlayer: Bukkit.getOnlinePlayers())
+                        complete(completion, onlinePlayer.getName(), split[2]);
+            case 4:
+                if (p.hasPermission(PERMISSION_POINTS_ADD) || p.hasPermission(PERMISSION_POINTS_REMOVE) || p.hasPermission(PERMISSION_POINTS_SET))
+                    complete(completion, "nombre entier", split[3]);
                 break;
         }
         
