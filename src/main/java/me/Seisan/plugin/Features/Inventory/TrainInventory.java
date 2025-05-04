@@ -32,9 +32,12 @@ public class TrainInventory {
         if(skullMeta != null) {
             skullMeta.setOwningPlayer(pInfo.getPlayer());
             skullMeta.setDisplayName("§6Fiche personnage de " + pInfo.getPlayer().getDisplayName());
+            String sexe = "§7Sexe : §f"+pInfo.getGender().getName();
+            String age = "§7Âge : §f" + pInfo.getAge();
             String rank = "§7Rang : §f"+pInfo.getRank().displayName;
+            String jutsuPoints = "§7Points de Technique : §f" + pInfo.getJutsuPoints();
             if(playerConfig.isRyoji()) rank = rank.concat("§7 (Ryoji)");
-            skullMeta.setLore(Arrays.asList("§7Sexe : §f"+pInfo.getGender().getName(),"§7Âge : §f" + pInfo.getAge(), rank));
+            skullMeta.setLore(Arrays.asList(sexe, age, rank, jutsuPoints));
             skull.setItemMeta(skullMeta);
         }
 
