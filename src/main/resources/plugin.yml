@@ -202,9 +202,11 @@ commands:
     description: Permets de masquer le profil
     permission: ninkai.profil.mask
     permission-message: Permissions insuffisantes pour cette commande.
-#  bb:
-#    description: Permets aux juunins de give des parchemins
-#    aliases: bibliothequedesjuuninsseulementpourledondetechnique
+  bb:
+    description: Permets aux juunins de give des parchemins
+    aliases: [bibliotheque, biblio]
+    permission: ninkai.bb
+    permission-message: Permissions insuffisantes pour cette commande.
   meditation:
     description: Permet de rentrer en méditation avec soi-même
     permission: ninkai.meditation
