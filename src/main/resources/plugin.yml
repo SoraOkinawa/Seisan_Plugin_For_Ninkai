@@ -598,3 +598,15 @@ permissions:
     description: Donne l'accès à la commande /sheetstobdd.
   ninkai.barriere:
     description: Donne l'accès à la commande /barriere.
+  ninkai.bb:
+    description: Donne l'accès au /bb
+    children:
+      ninkai.bb.points.add: false
+      ninkai.bb.points.remove: false
+      ninkai.bb.points.set: false
+  ninkai.bb.points.add:
+    description: Permet de donner des points de techniques à un joueur.
+  ninkai.bb.points.remove:
+    description: Permet d'enlever des points de techniques à un joueur.
+  ninkai.bb.points.set:
+    description: Permet de mettre un nombre de points de techniques à un joueur.

@@ -37,14 +37,18 @@ public class BbCommand extends Command {
                 PlayerInfo targetInfo = PlayerInfo.getPlayerInfo(target);
                 
                 if (split[0].equals("points")) {
-                    int amount = Integer.parseInt(split[2]);
+                    int amount = Integer.parseInt(split[3]);
                     if ((split[1].equals("add") && p.hasPermission(PERMISSION_POINTS_ADD)) || (split[1].equals("remove") && p.hasPermission(PERMISSION_POINTS_REMOVE))) {
                         int modifier = (split[1].equals("add") ? 1 : -1);
     
                         targetInfo.setJutsuPoints(targetInfo.getJutsuPoints() + (amount * modifier));
+                        target.sendMessage("§7Vous avez " + (split[1].equals("add") ? "§aobtenu" : "§cperdu") + " §r§6" + amount + " §r§7points de techniques. Nouveau solde : §6" + targetInfo.getJutsuPoints());
+                        p.sendMessage("§b" + target.getName() + " §7a " + (split[1].equals("add") ? "§aobtenu" : "§cperdu") + " §r§6" + amount + " §r§7points de techniques. Nouveau solde : §6" + targetInfo.getJutsuPoints());
                     }
                     else if (split[1].equals("set") && p.hasPermission(PERMISSION_POINTS_SET)) {
                         targetInfo.setJutsuPoints(amount);
+                        target.sendMessage("§7Vous avez maintenant §6" + targetInfo.getJutsuPoints() + " §r§7points de compétences.");
+                        p.sendMessage("§b" + target.getName() + " §7a maintenant §6" + targetInfo.getJutsuPoints() + " §r§7points de compétences.");
                     }
                 }
                 break;
@@ -93,7 +97,7 @@ public class BbCommand extends Command {
         switch (split.length) {
             case 1:
                 if (p.hasPermission(PERMISSION_POINTS_ADD) || p.hasPermission(PERMISSION_POINTS_REMOVE) || p.hasPermission(PERMISSION_POINTS_SET))
-                    complete(completion, "check", split[0]);
+                    complete(completion, "points", split[0]);
                 break;
             case 2:
                 if (p.hasPermission(PERMISSION_POINTS_ADD)) complete(completion, "add", split[1]);
@@ -101,12 +105,14 @@ public class BbCommand extends Command {
                 if (p.hasPermission(PERMISSION_POINTS_SET)) complete(completion, "set", split[1]);
                 break;
             case 3:
-                if (p.hasPermission(PERMISSION_POINTS_ADD) || p.hasPermission(PERMISSION_POINTS_REMOVE) || p.hasPermission(PERMISSION_POINTS_SET))
+                if (p.hasPermission(PERMISSION_POINTS_ADD) || p.hasPermission(PERMISSION_POINTS_REMOVE) || p.hasPermission(PERMISSION_POINTS_SET)) {
                     for (Player onlinePlayer: Bukkit.getOnlinePlayers())
                         complete(completion, onlinePlayer.getName(), split[2]);
+                }
+                break;
             case 4:
                 if (p.hasPermission(PERMISSION_POINTS_ADD) || p.hasPermission(PERMISSION_POINTS_REMOVE) || p.hasPermission(PERMISSION_POINTS_SET))
-                    complete(completion, "nombre entier", split[3]);
+                    complete(completion, "nombreEntier", split[3]);
                 break;
         }
         

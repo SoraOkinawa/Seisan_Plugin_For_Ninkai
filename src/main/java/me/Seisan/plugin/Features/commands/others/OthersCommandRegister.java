@@ -5,7 +5,7 @@ import me.Seisan.plugin.Features.Feature;
 public class OthersCommandRegister extends Feature {
     @Override
     protected void doRegister() {
-//        new BbCommand().register();
+        new BbCommand().register();
         new CloneCommand().register();
         new FullWhitelistCommand().register();
         new GiveChakraCommand().register();
