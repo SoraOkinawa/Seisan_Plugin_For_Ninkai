@@ -1020,6 +1020,8 @@ public class ChatFormat extends Feature {
         for (int i = 0; i < messageCopied.length; i++) {
             // on hover, we replace the hover action containing {PLAYER-DATA} by the relative quadrant direction of the player compared to p
             if (messageCopied[i].getHoverEvent() != null && messageCopied[i].getHoverEvent().getAction().equals(HoverEvent.Action.SHOW_TEXT)) {
+                BaseComponent nameWithHover = new TextComponent();
+                if (messageCopied[i].getExtra() != null) messageCopied[i].getExtra().forEach(nameWithHover::addExtra);
                 for (BaseComponent baseComponent : messageCopied[i].getHoverEvent().getValue()) {
                     if (baseComponent instanceof TextComponent) {
                         TextComponent textComponent = (TextComponent) baseComponent;
@@ -1028,8 +1030,8 @@ public class ChatFormat extends Feature {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
 
-                            BaseComponent nameWithHover = new TextComponent();
-                            messageCopied[i].getExtra().forEach(nameWithHover::addExtra);
+
+
                             nameWithHover.setHoverEvent(
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
