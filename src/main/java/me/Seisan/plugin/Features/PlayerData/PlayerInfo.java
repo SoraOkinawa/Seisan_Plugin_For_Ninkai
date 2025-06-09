@@ -564,6 +564,7 @@ public class PlayerInfo {
         ink = 0;
         prouesse.clear();
         gender = Gender.INDEFINI;
+        jutsuPoints = 0;
 
         player.kickPlayer("§6Réinitialisation de votre fiche personnage.");
     }
