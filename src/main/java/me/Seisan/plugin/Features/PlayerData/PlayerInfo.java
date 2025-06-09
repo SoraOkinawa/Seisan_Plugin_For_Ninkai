@@ -798,7 +798,7 @@ public class PlayerInfo {
         Ability instinct_4 = Ability.getByPluginName("instinct_4");
         Ability gestion_douleur_1 = Ability.getByPluginName("gestion_douleur_1");
         int nbpoints = getPointsUsed() + getPoints();
-        if (getLvL(styleCombat.getName()) >= 3) {
+        if (getLvL(styleCombat.getName()) >= 2) {
             if (!abilities.contains(instinct_1)) {
                 abilities.add(instinct_1);
                 player.sendMessage(ChatColor.GRAY + "Vous avez acquis la compétence : " + ChatColor.GOLD + instinct_1.getName());
