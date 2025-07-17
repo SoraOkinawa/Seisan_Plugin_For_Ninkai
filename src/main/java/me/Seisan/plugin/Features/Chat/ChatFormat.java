@@ -1027,14 +1027,13 @@ public class ChatFormat extends Feature {
                         if (textComponent.getText().contains("{PLAYER-DATA}")) {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
-
-                            BaseComponent nameWithHover = new TextComponent();
-                            messageCopied[i].getExtra().forEach(nameWithHover::addExtra);
+    
+                            BaseComponent nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName())[0];
                             nameWithHover.setHoverEvent(
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
                                             new ComponentBuilder("")
-                                                    .append(nameWithHover)
+                                                    .append((BaseComponent) TextComponent.fromLegacyText(sender.getDisplayName())[0])
                                                     .append(" (" + sender.getName() + ") - Âge : "
                                                             + PlayerInfo.getPlayerInfo(sender).getAge())
                                                     .color(ChatColor.YELLOW)
