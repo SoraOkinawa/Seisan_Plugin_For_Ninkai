@@ -59,7 +59,7 @@ public class BuildCommand extends Command {
         switch (split.length) {
             case 1:
                 for (Player player : Main.plugin().getServer().getOnlinePlayers()) {
-                    complete(completion, player.getName(), split[1]);
+                    complete(completion, player.getName(), split[0]);
                 }
                 break;
         }
