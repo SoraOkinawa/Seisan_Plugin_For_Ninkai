@@ -179,6 +179,8 @@ public class SkillInventory {
                 .concat(ChatColor.stripColor(pInfo.getStyleCombat().getName())));
         inv.setItem(28, ItemUtil.createItemStack(Material.PAPER, 1, name_style, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre style de combat."), "ninkai", pInfo.getStyleCombat().getTag()));
         inv.setItem(37, ItemUtil.createItemStack(Material.DIAMOND, "§6Favoris"));
+        if (typeJutsu.contains("Arcane"))
+            inv.setItem(38, ItemUtil.createItemStack(Material.PAPER, 1, "§5Arcane", Arrays.asList("§7Cliquez ici pour voir vos arcanes."), "ninkai", "ninpo_icon"));
         inv.setItem(48, ItemUtil.createItemStack(Material.DIAMOND, 1, "§6Jutsus non repertoriés", Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7non repertoriés par les catégories", "§7ci-dessus. (Exemple : 4ème voie)")));
         inv.setItem(50, ItemUtil.createItemStack(Material.BOOK, 1, "§6Liste complète des jutsus", Arrays.asList("§7Cliquez ici pour retourner sur l'ancien", "§7affichage des jutsus de votre personnage."), "ninkai", "rouleau_1"));
         i = 12;
