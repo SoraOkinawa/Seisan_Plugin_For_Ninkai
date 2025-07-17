@@ -52,6 +52,7 @@ public class Commands extends Feature {
         new ConversionCommand().register();
         new HideLanguageCommand().register();
         new BarriereCommand().register();
+        new FixPermCommand().register();
         param.add("add");
         param.add("remove");
 

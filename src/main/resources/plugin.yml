@@ -285,6 +285,11 @@ commands:
     usage: "Usage : /barriere <add|remove|list|lock|clear|envoie>"
     permission: ninkai.barriere
     permission-message: Permissions insuffisantes pour cette commande.
+  fixperm:
+    description: Permet d'unset les permissions auparavant données par le /build definitif et le /enca
+    usage: "Usage : /fixperm <player>"
+    permission: ninkai.fixperm
+    permission-message: Permissions insuffisantes pour cette commande.
 permissions:
   ninkai.chatmaster:
     description: Donne l'accès à la commande /chatmaster.
@@ -610,3 +615,7 @@ permissions:
     description: Permet d'enlever des points de techniques à un joueur.
   ninkai.bb.points.set:
     description: Permet de mettre un nombre de points de techniques à un joueur.
+  ninkai.chat.encadrant:
+    description: Donne accès au chat encadrant et aux requêtes
+  ninkai.fixperm:
+    description: Donne l'accès à la commande /fixperm.
