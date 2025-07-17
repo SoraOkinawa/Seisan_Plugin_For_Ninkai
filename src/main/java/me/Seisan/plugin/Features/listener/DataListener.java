@@ -54,7 +54,6 @@ public class DataListener extends Feature {
                 dbManager.getPlayerConfigDB().loadConfig(e.getPlayer());
                 PermissionAttachment attachment = p.addAttachment(main);
                 perms.put(p.getUniqueId(), attachment);
-                BuildCommand.newPermissionBuildMode(PlayerConfig.getPlayerConfig(e.getPlayer()));
             }
             if (!p.isOp())
             {

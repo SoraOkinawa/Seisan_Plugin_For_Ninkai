@@ -36,6 +36,8 @@ import static me.Seisan.plugin.Features.utils.ItemUtil.translateHexCodes;
 import static org.bukkit.ChatColor.COLOR_CHAR;
 
 public class ChatFormat extends Feature {
+    public static final String PERMISSION_CHAT_ENCADRANTS   = "ninkai.chat.encadrant";
+    
     private static List<String> PREFIX;
 
     // Map of player to list their message ending with > to send everything at once
@@ -871,7 +873,7 @@ public class ChatFormat extends Feature {
             MutableMeta mutableMeta = formatedMessage.getMutableMeta();
             Player player = event.getPlayer();
             PlayerConfig playerConfig = PlayerConfig.getPlayerConfig(player);
-            if (!(Channel.isMJ(player) || playerConfig.isEncamode()) && meta.prefix.equals("$")) {
+            if (!(Channel.isMJ(player) || player.hasPermission(PERMISSION_CHAT_ENCADRANTS)) && meta.prefix.equals("$")) {
                 for (int i = 0; i < arrayMessage.length; i++) {
                     if (i == 12) {
                         arrayMessage[i].setText(" [requete]>");
@@ -888,7 +890,7 @@ public class ChatFormat extends Feature {
                     player.sendMessage(ChatColor.RED + meta.getDenialMessage());
                     return;
                 }
-                if ("enca".equals(meta.getRestriction()) && !(player.isOp() || pConfig.isEncamode())) {
+                if ("enca".equals(meta.getRestriction()) && !(player.isOp() || player.hasPermission(PERMISSION_CHAT_ENCADRANTS))) {
                     player.sendMessage(ChatColor.RED + meta.getDenialMessage());
                     return;
                 }
@@ -950,7 +952,7 @@ public class ChatFormat extends Feature {
                                 suitable = false;
                             }
                             PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
-                            if ("enca".equals(meta.getOnlyFor()) && !(Channel.isMJ(p) || pConfig.isEncamode())) {
+                            if ("enca".equals(meta.getOnlyFor()) && !(Channel.isMJ(p) || p.hasPermission(PERMISSION_CHAT_ENCADRANTS))) {
                                 suitable = false;
                             }
                             if ("none".equals(meta.getOnlyFor())) {
