@@ -366,7 +366,7 @@ public class PlayerInfo {
     }
 
     public void updateAbility(Ability ability, CommandSender sender) {
-        char nb = ability.getName().toCharArray()[ability.getName().length() - 1];
+        char nb = ability.getNameInPlugin().toCharArray()[ability.getNameInPlugin().length() - 1];
         ArrayList<Ability> abilityArrayList = new ArrayList<>();
         ArrayList<Skill> givenSkillsArrayList = new ArrayList();
         abilityArrayList.add(ability);
@@ -397,9 +397,10 @@ public class PlayerInfo {
         for (Ability ability1 : abilityArrayList) {
             if (!abilities.contains(ability1)) {
                 player.sendMessage(ChatColor.GRAY + "Vous avez acquis la compétence : " + ChatColor.GOLD + ability1.getName());
-                this.SendLog((Player) sender, ability1, this.player);
+                if (sender != Bukkit.getConsoleSender()) this.SendLog((Player) sender, ability1, this.player);
                 abilities.add(ability1);
-                sender.sendMessage(player.getDisplayName() + " §7a acquis la compétence : " + ChatColor.GOLD + ability1.getName());
+                if (sender != Bukkit.getConsoleSender() && player != sender)
+                    sender.sendMessage(player.getDisplayName() + " §7a acquis la compétence : " + ChatColor.GOLD + ability1.getName());
             }
         }
         for (Skill skill : givenSkillsArrayList) {
@@ -412,7 +413,9 @@ public class PlayerInfo {
                 }
             }
         }
-        ajoutInstinct();
+        if (!ability.isAutoGiven()) {
+            ajoutInstinct();
+        }
         caract = new Caract(this.abilities);
     }
 
@@ -425,7 +428,7 @@ public class PlayerInfo {
         try {
             webhook.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            Main.LOG.warning("Aucun weebhook mis en place pour le log des apprentissages de compétences.");
         }
     }
 
@@ -437,9 +440,15 @@ public class PlayerInfo {
     public void removeAbility(Ability ability, CommandSender sender) {
         player.sendMessage(ChatColor.GRAY + "Vous avez perdu la compétence : " + ChatColor.GOLD + ability.getName());
         abilities.remove(ability);
-        sender.sendMessage("§cHRP : §7Le joueur a perdu la compétence : " + ability.getName());
+        
+        if (player != sender && sender != Bukkit.getConsoleSender())
+            sender.sendMessage("§cHRP : §7Le joueur a perdu la compétence : " + ability.getName());
+        
         caract = new Caract(this.abilities);
-        ajoutInstinct();
+        
+        if (!ability.isAutoGiven()) {
+            ajoutInstinct();
+        }
     }
 
     public int getLvL(String type) {
@@ -799,47 +808,43 @@ public class PlayerInfo {
         Ability instinct_4 = Ability.getByPluginName("instinct_4");
         Ability gestion_douleur_1 = Ability.getByPluginName("gestion_douleur_1");
         int nbpoints = getPointsUsed() + getPoints();
+        String abilitiesConfigPath = "abilities.minimumPointsNeeded.";
         if (getLvL(styleCombat.getName()) >= 2) {
             if (!abilities.contains(instinct_1)) {
-                abilities.add(instinct_1);
-                player.sendMessage(ChatColor.GRAY + "Vous avez acquis la compétence : " + ChatColor.GOLD + instinct_1.getName());
+                updateAbility(instinct_1, Bukkit.getConsoleSender());
             }
-        } else {
-            abilities.remove(instinct_1);
+        } else if (abilities.contains(instinct_1)) {
+            removeAbility(instinct_1, Bukkit.getConsoleSender());
         }
-        if (nbpoints >= 60) {
+        if (nbpoints >= Main.CONFIG.getInt(abilitiesConfigPath + "instinct_4")) {
             if (!abilities.contains(instinct_4)) {
-                abilities.add(instinct_4);
-                player.sendMessage(ChatColor.GRAY + "Vous avez acquis la compétence : " + ChatColor.GOLD + instinct_4.getName());
+               updateAbility(instinct_4, Bukkit.getConsoleSender());
             }
-        } else {
-            abilities.remove(instinct_4);
+        } else if (abilities.contains(instinct_4)) {
+            removeAbility(instinct_4, Bukkit.getConsoleSender());
         }
-        if (nbpoints >= 40) {
+        if (nbpoints >= Main.CONFIG.getInt(abilitiesConfigPath + "instinct_3")) {
             if (!abilities.contains(instinct_3)) {
-                abilities.add(instinct_3);
-                player.sendMessage(ChatColor.GRAY + "Vous avez acquis la compétence : " + ChatColor.GOLD + instinct_3.getName());
+                updateAbility(instinct_3, Bukkit.getConsoleSender());
             }
-        } else {
-            abilities.remove(instinct_3);
+        } else if (abilities.contains(instinct_3)) {
+            removeAbility(instinct_3, Bukkit.getConsoleSender());
         }
 
-        if (nbpoints >= 20) {
+        if (nbpoints >= Main.CONFIG.getInt(abilitiesConfigPath + "instinct_2")) {
             if (!abilities.contains(instinct_2)) {
-                abilities.add(instinct_2);
-                player.sendMessage(ChatColor.GRAY + "Vous avez acquis la compétence : " + ChatColor.GOLD + instinct_2.getName());
+                updateAbility(instinct_2, Bukkit.getConsoleSender());
             }
-        } else {
-            abilities.remove(instinct_2);
+        } else if (abilities.contains(instinct_2)) {
+            removeAbility(instinct_2, Bukkit.getConsoleSender());
         }
 
-        if (getNbmission() >= 12) {
+        if (getNbmission() >= Main.CONFIG.getInt(abilitiesConfigPath + "gestion_douleur_1")) {
             if (!abilities.contains(gestion_douleur_1)) {
-                abilities.add(gestion_douleur_1);
-                player.sendMessage(ChatColor.GRAY + "Vous avez acquis la compétence : " + ChatColor.GOLD + gestion_douleur_1.getName());
+                updateAbility(gestion_douleur_1, Bukkit.getConsoleSender());
             }
-        } else {
-            abilities.remove(gestion_douleur_1);
+        } else if (abilities.contains(gestion_douleur_1)) {
+            removeAbility(gestion_douleur_1, Bukkit.getConsoleSender());
         }
         updateChakra();
     }

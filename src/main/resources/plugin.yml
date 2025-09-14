@@ -349,7 +349,7 @@ permissions:
   ninkai.clone.remove:
     description: Permet de supprimer un clone.
     children:
-      ninkai.clone.remove.all: false
+      ninkai.clone.remove.all: true
   ninkai.clone.remove.all:
     description: Permet de supprimer tous ses clones.
   ninkai.clone.tphere:
@@ -368,38 +368,34 @@ permissions:
     description: Donne l'accès à la commande /jutsu et ses sous commandes.
     children:
       ninkai.jutsu.mastery: false
-      ninkai.jutsu.mastery.all: false
       ninkai.jutsu.learn: false
-      ninkai.jutsu.learn.all: false
       ninkai.jutsu.unlearn: false
-      ninkai.jutsu.unlearn.all: false
       ninkai.jutsu.list: false
-      ninkai.jutsu.list.all: false
       ninkai.jutsu.select: false
       ninkai.jutsu.unselect: false
       ninkai.jutsu.help: false
   ninkai.jutsu.mastery:
     description: Permet de modifier le niveau de maîtrise d'un jutsu.
     children:
-      ninkai.jutsu.mastery.all: false
+      ninkai.jutsu.mastery.all: true
   ninkai.jutsu.mastery.all:
     description: Permet de modifier le niveau de maîtrise de tous les jutsu.
   ninkai.jutsu.learn:
     description: Permet d'apprendre un jutsu.
     children:
-      ninkai.jutsu.learn.all: false
+      ninkai.jutsu.learn.all: true
   ninkai.jutsu.learn.all:
     description: Permet d'apprendre tous les jutsu.
   ninkai.jutsu.unlearn:
     description: Permet d'oublier un jutsu.
     children:
-      ninkai.jutsu.unlearn.all: false
+      ninkai.jutsu.unlearn.all: true
   ninkai.jutsu.unlearn.all:
     description: Permet d'oublier tous les jutsu.
   ninkai.jutsu.list:
     description: Permet de lister les jutsu connus par le joueur.
     children:
-      ninkai.jutsu.list.all: false
+      ninkai.jutsu.list.all: true
   ninkai.jutsu.list.all:
     description: Permet de lister tous les jutsu existants sur le server.
   ninkai.jutsu.select:
@@ -416,7 +412,6 @@ permissions:
       ninkai.chakra.add: false
       ninkai.chakra.remove: false
       ninkai.chakra.set: false
-      ninkai.chakra.set.max: false
       ninkai.chakra.type.add: false
       ninkai.chakra.type.remove: false
       ninkai.chakra.mission.get: false
@@ -443,7 +438,7 @@ permissions:
   ninkai.chakra.set:
     description: Permet de modifie la quantité actuelle de chakra d'un joueur.
     children:
-      ninkai.chakra.set.max: false
+      ninkai.chakra.set.max: true
   ninkai.chakra.set.max:
     description: Permet de modifier la quantité maximale de chakra d'un joueur.
   ninkai.chakra.type.add:
@@ -485,8 +480,8 @@ permissions:
   ninkai.profil.mj:
     description: Donne l'accès à la commande /profilmj.
     children:
-      ninkai.profil.mj.save: false
-      ninkai.profil.mj.load: false
+      ninkai.profil.mj.save: true
+      ninkai.profil.mj.load: true
   ninkai.profil.mj.save:
     description: Permet de sauvegarder le profil actuel du MJ sous un nom précis.
   ninkai.profil.mj.load:
@@ -494,7 +489,7 @@ permissions:
   ninkai.profil.mask:
     description: Donne l'accès à la commande /maskprofil.
     children:
-      ninkai.profil.mask.bypass: false
+      ninkai.profil.mask.bypass: true
   ninkai.profil.edit:
     description: Donne l'accès à la commande /profiledit, pour modifier le profil des joueurs.
   ninkai.abilities:

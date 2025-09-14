@@ -147,7 +147,12 @@ public class Main extends JavaPlugin {
         CURR_CONFIG_PATH = new ArrayList<>();
         CURR_CONFIG_PATH.add("features");
         configMap = new HashMap<>();
-
+        
+        String abilitiesConfigPath = "abilities.minimumPointsNeeded.";
+        addConfig("instinct_2", 10, abilitiesConfigPath);
+        addConfig("instinct_3", 30, abilitiesConfigPath);
+        addConfig("instinct_4", 50, abilitiesConfigPath);
+        addConfig("gestion_douleur_1", 12, abilitiesConfigPath);
     }
 
     private void registerFeatures() {

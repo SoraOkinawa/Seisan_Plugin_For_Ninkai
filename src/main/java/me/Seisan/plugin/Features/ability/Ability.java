@@ -69,5 +69,13 @@ public class Ability {
         return instanceList.stream().filter(skill -> ChatColor.stripColor(skill.name).equals(ChatColor.stripColor(s))).findFirst().orElse(null);
     }
 
+    public boolean isAutoGiven() {
+        return this == Ability.getByPluginName("instinct_1") ||
+                this == Ability.getByPluginName("instinct_2") ||
+                this == Ability.getByPluginName("instinct_3") ||
+                this == Ability.getByPluginName("instinct_4") ||
+                this == Ability.getByPluginName("gestion_douleur_1");
+    }
+    
     // BONUS ATTRIBUE (+ lvl)
 }
