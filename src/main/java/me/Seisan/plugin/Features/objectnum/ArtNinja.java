@@ -98,7 +98,6 @@ public class ArtNinja {
     public boolean isVoieNinja() {
         return this.equals(getFromIdentifiant("ninjutsu")) ||
                 this.equals(getFromIdentifiant("genjutsu")) ||
-                this.equals(getFromIdentifiant("iryojutsu")) ||
-                this.equals(getFromIdentifiant("houjutsu"));
+                this.equals(getFromIdentifiant("iryojutsu"));
     }
 }
