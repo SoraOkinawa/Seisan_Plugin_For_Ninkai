@@ -1066,8 +1066,8 @@ public class ChatFormat extends Feature {
                 //Change only the message nothing else
                 if (messageCopied[i].getText().equals("{LANGUAGE-ANCHOR}")) {
 
-                    //if receiver has the ability and is not hiding or is op and not hiding language
-                    if ((receiverInfo.hasAbility(meta.language) && !HideLanguageCommand.isPlayerHidingLanguage(receiver)) || (receiver.isOp() && !HideLanguageCommand.isPlayerHidingLanguage(receiver))) {
+                    //if receiver has the ability or is op and not hiding language
+                    if (receiverInfo.hasAbility(meta.language) || (receiver.isOp() && !HideLanguageCommand.isPlayerHidingLanguage(receiver))) {
                         TextComponent t = new TextComponent();
                         t.copyFormatting(messageCopied[i]);
                         t.setText(meta.originalMessage);
