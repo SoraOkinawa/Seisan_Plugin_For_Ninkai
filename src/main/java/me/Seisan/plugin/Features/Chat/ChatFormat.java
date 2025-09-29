@@ -1039,7 +1039,7 @@ public class ChatFormat extends Feature {
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
                                             new ComponentBuilder("")
-                                                    .append(TextComponent.fromLegacyText(sender.getDisplayName())[0])
+                                                    .append(new TextComponent(nameWithHover))
                                                     .append(" (" + sender.getName() + ") - Âge : "
                                                             + PlayerInfo.getPlayerInfo(sender).getAge())
                                                     .color(ChatColor.YELLOW)

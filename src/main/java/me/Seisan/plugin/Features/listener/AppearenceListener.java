@@ -7,11 +7,9 @@ import me.Seisan.plugin.Features.Feature;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.objectnum.Figurine;
 import me.Seisan.plugin.Features.utils.ItemUtil;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.ChatColor;
+import me.Seisan.plugin.Main;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,12 +29,18 @@ public class AppearenceListener extends Feature {
             Player target = (Player) e.getRightClicked();
             PlayerInfo targetInfo = PlayerInfo.getPlayerInfo(target);
             if(targetInfo != null && targetInfo.getAppearance() != null && targetInfo.getAppearance().length() > 0){
-                String message = "§a* Vous observez " + target.getDisplayName() + "§a. *";
-                if(Figurine.random(0,1000) == 500) {
-                    message = ChatColor.GREEN + "*Vous stalkez " + target.getDisplayName() + "§2. *";
-                }
+//                String message =  target.getDisplayName() + "§a. *";
+                
+                BaseComponent[] bc = TextComponent.fromLegacyText(target.getDisplayName());
+                ChatColor color = ChatColor.of(Main.CONFIG.getString("commandFeedBackColor.apparence"));
+                
+                TextComponent messagecomponent = new TextComponent(new ComponentBuilder("* Vous observez ")
+                        .color(color)
+                        .append(new TextComponent(bc))
+                        .append(". *")
+                        .color(color)
+                        .create());
                 String newname = "§7Apparence de : "+target.getDisplayName();
-                TextComponent messagecomponent = new TextComponent(message);
                 messagecomponent.setColor(net.md_5.bungee.api.ChatColor.getByChar(target.getDisplayName().toCharArray()[1]));
                 BaseComponent[] texte = new BaseComponent[]{
                         new TextComponent(ItemUtil.convertItemStackToJsonRegular(ItemUtil.createItemStack(Material.BOOK, 1, newname, getApparence(targetInfo.getAppearance())))) // The only element of the hover events basecomponents is the item json

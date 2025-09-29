@@ -153,6 +153,9 @@ public class Main extends JavaPlugin {
         addConfig("instinct_3", 30, abilitiesConfigPath);
         addConfig("instinct_4", 50, abilitiesConfigPath);
         addConfig("gestion_douleur_1", 12, abilitiesConfigPath);
+        
+        String commandFeedbackColorConfigPath = "commandFeedBackColor.";
+        addConfig("apparence", "#739355", commandFeedbackColorConfigPath);
     }
 
     private void registerFeatures() {

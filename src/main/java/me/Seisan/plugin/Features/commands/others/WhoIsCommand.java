@@ -22,7 +22,8 @@ public class WhoIsCommand extends Command {
         {
             BaseComponent[] base = new ComponentBuilder(p.getName()).color(net.md_5.bungee.api.ChatColor.YELLOW).create();
             HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, base);
-            TextComponent text = new TextComponent(p.getDisplayName());
+            BaseComponent[] bc = TextComponent.fromLegacyText(p.getDisplayName());
+            TextComponent text = new TextComponent(bc);
             text.setHoverEvent(hoverEvent);
             return text;
         }).peek(finalText::add).forEach((_item) ->
