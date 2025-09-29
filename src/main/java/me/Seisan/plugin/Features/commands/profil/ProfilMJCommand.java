@@ -13,6 +13,7 @@ import java.util.List;
 public class ProfilMJCommand extends Command {
     public static final String PERMISSION_SAVE = "ninkai.profil.mj.save";
     public static final String PERMISSION_LOAD = "ninkai.profil.mj.load";
+    public static final String PERMISSION_DELETE = "ninkai.profil.mj.delete";
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] split) {
         if(sender instanceof Player) {
@@ -44,6 +45,18 @@ public class ProfilMJCommand extends Command {
                 PlayerInfo.replacePlayerInfo((Player)sender, profil);
                 sender.sendMessage("§cHRP : §7Chargement de la fiche personnage de "+split[1]);
             }
+            else if (split[0].equals("delete") && sender.hasPermission(PERMISSION_DELETE)) {
+                if(!Main.getFicheMJ().containsKey(split[1])) {
+                    sender.sendMessage("§cHRP : §7Cette fiche n'existe pas.");
+                    return;
+                }
+                
+                PlayerInfo fiche = Main.getFicheMJ().get(split[1]);
+                Main.getFicheMJ().remove(split[1], fiche);
+                Main.dbManager.getPlayerDB().deleteFichePerso(fiche.getId());
+                
+                sender.sendMessage("§cHRP : §7Fiche " + split[1] + " supprimée.");
+            }
         }
     }
 
@@ -54,8 +67,9 @@ public class ProfilMJCommand extends Command {
         if(split.length == 1) {
             if (sender.hasPermission(PERMISSION_SAVE)) complete(completion, "save", split[0]);
             if (sender.hasPermission(PERMISSION_LOAD)) complete(completion, "load", split[0]);
+            if (sender.hasPermission(PERMISSION_DELETE)) complete(completion, "delete", split[0]);
         }
-        if(split.length == 2 && (sender.hasPermission(PERMISSION_SAVE) || sender.hasPermission(PERMISSION_LOAD))) {
+        if(split.length == 2 && (sender.hasPermission(PERMISSION_SAVE) || sender.hasPermission(PERMISSION_LOAD) || sender.hasPermission(PERMISSION_DELETE))) {
             for(String test : Main.getFicheMJ().keySet()) {
                 complete(completion, test, split[1]);
             }

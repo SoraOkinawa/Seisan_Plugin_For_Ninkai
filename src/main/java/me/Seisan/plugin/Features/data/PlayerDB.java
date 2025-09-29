@@ -329,6 +329,21 @@ public class PlayerDB {
             e.printStackTrace();
         }
     }
+    
+    public void deleteFichePerso(String id) {
+        if (isInsertFichePerso(id)) {
+            try {
+                PreparedStatement pst = data.getConnection().prepareStatement("DELETE FROM PlayerFiche WHERE PlayerFiche.name = ?");
+    
+                pst.setString(1, id);
+    
+                pst.executeUpdate();
+                pst.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private PlayerInfo loadPlayerInfo(String name, ResultSet set) throws SQLException {
         int mana = set.getInt("mana");
