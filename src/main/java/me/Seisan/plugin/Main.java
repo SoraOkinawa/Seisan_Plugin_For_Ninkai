@@ -156,6 +156,44 @@ public class Main extends JavaPlugin {
         
         String commandFeedbackColorConfigPath = "commandFeedBackColor.";
         addConfig("apparence", "#739355", commandFeedbackColorConfigPath);
+        
+        String chakraConfigPath = "chakra.";
+        addConfig("etudiant", 100, chakraConfigPath);
+        addConfig("genin", 200, chakraConfigPath);
+        addConfig("perInstinctLevel", 25, chakraConfigPath);
+        addConfig("passif", 5, chakraConfigPath);
+        
+        String chakraSdcConfigPath = chakraConfigPath + "sdc.";
+        addConfig("sdc_2", 25, chakraSdcConfigPath);
+        addConfig("sdc_3", 25, chakraSdcConfigPath);
+        addConfig("sdc_4", 25, chakraSdcConfigPath);
+        addConfig("sdc_5", 25, chakraSdcConfigPath);
+        addConfig("sdc_6", 50, chakraSdcConfigPath);
+
+        
+        String chakraAgeConfigPath = chakraConfigPath + "age1.";
+        addConfig("age", 17, chakraAgeConfigPath);
+        addConfig("chakra", 25, chakraAgeConfigPath);
+        
+        chakraAgeConfigPath = chakraConfigPath + "age2.";
+        addConfig("age", 19, chakraAgeConfigPath);
+        addConfig("chakra", 25, chakraAgeConfigPath);
+        
+        chakraAgeConfigPath = chakraConfigPath + "age3.";
+        addConfig("age", 21, chakraAgeConfigPath);
+        addConfig("chakra", 25, chakraAgeConfigPath);
+        
+        chakraAgeConfigPath = chakraConfigPath + "age4.";
+        addConfig("age", 23, chakraAgeConfigPath);
+        addConfig("chakra", 25, chakraAgeConfigPath);
+        
+        chakraAgeConfigPath = chakraConfigPath + "age5.";
+        addConfig("age", 35, chakraAgeConfigPath);
+        addConfig("chakra", 100, chakraAgeConfigPath);
+        
+        chakraAgeConfigPath = chakraConfigPath + "age6.";
+        addConfig("age", 45, chakraAgeConfigPath);
+        addConfig("chakra", 200, chakraAgeConfigPath);
     }
 
     private void registerFeatures() {

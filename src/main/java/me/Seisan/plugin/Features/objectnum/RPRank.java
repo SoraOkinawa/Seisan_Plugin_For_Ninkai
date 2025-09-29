@@ -1,17 +1,18 @@
 package me.Seisan.plugin.Features.objectnum;
 
 import lombok.Getter;
+import me.Seisan.plugin.Main;
 
 
 public enum RPRank {
 
     NULL("null", "Erreur", -1, 0),
-    STUDENT("etudiant", "Étudiant(e)", 0,100),
-    GENIN("genin", "Genin", 1, 200),
-    CHUUNIN("chuunin", "Chuunin", 2,200),
-    JUUNIN("juunin", "Juunin", 3,200),
-    SANNIN("sannin", "Sannin", 4,200),
-    CHEF("chef", "Chef(fe) de village", 5,200);
+    STUDENT("etudiant", "Étudiant(e)", 0, Main.CONFIG.getInt("chakra.etudiant")),
+    GENIN("genin", "Genin", 1, Main.CONFIG.getInt("chakra.genin")),
+    CHUUNIN("chuunin", "Chuunin", 2,Main.CONFIG.getInt("chakra.genin")),
+    JUUNIN("juunin", "Juunin", 3,Main.CONFIG.getInt("chakra.genin")),
+    SANNIN("sannin", "Sannin", 4,Main.CONFIG.getInt("chakra.genin")),
+    CHEF("chef", "Chef(fe) de village", 5,Main.CONFIG.getInt("chakra.genin"));
 
 
 

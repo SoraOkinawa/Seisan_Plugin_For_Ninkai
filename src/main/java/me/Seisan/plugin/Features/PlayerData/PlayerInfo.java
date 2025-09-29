@@ -258,8 +258,8 @@ public class PlayerInfo {
     
     private void ajoutPassiveMana() {
         if (this.passiveMana < 300) {
-            this.passiveMana = Math.min(this.passiveMana + 5, 300);
-            player.sendMessage("§cHRP : §7Vous avez gagné passivement §3§l5 §r§3portions de chakra.");
+            this.passiveMana = Math.min(this.passiveMana + Main.CONFIG.getInt("chakra.passif"), 300);
+            player.sendMessage("§cHRP : §7Vous avez gagné passivement §3§l" + Main.CONFIG.getInt("chakra.passif") + "§r§3portions de chakra.");
         }
     }
     
@@ -861,33 +861,18 @@ public class PlayerInfo {
 
     public int bonusChakra() {
         int bonus = 0;
-        bonus += Math.min(100, 25 * getLvL("Instinct et expérience"));
-        if (age >= 17) {
-            bonus += 25;
+        bonus += Math.min(100, Main.CONFIG.getInt("chakra.perInstinctLevel") * getLvL("Instinct et expérience"));
+
+        String path = "chakra.age";
+        for (int i = 1; i <= 6; i++) {
+            if (age >= Main.CONFIG.getInt(path + i + ".age"))
+                bonus += Main.CONFIG.getInt(path + i + ".age");
         }
-        if (age >= 19) {
-            bonus += 25;
-        }
-        if (age >= 21) {
-            bonus += 25;
-        }
-        if (age >= 23) {
-            bonus += 25;
-        }
-        if (age >= 35) {
-            bonus += 100;
-        }
-        if (age >= 45) {
-            bonus += 200;
-        }
-        if (getLvL(styleCombat.getName()) >= 4) {
-            bonus += 25;
-        }
-        if (getLvL(styleCombat.getName()) >= 5) {
-            bonus += 25;
-        }
-        if (getLvL(styleCombat.getName()) >= 6) {
-            bonus += 50;
+    
+        path = "chakra.sdc.sdc_";
+        for (int i = 2; i <= 6; i++) {
+            if (getLvL(styleCombat.getName()) >= i)
+                bonus += Main.CONFIG.getInt(path + i);
         }
         return bonus;
     }
