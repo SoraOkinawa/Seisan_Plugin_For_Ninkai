@@ -803,7 +803,9 @@ public class ChatFormat extends Feature {
                     if (target == null) {
                         textComponent.setText(mutableMeta.getTarget());
                     } else {
-                        textComponent.setText(target.getDisplayName());
+                        BaseComponent[] bc = TextComponent.fromLegacyText(target.getDisplayName());
+                        textComponent = new TextComponent(bc);
+                        
                         textComponent.setHoverEvent(
                                 new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                         new ComponentBuilder(target.getName())
@@ -1030,12 +1032,14 @@ public class ChatFormat extends Feature {
                             //Rebuild from scratch this part without the informations of the class
                             //zuper
     
-                            BaseComponent nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName())[0];
-                            nameWithHover.setHoverEvent(
+                            BaseComponent[] nameWithHover = TextComponent.fromLegacyText(sender.getDisplayName());
+                            messageCopied[i] = new TextComponent(nameWithHover);
+    
+                            messageCopied[i].setHoverEvent(
                                     new HoverEvent(
                                             HoverEvent.Action.SHOW_TEXT,
                                             new ComponentBuilder("")
-                                                    .append((BaseComponent) TextComponent.fromLegacyText(sender.getDisplayName())[0])
+                                                    .append(TextComponent.fromLegacyText(sender.getDisplayName())[0])
                                                     .append(" (" + sender.getName() + ") - Âge : "
                                                             + PlayerInfo.getPlayerInfo(sender).getAge())
                                                     .color(ChatColor.YELLOW)
@@ -1048,9 +1052,6 @@ public class ChatFormat extends Feature {
                                                     .create()
                                     )
                             );
-
-
-                            messageCopied[i] = new TextComponent(nameWithHover);
                         }
                     }
                 }
