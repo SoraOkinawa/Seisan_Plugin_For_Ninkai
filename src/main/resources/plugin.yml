@@ -482,10 +482,13 @@ permissions:
     children:
       ninkai.profil.mj.save: true
       ninkai.profil.mj.load: true
+      ninkai.profil.mj.delete: true
   ninkai.profil.mj.save:
     description: Permet de sauvegarder le profil actuel du MJ sous un nom précis.
   ninkai.profil.mj.load:
     description: Permet de charger un des profils sauvegardés.
+  ninkai.profil.mj.delete:
+    description: Permet de supprimer un des profils sauvegardés.
   ninkai.profil.mask:
     description: Donne l'accès à la commande /maskprofil.
     children:
