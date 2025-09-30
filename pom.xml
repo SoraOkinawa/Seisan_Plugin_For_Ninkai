@@ -6,7 +6,7 @@
 
     <groupId>Seisan</groupId>
     <artifactId>Seisan_Plugin_For_Ninkai</artifactId>
-    <version>4.2.0</version>
+    <version>4.2.1</version>
 
     <repositories>
         <repository>

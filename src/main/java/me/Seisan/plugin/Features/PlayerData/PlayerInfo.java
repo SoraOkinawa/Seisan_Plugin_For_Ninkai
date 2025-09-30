@@ -866,7 +866,7 @@ public class PlayerInfo {
         String path = "chakra.age";
         for (int i = 1; i <= 6; i++) {
             if (age >= Main.CONFIG.getInt(path + i + ".age"))
-                bonus += Main.CONFIG.getInt(path + i + ".age");
+                bonus += Main.CONFIG.getInt(path + i + ".chakra");
         }
     
         path = "chakra.sdc.sdc_";
