@@ -252,40 +252,40 @@ public class PNJListener extends Feature {
                     break;
             }
         }
-        else if(e.getView().getTitle().equals("§6Vendeur d'encre")) {
-            e.setCancelled(true);
-            int slot = e.getSlot();
-            Player p = (Player) e.getWhoClicked();
-            if(p.getInventory().firstEmpty() == -1) {
-                p.sendMessage("§cHRP : §7Vous n'avez pas assez de place dans votre inventaire.");
-                return;
-            }
-            if(slot == 11) {
-                if (PNJInventory.getRyos(p) >= 100) {
-                    for(int i = 0; i < 10; i++) { retirerRyo(10, p);}
-                    PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
-                    playerInfo.setInk(playerInfo.getInk()+10);
-                    p.openInventory(PNJInventory.getVendeurEncre(p));
-                }
-                else {
-                    p.sendMessage("§f<§8Vendeur d'encre§f[dit]> §aPas touche le fauché !");
-                    p.closeInventory();
-                }
-            }
-            else if(slot == 15) {
-                if (PNJInventory.getRyos(p) >= 12) {
-                    retirerRyo(10, p);
-                    retirerRyo(2, p);
-                    PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
-                    playerInfo.setInk(playerInfo.getInk()+1);
-                    p.openInventory(PNJInventory.getVendeurEncre(p));
-                }
-                else {
-                    p.sendMessage("§f<§8Vendeur d'encre§f[dit]> §aPas touche le fauché !");
-                    p.closeInventory();
-                }
-            }
-        }
+//        else if(e.getView().getTitle().equals("§6Vendeur d'encre")) {
+//            e.setCancelled(true);
+//            int slot = e.getSlot();
+//            Player p = (Player) e.getWhoClicked();
+//            if(p.getInventory().firstEmpty() == -1) {
+//                p.sendMessage("§cHRP : §7Vous n'avez pas assez de place dans votre inventaire.");
+//                return;
+//            }
+//            if(slot == 11) {
+//                if (PNJInventory.getRyos(p) >= 100) {
+//                    for(int i = 0; i < 10; i++) { retirerRyo(10, p);}
+//                    PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
+//                    playerInfo.setInk(playerInfo.getInk()+10);
+//                    p.openInventory(PNJInventory.getVendeurEncre(p));
+//                }
+//                else {
+//                    p.sendMessage("§f<§8Vendeur d'encre§f[dit]> §aPas touche le fauché !");
+//                    p.closeInventory();
+//                }
+//            }
+//            else if(slot == 15) {
+//                if (PNJInventory.getRyos(p) >= 12) {
+//                    retirerRyo(10, p);
+//                    retirerRyo(2, p);
+//                    PlayerInfo playerInfo = PlayerInfo.getPlayerInfo(p);
+//                    playerInfo.setInk(playerInfo.getInk()+1);
+//                    p.openInventory(PNJInventory.getVendeurEncre(p));
+//                }
+//                else {
+//                    p.sendMessage("§f<§8Vendeur d'encre§f[dit]> §aPas touche le fauché !");
+//                    p.closeInventory();
+//                }
+//            }
+//        }
     }
 
     @EventHandler

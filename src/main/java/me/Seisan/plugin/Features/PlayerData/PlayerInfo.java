@@ -241,7 +241,6 @@ public class PlayerInfo {
         this.lastPrayer = lastPrayer;
         ajoutInstinct();
         caract = new Caract(this.abilities);
-        FuinjutsuUzumaki();
     }
     
     private void ajoutAbilityPoints() {
@@ -908,44 +907,6 @@ public class PlayerInfo {
             if (chakraType.get(chakra) > 0 && ChatColor.stripColor(chakra.getName()).equals(element))
                 return manaCost - manaCost * chakraType.get(chakra) / 100;
         return manaCost;
-    }
-
-    private void FuinjutsuUzumaki() {
-        // Si il est + que lvl 4 en Fuin
-        int lvl = getLvL(this.voieNinja.getName());
-        if (lvl >= 4 && this.voieNinja.getId() == 1) {
-            // Si c 1 autre jour
-            int lastday = getLastDay(LocalDateTime.now());
-            if (fuin_lastday < lastday) {
-                lvl = lvl - 2;
-                fuin_uzumaki += lvl * (lastday - this.fuin_lastday);
-                fuin_lastday = lastday;
-                fuin_uzumaki = Math.min(lvl * lvl, fuin_uzumaki);
-            }
-
-        }
-    }
-
-    public void addPaperUzumaki() {
-        this.fuin_paper += this.fuin_uzumaki;
-        this.fuin_uzumaki = 0;
-    }
-
-    public void usePaper() {
-        this.fuin_uzumaki--;
-        player.sendMessage("§b** Vous avez désormais " + this.fuin_uzumaki + " feuille(s) de Seju.");
-    }
-
-    public void usePaper(int nb) {
-        this.fuin_uzumaki -= nb;
-        if (fuin_uzumaki < 0) this.fuin_uzumaki = 0;
-        player.sendMessage("§b** Vous avez désormais " + this.fuin_uzumaki + " feuille(s) de Seju.");
-    }
-
-    public void useInk(int nb) {
-        this.ink -= nb;
-        if (ink < 0) this.ink = 0;
-        player.sendMessage("§b** Vous avez désormais " + this.ink + " dose(s) d'encre.");
     }
 
     public int getManaMission() {

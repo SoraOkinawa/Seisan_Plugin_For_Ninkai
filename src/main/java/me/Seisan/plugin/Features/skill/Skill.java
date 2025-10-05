@@ -131,37 +131,12 @@ public class Skill {
             playerInfo.getPlayer().sendMessage("§b** Vous n'avez pas assez de chakra. **");
             playerInfo.setCurrentSkill(null);
             return;
-        } else if (playerInfo.getFuin_paper() < playerInfo.getCurrentSkill().getInk(playerInfo) && playerInfo.getInk() < playerInfo.getCurrentSkill().getInk(playerInfo)) {
-            playerInfo.getPlayer().sendMessage("§cHRP : §7Votre personnage n'a pas assez d'encre pour sceller le symbole.");
+        }
+        if (!(playerInfo.getSkills().get(playerInfo.getCurrentSkill()) == SkillMastery.LEARNED || TryJutsu(playerInfo.getCurrentSkill(), playerInfo))) {
             playerInfo.setCurrentSkill(null);
             return;
         }
-        if (ChatColor.stripColor(playerInfo.getCurrentSkill().getName()).startsWith("Fuinjutsu")) {
-            if (!TrySceaux(playerInfo.getCurrentSkill(), playerInfo)) {
-                playerInfo.getPlayer().sendMessage("§b** Vous n'avez pas réussi à sceller le symbole. **");
-                playerInfo.setCurrentSkill(null);
-                return;
-            }
-        } else if (!(playerInfo.getSkills().get(playerInfo.getCurrentSkill()) == SkillMastery.LEARNED || TryJutsu(playerInfo.getCurrentSkill(), playerInfo))) {
-            playerInfo.setCurrentSkill(null);
-            return;
-        }
-
-        //Suppression de l'encre ou du papier
-        if (ChatColor.stripColor(playerInfo.getCurrentSkill().getName()).startsWith("Fuinjutsu")) {
-            if (playerInfo.getCurrentSkill().getInk(playerInfo) > 0) {
-                if (playerInfo.getFuin_uzumaki() != 0) {
-                    PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
-                    if (pConfig.isSwapfuin()) {
-                        playerInfo.usePaper();
-                    } else {
-                        playerInfo.setInk(playerInfo.getInk() - playerInfo.getCurrentSkill().getInk(playerInfo));
-                    }
-                } else {
-                    playerInfo.setInk(playerInfo.getInk() - playerInfo.getCurrentSkill().getInk(playerInfo));
-                }
-            }
-        }
+        
         //Envoi du message d'encadrement
         String message = "";
         if (playerInfo.getSkills().get(playerInfo.getCurrentSkill()) == SkillMastery.ONEHAND) {
@@ -368,27 +343,6 @@ public class Skill {
         return success;
     }
 
-    private boolean TrySceaux(Skill skill, PlayerInfo pInfo) {
-        boolean success = true;
-        Player p = pInfo.getPlayer();
-        int bonus = pInfo.getRollBonus().get(skill) != null ? pInfo.getRollBonus().get(skill) : 0;
-        switch (rollMastery(skill.getLevel(), bonus, pInfo.getSkills().get(skill) == SkillMastery.LEARNED)) {
-            case MASTERED:
-                if (pInfo.getMastery(skill) == SkillMastery.UNLEARNED) {
-                    pInfo.updateSkill(skill, SkillMastery.LEARNED);
-                }
-                pInfo.setBonus(skill, 0);
-                break;
-            case SUCCESS:
-            case FAIL:
-                takeMana(pInfo);
-                pInfo.increaseBonus(skill);
-                success = false;
-                break;
-        }
-        return success;
-    }
-
     private MasteryRollResult rollMastery(SkillLevel level, int bonus, boolean alreadyLearned) {
         Random r = new Random();
         int i = r.nextInt(99) + 1; //Roll de 1 à 100
@@ -410,21 +364,6 @@ public class Skill {
         if (i >= level.getRequiredRollOneHand())
             return MasteryRollResult.SUCCESS;
         return MasteryRollResult.FAIL;
-    }
-
-    public int getInk(PlayerInfo pInfo) {
-        String name = ChatColor.stripColor(this.getName());
-        String[] nameFragments = name.split(" - ");
-        if (nameFragments[0].equals("Fuinjutsu")) {
-            if (nameFragments[1].startsWith("Invocation")) return 0;
-            if (nameFragments[1].equals("Ninpo")) return 0;
-            if (pInfo.getVoieNinja().getId() == 1) {
-                return 1;
-            } else {
-                return 2;
-            }
-        }
-        return 0;
     }
 
     public ArrayList<String> formatToLore(Player player) {

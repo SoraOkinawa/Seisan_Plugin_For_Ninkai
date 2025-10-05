@@ -74,17 +74,13 @@ public class SkillInventory {
         }
         inv.setItem(1, ItemUtil.createItemStack(Material.CLOCK, 1, "§6Mudras de la technique :", getMudras(skill.getMudras())));
         inv.setItem(2, skill.getItem());
-        if(ChatColor.stripColor(skill.getName()).startsWith("Fuinjutsu")) {
-            int ink = skill.getInk(pInfo);
-            inv.setItem(3, ItemUtil.createItemStack(Material.EXPERIENCE_BOTTLE, 1, "§6" + mastery.getName(), Arrays.asList("§7" + skill.getLevel().getName(), "§6Coût de scellemment: §7" + skill.manaToTake(pInfo), "§6Coût en encre : §7"+ink)));
-        }
-        else {
-            ChakraType chakraType = ChakraType.fromName(skill.getElement());
-            if(chakraType != ChakraType.NULL && pInfo.getReduc_ninjutsu() != 0)
-                inv.setItem(3, ItemUtil.createItemStack(Material.EXPERIENCE_BOTTLE, 1, "§6" + mastery.getName(), Arrays.asList("§7" + skill.getLevel().getName(), "§6Coût: §7" + skill.manaToTake(pInfo), "§7Coût réel en chakra : §f"+ (skill.manaToTake(pInfo)+pInfo.getReduc_ninjutsu()))));
-            else
-                inv.setItem(3, ItemUtil.createItemStack(Material.EXPERIENCE_BOTTLE, 1, "§6" + mastery.getName(), Arrays.asList("§7" + skill.getLevel().getName(), "§6Coût: §7" + skill.manaToTake(pInfo))));
-        }
+        
+        ChakraType chakraType = ChakraType.fromName(skill.getElement());
+        if(chakraType != ChakraType.NULL && pInfo.getReduc_ninjutsu() != 0)
+            inv.setItem(3, ItemUtil.createItemStack(Material.EXPERIENCE_BOTTLE, 1, "§6" + mastery.getName(), Arrays.asList("§7" + skill.getLevel().getName(), "§6Coût: §7" + skill.manaToTake(pInfo), "§7Coût réel en chakra : §f"+ (skill.manaToTake(pInfo)+pInfo.getReduc_ninjutsu()))));
+        else
+            inv.setItem(3, ItemUtil.createItemStack(Material.EXPERIENCE_BOTTLE, 1, "§6" + mastery.getName(), Arrays.asList("§7" + skill.getLevel().getName(), "§6Coût: §7" + skill.manaToTake(pInfo))));
+        
         if(mastery != SkillMastery.UNLEARNED) {
             inv.setItem(4, ItemUtil.createItemStack(Material.PAPER, 1, "§aSélectionner cette technique", Arrays.asList(""), "ninkai", "ninpo_icon"));
         }
