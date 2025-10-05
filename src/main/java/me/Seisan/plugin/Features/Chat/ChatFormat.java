@@ -875,7 +875,7 @@ public class ChatFormat extends Feature {
             MutableMeta mutableMeta = formatedMessage.getMutableMeta();
             Player player = event.getPlayer();
             PlayerConfig playerConfig = PlayerConfig.getPlayerConfig(player);
-            if (!(Channel.isMJ(player) || player.hasPermission(PERMISSION_CHAT_ENCADRANTS)) && meta.prefix.equals("$")) {
+            if (!Channel.isMJ(player) && meta.prefix.equals("$")) {
                 for (int i = 0; i < arrayMessage.length; i++) {
                     if (i == 12) {
                         arrayMessage[i].setText(" [requete]>");
@@ -892,7 +892,7 @@ public class ChatFormat extends Feature {
                     player.sendMessage(ChatColor.RED + meta.getDenialMessage());
                     return;
                 }
-                if ("enca".equals(meta.getRestriction()) && !(player.isOp() || player.hasPermission(PERMISSION_CHAT_ENCADRANTS))) {
+                if ("enca".equals(meta.getRestriction()) && !player.hasPermission(PERMISSION_CHAT_ENCADRANTS)) {
                     player.sendMessage(ChatColor.RED + meta.getDenialMessage());
                     return;
                 }
@@ -954,7 +954,7 @@ public class ChatFormat extends Feature {
                                 suitable = false;
                             }
                             PlayerConfig pConfig = PlayerConfig.getPlayerConfig(p);
-                            if ("enca".equals(meta.getOnlyFor()) && !(Channel.isMJ(p) || p.hasPermission(PERMISSION_CHAT_ENCADRANTS))) {
+                            if ("enca".equals(meta.getOnlyFor()) && !Channel.isMJ(p)) {
                                 suitable = false;
                             }
                             if ("none".equals(meta.getOnlyFor())) {

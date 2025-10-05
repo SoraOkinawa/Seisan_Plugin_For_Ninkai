@@ -14,14 +14,6 @@ import java.util.List;
 public class ChatMasterCommand extends Command {
     @Override
     public void myOnCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player p = (Player) sender;
-            if (!p.isOp()) {
-                p.sendMessage(ChatColor.RED + "Vous n'avez pas la permission !");
-                return;
-            }
-        }
-
         if(args.length == 2){
             Player target = sender.getServer().getPlayer(args[1]);
             if(target == null){
