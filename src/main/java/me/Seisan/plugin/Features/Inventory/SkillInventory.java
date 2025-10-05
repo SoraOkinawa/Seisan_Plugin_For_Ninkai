@@ -25,34 +25,23 @@ public class SkillInventory {
 
     public static Inventory getMainInventory(PlayerInfo pInfo, int page, String element){
         Inventory inv;
-        if(element.equals("Fuinjutsu")) {
-            inv = Bukkit.createInventory(pInfo.getPlayer(), 18, "§6Fuinjutsu : §7Choix du type de sceau");
-            inv.setItem(1, ItemUtil.createItemStack(Material.SHIELD, 1, "§6Invocation éclair", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles d'invocations (§6Invocation éclair§7)")));
-            inv.setItem(3, ItemUtil.createItemStack(Material.LEVER, 1, "§6Jôken", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles activeurs (§6Jôken§7).")));
-            inv.setItem(5, ItemUtil.createItemStack(Material.IRON_SWORD, 1, "§6Saishô", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles principaux (§6Saishô§7).")));
-            // inv.setItem(5, ItemUtil.createItemStack(Material.SHIELD, 1, "§6Kinaï", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles secondaires (§6Kinaï§7)")));
-            inv.setItem(7, ItemUtil.createItemStack(Material.PAPER, 1, "§6Ninpo", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les ninpos Fuinjutsu"), "ninkai", "ninpo_icon"));
-            inv.setItem(13, ItemUtil.createItemStack(Material.ARROW, "§6Retour"));
+        inv = Bukkit.createInventory(pInfo.getPlayer(), 36, "§6Jutsu : " + element);
+
+        ArrayList<Skill> skillList = new ArrayList<>(pInfo.getSkills().keySet());
+        ArrayList<Skill> realSkillList = new ArrayList<>();
+        /* Tri des jutsus en fonction de l'élément */
+        if(element.equals("§7Autres")) {
+            realSkillList = getOthersType(skillList, pInfo);
         }
         else {
-            inv = Bukkit.createInventory(pInfo.getPlayer(), 36, "§6Jutsu : " + element);
-
-            ArrayList<Skill> skillList = new ArrayList<>(pInfo.getSkills().keySet());
-            ArrayList<Skill> realSkillList = new ArrayList<>();
-            /* Tri des jutsus en fonction de l'élément */
-            if(element.equals("§7Autres")) {
-                realSkillList = getOthersType(skillList, pInfo);
-            }
-            else {
-                for (Skill skill : skillList) {
-                    if (skill.getElement().equals(element)) {
-                        realSkillList.add(skill);
-                    }
+            for (Skill skill : skillList) {
+                if (skill.getElement().equals(element)) {
+                    realSkillList.add(skill);
                 }
             }
-            getListeSceauxJutsu(pInfo, page, inv, realSkillList);
-            inv.setItem(35, ItemUtil.createItemStack(Material.ARROW, "§6Retour"));
         }
+        getListeSceauxJutsu(pInfo, page, inv, realSkillList);
+        inv.setItem(35, ItemUtil.createItemStack(Material.ARROW, "§6Retour"));
         return inv;
     }
 

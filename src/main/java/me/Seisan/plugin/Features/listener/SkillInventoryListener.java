@@ -187,32 +187,6 @@ public class SkillInventoryListener extends Feature {
 
                 });
             }
-        }else if(e.getClickedInventory() != null && e.getView().getTitle().equals("§6Fuinjutsu : §7Choix du type de sceau")) {
-            if(e.getWhoClicked() instanceof Player) {
-                Player p = (Player) e.getWhoClicked();
-                PlayerInfo pInfo = PlayerInfo.getPlayerInfo(p);
-                Inventory inv = e.getClickedInventory();
-                e.setCancelled(true);
-
-                int slot = e.getSlot();
-                ItemStack item = inv.getItem(slot);
-                if(item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
-                    return;
-                }
-                if(slot == 1 || slot == 3 /* || slot == 4 */ || slot == 5 || slot == 7) {
-                    String type = ChatColor.stripColor(item.getItemMeta().getDisplayName());
-                    ArrayList<Skill> listsceaux = SkillInventory.getTypeSceaux(pInfo.getSkills().keySet(), type);
-                    if(listsceaux.size() == 0) {
-                        p.sendMessage("§cHRP : §7Votre personnage n'a pas de symboles dans cette catégorie.");
-                        return;
-                    }
-                    p.openInventory(SkillInventory.getSceaux(pInfo, type, 0));
-                    return;
-                }
-                if(slot == 13) {
-                    p.openInventory(SkillInventory.getElementInventory(pInfo));
-                }
-            }
         }
         else if(e.getClickedInventory() != null && e.getView().getTitle().equals("§8Techniques favorites")){
             if(e.getWhoClicked() instanceof Player) {
@@ -315,7 +289,7 @@ public class SkillInventoryListener extends Feature {
 
     @EventHandler
     public void onInvDrag(InventoryDragEvent e){
-        if(e.getView().getTitle().startsWith("§6Eléments") || e.getView().getTitle().startsWith("§6Jutsu : ") || e.getView().getTitle().equals("§6Fuinjutsu : §7Choix du type de sceau") || e.getView().getTitle().equals("§7Bibliothèque du Cercle : ") || e.getView().getTitle().startsWith("§8Don : §7")){
+        if(e.getView().getTitle().startsWith("§6Eléments") || e.getView().getTitle().startsWith("§6Jutsu : ") || e.getView().getTitle().equals("§7Bibliothèque du Cercle : ") || e.getView().getTitle().startsWith("§8Don : §7")){
             e.setCancelled(true);
         }
     }

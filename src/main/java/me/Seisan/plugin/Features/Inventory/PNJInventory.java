@@ -56,22 +56,6 @@ public class PNJInventory {
             return inv;
     }
 
-    public static Inventory getVendeurEncre(Player p){
-        Inventory inv = Bukkit.createInventory(p.getPlayer(), 45, "§6Vendeur d'encre");
-        for(int i = 0; i < 45; i++){
-            inv.setItem(i, ItemUtil.createItemStack(Material.GRAY_STAINED_GLASS_PANE, "§8-"));
-            if (i > 8 && i%9 == 0 && i < 34){
-                i += 7;
-            }
-        }
-
-        inv.setItem(11, ItemUtil.createItemStack(Material.INK_SAC, 1, "§8Achat d'encre Fuinjutsu", Arrays.asList("§7Achat d'un pot d'encre contenant dix doses.", "§7Le pot coûte 100 ryos.")));
-        inv.setItem(15, ItemUtil.createItemStack(Material.INK_SAC, 1, "§8Achat d'encre Fuinjutsu", Arrays.asList("§7Achat d'un petit pot d'encre contenant une dose.", "§7Le pot coûte 12 ryos.")));
-        inv.setItem(31, ItemUtil.createItemStack(Material.GOLD_NUGGET, 1, "§6Solde de vos ryôs", Arrays.asList("§7Voici les ryôs en votre possession : ", "§7Solde : "+getRyos(p), "§cHRP : §7Si votre solde est erroné, contactez §9Isami§7."), "ninkai", "ryos"));
-
-        return inv;
-    }
-
     public static int getRyos(Player p) {
         int ryo = 0;
         ItemStack[] inventaire = p.getInventory().getContents();
