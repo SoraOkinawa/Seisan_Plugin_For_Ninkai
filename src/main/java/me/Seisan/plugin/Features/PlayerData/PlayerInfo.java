@@ -533,13 +533,6 @@ public class PlayerInfo {
         this.styleCombat = styleCombat;
     }
 
-    public void setInk(int ink) {
-        if (ink < 0)
-            ink = 0;
-        player.sendMessage("§7Vous avez désormais §6" + ink + " §7doses d'encre.");
-        this.ink = ink;
-    }
-
     public void addChakraType(ChakraType type, int pourcentage) {
         player.sendMessage(ChatColor.GRAY + "Votre nature de chakra est désormais composée du " + type.getName());
         chakraType.put(type, pourcentage);

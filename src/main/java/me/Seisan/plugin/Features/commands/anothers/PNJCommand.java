@@ -33,13 +33,6 @@ public class PNJCommand extends Main.Command {
 
                     p.sendMessage("Le vendeur de jouet a été créé avec succès.");
                     break;
-                case "encre":
-                    villager = (Villager) p.getWorld().spawnEntity(p.getLocation(), EntityType.VILLAGER);
-                    villager.setInvulnerable(true);
-                    villager.setAI(false);
-                    villager.setCustomName("§6Vendeur d'encre");
-
-                    p.sendMessage("Le vendeur d'encre a été créé avec succès.");
             }
         }
     }
@@ -50,7 +43,6 @@ public class PNJCommand extends Main.Command {
         if (split.length == 1) {
             complete(completion, "jouet", split[0]);
             complete(completion, "banquier", split[0]);
-            complete(completion, "encre", split[0]);
         }
         return completion;
     }
