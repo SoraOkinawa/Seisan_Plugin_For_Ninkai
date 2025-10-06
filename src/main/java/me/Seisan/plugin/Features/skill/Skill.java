@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Skill {
@@ -435,5 +436,17 @@ public class Skill {
                 }
             }
         }
+    }
+    
+    public static List<Skill> getSkillByCategory(String element) {
+        List<Skill> skillList = new ArrayList<>();
+    
+        for (Skill s :
+                instanceList) {
+            if (s.element.equals(element))
+                skillList.add(s);
+        }
+        
+        return skillList;
     }
 }

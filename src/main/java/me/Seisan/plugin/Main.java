@@ -169,7 +169,6 @@ public class Main extends JavaPlugin {
         addConfig("sdc_4", 25, chakraSdcConfigPath);
         addConfig("sdc_5", 25, chakraSdcConfigPath);
         addConfig("sdc_6", 50, chakraSdcConfigPath);
-
         
         String chakraAgeConfigPath = chakraConfigPath + "age1.";
         addConfig("age", 17, chakraAgeConfigPath);
@@ -194,6 +193,32 @@ public class Main extends JavaPlugin {
         chakraAgeConfigPath = chakraConfigPath + "age6.";
         addConfig("age", 45, chakraAgeConfigPath);
         addConfig("chakra", 200, chakraAgeConfigPath);
+        
+        String skillLevelConfigPath = "skillLevels.";
+        String ninjutsuSkillLevelConfigPath = skillLevelConfigPath + "ninjutsu.";
+        addConfig("base", "C", ninjutsuSkillLevelConfigPath);
+        
+        addConfig("level", 4, ninjutsuSkillLevelConfigPath + "step1.");
+        addConfig("rank", "B", ninjutsuSkillLevelConfigPath + "step1.");
+        
+        addConfig("level", 6, ninjutsuSkillLevelConfigPath + "step2.");
+        addConfig("rank", "A", ninjutsuSkillLevelConfigPath + "step2.");
+        
+        addConfig("level", 7, ninjutsuSkillLevelConfigPath + "step3.");
+        addConfig("rank", "S", ninjutsuSkillLevelConfigPath + "step3.");
+        
+        String genjutsuSkillLevelConfigPath = skillLevelConfigPath + "genjutsu.";
+        addConfig("base", "C", genjutsuSkillLevelConfigPath);
+        addConfig("irréel", 2, genjutsuSkillLevelConfigPath);
+        
+        addConfig("level", 3, genjutsuSkillLevelConfigPath + "step1.");
+        addConfig("rank", "B", genjutsuSkillLevelConfigPath + "step1.");
+        
+        addConfig("level", 6, genjutsuSkillLevelConfigPath + "step2.");
+        addConfig("rank", "A", genjutsuSkillLevelConfigPath + "step2.");
+        
+        addConfig("level", 7, genjutsuSkillLevelConfigPath + "step3.");
+        addConfig("rank", "S", genjutsuSkillLevelConfigPath + "step3.");
     }
 
     private void registerFeatures() {
