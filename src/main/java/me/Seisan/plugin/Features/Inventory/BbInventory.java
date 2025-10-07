@@ -8,12 +8,14 @@ import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.commands.others.ParcheminCommand;
 import me.Seisan.plugin.Features.data.BbController;
 import me.Seisan.plugin.Features.skill.Skill;
+import me.Seisan.plugin.Features.utils.DiscordWebhook;
 import me.Seisan.plugin.Main;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentBuilder;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -89,6 +91,7 @@ public class BbInventory {
 					if (pInfo.getJutsuPoints() >= price) {
 						ParcheminCommand.GiveParchemin(skill, player);
 						pInfo.setJutsuPoints(pInfo.getJutsuPoints() - price);
+						sendWebhook(skill, player);
 					}
 					gui.close();
 					return true;
@@ -131,5 +134,16 @@ public class BbInventory {
 		);
 		
 		return lore;
+	}
+	
+	private static void sendWebhook(Skill skill, Player player) {
+		DiscordWebhook webhook = new DiscordWebhook(DiscordWebhook.webhookConfig.getString("bb"));
+		webhook.setContent("**" + ChatColor.stripColor(player.getDisplayName()) + "** a appris la technique **[" + skill.getLevel().getName() + " - Coût : " + skill.getJutsuPointsPrice() + "] " + ChatColor.stripColor(skill.getName()) + "**.\\n\\nNouveau solde de points : **" + PlayerInfo.getPlayerInfo(player).getJutsuPoints() + "**.");
+		webhook.setUsername(ChatColor.stripColor(player.getDisplayName()) + " [" + player.getName() + "]");
+		try {
+			webhook.execute();
+		} catch (Exception e) {
+			Main.LOG.warning("Webhook de la bibliothèque de techniques non configuré. Clé de configuration nécessaire : bb");
+		}
 	}
 }
