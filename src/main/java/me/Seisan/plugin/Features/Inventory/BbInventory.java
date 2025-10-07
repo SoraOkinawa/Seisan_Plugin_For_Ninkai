@@ -4,6 +4,8 @@ import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
+import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.commands.others.ParcheminCommand;
 import me.Seisan.plugin.Features.data.BbController;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Main;
@@ -16,8 +18,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class BbInventory {
-	public static void openBb(List<Skill> learnableSkillList, Player player) {
-		String title = "§7Bibliothèque de Techniques";
+	public static void openBbUi(List<Skill> learnableSkillList, Player player) {
+		String title = "§7Bibliothèque de Techniques - Points : §6§l" + PlayerInfo.getPlayerInfo(player).getJutsuPoints();
 		String[] setup = {
 				"jjjjjjjjj",
 				"jjjjjjjjj",
@@ -46,11 +48,12 @@ public class BbInventory {
 		GuiElementGroup learnableSkillsGroup = new GuiElementGroup('j');
 		learnableSkillsGroup.setFiller(new ItemStack(Material.AIR, 1));
 		for (int i = 0; i < learnableSkillList.size(); i++) {
+			Skill tmpSkill = learnableSkillList.get(i);
 			learnableSkillsGroup.addElement(new StaticGuiElement(
 					'e',
-					learnableSkillList.get(i).getItem(),
+					tmpSkill.getItem(),
 					click -> {
-						player.sendMessage(click.getElement().getItem(player, click.getSlot()).getItemMeta().displayName());
+						openLearnUi(tmpSkill, player, gui);
 						return true;
 					}
 			));
@@ -58,5 +61,44 @@ public class BbInventory {
 		gui.addElement(learnableSkillsGroup);
 		
 		gui.show(player);
+	}
+	
+	public static void openLearnUi(Skill skill, Player player, InventoryGui bb) {
+		String title = "Apprendre " + skill.getName();
+		String[] setup = {
+				"y d n"
+		};
+		
+		InventoryGui gui = new InventoryGui(Main.plugin(), player, title, setup);
+		gui.setFiller(new ItemStack(Material.AIR, 1));
+		
+		gui.addElement(new StaticGuiElement(
+				'y',
+				new ItemStack(Material.GREEN_WOOL, 1),
+				click -> {
+					ParcheminCommand.GiveParchemin(skill, player);
+					return true;
+				},
+				"§aApprendre la Technique"
+		));
+		
+		gui.addElement(new StaticGuiElement(
+				'd',
+				skill.getItem(),
+				click -> {
+					AbilityInventory.openInBook(player, skill.getInfosup().replace("%displayname%", player.getDisplayName()).split(";"));
+					return true;
+				}
+		));
+		
+		gui.addElement(new StaticGuiElement(
+				'n',
+				new ItemStack(Material.RED_WOOL, 1),
+				click -> {
+					gui.close();
+					bb.show(player);
+					return true;
+				}
+		));
 	}
 }

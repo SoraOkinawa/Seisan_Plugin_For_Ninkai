@@ -1,19 +1,15 @@
 package me.Seisan.plugin.Features.commands.others;
 
 import me.Seisan.plugin.Features.Inventory.BbInventory;
-import me.Seisan.plugin.Features.Inventory.SkillInventory;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
 import me.Seisan.plugin.Features.data.BbController;
 import me.Seisan.plugin.Main.Command;
 import net.md_5.bungee.api.ChatColor;
-import org.apache.commons.lang.NotImplementedException;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class BbCommand extends Command {
@@ -27,7 +23,7 @@ public class BbCommand extends Command {
         
         switch (split.length) {
             case 0:
-                BbInventory.openBb(BbController.listLearnableSkills(PlayerInfo.getPlayerInfo(p)), p);
+                BbInventory.openBbUi(BbController.listLearnableSkills(PlayerInfo.getPlayerInfo(p)), p);
                 break;
             case 1:
             case 2:
