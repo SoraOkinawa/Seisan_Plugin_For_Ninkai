@@ -1,7 +1,9 @@
 package me.Seisan.plugin.Features.commands.others;
 
+import me.Seisan.plugin.Features.Inventory.BbInventory;
 import me.Seisan.plugin.Features.Inventory.SkillInventory;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.data.BbController;
 import me.Seisan.plugin.Main.Command;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.NotImplementedException;
@@ -25,7 +27,8 @@ public class BbCommand extends Command {
         
         switch (split.length) {
             case 0:
-                throw new NotImplementedException("Feature à venir soon !");
+                BbInventory.openBb(BbController.listLearnableSkills(PlayerInfo.getPlayerInfo(p)), p);
+                break;
             case 1:
             case 2:
             case 3:

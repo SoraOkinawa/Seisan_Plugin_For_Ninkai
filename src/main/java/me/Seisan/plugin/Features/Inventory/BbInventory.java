@@ -51,5 +51,7 @@ public class BbInventory {
 					}
 			));
 		}
+		
+		gui.show(player);
 	}
 }
