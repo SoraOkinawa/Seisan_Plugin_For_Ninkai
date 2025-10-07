@@ -137,13 +137,13 @@ public class BbInventory {
 	}
 	
 	private static void sendWebhook(Skill skill, Player player) {
-		DiscordWebhook webhook = new DiscordWebhook(DiscordWebhook.webhookConfig.getString("bb"));
+		DiscordWebhook webhook = new DiscordWebhook(DiscordWebhook.webhookConfig.getString("bibliothequeTechnique"));
 		webhook.setContent("**" + ChatColor.stripColor(player.getDisplayName()) + "** a appris la technique **[" + skill.getLevel().getName() + " - Coût : " + skill.getJutsuPointsPrice() + "] " + ChatColor.stripColor(skill.getName()) + "**.\\n\\nNouveau solde de points : **" + PlayerInfo.getPlayerInfo(player).getJutsuPoints() + "**.");
 		webhook.setUsername(ChatColor.stripColor(player.getDisplayName()) + " [" + player.getName() + "]");
 		try {
 			webhook.execute();
 		} catch (Exception e) {
-			Main.LOG.warning("Webhook de la bibliothèque de techniques non configuré. Clé de configuration nécessaire : bb");
+			Main.LOG.warning("Webhook de la bibliothèque de techniques non configuré.");
 		}
 	}
 }
