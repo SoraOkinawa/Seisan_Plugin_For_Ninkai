@@ -55,7 +55,8 @@ public class BbInventory {
 					click -> {
 						openLearnUi(tmpSkill, player, gui);
 						return true;
-					}
+					},
+					"§7[" + tmpSkill.getLevel().getName() + "- Coût : " + tmpSkill.getJutsuPointsPrice() + "] " + tmpSkill.getName()
 			));
 		}
 		gui.addElement(learnableSkillsGroup);

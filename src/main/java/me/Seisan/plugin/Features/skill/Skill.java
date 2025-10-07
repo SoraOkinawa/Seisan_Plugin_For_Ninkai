@@ -406,6 +406,15 @@ public class Skill {
         return lore;
     }
 
+    public int getJutsuPointsPrice() {
+        for (int i = 1; i <= 5; i++) {
+            if (level.getCharName().equals(Main.CONFIG.getString("bb.prices." + i + ".rank")))
+                return Main.CONFIG.getInt("bb.prices." + i + ".price");
+        }
+        
+        return -1;
+    }
+    
     private enum MasteryRollResult {
         FAIL,
         SUCCESS,
