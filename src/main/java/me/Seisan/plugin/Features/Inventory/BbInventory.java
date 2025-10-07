@@ -20,6 +20,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import javax.inject.Named;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -74,6 +75,8 @@ public class BbInventory {
 	
 	public static void openLearnUi(Skill skill, Player player, InventoryGui bb) {
 		PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
+		final int PRICE = skill.getJutsuPointsPrice();
+		final boolean CAN_AFFORD_SKILL = pInfo.getJutsuPoints() >= skill.getJutsuPointsPrice();
 		String title = "Apprendre " + skill.getName();
 		String[] setup = {
 				"y d n"
@@ -84,19 +87,22 @@ public class BbInventory {
 		
 		gui.addElement(new StaticGuiElement(
 				'y',
-				new ItemStack(Material.GREEN_WOOL, 1),
+				new ItemStack(CAN_AFFORD_SKILL ? Material.GREEN_WOOL : Material.GRAY_WOOL, 1),
 				click -> {
-					int price = skill.getJutsuPointsPrice();
 					
-					if (pInfo.getJutsuPoints() >= price) {
+					if (CAN_AFFORD_SKILL) {
 						ParcheminCommand.GiveParchemin(skill, player);
-						pInfo.setJutsuPoints(pInfo.getJutsuPoints() - price);
+						pInfo.setJutsuPoints(pInfo.getJutsuPoints() - PRICE);
 						sendWebhook(skill, player);
+						gui.close();
+						player.sendMessage("§cHRP : §aVous avez appris la technique " + skill.getName() + " §r§apour §6§l" + PRICE + " §r§apoints.");
 					}
-					gui.close();
+					else {
+						player.sendMessage("§cHRP : §7Vous n'avez pas assez de points pour apprendre la technique " + skill.getName() + "§r§7.\nPoints de Technique actuels : §r§6§l" + pInfo.getJutsuPoints() + "\n§r§7Prix de la technique : §4§l" + PRICE);
+					}
 					return true;
 				},
-				"§r§aApprendre la Technique"
+				CAN_AFFORD_SKILL ? "§r§aApprendre la Technique" : "§r§aPas assez de points restants."
 		));
 		
 		ItemStack item = skill.getItem().clone();
