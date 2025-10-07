@@ -9,6 +9,11 @@ import me.Seisan.plugin.Features.commands.others.ParcheminCommand;
 import me.Seisan.plugin.Features.data.BbController;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Main;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentBuilder;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,7 +24,7 @@ import java.util.List;
 
 public class BbInventory {
 	public static void openBbUi(List<Skill> learnableSkillList, Player player) {
-		String title = "§7Bibliothèque de Techniques - Points : §6§l" + PlayerInfo.getPlayerInfo(player).getJutsuPoints();
+		String title = "§7Bibliothèque de Techniques";
 		String[] setup = {
 				"jjjjjjjjj",
 				"jjjjjjjjj",
@@ -30,33 +35,34 @@ public class BbInventory {
 		InventoryGui gui = new InventoryGui(Main.plugin(), player, title, setup);
 		gui.setFiller(new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1));
 		
-		Main.LOG.info("Before Sort : " + BbController.listJutsus(learnableSkillList));
 		Collections.sort(learnableSkillList, new Comparator<Skill>() {
 			@Override
 			public int compare(Skill o1, Skill o2) {
 				return o1.getNameInPlugin().compareTo(o2.getNameInPlugin());
 			}
 		});
-		Main.LOG.info("After Sort : " + BbController.listJutsus(learnableSkillList));
 		
-		gui.addElement(new GuiPageElement('f', new ItemStack(Material.WARPED_HANGING_SIGN), GuiPageElement.PageAction.FIRST, "Première page"));
-		gui.addElement(new GuiPageElement('p', new ItemStack(Material.ARROW), GuiPageElement.PageAction.PREVIOUS, "Page précédente (%prevpage%"));
-		gui.addElement(new StaticGuiElement('c', new ItemStack(Material.OAK_BUTTON), "Page %page%"));
-		gui.addElement(new GuiPageElement('n', new ItemStack(Material.ARROW), GuiPageElement.PageAction.NEXT, "Page suivante (%nextpage%"));
-		gui.addElement(new GuiPageElement('l', new ItemStack(Material.WARPED_HANGING_SIGN), GuiPageElement.PageAction.LAST, "Dernière page"));
+		gui.addElement(new GuiPageElement('f', new ItemStack(Material.WARPED_HANGING_SIGN), GuiPageElement.PageAction.FIRST, "§r§7Première page"));
+		gui.addElement(new GuiPageElement('p', new ItemStack(Material.ARROW), GuiPageElement.PageAction.PREVIOUS, "§r§7Page précédente (§3%prevpage%§r§7)"));
+		gui.addElement(new StaticGuiElement('c', new ItemStack(Material.OAK_BUTTON), "§r§7Page %page%", "§r§7Points : §6§l" + PlayerInfo.getPlayerInfo(player).getJutsuPoints()));
+		gui.addElement(new GuiPageElement('n', new ItemStack(Material.ARROW), GuiPageElement.PageAction.NEXT, "§r§7Page suivante (§3%nextpage%§r§7)"));
+		gui.addElement(new GuiPageElement('l', new ItemStack(Material.WARPED_HANGING_SIGN), GuiPageElement.PageAction.LAST, "§r§7Dernière page"));
 		
 		GuiElementGroup learnableSkillsGroup = new GuiElementGroup('j');
 		learnableSkillsGroup.setFiller(new ItemStack(Material.AIR, 1));
 		for (int i = 0; i < learnableSkillList.size(); i++) {
 			Skill tmpSkill = learnableSkillList.get(i);
+
+			ItemStack item = tmpSkill.getItem().clone();
+			item.lore(addRankAndCostToItemLore(tmpSkill));
+			
 			learnableSkillsGroup.addElement(new StaticGuiElement(
 					'e',
-					tmpSkill.getItem(),
+					item,
 					click -> {
 						openLearnUi(tmpSkill, player, gui);
 						return true;
-					},
-					"§7[" + tmpSkill.getLevel().getName() + "- Coût : " + tmpSkill.getJutsuPointsPrice() + "] " + tmpSkill.getName()
+					}
 			));
 		}
 		gui.addElement(learnableSkillsGroup);
@@ -65,6 +71,7 @@ public class BbInventory {
 	}
 	
 	public static void openLearnUi(Skill skill, Player player, InventoryGui bb) {
+		PlayerInfo pInfo = PlayerInfo.getPlayerInfo(player);
 		String title = "Apprendre " + skill.getName();
 		String[] setup = {
 				"y d n"
@@ -77,15 +84,24 @@ public class BbInventory {
 				'y',
 				new ItemStack(Material.GREEN_WOOL, 1),
 				click -> {
-					ParcheminCommand.GiveParchemin(skill, player);
+					int price = skill.getJutsuPointsPrice();
+					
+					if (pInfo.getJutsuPoints() >= price) {
+						ParcheminCommand.GiveParchemin(skill, player);
+						pInfo.setJutsuPoints(pInfo.getJutsuPoints() - price);
+					}
+					gui.close();
 					return true;
 				},
-				"§aApprendre la Technique"
+				"§r§aApprendre la Technique"
 		));
+		
+		ItemStack item = skill.getItem().clone();
+		item.lore(addRankAndCostToItemLore(skill));
 		
 		gui.addElement(new StaticGuiElement(
 				'd',
-				skill.getItem(),
+				item,
 				click -> {
 					AbilityInventory.openInBook(player, skill.getInfosup().replace("%displayname%", player.getDisplayName()).split(";"));
 					return true;
@@ -99,7 +115,21 @@ public class BbInventory {
 					gui.close();
 					bb.show(player);
 					return true;
-				}
+				},
+				"§r§4Revenir en arrière"
 		));
+		
+		gui.show(player);
+	}
+	
+	private static List<Component> addRankAndCostToItemLore(Skill skill) {
+		List<Component> lore = skill.getItem().lore();
+		
+		lore.add(Component.text("[" + skill.getLevel().getName() + " - Coût : " + skill.getJutsuPointsPrice() + "]")
+				.color(NamedTextColor.DARK_GRAY)
+				.decoration(TextDecoration.ITALIC, false)
+		);
+		
+		return lore;
 	}
 }
