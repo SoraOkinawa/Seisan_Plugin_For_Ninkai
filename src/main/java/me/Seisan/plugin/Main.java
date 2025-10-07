@@ -219,6 +219,23 @@ public class Main extends JavaPlugin {
         
         addConfig("level", 7, genjutsuSkillLevelConfigPath + "step3.");
         addConfig("rank", "S", genjutsuSkillLevelConfigPath + "step3.");
+        
+        String bbPricesConfigPath = "bb.prices.";
+        addConfig("rank", "E", bbPricesConfigPath + "1.");
+        addConfig("price", 1, bbPricesConfigPath + "1.");
+        
+        addConfig("rank", "D", bbPricesConfigPath + "2.");
+        addConfig("price", 2, bbPricesConfigPath + "2.");
+        
+        addConfig("rank", "C", bbPricesConfigPath + "3.");
+        addConfig("price", 3, bbPricesConfigPath + "3.");
+        
+        addConfig("rank", "B", bbPricesConfigPath + "4.");
+        addConfig("price", 4, bbPricesConfigPath + "4.");
+        
+        addConfig("rank", "A", bbPricesConfigPath + "5.");
+        addConfig("price", 5, bbPricesConfigPath + "5.");
+        
     }
 
     private void registerFeatures() {

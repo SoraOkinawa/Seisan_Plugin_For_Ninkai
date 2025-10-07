@@ -54,6 +54,16 @@ public class BbController {
 				learnableSkills.removeIf(skill -> skill.getName().contains(("Irréel")));
 		}
 		
+		//On supprime tout ce qui est trop cher pour le joueur
+		int currentJutsuPoints = player.getJutsuPoints();
+		for (int i = 1; i <= 5; i++) {
+			if (currentJutsuPoints < Main.CONFIG.getInt("bb.prices." + i + ".prince")) {
+				int j = i;
+				learnableSkills.removeIf(skill -> skill.getLevel().getLevelOrder() >= SkillLevel.getByCharName(Main.CONFIG.getString("bb.prices." + j + ".rank")).getLevelOrder());
+				break;
+			}
+		}
+		
 		return learnableSkills;
 	}
 	
@@ -100,5 +110,15 @@ public class BbController {
 				}
 			}
 		}
+	}
+	
+	public static String listJutsus(List<Skill> learnableSkills) {
+		String str = "";
+		for (Skill skill :
+				learnableSkills) {
+			str += skill.getNameInPlugin() + ", ";
+		}
+		
+		return str;
 	}
 }
