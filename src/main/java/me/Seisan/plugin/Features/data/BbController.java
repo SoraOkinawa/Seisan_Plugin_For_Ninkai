@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.entity.Player;
+
 public class BbController {
 	
 	public static List<Skill> listLearnableSkills(PlayerInfo player) {
@@ -25,7 +28,7 @@ public class BbController {
 		
 		for (ChakraType ct :
 				chakraTypes) {
-			learnableSkills.addAll(Skill.getSkillByCategory(ct.name));
+			learnableSkills.addAll(Skill.getSkillByCategory(ChatColor.stripColor(ct.name)));
 		}
 		if (isGenjutsu) learnableSkills.addAll(Skill.getSkillByCategory("Genjutsu"));
 		
@@ -37,7 +40,7 @@ public class BbController {
 		for (ChakraType ct :
 				chakraTypes) {
 			SkillLevel skillMaxLevel = getSkillMaxLevel("Ninjutsu", playerVoie, playerLvl);
-			learnableSkills.removeIf(skill -> skill.getElement().equals(ct.name) && skill.getLevel().getLevelOrder() > skillMaxLevel.getLevelOrder());
+			learnableSkills.removeIf(skill -> skill.getElement().equals(ChatColor.stripColor(ct.name)) && skill.getLevel().getLevelOrder() > skillMaxLevel.getLevelOrder());
 		}
 		
 		if (isGenjutsu) {
@@ -62,8 +65,8 @@ public class BbController {
 			return base;
 		
 		for (int i = 3; i > 0; i--) {
-			if (playerLvl >= Main.CONFIG.getInt(configPath + "step" + i + ".rank"))
-				return SkillLevel.getByCharName(Main.CONFIG.getString(configPath + "step" + i + ".level"));
+			if (playerLvl >= Main.CONFIG.getInt(configPath + "step" + i + ".level"))
+				return SkillLevel.getByCharName(Main.CONFIG.getString(configPath + "step" + i + ".rank"));
 		}
 		
 		return base;

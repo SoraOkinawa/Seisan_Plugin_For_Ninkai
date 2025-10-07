@@ -4,6 +4,7 @@ import de.themoep.inventorygui.GuiElementGroup;
 import de.themoep.inventorygui.GuiPageElement;
 import de.themoep.inventorygui.InventoryGui;
 import de.themoep.inventorygui.StaticGuiElement;
+import me.Seisan.plugin.Features.data.BbController;
 import me.Seisan.plugin.Features.skill.Skill;
 import me.Seisan.plugin.Main;
 import org.bukkit.Material;
@@ -21,29 +22,32 @@ public class BbInventory {
 				"jjjjjjjjj",
 				"jjjjjjjjj",
 				"jjjjjjjjj",
-				"f  pcn   l"
+				"f  pcn  l"
 		};
 		
 		InventoryGui gui = new InventoryGui(Main.plugin(), player, title, setup);
 		gui.setFiller(new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1));
 		
-		GuiElementGroup learnableSkillsGroup = new GuiElementGroup('j');
+		Main.LOG.info("Before Sort : " + BbController.listJutsus(learnableSkillList));
 		Collections.sort(learnableSkillList, new Comparator<Skill>() {
 			@Override
 			public int compare(Skill o1, Skill o2) {
-				return o1.getElement().compareTo(o2.getElement());
+				return o1.getNameInPlugin().compareTo(o2.getNameInPlugin());
 			}
 		});
+		Main.LOG.info("After Sort : " + BbController.listJutsus(learnableSkillList));
 		
 		gui.addElement(new GuiPageElement('f', new ItemStack(Material.WARPED_HANGING_SIGN), GuiPageElement.PageAction.FIRST, "Première page"));
 		gui.addElement(new GuiPageElement('p', new ItemStack(Material.ARROW), GuiPageElement.PageAction.PREVIOUS, "Page précédente (%prevpage%"));
 		gui.addElement(new StaticGuiElement('c', new ItemStack(Material.OAK_BUTTON), "Page %page%"));
-		gui.addElement(new GuiPageElement('n', new ItemStack(Material.ARROW), GuiPageElement.PageAction.PREVIOUS, "Page suivante (%nextpage%"));
-		gui.addElement(new GuiPageElement('l', new ItemStack(Material.WARPED_HANGING_SIGN), GuiPageElement.PageAction.FIRST, "Dernière page"));
+		gui.addElement(new GuiPageElement('n', new ItemStack(Material.ARROW), GuiPageElement.PageAction.NEXT, "Page suivante (%nextpage%"));
+		gui.addElement(new GuiPageElement('l', new ItemStack(Material.WARPED_HANGING_SIGN), GuiPageElement.PageAction.LAST, "Dernière page"));
 		
+		GuiElementGroup learnableSkillsGroup = new GuiElementGroup('j');
+		learnableSkillsGroup.setFiller(new ItemStack(Material.AIR, 1));
 		for (int i = 0; i < learnableSkillList.size(); i++) {
 			learnableSkillsGroup.addElement(new StaticGuiElement(
-					'j',
+					'e',
 					learnableSkillList.get(i).getItem(),
 					click -> {
 						player.sendMessage(click.getElement().getItem(player, click.getSlot()).getItemMeta().displayName());
@@ -51,6 +55,7 @@ public class BbInventory {
 					}
 			));
 		}
+		gui.addElement(learnableSkillsGroup);
 		
 		gui.show(player);
 	}
