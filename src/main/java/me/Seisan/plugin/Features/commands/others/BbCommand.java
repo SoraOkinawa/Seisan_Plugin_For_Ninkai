@@ -28,7 +28,7 @@ public class BbCommand extends Command {
             case 1:
             case 2:
             case 3:
-                p.sendMessage(ChatColor.RED + "Usage : /bb <add|remove|set> <player> <amount>");
+                p.sendMessage(ChatColor.RED + "Usage : /bb <points> <add|remove|set> <player> <amount>");
                 break;
             case 4:
                 Player target = p.getServer().getPlayer(split[2]);

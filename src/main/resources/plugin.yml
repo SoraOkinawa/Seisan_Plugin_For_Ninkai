@@ -596,10 +596,11 @@ permissions:
     description: Donne l'accès à la commande /barriere.
   ninkai.bb:
     description: Donne l'accès au /bb
+    default: false
     children:
-      ninkai.bb.points.add: false
-      ninkai.bb.points.remove: false
-      ninkai.bb.points.set: false
+      ninkai.bb.points.add: true
+      ninkai.bb.points.remove: true
+      ninkai.bb.points.set: true
   ninkai.bb.points.add:
     description: Permet de donner des points de techniques à un joueur.
   ninkai.bb.points.remove:

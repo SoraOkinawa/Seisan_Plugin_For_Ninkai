@@ -61,7 +61,7 @@ public class BbController {
 		String configPath = "skillLevels." + targetedVoieNinja.toLowerCase() + ".";
 		SkillLevel base = SkillLevel.getByCharName(Main.CONFIG.getString(configPath + "base"));
 		
-		if ((targetedVoieNinja != "Genjutsu" && targetedVoieNinja != "Ninjutsu") || (targetedVoieNinja == "Ninjutsu" && currentVoieNinja.equals(ArtNinja.getFromName("Genjutsu"))))
+		if ((!currentVoieNinja.equals(ArtNinja.getFromName("Genjutsu")) && !currentVoieNinja.equals(ArtNinja.getFromName("Ninjutsu"))) || (targetedVoieNinja == "Ninjutsu" && currentVoieNinja.equals(ArtNinja.getFromName("Genjutsu"))))
 			return base;
 		
 		for (int i = 3; i > 0; i--) {
