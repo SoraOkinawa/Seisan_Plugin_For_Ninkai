@@ -59,7 +59,7 @@ public class SkillInventory {
 
         SkillMastery mastery = pInfo.getMastery(skill);
         if(pInfo.getPlayer().isOp()) {
-            inv.setItem(0, ItemUtil.createItemStack(Material.BOOK, 1, "§2Parchemin de la technique", Arrays.asList("§7Ce bouton permet de donner un parchemin", "§7pour le jutsu : "+skill.getName()), "ninkai", "rouleau_2"));
+            inv.setItem(0, ItemUtil.createItemStack(Material.BOOK, 1, "§2Parchemin de la technique", Arrays.asList("§7Ce bouton permet de donner un parchemin", "§7pour le jutsu : "+skill.getName()), "seisan", "rouleau_2"));
         }
         inv.setItem(1, ItemUtil.createItemStack(Material.CLOCK, 1, "§6Mudras de la technique :", getMudras(skill.getMudras())));
         inv.setItem(2, skill.getItem());
@@ -71,7 +71,7 @@ public class SkillInventory {
             inv.setItem(3, ItemUtil.createItemStack(Material.EXPERIENCE_BOTTLE, 1, "§6" + mastery.getName(), Arrays.asList("§7" + skill.getLevel().getName(), "§6Coût: §7" + skill.manaToTake(pInfo))));
         
         if(mastery != SkillMastery.UNLEARNED) {
-            inv.setItem(4, ItemUtil.createItemStack(Material.PAPER, 1, "§aSélectionner cette technique", Arrays.asList(""), "ninkai", "ninpo_icon"));
+            inv.setItem(4, ItemUtil.createItemStack(Material.PAPER, 1, "§aSélectionner cette technique", Arrays.asList(""), "seisan", "ninpo_icon"));
         }
         else {
             inv.setItem(4, ItemUtil.createItemStack(Material.PAPER, 1, "§aSélectionner cette technique", Arrays.asList("§cAttention, il y a des risques d'échouer !")));
@@ -147,34 +147,34 @@ public class SkillInventory {
         ArrayList<String> typeJutsu = GetJutsuType(skills);
         String name_clan = ItemUtil.translateHexCodes(("&#"+pInfo.getClan().getColorHexa())
                 .concat(ChatColor.stripColor(pInfo.getClan().getName())));
-        inv.setItem(10, ItemUtil.createItemStack(Material.PAPER, 1, name_clan, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre clan."), "ninkai", pInfo.getClan().getTag()));
+        inv.setItem(10, ItemUtil.createItemStack(Material.PAPER, 1, name_clan, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre clan."), "seisan", pInfo.getClan().getTag()));
 
         if(typeJutsu.contains("Ninpo")) {
-            inv.setItem(11, ItemUtil.createItemStack(Material.PAPER, 1, "§7Ninpo", Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs au ninpo"), "ninkai", "ninpo_icon"));
+            inv.setItem(11, ItemUtil.createItemStack(Material.PAPER, 1, "§7Ninpo", Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs au ninpo"), "seisan", "ninpo_icon"));
         }
         String name_voie = ItemUtil.translateHexCodes(("&#"+pInfo.getVoieNinja().getColorHexa())
                 .concat(ChatColor.stripColor(pInfo.getVoieNinja().getName())));
         if(pInfo.getVoieNinja().isVoieNinja()) {
-            inv.setItem(19, ItemUtil.createItemStack(Material.PAPER, 1, name_voie, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre voie ninja."), "ninkai", pInfo.getVoieNinja().getTag()));
+            inv.setItem(19, ItemUtil.createItemStack(Material.PAPER, 1, name_voie, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre voie ninja."), "seisan", pInfo.getVoieNinja().getTag()));
         }
         else {
-            inv.setItem(19, ItemUtil.createItemStack(Material.PAPER, 1, name_voie, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre second style de combat."), "ninkai", pInfo.getVoieNinja().getTag()));
+            inv.setItem(19, ItemUtil.createItemStack(Material.PAPER, 1, name_voie, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre second style de combat."), "seisan", pInfo.getVoieNinja().getTag()));
         }
         String name_style = ItemUtil.translateHexCodes(("&#"+pInfo.getStyleCombat().getColorHexa())
                 .concat(ChatColor.stripColor(pInfo.getStyleCombat().getName())));
-        inv.setItem(28, ItemUtil.createItemStack(Material.PAPER, 1, name_style, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre style de combat."), "ninkai", pInfo.getStyleCombat().getTag()));
+        inv.setItem(28, ItemUtil.createItemStack(Material.PAPER, 1, name_style, Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7relatifs à votre style de combat."), "seisan", pInfo.getStyleCombat().getTag()));
         inv.setItem(37, ItemUtil.createItemStack(Material.DIAMOND, "§6Favoris"));
         if (typeJutsu.contains("Arcane"))
-            inv.setItem(38, ItemUtil.createItemStack(Material.PAPER, 1, "§5Arcane", Arrays.asList("§7Cliquez ici pour voir vos arcanes."), "ninkai", "ninpo_icon"));
+            inv.setItem(38, ItemUtil.createItemStack(Material.PAPER, 1, "§5Arcane", Arrays.asList("§7Cliquez ici pour voir vos arcanes."), "seisan", "ninpo_icon"));
         inv.setItem(48, ItemUtil.createItemStack(Material.DIAMOND, 1, "§6Jutsus non repertoriés", Arrays.asList("§7Cliquez ici pour obtenir les jutsus", "§7non repertoriés par les catégories", "§7ci-dessus. (Exemple : 4ème voie)")));
-        inv.setItem(50, ItemUtil.createItemStack(Material.BOOK, 1, "§6Liste complète des jutsus", Arrays.asList("§7Cliquez ici pour retourner sur l'ancien", "§7affichage des jutsus de votre personnage."), "ninkai", "rouleau_1"));
+        inv.setItem(50, ItemUtil.createItemStack(Material.BOOK, 1, "§6Liste complète des jutsus", Arrays.asList("§7Cliquez ici pour retourner sur l'ancien", "§7affichage des jutsus de votre personnage."), "seisan", "rouleau_1"));
         i = 12;
         for(int idChakra = 0; idChakra < 20; idChakra++) {
             ChakraType chakraType = ChakraType.fromId(idChakra);
             if(chakraType != null) {
                 if(typeJutsu.contains(ChatColor.stripColor(chakraType.getName()))) {
                     String name = ItemUtil.translateHexCodes("&#"+chakraType.colorHexa.concat(ChatColor.stripColor(chakraType.getName())));
-                    inv.setItem(i, ItemUtil.createItemStack(Material.DRAGON_BREATH, 1, name, Collections.singletonList("§7Vos techniques " + name), "ninkai", chakraType.getName().substring(2).toLowerCase().replace("ô", "o").replace("û", "u")));
+                    inv.setItem(i, ItemUtil.createItemStack(Material.DRAGON_BREATH, 1, name, Collections.singletonList("§7Vos techniques " + name), "seisan", chakraType.getName().substring(2).toLowerCase().replace("ô", "o").replace("û", "u")));
                     i++;
                 }
             }

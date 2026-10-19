@@ -45,4 +45,19 @@ public class ClansDB {
 		}
 		return true;
 	}
+	
+	public static void createTable() {
+		try {
+			PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS Clans(" +
+					"id INT AUTO_INCREMENT PRIMARY KEY," +
+					"name TEXT NOT NULL," +
+					"tag TEXT NOT NULL," +
+					"identifiant TEXT NOT NULL," +
+					"colorHexa TEXT NOT NULL)");
+			pst.executeUpdate();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

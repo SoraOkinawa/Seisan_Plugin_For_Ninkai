@@ -245,8 +245,10 @@ commands:
     description: Permet de rename
     permission: ninkai.nick
     permission-message: Permissions insuffisantes pour cette commande.
-#  warp:
-#    description: Permet de gérer les warp
+  warp:
+    description: Permet de gérer les warp
+    permission: ninkai.warp
+    permission-message: Permissions insuffisantes pour cette commande
   prefix:
     description: Permet d'utiliser un préfixe par défaut. Utilisation /prefix <prefixe>
     permission: ninkai.prefix
@@ -282,6 +284,16 @@ commands:
     description: Permet d'unset les permissions auparavant données par le /build definitif et le /enca
     usage: "Usage : /fixperm <player>"
     permission: ninkai.fixperm
+    permission-message: Permissions insuffisantes pour cette commande.
+  importfromconfig:
+    description: Permet d'importer techniques et compétences depuis les fichiers de config vers la BDD, puis de reload le tout.
+    usage: "Usage : /importfromconfig <justu/ability> - soucis dans les permissions"
+    permission: ninkai.importfromconfig
+    permission-message: Permissions insuffisantes pour cette commande.
+  speed:
+    description: Permet de modifier la vitesse de marche et de vol de n'importe qui.
+    usage : "Usage : /speed <int>"
+    permission: ninkai.speed
     permission-message: Permissions insuffisantes pour cette commande.
 permissions:
   ninkai.chatmaster:
@@ -582,6 +594,8 @@ permissions:
     description: Donne l'accès à la commande /nick.
   ninkai.prefix:
     description: Donne l'accès à la commande /prefix.
+  ninkai.warp:
+    description: Donne l'accès à la commande /warp
   ninkai.techniquemj:
     description: Donne l'accès à la commande /techniquemj.
   ninkai.priere:
@@ -611,3 +625,7 @@ permissions:
     description: Donne accès au chat encadrant et aux requêtes
   ninkai.fixperm:
     description: Donne l'accès à la commande /fixperm.
+  ninkai.importfromconfig:
+    description: Donne l'accès à la commande /importfromconfig.
+  ninkai.speed:
+    description: Donne l'accès à la commande /speed.

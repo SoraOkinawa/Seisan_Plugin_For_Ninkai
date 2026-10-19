@@ -33,11 +33,11 @@ public class ReloadDBCommand extends Command {
                     AbilityLoaderDB.reloadAll(sender);
                     break;
                 default:
-                    sender.sendMessage("§4Usage : §c/reloaddb <justu/ability> <gsheet ID> <plage>");
+                    sender.sendMessage("§4Usage : §c/reloaddb <justu/ability>");
             }
         }
         else {
-            sender.sendMessage("§4Usage : §c/reloaddb <justu/ability> <gsheet ID> <plage>");
+            sender.sendMessage("§4Usage : §c/reloaddb <justu/ability>");
         }
     }
 

@@ -1,6 +1,7 @@
 package me.Seisan.plugin.Features.ability;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.data.Config;
 import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,10 +47,12 @@ public class AbilityLoaderDB {
     public static boolean updateOrInsert(String name, String nameInPlugin, String item, String type, int lvl, String tagkey, String tagvalue, String description, int pts, int ptsnec, String reqAbilities, String givenAbilities, String giveAbilities, Boolean giveAllowed, String givenJutsu, String lore) {
         if (isInserted(nameInPlugin)) {
             update(name, nameInPlugin, item, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
+            Main.LOG.info("Compétence " + name + " mise à jour.");
             return true;
         }
         else {
             insert(name, nameInPlugin, item, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
+            Main.LOG.info("Compétence " + name + " ajoutée.");
             return false;
         }
     }
@@ -226,5 +229,63 @@ public class AbilityLoaderDB {
         if(p!=null) {
             p.sendMessage(ChatColor.GREEN + "Fin du rechargement des compétences !");
         }
+    }
+    
+    public static void createTable() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS Abilities(" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "name TEXT NOT NULL," +
+                    "nameInPlugin TEXT NOT NULL," +
+                    "item TEXT NOT NULL," +
+                    "type TEXT NOT NULL," +
+                    "lvl INT(11) NOT NULL," +
+                    "tagkey TEXT NOT NULL," +
+                    "tagvalue TEXT NOT NULL," +
+                    "description TEXT NOT NULL," +
+                    "pts INT(11) NOT NULL," +
+                    "ptsnec INT(11) NOT NULL," +
+                    "reqAbilities TEXT NOT NULL," +
+                    "givenAbilities TEXT NOT NULL," +
+                    "giveAbilities TEXT NOT NULL," +
+                    "giveAllowed TINYINT(1) NOT NULL," +
+                    "givenJutsu TEXT NOT NULL," +
+                    "lore TEXT NOT NULL)");
+            pst.executeUpdate();
+            pst.close();
+        } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+    }
+    
+    public static boolean insertToDBFromConfig(Config abilityConfig, ArrayList<String> enabledAbility) {
+        for(String abilityName : enabledAbility){
+            try {
+                String name = abilityConfig.getString(abilityName + ".name");
+                String nameInPlugin = abilityConfig.getString(abilityName + ".nameInPlugin");
+                String itemType = abilityConfig.getString(abilityName + ".itemType");
+                String type = abilityConfig.getString(abilityName+".type");
+                String description = abilityConfig.getString(abilityName+".description");
+                int lvl = abilityConfig.getInt(abilityName+".lvl");
+                String tagkey = abilityConfig.getString(abilityName+".tagkey");
+                String tagvalue = abilityConfig.getString(abilityName+".tagvalue");
+                int pts = abilityConfig.getInt(abilityName+".pts");
+                int ptsnec = abilityConfig.getInt(abilityName+".ptsnec");
+                String reqAbilities = abilityConfig.getString(abilityName+".reqAbilities");
+                String givenAbilities = abilityConfig.getString(abilityName+".givenAbilities");
+                String giveAbilities = abilityConfig.getString(abilityName+".giveAbilities");
+                String lore = abilityConfig.getString(abilityName+".lore");
+                boolean giveAllowed = abilityConfig.getBoolean(abilityName+".giveAllowed");
+                String givenJutsu = abilityConfig.getString(abilityName+".givenJutsu");
+
+                updateOrInsert(name, nameInPlugin, itemType, type, lvl, tagkey, tagvalue, description, pts, ptsnec, reqAbilities, givenAbilities, giveAbilities, giveAllowed, givenJutsu, lore);
+            }catch (Exception e){
+                Main.LOG.info("La compétence " + abilityName + " est mal configurée ! Explication de l'erreur:");
+                e.printStackTrace();
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

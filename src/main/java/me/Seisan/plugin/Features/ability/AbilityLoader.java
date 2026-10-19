@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AbilityLoader {
-    private static Config abilityConfig = new Config("abilities.yml");
+    public static Config abilityConfig = new Config("abilities.yml");
 
     public static void loadAbilitiesFromConfig(){
         ArrayList<String> enabledAbility = abilityConfig.getStringList("enabledAbilities");

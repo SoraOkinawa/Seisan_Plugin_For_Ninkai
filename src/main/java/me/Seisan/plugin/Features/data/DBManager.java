@@ -2,11 +2,14 @@ package me.Seisan.plugin.Features.data;
 
 import lombok.Getter;
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.ability.AbilityLoaderDB;
+import me.Seisan.plugin.Features.skill.TechniquesLoaderDB;
 import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
@@ -63,6 +66,8 @@ public class DBManager {
         }
     */
 
+        setupDB();
+        
         if(dataId == -1) {
             dataId = Bukkit.getScheduler().scheduleSyncRepeatingTask(main, this::refreshConnection, 10 * 60 * 20L, 10L);
         }
@@ -100,5 +105,17 @@ public class DBManager {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public void setupDB() {
+        PreparedStatement pst;
+        MeditationDB.createTable();
+        PlayerConfigDB.createTable();
+        PlayerDB.createTableFiche();
+        PlayerDB.createTableInfo();
+        AbilityLoaderDB.createTable();
+        TechniquesLoaderDB.createTable();
+        ClansDB.createTable();
+        NinjaArtsDB.createTable();
     }
 }

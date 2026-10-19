@@ -101,11 +101,11 @@ public class Skill {
         this.infosup = infosup;
         this.skillVisibility = skillVisibility;
         if (ArtNinja.getFromName(element).isVoieNinja()) {
-            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", ArtNinja.getFromName(element).getTag());
+            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "seisan", ArtNinja.getFromName(element).getTag());
         } else if (clan != Clan.getFromID(1)) {
-            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", clan.getTag());
+            this.item = ItemUtil.createItemStack(Material.PAPER, 1, this.name, Arrays.asList(lore.split(";")), "seisan", clan.getTag());
         } else {
-            this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "ninkai", "rouleau_" + this.element.replace("ô", "o").replace("û", "u").toLowerCase());
+            this.item = ItemUtil.createItemStack(itemType, 1, this.name, Arrays.asList(lore.split(";")), "seisan", "rouleau_" + this.element.replace("ô", "o").replace("û", "u").toLowerCase());
         }
         if (commandList != null)
             this.commandList = commandList;

@@ -23,5 +23,6 @@ public class OthersCommandRegister extends Feature {
         new TransferCommand().register();
         new WhoIsCommand().register();
         new SheetsToBddCommand().register();
+        new ImportFromConfigCommand().register();
     }
 }

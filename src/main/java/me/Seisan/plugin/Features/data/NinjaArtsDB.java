@@ -44,4 +44,19 @@ public class NinjaArtsDB {
 		}
 		return true;
 	}
+	
+	public static void createTable() {
+		try {
+			PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS NinjaArts(" +
+					"id INT AUTO_INCREMENT PRIMARY KEY," +
+					"name TEXT," +
+					"tag TEXT," +
+					"identifiant TEXT," +
+					"colorHexa TEXT)");
+			pst.executeUpdate();
+			pst.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -1,6 +1,7 @@
 package me.Seisan.plugin.Features.skill;
 
 import me.Seisan.plugin.Features.PlayerData.PlayerInfo;
+import me.Seisan.plugin.Features.data.Config;
 import me.Seisan.plugin.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,10 +50,12 @@ public class TechniquesLoaderDB {
     public static boolean insertOrUpdate(String name, String nameInPlugin, String category, boolean enabled, int manaCost, boolean needMastery, boolean needTarget, boolean skillVisibility, boolean canBeFullMaster, boolean _public, String itemType, String level, String message, String infoSup, String lore, String mudras, String commandList) {
         if (isInserted(nameInPlugin)) {
             update(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, _public, itemType, level, message, infoSup, lore, mudras, commandList);
+            Main.LOG.info("Technique " + name + " mise à jour.");
             return true;
         }
         else {
             insert(name, nameInPlugin, category, enabled, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, _public, itemType, level, message, infoSup, lore, mudras, commandList);
+            Main.LOG.info("Technique " + name + " ajoutée.");
             return false;
         }
     }
@@ -269,5 +272,67 @@ public class TechniquesLoaderDB {
 
         p.sendMessage(ChatColor.GREEN + "Fin du rechargement des jutsus !");
         SkillManager.setSkillEnabled(true);
+    }
+    
+    public static void createTable() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS Techniques(" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "name TEXT," +
+                    "nameInPlugin TEXT," +
+                    "category TEXT," +
+                    "enabled TINYINT(1)," +
+                    "manaCost INT(11)," +
+                    "needMastery TINYINT(1)," +
+                    "needTarget TINYINT(1)," +
+                    "skillVisibility TINYINT(1)," +
+                    "canBeFullMaster TINYINT(1)," +
+                    "_public TINYINT(1)," +
+                    "itemType TEXT," +
+                    "level TEXT," +
+                    "message TEXT," +
+                    "infoSup TEXT," +
+                    "lore TEXT," +
+                    "mudras TEXT," +
+                    "commandList TEXT)");
+            pst.executeUpdate();
+            pst.close();
+        } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+    }
+    
+    public static boolean insertToDBFromConfig(Config skillConfig, ArrayList<String> enabledTechniques) {
+        for(String skillName : enabledTechniques){
+            try {
+                String name = skillConfig.getString(skillName + ".name");
+                String nameInPlugin = skillConfig.getString(skillName + ".nameInPlugin");
+                String category = skillConfig.getString(skillName + ".category");
+                if (category == null || category.equals("")) {
+                    category = ChatColor.stripColor(name.split("-")[0]);
+                    category = category.substring(0, category.length()-1);
+                }
+                int manaCost = skillConfig.getInt(skillName + ".manaCost");
+                boolean needMastery = skillConfig.getBoolean(skillName + ".needMastery");
+                String level = skillConfig.getString(skillName + ".level");
+                String message = skillConfig.getString(skillName + ".message");
+                String lore = skillConfig.getString(skillName + ".lore");
+                String mudras = skillConfig.getString(skillName + ".mudras");
+                ArrayList<String> commandList = skillConfig.getStringList(skillName + ".commandList");
+                String itemType = skillConfig.getString(skillName + ".itemType");
+                boolean needTarget = skillConfig.getBoolean(skillName + ".needTarget");
+                boolean canBeFullMaster = skillConfig.getBoolean(skillName + ".canBeFullMaster");
+                String infoSup = skillConfig.getString(skillName+ ".infoSup");
+                boolean skillVisibility = skillConfig.getBoolean(skillName+ ".skillVisibility");
+                boolean publique = skillConfig.getBoolean(skillName+".publique");
+                
+                insertOrUpdate(name, nameInPlugin, category, true, manaCost, needMastery, needTarget, skillVisibility, canBeFullMaster, publique, itemType, level, message, infoSup, lore, mudras, String.join(";", commandList));
+            }catch (Exception e){
+                Main.LOG.info("La technique " + skillName + " est mal configurée ! Explication de l'erreur:");
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
     }
 }

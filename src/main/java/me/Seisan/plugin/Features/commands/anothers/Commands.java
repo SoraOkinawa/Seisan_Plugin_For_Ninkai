@@ -45,7 +45,7 @@ public class Commands extends Feature {
         new CanishCommand().register();
         new HRPCommand().register();
         new JumpUpDownCommand().register();
-//        new WarpCommand().register();
+        new WarpCommand().register();
         new PrefixCommand().register();
         new TechniqueMJCommand().register();
         new PriereCommand().register();
@@ -53,6 +53,7 @@ public class Commands extends Feature {
         new HideLanguageCommand().register();
         new BarriereCommand().register();
         new FixPermCommand().register();
+        new SpeedCommand().register();
         param.add("add");
         param.add("remove");
 

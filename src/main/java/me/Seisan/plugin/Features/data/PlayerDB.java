@@ -42,7 +42,7 @@ public class PlayerDB {
 
     public void insertPlayer(String uuid) {
         try {
-            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerInfo(uuid, mana, manamission, passivemana, manabonus, currentSkill, knownSkills, rang, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu, jutsuPoints, lastPrayer) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerInfo(uuid, mana, manamission, passivemana, manabonus, currentSkill, knownSkills, rang, disconnectTime, rollBonus, clan, chakratype, age, appearance, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu, jutsuPoints, lastPrayer) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, uuid); //UUID
             pst.setInt(2, 100); //Mana
@@ -107,7 +107,7 @@ public class PlayerDB {
         Main.getIsSaving().add(pInfo.getPlayer().getName());
         Bukkit.getScheduler().runTaskAsynchronously(Main.plugin(), () -> {
             try {
-                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerInfo SET mana = ?, manamission = ?, passivemana = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ?, jutsuPoints = ?, lastPrayer = ?  WHERE uuid = ?");
+                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerInfo SET mana = ?, manamission = ?, passivemana = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearance = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ?, jutsuPoints = ?, lastPrayer = ?  WHERE uuid = ?");
 
                 pst.setInt(1, pInfo.getMana());
                 pst.setInt(2, pInfo.getNbmission());
@@ -233,7 +233,7 @@ public class PlayerDB {
             }
 
             try {
-                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerFiche SET mana = ?, manamission = ?, passivemana = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearence = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ?, jutsuPoints = ?, lastPrayer = ? WHERE name = ?");
+                PreparedStatement pst = data.getConnection().prepareStatement("UPDATE PlayerFiche SET mana = ?, manamission = ?, passivemana = ?, manabonus = ?, currentSkill = ?, knownSkills = ?, rang = ?, disconnectTime = ?, rollBonus = ?, favoriteSkills = ?, clan = ?, chakratype = ?, age = ?, appearance = ?, voieNinja = ?, styleCombat = ?, abilities = ?, aprofil = ?, attributClan = ?, points = ?, pointsAbilities = ?, delayPoints = ?, prouesse = ?, ink = ?, couleur = ?, teint = ?, oldpos = ?, gender = ?, fuin_paper = ?, fuin_uzumaki = ?, fuin_lastday = ?, maskprofil = ?, reduc_ninjutsu = ?, jutsuPoints = ?, lastPrayer = ? WHERE name = ?");
 
                 pst.setInt(1, pInfo.getMana());
                 pst.setInt(2, pInfo.getNbmission());
@@ -286,7 +286,7 @@ public class PlayerDB {
 
     private void insertFichePerso(String id) {
         try {
-            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerFiche(name, mana, manamission, passivemana, manabonus, currentSkill, knownSkills, `rang`, disconnectTime, rollBonus, clan, chakratype, age, appearence, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu, jutsuPoints, lastPrayer) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement pst = data.getConnection().prepareStatement("INSERT INTO PlayerFiche(name, mana, manamission, passivemana, manabonus, currentSkill, knownSkills, `rang`, disconnectTime, rollBonus, clan, chakratype, age, appearance, voieNinja, styleCombat, abilities, aprofil, attributClan, points, pointsAbilities, delayPoints, prouesse, ink, couleur, teint, oldpos, gender, fuin_paper, fuin_uzumaki, fuin_lastday, maskprofil, reduc_ninjutsu, jutsuPoints, lastPrayer) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             pst.setString(1, id); //UUID
             pst.setInt(2, 100); //Mana
@@ -357,7 +357,7 @@ public class PlayerDB {
         Clan clan = Clan.getFromID(set.getInt("clan"));
         HashMap<ChakraType, Integer> chakraType = stringToChakraMap(set.getString("chakratype"));
         int age = set.getInt("age");
-        String apparence = set.getString("appearence");
+        String apparence = set.getString("appearance");
         ArtNinja voieNinja = ArtNinja.getFromID(set.getInt("voieNinja"));
         ArtNinja styleCombat = ArtNinja.getFromID(set.getInt("styleCombat"));
         ArrayList<Ability> abilities = stringToAbilitiesList(set.getString("abilities"));
@@ -404,7 +404,7 @@ public class PlayerDB {
                 Clan clan = Clan.getFromID(set.getInt("clan"));
                 HashMap<ChakraType, Integer> chakraType = stringToChakraMap(set.getString("chakratype"));
                 int age = set.getInt("age");
-                String apparence = set.getString("appearence");
+                String apparence = set.getString("appearance");
                 ArtNinja voieNinja = ArtNinja.getFromID(set.getInt("voieNinja"));
                 ArtNinja styleCombat = ArtNinja.getFromID(set.getInt("styleCombat"));
                 ArrayList<Ability> abilities = stringToAbilitiesList(set.getString("abilities"));
@@ -654,5 +654,105 @@ public class PlayerDB {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+    
+    public static void createTableFiche() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS PlayerFiche(" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "name TEXT NOT NULL," +
+                    "mana INT(11) NOT NULL," +
+                    "manamission INT(11) NOT NULL," +
+                    "passivemana INT(11) NOT NULL," +
+                    "manabonus INT(11) NOT NULL," +
+                    "currentSkill TEXT," +
+                    "knownSkills LONGTEXT," +
+                    "rang INT(11) NOT NULL," +
+                    "disconnectTime DOUBLE NOT NULL," +
+                    "rollBonus TEXT," +
+                    "favoriteSkills TEXT," +
+                    "clan INT(11) NOT NULL," +
+                    "chakratype TEXT NOT NULL," +
+                    "age INT(11) NOT NULL," +
+                    "appearance TEXT NOT NULL," +
+                    "voieNinja INT(11) NOT NULL," +
+                    "styleCombat INT(11) NOT NULL," +
+                    "abilities TEXT NOT NULL," +
+                    "aprofil TEXT NOT NULL," +
+                    "attributClan TEXT NOT NULL," +
+                    "points INT(11) NOT NULL," +
+                    "pointsAbilities TEXT NOT NULL," +
+                    "delayPoints BIGINT(20) NOT NULL," +
+                    "prouesse TEXT NOT NULL," +
+                    "ink INT(11) NOT NULL," +
+                    "couleur INT(11) NOT NULL," +
+                    "teint INT(11) NOT NULL," +
+                    "oldpos TEXT NOT NULL," +
+                    "gender INT(11) NOT NULL," +
+                    "fuin_paper INT(11) NOT NULL," +
+                    "fuin_uzumaki INT(11) NOT NULL," +
+                    "fuin_lastday INT(11) NOT NULL," +
+                    "maskprofil INT(11) NOT NULL," +
+                    "ticketmedit INT(11) NOT NULL," +
+                    "minmedit INT(11) NOT NULL," +
+                    "delayticketmedit INT(11) NOT NULL," +
+                    "reduc_ninjutsu INT(11) NOT NULL," +
+                    "jutsuPoints INT(11) NOT NULL," +
+                    "lastPrayer DATE)");
+            pst.executeUpdate();
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static void createTableInfo() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS PlayerInfo(" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "uuid TEXT NOT NULL," +
+                    "mana INT(11) NOT NULL," +
+                    "passivemana INT(11) NOT NULL," +
+                    "manamaze INT(11) NOT NULL," +
+                    "manabonus INT(11) NOT NULL," +
+                    "currentSkill TEXT," +
+                    "knownSkills LONGTEXT," +
+                    "favoriteSkills TEXT," +
+                    "rang INT(11) NOT NULL," +
+                    "disconnectTime DOUBLE NOT NULL," +
+                    "rollBonus TEXT," +
+                    "clan INT(11) NOT NULL," +
+                    "chakratype TEXT NOT NULL," +
+                    "age INT(11) NOT NULL," +
+                    "appearance TEXT NOT NULL," +
+                    "voieNinja INT(11) NOT NULL," +
+                    "styleCombat INT(11) NOT NULL," +
+                    "abilities TEXT NOT NULL," +
+                    "aprofil TEXT NOT NULL," +
+                    "attributClan TEXT NOT NULL," +
+                    "points INT(11) NOT NULL," +
+                    "pointsAbilities TEXT NOT NULL," +
+                    "delayPoints BIGINT(20) NOT NULL," +
+                    "prouesse TEXT NOT NULL," +
+                    "ink INT(11) NOT NULL," +
+                    "couleur INT(11) NOT NULL," +
+                    "teint INT(11) NOT NULL," +
+                    "oldpos TEXT NOT NULL," +
+                    "gender INT(11) NOT NULL," +
+                    "fuin_paper INT(11) NOT NULL," +
+                    "fuin_uzumaki INT(11) NOT NULL," +
+                    "fuin_lastday INT(11) NOT NULL," +
+                    "maskprofil INT(11) NOT NULL," +
+                    "ticketmedit INT(11) NOT NULL," +
+                    "minmedit INT(11) NOT NULL," +
+                    "delayticketmedit INT(11) NOT NULL," +
+                    "reduc_ninjutsu INT(11) NOT NULL," +
+                    "jutsuPoints INT(11) NOT NULL," +
+                    "lastPrayer DATE)");
+            pst.executeUpdate();
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

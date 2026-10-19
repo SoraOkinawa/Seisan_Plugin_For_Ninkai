@@ -120,26 +120,26 @@ public class PlayerClone {
         
         ItemStack item = inventory.getHelmet();
         if (item != null) {
-            npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.HELMET, item);
+            npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HELMET, item);
         }
         item = inventory.getChestplate();
         if (item != null) {
-            npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, item);
+            npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.CHESTPLATE, item);
         }
         item = inventory.getLeggings();
         if (item != null) {
-            npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, item);
+            npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.LEGGINGS, item);
         }
         item = inventory.getBoots();
         if (item != null) {
-            npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, item);
+            npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.BOOTS, item);
         }
         item = inventory.getItemInMainHand();
-        npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, item);
+        npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.HAND, item);
         item = inventory.getItemInOffHand();
-            npc.getTrait(Equipment.class).set(Equipment.EquipmentSlot.OFF_HAND, item);
+            npc.getOrAddTrait(Equipment.class).set(Equipment.EquipmentSlot.OFF_HAND, item);
 
-        npc.getTrait(Controllable.class).setEnabled(true);
+        npc.getOrAddTrait(Controllable.class).setEnabled(true);
 
 
         npc.spawn(pInfo.getPlayer().getLocation());

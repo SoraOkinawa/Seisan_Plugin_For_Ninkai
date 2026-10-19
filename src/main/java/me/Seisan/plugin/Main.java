@@ -260,8 +260,7 @@ public class Main extends JavaPlugin {
         NinjaArtsDB.loadAllNinjaArtsFromDB();
         TechniquesLoaderDB.LoadAllTechniquesFromDB();
         AbilityLoaderDB.loadAllAbilitiesFromDB();
-        BarriereLoader.loadAllBarriereFromDB();
-        spigotLogger.info(Barriere.instanceList.size() + " barrières have been loaded !");
+//        spigotLogger.info(Barriere.instanceList.size() + " barrières have been loaded !");
         spigotLogger.info(Ability.instanceList.size() + " abilities have been loaded !");
         spigotLogger.info(Skill.getInstanceList().size() + " jutsu have been loaded !");
         spigotLogger.info(Clan.allClans.size() + " clans have been loaded !");

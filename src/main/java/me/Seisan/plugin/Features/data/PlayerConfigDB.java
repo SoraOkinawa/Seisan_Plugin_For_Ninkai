@@ -133,4 +133,22 @@ public class PlayerConfigDB {
         }
         return null;
     }
+    
+    public static void createTable() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS PlayerConfig(" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "uuid TEXT NOT NULL," +
+                    "changechat TINYINT(1)," +
+                    "buildmode TINYINT(1)," +
+                    "vanish TINYINT(1)," +
+                    "swapfuin TINYINT(1) NOT NULL," +
+                    "ryoji TINYINT(1) NOT NULL," +
+                    "encamode TINYINT(1) NOT NULL)");
+            pst.executeUpdate();
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

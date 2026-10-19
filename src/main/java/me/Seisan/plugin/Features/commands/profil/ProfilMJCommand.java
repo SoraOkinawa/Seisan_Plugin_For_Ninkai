@@ -34,6 +34,7 @@ public class ProfilMJCommand extends Command {
                         sender.sendMessage("§cHRP : §7La fiche personnage de "+split[1]+" a été créé.");
                     }
                     Main.getFicheMJ().put(split[1], profil);
+                    Main.dbManager.getPlayerDB().saveFichePerso();
             }
             else if(split[0].equals("load") && sender.hasPermission(PERMISSION_LOAD)) {
                 if(!Main.getFicheMJ().containsKey(split[1])) {

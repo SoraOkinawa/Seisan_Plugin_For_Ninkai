@@ -118,4 +118,22 @@ public class MeditationDB {
         return false;
     }
 
+    public static void createTable() {
+        try {
+            PreparedStatement pst = Main.dbManager.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS MeditationArea(" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY," +
+                    "uuid TEXT NOT NULL," +
+                    "inventory TEXT NOT NULL," +
+                    "xborder INT(255) NOT NULL," +
+                    "zborder INT(255) NOT NULL," +
+                    "xspawn DOUBLE NOT NULL," +
+                    "yspawn DOUBLE NOT NULL," +
+                    "zspawn DOUBLE NOT NULL," +
+                    "hasarea tinyint(1) NOT NULL)");
+            pst.executeUpdate();
+            pst.close();
+        } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+    }
 }
