@@ -39,12 +39,16 @@ public class PNJListener extends Feature {
                 Player p = e.getPlayer();
                 p.openInventory(PNJInventory.getVendeurJouet(p));
             }
+            if(entity.getCustomName() != null && entity.getCustomName().equals("§6Vendeur d'encre")) {
+                Player p = e.getPlayer();
+                p.openInventory(PNJInventory.getVendeurEncre(p));
+            }
         }
     }
 
     @EventHandler
     public void onHandle(InventoryDragEvent e) {
-        if(e.getView().getTitle().equals("§6Banque") && e.getView().getTitle().equals("§6Vendeur de jouet") && e.getView().getTitle().equals("§6Casino")) {
+        if(e.getView().getTitle().equals("§6Banque") && e.getView().getTitle().equals("§6Vendeur de jouet") && e.getView().getTitle().equals("§6Casino") && e.getView().getTitle().equals("§6Vendeur d'encre")) {
             e.setCancelled(true);
         }
     }
