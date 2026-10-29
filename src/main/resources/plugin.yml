@@ -191,6 +191,11 @@ commands:
     description: Choisis le genre du personnage
     permission: ninkai.genre
     permission-message: Permissions insuffisantes pour cette commande.
+  feuille:
+    description: Commande qui permet de retirer les fuilles de Seji pour les fuin lvl4+
+    permission-message: Permissions insuffisantes pour cette commande.
+    permission: ninkai.feuille
+    permission-message: Permissions insuffisantes pour cette commande.
   profilmj:
     description: save et load des fiches personnage
     permission: ninkai.profil.mj
@@ -219,6 +224,14 @@ commands:
   ryoji:
     description: Permet d'avoir des ryojis
     permission: ninkai.ryoji
+    permission-message: Permissions insuffisantes pour cette commande.
+  lostfuin:
+    description: lost la consommation actuel de Fuinjutsu
+    permission: ninkai.lostfuin
+    permission-message: Permissions insuffisantes pour cette commande.
+  swapfuin:
+    description: permet de changer de consommation Fuinjutsu
+    permission: ninkai.swapfuin
     permission-message: Permissions insuffisantes pour cette commande.
   jumpupdown:
     description: permet de jump
@@ -629,3 +642,9 @@ permissions:
     description: Donne l'accès à la commande /importfromconfig.
   ninkai.speed:
     description: Donne l'accès à la commande /speed.
+  ninkai.feuille:
+    description: Donne l'accès à la commande /feuille.
+  ninkai.lostfuin:
+    description: Donne l'accès à la commande /lostfuin.
+  ninkai.swapfuin:
+    description: Donne l'accès à la commande /swapfuin.
