@@ -419,7 +419,7 @@ public class Skill {
         if (nameFragments[0].equals("Fuinjutsu")) {
             if (nameFragments[1].startsWith("Invocation")) return 0;
             if (nameFragments[1].equals("Ninpo")) return 0;
-            if (pInfo.getVoieNinja().getId() == 1) {
+            if (pInfo.getVoieNinja().getIdentifiant().equals("fuinjutsu")) {
                 return 1;
             } else {
                 return 2;
