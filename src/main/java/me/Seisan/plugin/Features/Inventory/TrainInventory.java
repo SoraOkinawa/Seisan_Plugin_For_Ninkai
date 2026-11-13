@@ -103,7 +103,11 @@ public class TrainInventory {
             inv.setItem(24, ItemUtil.createItemStack(Material.END_CRYSTAL, 1, "§6Voie ninja", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie))));
         }
         else if(pInfo.getVoieNinja().isVoieNinja()){
-            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER, 1, "§6Voie ninja", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)), "seisan", pInfo.getVoieNinja().getTag()));
+            ArrayList<String> al = new ArrayList<>(Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)));
+            if (pInfo.getVoieNinja().getIdentifiant().equals("fuinjutsu"))
+                al.add("§7Doses d'Encre : " + ItemUtil.translateHexCodes(("&#"+pInfo.getVoieNinja().getColorHexa()).concat("" + pInfo.getInk())));
+            
+            inv.setItem(24, ItemUtil.createItemStack(Material.PAPER, 1, "§6Voie ninja", al, "seisan", pInfo.getVoieNinja().getTag()));
         }
         else {
             inv.setItem(24, ItemUtil.createItemStack(Material.PAPER,1, "§6Second style de combat", Arrays.asList(name_voie,"§7Niveau : §f"+pInfo.getLvlHint(voie)), "seisan", pInfo.getVoieNinja().getTag()));
