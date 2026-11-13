@@ -6,6 +6,7 @@ import me.Seisan.plugin.Features.objectnum.Clan;
 import me.Seisan.plugin.Features.utils.ItemUtil;
 import me.Seisan.plugin.Main;
 import me.Seisan.plugin.Main.Command;
+import net.kyori.adventure.text.Component;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -17,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import de.themoep.inventorygui.*;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
@@ -264,11 +266,18 @@ public class HRPCommand extends Command {
         GuiElementGroup group = new GuiElementGroup('g');
 
         for (ItemStack itemStack : items) {
+            
             if (itemStack != null) {
+                ItemStack item = itemStack.clone();
+                if (item.getType() == Material.TRIPWIRE_HOOK) {
+                    ItemMeta meta = itemStack.getItemMeta();
+                    meta.displayName(Component.text(p.getName()));
+                    item.setItemMeta(meta);
+                }
                 group.addElement(
-                        (new StaticGuiElement('g', itemStack, itemStack.getAmount(),
+                        (new StaticGuiElement('g', item, item.getAmount(),
                                 click -> {
-                                    p.getInventory().addItem(itemStack);
+                                    p.getInventory().addItem(item);
                                     return true;
                                 }
                         )));
