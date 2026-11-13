@@ -199,7 +199,7 @@ public class SkillInventoryListener extends Feature {
                 if(item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
                     return;
                 }
-                if(slot == 1 || slot == 3 /* || slot == 4 */ || slot == 5 || slot == 7) {
+                if(slot == 0 || slot == 2 || slot == 4 || slot == 6 || slot == 8) {
                     String type = ChatColor.stripColor(item.getItemMeta().getDisplayName());
                     ArrayList<Skill> listsceaux = SkillInventory.getTypeSceaux(pInfo.getSkills().keySet(), type);
                     if(listsceaux.size() == 0) {

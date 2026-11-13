@@ -27,11 +27,11 @@ public class SkillInventory {
         Inventory inv;
         if(element.equals("Fuinjutsu")) {
             inv = Bukkit.createInventory(pInfo.getPlayer(), 18, "§6Fuinjutsu : §7Choix du type de sceau");
-            inv.setItem(1, ItemUtil.createItemStack(Material.SHIELD, 1, "§6Invocation éclair", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles d'invocations (§6Invocation éclair§7)")));
-            inv.setItem(3, ItemUtil.createItemStack(Material.LEVER, 1, "§6Jôken", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles activeurs (§6Jôken§7).")));
-            inv.setItem(5, ItemUtil.createItemStack(Material.IRON_SWORD, 1, "§6Saishô", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles principaux (§6Saishô§7).")));
-            // inv.setItem(5, ItemUtil.createItemStack(Material.SHIELD, 1, "§6Kinaï", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles secondaires (§6Kinaï§7)")));
-            inv.setItem(7, ItemUtil.createItemStack(Material.PAPER, 1, "§6Ninpo", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les ninpos Fuinjutsu"), "ninkai", "ninpo_icon"));
+            inv.setItem(0, ItemUtil.createItemStack(Material.SHIELD, 1, "§6Invocation éclair", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles d'invocations (§6Invocation éclair§7)")));
+            inv.setItem(2, ItemUtil.createItemStack(Material.LEVER, 1, "§6Jôken", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles activeurs (§6Jôken§7).")));
+            inv.setItem(4, ItemUtil.createItemStack(Material.IRON_SWORD, 1, "§6Saishô", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les symboles principaux (§6Saishô§7).")));
+            inv.setItem(6, ItemUtil.createItemStack(Material.PAPER, 1, "§6Ninpo", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les ninpos Fuinjutsu"), "seisan", "ninpo_icon"));
+            inv.setItem(8, ItemUtil.createItemStack(Material.CLOCK, 1, "§6Sceaux", Arrays.asList("§7Cliquez ici pour obtenir les informations", "§7sur les sceaux"), "seisan", "parchemin_physique"));
             inv.setItem(13, ItemUtil.createItemStack(Material.ARROW, "§6Retour"));
         }
         else {
@@ -277,9 +277,16 @@ public class SkillInventory {
 
     public static ArrayList<Skill> getTypeSceaux(Set<Skill> list, String type) {
         ArrayList<Skill> sceaux = new ArrayList<>();
+        int i = 2;
+        String localType = "" + type;
+        if (type.equals("Sceaux")) {
+            i--;
+            localType = "Fûinjutsu";
+        }
+        
         for (Skill skill : list) {
-            if(skill.getName().split("-").length >= 2) {
-                if (skill.getName().split("-")[1].contains(type)) {
+            if(skill.getName().split("-").length >= i) {
+                if (skill.getName().split("-")[i-1].contains(localType)) {
                     sceaux.add(skill);
                 }
             }
