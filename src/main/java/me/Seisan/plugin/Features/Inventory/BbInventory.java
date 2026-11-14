@@ -139,6 +139,11 @@ public class BbInventory {
 				.decoration(TextDecoration.ITALIC, false)
 		);
 		
+		lore.add(Component.text("[Chakra : " + skill.getManaCost() + " - Mudrâs : " + skill.getMudras().split(",").length + "]")
+				.color(NamedTextColor.AQUA)
+				.decoration(TextDecoration.ITALIC, false)
+		);
+		
 		return lore;
 	}
 	
