@@ -36,10 +36,10 @@ public class LoreCommand extends Command
             return;
         }
 
-        if(!sender.hasPermission(ValiderItemCommand.PERMISSION) && meta.hasDisplayName() && !meta.getDisplayName().endsWith("§4*")) {
-            sender.sendMessage("§cHRP : §7L'item est déjà validé. Impossible de le modifier.");
-            return;
-        }
+//        if(!sender.hasPermission(ValiderItemCommand.PERMISSION) && meta.hasDisplayName() && !meta.getDisplayName().endsWith("§4*")) {
+//            sender.sendMessage("§cHRP : §7L'item est déjà validé. Impossible de le modifier.");
+//            return;
+//        }
         List<String> lore = meta.hasLore()?meta.getLore():new ArrayList<>();
         if(lore == null) {
             sender.sendMessage("§cHRP : §7Erreur dans l'objet.");
@@ -156,6 +156,18 @@ public class LoreCommand extends Command
                     line = specialCaracteres(sender, line);
                     lore.set(nb-1, line);
                     break;
+                case "addempty" :
+                    int lineNb = lore.size();
+                    if (split.length > 1) {
+                        try {
+                            lineNb = Math.max(Integer.parseInt(split[1]) - 1, 0);
+                        } catch (Exception e) {
+                            sender.sendMessage(ChatColor.RED + "HRP :" + ChatColor.GRAY + "\""+split[1]+"\" n'est pas un nombre.");
+                        }
+                    }
+                    
+                    lore.add(lineNb, " ");
+                    break;
                 default: {
                     sender.sendMessage(ChatColor.RED + "HRP :" + ChatColor.GRAY + " /lore add (texte) : ajouter du texte à la ligne suivante");
                     sender.sendMessage(ChatColor.RED + "HRP :" + ChatColor.GRAY + " /lore remove (nbligne) : supprime le lore à la ligne 'nblignr'");
@@ -193,15 +205,40 @@ public class LoreCommand extends Command
     protected List<String> myOnTabComplete(CommandSender sender, org.bukkit.command.Command command, String label, String[] split)
     {
         List<String> completion = new ArrayList();
-        if (split.length == 1) {
-            complete(completion, "add", split[0]);
-            complete(completion, "remove", split[0]);
-            complete(completion, "clear", split[0]);
-            complete(completion, "set", split[0]);
-            complete(completion, "removelast", split[0]);
+        switch (split.length) {
+            case 1:
+                complete(completion, "add", split[0]);
+                complete(completion, "clear", split[0]);
+                complete(completion, "edit", split[0]);
+                complete(completion, "remove", split[0]);
+                complete(completion, "removelast", split[0]);
+                complete(completion, "set", split[0]);
+                complete(completion, "addempty", split[0]);
+                break;
+            case 2:
+                switch (split[0]) {
+                    case "add" :
+                        complete(completion, "<text>", split[1]);
+                        break;
+                    case "edit" :
+                    case "remove" :
+                    case "set" :
+                        complete(completion, "<lineNumber>", split[1]);
+                        break;
+                    case "addempty" :
+                        complete(completion, "[lineNumber]", split[1]);
+                        break;
+                }
+                break;
+            case 3:
+                switch (split[0]) {
+                    case "edit" :
+                    case "set" :
+                        complete(completion, "<text>", split[2]);
+                        break;
+                }
         }
+        
         return completion;
     }
-
-
 }

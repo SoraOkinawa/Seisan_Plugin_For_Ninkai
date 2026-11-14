@@ -30,10 +30,10 @@ public class RenameItemCommand extends Command
             return;
         }
 
-        if(!sender.hasPermission(ValiderItemCommand.PERMISSION) && meta.hasDisplayName() && !meta.getDisplayName().endsWith("§4*")) {
-            sender.sendMessage("§cHRP : §7L'item est déjà validé. Impossible de le modifier.");
-            return;
-        }
+//        if(!sender.hasPermission(ValiderItemCommand.PERMISSION) && meta.hasDisplayName() && !meta.getDisplayName().endsWith("§4*")) {
+//            sender.sendMessage("§cHRP : §7L'item est déjà validé. Impossible de le modifier.");
+//            return;
+//        }
 
         String result = "";
         int taille = 0;
